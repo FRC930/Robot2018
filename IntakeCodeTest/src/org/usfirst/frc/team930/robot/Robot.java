@@ -10,8 +10,8 @@ package org.usfirst.frc.team930.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -33,6 +33,8 @@ public class Robot extends TimedRobot {
 	Solenoid OneLiftyBoi = new Solenoid(1);
 	
 	Joystick Controller = new Joystick(0);
+	
+	PowerDistributionPanel PDP = new PowerDistributionPanel();
 	
 	boolean bPressed;
 	boolean aPressed;
@@ -98,30 +100,35 @@ public class Robot extends TimedRobot {
 			aPressed = false;
 		}
 		
-		//B Button for Piston
-		if (Controller.getRawButton(2) && (!bPressed)) {
-			bPressed = true;
-			onOffBButton = !onOffBButton;
-			
-		} else if (!Controller.getRawButton(2) && bPressed) {
-			bPressed = false;
-		}
-		
 		//OnOff for the Victor
 		if (onOffAButton) {
 			RWheel.set(ControlMode.PercentOutput, 1); // running motor
 		//	LWheel.set(ControlMode.PercentOutput, -1); // running motor
-		} else {
+		} /*else {
 			RWheel.set(ControlMode.PercentOutput,0);
 		//	LWheel.set(ControlMode.PercentOutput,0);
 		} 
 		
+		/*
+		//B Button for Piston
+		if (Controller.getRawButton(2) && (!bPressed)) {
+			bPressed = true;
+			onOffBButton = !onOffBButton;
+		} else if (!Controller.getRawButton(2) && bPressed) {
+			bPressed = false;
+		}
 		//OnOff for the Piston
 		if (onOffBButton) {
 			OneLiftyBoi.set(true);
 		} else {
 			OneLiftyBoi.set(false);
-		}
+		}*/
+		
+		if(PDP.getCurrent(11) < 5.0) {
+			OneLiftyBoi.set(true);
+			RWheel.set(ControlMode.PercentOutput,0);
+			// LWheel.set(ControlMode.PercentOutput,0);
+		} 
 	}
 
 	/**
