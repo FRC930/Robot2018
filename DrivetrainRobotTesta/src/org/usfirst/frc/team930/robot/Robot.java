@@ -28,8 +28,8 @@ public class Robot extends TimedRobot {
 	
 	WPI_TalonSRX rightMain = new WPI_TalonSRX(0);
 	WPI_TalonSRX leftMain = new WPI_TalonSRX(1);
-	VictorSPX rightFollow = new VictorSPX(0);
-	VictorSPX leftFollow = new VictorSPX(1);
+	VictorSPX rightFollow = new VictorSPX(2);
+	VictorSPX leftFollow = new VictorSPX(3);
 	
 	DifferentialDrive robot = new DifferentialDrive(rightMain, leftMain);
 	
