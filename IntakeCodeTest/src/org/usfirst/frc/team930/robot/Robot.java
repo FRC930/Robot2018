@@ -7,12 +7,12 @@
 
 package org.usfirst.frc.team930.robot;
 
-//import com.ctre.phoenix.motorcontrol.ControlMode;
-//import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-//import edu.wpi.first.wpilibj.IterativeRobot;
-//import edu.wpi.first.wpilibj.Joystick;
-//import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
 
-	/*VictorSPX RWheel = new VictorSPX(0);
+	VictorSPX RWheel = new VictorSPX(0);
 	VictorSPX LWheel = new VictorSPX(1);
 
 	Solenoid OneLiftyBoi = new Solenoid(1);
@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
 	Joystick Controller = new Joystick(0);
 	boolean aPressed;
 	boolean onOff;
-*/
+
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
@@ -50,8 +50,8 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
-		//aPressed = false;
-		//onOff = false;
+		aPressed = false;
+		onOff = false;
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-	/*	if (Controller.getRawButton(1) && (!aPressed)) { // motor switch
+		if (Controller.getRawButton(1) && (!aPressed)) { // motor switch
 			aPressed = true;
 			onOff = !onOff;
 
@@ -99,7 +99,7 @@ public class Robot extends TimedRobot {
 		} else {
 			RWheel.set(ControlMode.PercentOutput,0);
 		//	LWheel.set(ControlMode.PercentOutput,0);
-		} */
+		} 
 	}
 
 	/**
