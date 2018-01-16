@@ -7,12 +7,14 @@
 
 package org.usfirst.frc.team930.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.lang.Enum;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,8 +24,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
-	
-	
 	
 	VictorSPX rWheel = new VictorSPX(0);
 	VictorSPX lWheel = new VictorSPX(1);
@@ -46,17 +46,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Auto choices", m_chooser);
 	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString line to get the auto name from the text box below the Gyro
-	 *
-	 * <p>You can add additional auto modes by adding additional comparisons to
-	 * the switch structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
-	 */
+	
 	@Override
 	public void autonomousInit() {
 		m_autoSelected = m_chooser.getSelected();
@@ -86,6 +76,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		rWheel.set(ControlMode.PercentOutput, 1); //running motor
 	}
 
 	/**
