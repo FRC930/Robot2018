@@ -23,12 +23,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
 	
-	VictorSPX rWheel = new VictorSPX(0);
-	VictorSPX lWheel = new VictorSPX(1);
-	
-	Solenoid oneLiftyBoi = new Solenoid(1);
-	
-	
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
