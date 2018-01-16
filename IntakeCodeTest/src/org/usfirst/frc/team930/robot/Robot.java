@@ -29,12 +29,15 @@ public class Robot extends TimedRobot {
 
 	VictorSPX RWheel = new VictorSPX(0);
 	VictorSPX LWheel = new VictorSPX(1);
-
+	
 	Solenoid OneLiftyBoi = new Solenoid(1);
-
+	
 	Joystick Controller = new Joystick(0);
+	
+	boolean bPressed;
 	boolean aPressed;
-	boolean onOff;
+	boolean onOffAButton;
+	boolean onOffBButton;
 
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
@@ -50,8 +53,11 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
+		
 		aPressed = false;
-		onOff = false;
+		bPressed = false;
+		onOffAButton = false;
+		onOffBButton = false;
 	}
 
 	@Override
@@ -83,23 +89,39 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		//A Button for Victor
 		if (Controller.getRawButton(1) && (!aPressed)) { // motor switch
 			aPressed = true;
-			onOff = !onOff;
+			onOffAButton = !onOffAButton;
 
-		} else if ((!Controller.getRawButton(1)) && aPressed) {
+		} else if (!Controller.getRawButton(1) && aPressed) {
 			aPressed = false;
 		}
 		
-		if (onOff) {
+		//B Button for Piston
+		if (Controller.getRawButton(2) && (!bPressed)) {
+			bPressed = true;
+			onOffBButton = !onOffBButton;
+			
+		} else if (!Controller.getRawButton(2) && bPressed) {
+			bPressed = false;
+		}
+		
+		//OnOff for the Victor
+		if (onOffAButton) {
 			RWheel.set(ControlMode.PercentOutput, 1); // running motor
 		//	LWheel.set(ControlMode.PercentOutput, -1); // running motor
-
-		
 		} else {
 			RWheel.set(ControlMode.PercentOutput,0);
 		//	LWheel.set(ControlMode.PercentOutput,0);
 		} 
+		
+		//OnOff for the Piston
+		if (onOffBButton) {
+			OneLiftyBoi.set(true);
+		} else {
+			OneLiftyBoi.set(false);
+		}
 	}
 
 	/**
