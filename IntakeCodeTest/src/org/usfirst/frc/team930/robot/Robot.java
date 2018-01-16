@@ -31,6 +31,8 @@ public class Robot extends TimedRobot {
 	Solenoid OneLiftyBoi = new Solenoid(1);
 
 	Joystick Controller = new Joystick(0);
+	boolean aPressed;
+	boolean onOff;
 
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
@@ -46,6 +48,8 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
+		aPressed = false;
+		onOff = false;
 	}
 
 	@Override
@@ -77,11 +81,22 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		if (Controller.getRawButton(1)) {
+		if (Controller.getRawButton(1) && (!aPressed)) { // motor switch
+			aPressed = true;
+			onOff = !onOff;
+
+		} else if ((!Controller.getRawButton(1)) && aPressed) {
+			aPressed = false;
+		}
+		
+		if (onOff) {
 			RWheel.set(ControlMode.PercentOutput, 1); // running motor
+			LWheel.set(ControlMode.PercentOutput, -1); // running motor
+
 		
 		} else {
 			RWheel.set(ControlMode.PercentOutput,0);
+			LWheel.set(ControlMode.PercentOutput,0);
 		}
 	}
 
