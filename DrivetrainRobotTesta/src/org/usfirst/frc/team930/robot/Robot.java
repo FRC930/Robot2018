@@ -39,6 +39,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		rightFollow.follow(rightMain);
 		leftFollow.follow(leftMain);
+		
 	}
 
 	
@@ -61,7 +62,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		boolean check;
-		double leftXStick = stick.getRawAxis(0);
+		double leftXStick = stick.getRawAxis(4);
 		double leftYStick = stick.getRawAxis(1);
 		
 		
