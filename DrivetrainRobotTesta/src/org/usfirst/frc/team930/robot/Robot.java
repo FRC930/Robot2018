@@ -7,9 +7,15 @@
 
 package org.usfirst.frc.team930.robot;
 
+
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.Joystick;
+
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,67 +25,57 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
-	private static final String kDefaultAuto = "Default";
-	private static final String kCustomAuto = "My Auto";
-	private String m_autoSelected;
-	private SendableChooser<String> m_chooser = new SendableChooser<>();
-
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
-	 */
+	
+	WPI_TalonSRX rightMain = new WPI_TalonSRX(0);
+	WPI_TalonSRX leftMain = new WPI_TalonSRX(1);
+	VictorSPX rightFollow = new VictorSPX(0);
+	VictorSPX leftFollow = new VictorSPX(1);
+	
+	DifferentialDrive robot = new DifferentialDrive(rightMain, leftMain);
+	
+	Joystick stick = new Joystick(0);
+	
 	@Override
 	public void robotInit() {
-		m_chooser.addDefault("Default Auto", kDefaultAuto);
-		m_chooser.addObject("My Auto", kCustomAuto);
-		SmartDashboard.putData("Auto choices", m_chooser);
+		rightFollow.follow(rightMain);
+		leftFollow.follow(leftMain);
 	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString line to get the auto name from the text box below the Gyro
-	 *
-	 * <p>You can add additional auto modes by adding additional comparisons to
-	 * the switch structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
-	 */
+	
 	@Override
 	public void autonomousInit() {
-		m_autoSelected = m_chooser.getSelected();
-		// m_autoSelected = SmartDashboard.getString("Auto Selector",
-		// 		kDefaultAuto);
-		System.out.println("Auto selected: " + m_autoSelected);
+		
+		
+		
 	}
 
-	/**
-	 * This function is called periodically during autonomous.
-	 */
+	
 	@Override
 	public void autonomousPeriodic() {
-		switch (m_autoSelected) {
-			case kCustomAuto:
-				// Put custom auto code here
-				break;
-			case kDefaultAuto:
-			default:
-				// Put default auto code here
-				break;
-		}
+	
+		
+		
 	}
 
-	/**
-	 * This function is called periodically during operator control.
-	 */
+	
 	@Override
 	public void teleopPeriodic() {
+		boolean check;
+		double leftXStick = stick.getRawAxis(0);
+		double leftYStick = stick.getRawAxis(1);
+		
+		
+		robot.setDeadband(0.02);
+		
+		if(stick.getRawAxis(1)< 0.02)
+			check = true;
+		else
+			check = false;
+		
+		robot.curvatureDrive(leftYStick, leftXStick, check);
 	}
 
-	/**
-	 * This function is called periodically during test mode.
-	 */
+	
 	@Override
 	public void testPeriodic() {
 	}
