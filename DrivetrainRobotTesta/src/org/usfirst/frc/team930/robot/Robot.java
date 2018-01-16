@@ -26,19 +26,20 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  */
 public class Robot extends TimedRobot {
 	
-	WPI_TalonSRX rightMain = new WPI_TalonSRX(0);
-	WPI_TalonSRX leftMain = new WPI_TalonSRX(1);
-	VictorSPX rightFollow = new VictorSPX(2);
-	VictorSPX leftFollow = new VictorSPX(3);
+	WPI_TalonSRX rightMain = new WPI_TalonSRX(0);  //Declarations for talons
+	WPI_TalonSRX leftMain = new WPI_TalonSRX(1);  //These will be the main motor controllers
+	VictorSPX rightFollow = new VictorSPX(2);     //Declarations for victors that are
+	VictorSPX leftFollow = new VictorSPX(3);   //followers to the talons
 	
-	DifferentialDrive robot = new DifferentialDrive(rightMain, leftMain);
+	DifferentialDrive robot = new DifferentialDrive(rightMain, leftMain);  //Declares the driving method control for robot
 	
-	Joystick stick = new Joystick(0);
+	Joystick stick = new Joystick(0);   //XBOX Controller
 	
 	@Override
 	public void robotInit() {
-		rightFollow.follow(rightMain);
-		leftFollow.follow(leftMain);
+		
+		rightFollow.follow(rightMain);   //Sets the victors to follow their 
+		leftFollow.follow(leftMain);   //respective talons
 		
 	}
 
@@ -61,19 +62,22 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		boolean check;
-		double leftXStick = stick.getRawAxis(4);
-		double leftYStick = stick.getRawAxis(1);
+		
+		boolean check;  //Value to do the quick turn or not 
+		
+		double rightXStick = stick.getRawAxis(4); //Right joystick X axis
+		double leftYStick = stick.getRawAxis(1); //Left joystick Y axis
 		
 		
-		robot.setDeadband(0.02);
+		robot.setDeadband(0.02);  //Sets the deadband for the controller values
 		
 		if(stick.getRawAxis(1)< 0.02)
 			check = true;
-		else
+		else                      //Tells the robot when to do a quick turn
 			check = false;
 		
-		robot.curvatureDrive(leftYStick, leftXStick, check);
+		robot.curvatureDrive(leftYStick, rightXStick, check);  //sends the values to the drivetrain
+		
 	}
 
 	
