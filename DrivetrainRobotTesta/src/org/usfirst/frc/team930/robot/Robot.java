@@ -40,6 +40,7 @@ public class Robot extends TimedRobot {
 		
 		rightFollow.follow(rightMain);   //Sets the victors to follow their 
 		leftFollow.follow(leftMain);   //respective talons
+		robot.setQuickStopThreshold(0.1);
 		
 	}
 
