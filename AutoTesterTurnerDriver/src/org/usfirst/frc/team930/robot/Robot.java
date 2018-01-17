@@ -38,7 +38,13 @@ public class Robot extends TimedRobot {
 	Joystick stick = new Joystick(0);   //XBOX Controller
 	
 	AHRS gryo;
-
+	PIDController pid = new PIDController(0,0,0,gryo,
+		new PIDOutput(){ 
+		public void pidWrite(double output) {
+			robot.curvatureDrive(0.1, output, false); 
+		}
+	}
+			);
 	
 	@Override
 	public void robotInit() {
@@ -75,14 +81,14 @@ public class Robot extends TimedRobot {
 		double leftYStick = stick.getRawAxis(1); //Left joystick Y axis
 		
 		
-		robot.setDeadband(0.1);  //Sets the deadband for the controller values
+		robot.setDeadband(0.02);  //Sets the deadband for the controller values
 		
 		if(stick.getRawAxis(1)< 0.02)
 			check = true;
 		else                      //Tells the robot when to do a quick turn
 			check = false;
 		
-		robot.curvatureDrive(leftYStick, -rightXStick, false);  //sends the values to the drivetrain
+		robot.curvatureDrive(leftYStick, rightXStick, false);  //sends the values to the drivetrain
 		
 	}
 
