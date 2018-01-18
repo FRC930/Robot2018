@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team930.robot;
 
+import org.usfirst.frc.team930.robot.Robot.Routines;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -15,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 	
 	AutoRoutine auto;
-	SendableChooser<Enum> autoChooser = new SendableChooser<Enum>();
+	SendableChooser<Routines> autoChooser = new SendableChooser<Routines>();
 	
 	enum Routines {
 		
@@ -27,8 +29,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		
-		//autoChooser.addObject("Routine 1", new Enum(Routines.ROUTINE1));
-        //autoChooser.addObject("Routine 2", new Enum(Routines.ROUTINE2));
+		autoChooser.addObject("Routine 1", Routines.ROUTINE1);
+        autoChooser.addObject("Routine 2", Routines.ROUTINE2);
         SmartDashboard.putData("Auto Routines", autoChooser);
         
 	}
@@ -36,9 +38,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		
-		Enum routine = autoChooser.getSelected();
+		Enum<?> routine = (Enum<?>) autoChooser.getSelected();
 		String variation = DriverStation.getInstance().getGameSpecificMessage();
-		//auto = new AutoRoutine(routine, variation);
+		auto = new AutoRoutine(routine, variation);
 		
 	}
 

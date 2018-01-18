@@ -1,30 +1,24 @@
 package org.usfirst.frc.team930.robot;
 
+import org.usfirst.frc.team930.robot.Robot.Routines;
+
 public class AutoRoutine {
 
 	private String variation;
 	private Routine1 routine1;
 	private Routine2 routine2;
 	
-	enum Routines {
-		
-		 ROUTINE1,
-		 ROUTINE2
-		 
-	}
-	
 	private Routines routineEnum;
 	
-	public AutoRoutine(int r, String v) {
+	public AutoRoutine(Enum r, String v) {
 		
 		variation = v;
-		if(r == 1) {
+		routineEnum = (Routines) r;
+		if(routineEnum == Routines.ROUTINE1) {
 			routine1 = new Routine1(variation);
-			routineEnum = Routines.ROUTINE1;
 		}
-		else if(r == 2) {
+		else if(routineEnum == Routines.ROUTINE2) {
 			routine2 = new Routine2(variation);
-			routineEnum = Routines.ROUTINE2;
 		}
 		
 	}
