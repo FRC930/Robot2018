@@ -13,11 +13,17 @@ public class Routine1 {
 	public void run() {
 		
 		switch (variation) {
-			case "LRR":
+			case "LRL":
 				variation1();
 				break;
 			case "RLR":
 				variation2();
+				break;
+			case "LLL":
+				variation3();
+				break;
+			case "RRR":
+				variation4();
 				break;
 		}
 		
@@ -25,12 +31,52 @@ public class Routine1 {
 	
 	public static void variation1() {
 		
-		Segments.seg1();
+		int segment = 1;
 		
+		switch (segment) {
+			case 1:
+				if(Segments.seg1() && Actions.act1())
+					segment = 2;
+				break;
+			case 2:
+				break;
+		}
 	}
 	
 	public static void variation2() {
 		
+		int segment = 1;
+		
+		switch (segment) {
+			case 1:
+				break;
+			case 2:
+				break;
+		}
+	}
+
+	public static void variation3() {
+	
+		int segment = 1;
+	
+		switch (segment) {
+			case 1:
+				break;
+			case 2:
+				break;
+		}
+	}
+
+	public static void variation4() {
+	
+		int segment = 1;
+	
+		switch (segment) {
+			case 1:
+				break;
+			case 2:
+				break;
+		}
 	}
 
 }
