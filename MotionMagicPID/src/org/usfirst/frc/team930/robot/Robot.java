@@ -75,8 +75,11 @@ public class Robot extends TimedRobot {
 			double targetPos = controller.getRawAxis(1) * 4096 * 10.0; /* 4096 ticks/rev * 10 Rotations in either direction */
 			motor1.set(ControlMode.MotionMagic, targetPos);
 		} else {
-			if (controller.getRawAxis(1) > 0.1 && controller.getRawAxis(1) < -0.1)
-			motor1.set(ControlMode.PercentOutput, controller.getRawAxis(1));
+			if (controller.getRawAxis(1) > 0.1 || controller.getRawAxis(1) < -0.1) {
+				motor1.set(ControlMode.PercentOutput, controller.getRawAxis(1));
+			} else {
+				motor1.set(ControlMode.PercentOutput, 0);
+			}
 		}
 	}
 
