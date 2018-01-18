@@ -15,13 +15,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 	
 	AutoRoutine auto;
-	SendableChooser<Integer> autoChooser = new SendableChooser<Integer>();
+	SendableChooser<Enum> autoChooser = new SendableChooser<Enum>();
+	
+	enum Routines {
+		
+		 ROUTINE1,
+		 ROUTINE2
+		 
+	}
 
 	@Override
 	public void robotInit() {
 		
-		autoChooser.addObject("Routine 1", new Integer(1));
-        autoChooser.addObject("Routine 2", new Integer(2));
+		//autoChooser.addObject("Routine 1", new Enum(Routines.ROUTINE1));
+        //autoChooser.addObject("Routine 2", new Enum(Routines.ROUTINE2));
         SmartDashboard.putData("Auto Routines", autoChooser);
         
 	}
@@ -29,9 +36,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		
-		int routine = autoChooser.getSelected();
+		Enum routine = autoChooser.getSelected();
 		String variation = DriverStation.getInstance().getGameSpecificMessage();
-		auto = new AutoRoutine(routine, variation);
+		//auto = new AutoRoutine(routine, variation);
 		
 	}
 

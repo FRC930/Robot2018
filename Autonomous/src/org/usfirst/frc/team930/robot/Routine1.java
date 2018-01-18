@@ -3,6 +3,7 @@ package org.usfirst.frc.team930.robot;
 public class Routine1 {
 	
 	private static String variation;
+	private static int segment = 1;
 	
 	public Routine1(String v) {
 		
@@ -31,8 +32,6 @@ public class Routine1 {
 	
 	public static void variation1() {
 		
-		int segment = 1;
-		
 		switch (segment) {
 			case 1:
 				if(Segments.seg1() && Actions.act1())
@@ -45,8 +44,6 @@ public class Routine1 {
 	
 	public static void variation2() {
 		
-		int segment = 1;
-		
 		switch (segment) {
 			case 1:
 				break;
@@ -56,9 +53,7 @@ public class Routine1 {
 	}
 
 	public static void variation3() {
-	
-		int segment = 1;
-	
+		
 		switch (segment) {
 			case 1:
 				break;
@@ -68,9 +63,7 @@ public class Routine1 {
 	}
 
 	public static void variation4() {
-	
-		int segment = 1;
-	
+		
 		switch (segment) {
 			case 1:
 				break;
