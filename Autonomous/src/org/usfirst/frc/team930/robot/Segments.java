@@ -9,16 +9,17 @@ public class Segments {
 		
 		switch (path) {
 		case 1:
-			// Generate points
-			if(true)
-				path = 2;
+			for(int i = 1; i <= 5; i++)
+				System.out.println(i);
+			path = 2;
 			break;
 		case 2:
-			// Send points
-			if(true)
-				isFinished = true;
+			System.out.println("\n");
+			for(int i = 6; i <= 10; i++)
+				System.out.println(i);
+			isFinished = true;
 			break;
-	}
+		}
 		
 		return isFinished;
 	}

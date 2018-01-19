@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team930.robot;
 
-import org.usfirst.frc.team930.robot.Robot.Routines;
+import java.util.Random;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -38,8 +38,15 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		
-		Enum<?> routine = (Enum<?>) autoChooser.getSelected();
+		Enum routine = (Enum) autoChooser.getSelected();
 		String variation = DriverStation.getInstance().getGameSpecificMessage();
+		
+		// Randomizing variations without FMS
+		/*Random randVar = new Random();
+		String[] variationOptions = {"LRL", "RLR", "LLL", "RRR"};
+		int selectedVar = randVar.nextInt(variationOptions.length);
+		variation = variationOptions[selectedVar];*/
+		
 		auto = new AutoRoutine(routine, variation);
 		
 	}

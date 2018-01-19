@@ -34,10 +34,12 @@ public class Routine1 {
 		
 		switch (segment) {
 			case 1:
-				if(Segments.seg1() && Actions.act1())
+				if(Segments.seg1())
 					segment = 2;
 				break;
 			case 2:
+				if(Actions.act1())
+					segment = 3;
 				break;
 		}
 	}
@@ -46,8 +48,12 @@ public class Routine1 {
 		
 		switch (segment) {
 			case 1:
+				if(Segments.seg1())
+					segment = 2;
 				break;
 			case 2:
+				if(Actions.act1())
+					segment = 3;
 				break;
 		}
 	}
@@ -56,8 +62,12 @@ public class Routine1 {
 		
 		switch (segment) {
 			case 1:
+				if(Segments.seg1())
+					segment = 2;
 				break;
 			case 2:
+				if(Actions.act1())
+					segment = 3;
 				break;
 		}
 	}
@@ -66,8 +76,12 @@ public class Routine1 {
 		
 		switch (segment) {
 			case 1:
+				if(Segments.seg1())
+					segment = 2;
 				break;
 			case 2:
+				if(Actions.act1())
+					segment = 3;
 				break;
 		}
 	}
