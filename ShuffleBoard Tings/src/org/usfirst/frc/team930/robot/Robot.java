@@ -13,18 +13,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class Robot extends TimedRobot {
+	
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	
 	Joystick controller = new Joystick(0);
+	
 	boolean aPressed, bPressed;
 	int bCounter;
 	
-	
 	@Override
 	public void robotInit() {
+		m_chooser.addDefault("Default Auto", kDefaultAuto);
+		m_chooser.addObject("My Auto", kCustomAuto);
+		SmartDashboard.putData("Auto choices", m_chooser);
+		
 		aPressed = false;
 		bPressed = false;
 		bCounter = 0;
@@ -33,10 +38,24 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		m_autoSelected = m_chooser.getSelected();
+		// m_autoSelected = SmartDashboard.getString("Auto Selector",
+		// kDefaultAuto);
+		System.out.println("Auto selected: " + m_autoSelected);
+		
 	}
 
 	@Override
 	public void autonomousPeriodic() {
+		switch (m_autoSelected) {
+		case kCustomAuto:
+			// Put custom auto code here
+			break;
+		case kDefaultAuto:
+		default:
+			// Put default auto code here
+			break;
+		}
 	}
 
 	@Override
@@ -62,5 +81,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testPeriodic() {
+		
 	}
 }
