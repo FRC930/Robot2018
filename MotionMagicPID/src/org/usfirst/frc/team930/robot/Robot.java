@@ -14,7 +14,7 @@ public class Robot extends TimedRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>(); */
 	
-	TalonSRX motor1 = new TalonSRX(1);
+	TalonSRX motor1 = new TalonSRX(0);
 	Joystick controller = new Joystick(0);
 	
 	@Override
@@ -71,11 +71,13 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
+		System.out.println(motor1.getLastError());
+		
 		if (controller.getRawButton(1)) {
 			double targetPos = controller.getRawAxis(1) * 4096 * 10.0; /* 4096 ticks/rev * 10 Rotations in either direction */
 			motor1.set(ControlMode.MotionMagic, targetPos);
 		} else {
-			if (controller.getRawAxis(1) > 0.1 || controller.getRawAxis(1) < -0.1) {
+			if (controller.getRawAxis(1) > 0.2 || controller.getRawAxis(1) < -0.2) {
 				motor1.set(ControlMode.PercentOutput, controller.getRawAxis(1));
 			} else {
 				motor1.set(ControlMode.PercentOutput, 0);
