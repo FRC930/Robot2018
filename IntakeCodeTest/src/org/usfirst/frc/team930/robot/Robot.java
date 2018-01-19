@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,17 +29,20 @@ public class Robot extends TimedRobot {
 
 	VictorSPX RWheel = new VictorSPX(0);
 	VictorSPX LWheel = new VictorSPX(1);
-	
-	Solenoid OneLiftyBoi = new Solenoid(1);
-	
+
+	Solenoid MainSolenoid = new Solenoid(1);
+
 	Joystick Controller = new Joystick(0);
-	
+
 	PowerDistributionPanel PDP = new PowerDistributionPanel();
-	
+
 	boolean bPressed;
 	boolean aPressed;
 	boolean onOffAButton;
 	boolean onOffBButton;
+
+	double currentThreshhold;
+	double timeDelay;
 
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
@@ -47,19 +50,22 @@ public class Robot extends TimedRobot {
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 
 	/**
-	 * This function is run when the robot is first started up and should be used
-	 * for any initialization code.
+	 * This function is run when the robot is first started up and should be
+	 * used for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
-		
+
 		aPressed = false;
 		bPressed = false;
 		onOffAButton = false;
 		onOffBButton = false;
+
+		currentThreshhold = 26.5;
+		timeDelay = 1.0;
 	}
 
 	@Override
@@ -91,44 +97,43 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		//A Button for Victor
+
+		// A Button for Victor
 		if (Controller.getRawButton(1) && (!aPressed)) { // motor switch
 			aPressed = true;
 			onOffAButton = !onOffAButton;
-
 		} else if (!Controller.getRawButton(1) && aPressed) {
 			aPressed = false;
 		}
-		
-		//OnOff for the Victor
+
+		// OnOff for the Victor
 		if (onOffAButton) {
 			RWheel.set(ControlMode.PercentOutput, 1); // running motor
-		//	LWheel.set(ControlMode.PercentOutput, -1); // running motor
-		} /*else {
-			RWheel.set(ControlMode.PercentOutput,0);
-		//	LWheel.set(ControlMode.PercentOutput,0);
-		} 
-		
-		/*
-		//B Button for Piston
-		if (Controller.getRawButton(2) && (!bPressed)) {
-			bPressed = true;
-			onOffBButton = !onOffBButton;
-		} else if (!Controller.getRawButton(2) && bPressed) {
-			bPressed = false;
-		}
-		//OnOff for the Piston
-		if (onOffBButton) {
-			OneLiftyBoi.set(true);
+			// LWheel.set(ControlMode.PercentOutput, -1); // running motor
+			if (PDP.getCurrent(11) > currentThreshhold) {
+				System.out.println("check one sucessfull");
+				Timer.delay(timeDelay);
+				if (PDP.getCurrent(11) > currentThreshhold) {
+					System.out.println("check two sucessfull");
+					// MainSolenoid.set(true);
+					RWheel.set(ControlMode.PercentOutput, 0);
+					// LWheel.set(ControlMode.PercentOutput,0);
+
+				}
+			}
 		} else {
-			OneLiftyBoi.set(false);
-		}*/
-		
-		if(PDP.getCurrent(11) < 5.0) {
-			OneLiftyBoi.set(true);
-			RWheel.set(ControlMode.PercentOutput,0);
-			// LWheel.set(ControlMode.PercentOutput,0);
-		} 
+			// MainSolenoid.set(false);
+			RWheel.set(ControlMode.PercentOutput, 0);
+			// LWheel.set(ControlMode.PercentOutput, 0);
+		}
+		/*
+		 * //B Button for Piston if (Controller.getRawButton(2) && (!bPressed))
+		 * { bPressed = true; onOffBButton = !onOffBButton; } else if
+		 * (!Controller.getRawButton(2) && bPressed) { bPressed = false; }
+		 * //OnOff for the Piston if (onOffBButton) { OneLiftyBoi.set(true); }
+		 * else { OneLiftyBoi.set(false); }
+		 */
+
 	}
 
 	/**
@@ -136,5 +141,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+
 	}
 }
