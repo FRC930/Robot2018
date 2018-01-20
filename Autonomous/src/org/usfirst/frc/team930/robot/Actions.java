@@ -6,18 +6,24 @@ public class Actions {
 	
 	public static boolean act1() {
 		boolean isFinished = false;
-		
-		switch (path) {
+		int x = 1;
+		switch (x) {
 		case 1:
-			for(int i = 1; i <= 5; i++)
-				System.out.println(i);
-			path = 2;
+			for(int i = 10; i >= 6; i--) {
+				System.out.println("Running Action 1 Case 1");
+				if(i == 6)
+					x = 2;
+			}
 			break;
 		case 2:
 			System.out.println("\n");
-			for(int i = 6; i <= 10; i++)
-				System.out.println(i);
-			isFinished = true;
+			for(int i = 5; i >= 1; i--) {
+				System.out.println("Running Action 1 Case 2");
+				if(i == 1) {
+					isFinished = true;
+					path = 3;
+				}
+			}
 			break;
 		}
 		

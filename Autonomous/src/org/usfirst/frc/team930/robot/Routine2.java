@@ -1,13 +1,13 @@
 package org.usfirst.frc.team930.robot;
 
-public class Routine2 {
+public class Routine2 extends Routine {
 	
 	private static String variation;
 	private static int segment = 1;
 	
 	public Routine2(String v) {
 		
-		variation = v;
+		super(v);
 		
 	}
 	
@@ -34,11 +34,11 @@ public class Routine2 {
 		
 		switch (segment) {
 			case 1:
-				if(Segments.seg1())
+				if(Actions.act1())
 					segment = 2;
 				break;
 			case 2:
-				if(Actions.act1())
+				if(Segments.seg1())
 					segment = 3;
 				break;
 		}
@@ -48,11 +48,11 @@ public class Routine2 {
 		
 		switch (segment) {
 			case 1:
-				if(Segments.seg1())
+				if(Actions.act1())
 					segment = 2;
 				break;
 			case 2:
-				if(Actions.act1())
+				if(Segments.seg1())
 					segment = 3;
 				break;
 		}
@@ -62,11 +62,11 @@ public class Routine2 {
 		
 		switch (segment) {
 			case 1:
-				if(Segments.seg1())
+				if(Actions.act1())
 					segment = 2;
 				break;
 			case 2:
-				if(Actions.act1())
+				if(Segments.seg1())
 					segment = 3;
 				break;
 		}
@@ -76,11 +76,11 @@ public class Routine2 {
 		
 		switch (segment) {
 			case 1:
-				if(Segments.seg1())
+				if(Actions.act1())
 					segment = 2;
 				break;
 			case 2:
-				if(Actions.act1())
+				if(Segments.seg1())
 					segment = 3;
 				break;
 		}

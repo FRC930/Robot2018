@@ -5,8 +5,7 @@ import org.usfirst.frc.team930.robot.Robot.Routines;
 public class AutoRoutine {
 
 	private String variation;
-	private Routine1 routine1;
-	private Routine2 routine2;
+	private Routine routine;
 	
 	private Routines routineEnum;
 	
@@ -15,10 +14,10 @@ public class AutoRoutine {
 		variation = v;
 		routineEnum = (Routines) r;
 		if(routineEnum == Routines.ROUTINE1) {
-			routine1 = new Routine1(variation);
+			routine = new Routine1(variation);
 		}
 		else if(routineEnum == Routines.ROUTINE2) {
-			routine2 = new Routine2(variation);
+			routine = new Routine2(variation);
 		}
 		
 	}
@@ -27,10 +26,11 @@ public class AutoRoutine {
 		
 		switch (routineEnum) {
 			case ROUTINE1:
-				routine1.run();
+				System.out.println("Running Routine 1");
+				routine.run();
 				break;
 			case ROUTINE2:
-				routine2.run();
+				routine.run();
 				break;
 		}
 		
