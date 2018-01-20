@@ -1,6 +1,5 @@
 package org.usfirst.frc.team930.robot;
 
-import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -79,6 +78,8 @@ public class Robot extends TimedRobot {
 		
 		if(onOffA) {
 			lift1.set(ControlMode.PercentOutput, 1);
+		} else {
+			lift1.set(ControlMode.PercentOutput, 0);
 		}
 		
 		// b pressed -- elevator down
@@ -92,6 +93,8 @@ public class Robot extends TimedRobot {
 				
 		if(onOffA) {
 			lift1.set(ControlMode.PercentOutput, -1);
+		} else {
+			lift1.set(ControlMode.PercentOutput, 0);
 		}
 	}
 

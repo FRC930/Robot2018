@@ -1,29 +1,21 @@
 package org.usfirst.frc.team930.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Robot extends TimedRobot {
-	/*private static final String kDefaultAuto = "Default";
-	private static final String kCustomAuto = "My Auto";
-	private String m_autoSelected;
-	private SendableChooser<String> m_chooser = new SendableChooser<>(); */
 	
-	boolean aPressed, onOffA;
+	boolean aPressed, onOffA, test1;
 	
 	TalonSRX motor1 = new TalonSRX(0);
 	Joystick controller = new Joystick(0);
 	
 	@Override
 	public void robotInit() {
-		/*m_chooser.addDefault("Default Auto", kDefaultAuto);
-		m_chooser.addObject("My Auto", kCustomAuto);
-		SmartDashboard.putData("Auto choices", m_chooser);*/
 		
 		aPressed = false;
 		onOffA = false;
@@ -37,46 +29,49 @@ public class Robot extends TimedRobot {
 		motor1.configPeakOutputForward(1, 10);
 		motor1.configPeakOutputReverse(-1, 10);
 		
+		test1 = SmartDashboard.putNumber("P Value", 0.2);
+		test1 = SmartDashboard.putNumber("I Value", 0.0);
+		test1 = SmartDashboard.putNumber("D Value", 0.0);
+		test1 = SmartDashboard.putNumber("F Value", 0.2);
+		test1 = SmartDashboard.putNumber("Cruise Velocity", 15000);
+		test1 = SmartDashboard.putNumber("Acceleration", 6000);
+		test1 = SmartDashboard.putBoolean("Update Values", false);
+		
 		// Set PIDF values, velocity, and acceleration
-		motor1.config_kF(0, 0.05797, 10);
+		motor1.config_kF(0, 0.2, 10);
 		motor1.config_kP(0, 0.2, 10);
 		motor1.config_kI(0, 0, 10);
 		motor1.config_kD(0, 0, 10);
-		motor1.configMotionCruiseVelocity(15000, 10);
-		motor1.configMotionAcceleration(6000, 10);
+		motor1.configMotionCruiseVelocity(15000, 10);	//(int sensorUnitsPer100ms, int timeoutMs)
+		motor1.configMotionAcceleration(6000, 10);		//(int sensorUnitsPer100msPerSec, int timeoutMs)
 	}
 
 	
 	@Override
-	public void autonomousInit() {
-		/*m_autoSelected = m_chooser.getSelected();
-		// m_autoSelected = SmartDashboard.getString("Auto Selector",
-		// 		kDefaultAuto);
-		System.out.println("Auto selected: " + m_autoSelected);*/
-		
+	public void autonomousInit() {		
 		
 	}
 
 	
 	@Override
 	public void autonomousPeriodic() {
-		/*switch (m_autoSelected) {
-			case kCustomAuto:
-				// Put custom auto code here
-				break;
-			case kDefaultAuto:
-			default:
-				// Put default auto code here
-				break;
-		}*/
-		
-		
+
 	}
 
 	
 	@Override
 	public void teleopPeriodic() {
-		System.out.println(motor1.getClosedLoopError(0));
+		if(SmartDashboard.getBoolean("Update Values",false)) {
+			motor1.config_kF(0, SmartDashboard.getNumber("F Value", 0.2), 10);
+			motor1.config_kP(0, SmartDashboard.getNumber("P Value", 0.2), 10);
+			motor1.config_kI(0, SmartDashboard.getNumber("I Value", 0.0), 10);
+			motor1.config_kD(0, SmartDashboard.getNumber("D Value", 0.0), 10);
+			motor1.configMotionCruiseVelocity((int) SmartDashboard.getNumber("Cruise Velocity", 15000), 10);
+			motor1.configMotionAcceleration((int)SmartDashboard.getNumber("Acceleration", 6000), 10);
+			System.out.println("Updated Values");
+		}
+		
+		//System.out.println(motor1.getClosedLoopError(0));
 		
 		if(controller.getRawButton(1) && (!aPressed))
 		{
