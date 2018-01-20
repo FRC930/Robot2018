@@ -61,6 +61,7 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
+		
 		if(SmartDashboard.getBoolean("Update Values",false)) {
 			motor1.config_kF(0, SmartDashboard.getNumber("F Value", 0.2), 10);
 			motor1.config_kP(0, SmartDashboard.getNumber("P Value", 0.2), 10);
@@ -69,9 +70,10 @@ public class Robot extends TimedRobot {
 			motor1.configMotionCruiseVelocity((int) SmartDashboard.getNumber("Cruise Velocity", 15000), 10);
 			motor1.configMotionAcceleration((int)SmartDashboard.getNumber("Acceleration", 6000), 10);
 			System.out.println("Updated Values");
+			test1 = SmartDashboard.putBoolean("Update Values", false);
 		}
 		
-		//System.out.println(motor1.getClosedLoopError(0));
+		//SmartDashboard.putNumber("Closed Loop Error", (double) motor1.getClosedLoopError(0));
 		
 		if(controller.getRawButton(1) && (!aPressed))
 		{
