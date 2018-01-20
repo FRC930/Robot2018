@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
 		test1 = SmartDashboard.putNumber("Cruise Velocity", 15000);
 		test1 = SmartDashboard.putNumber("Acceleration", 6000);
 		test1 = SmartDashboard.putBoolean("Update Values", false);
-		test1 = SmartDashboard.putNumber("Velocity", motor1.getSelectedSensorVelocity(0));
+		test1 = SmartDashboard.putNumber("Position", motor1.getSelectedSensorPosition(0));
 		test1 = SmartDashboard.putNumber("Motor Output", motor1.getMotorOutputPercent());
 		test1 = SmartDashboard.putNumber("Closed Loop Error",0);
 		test1 = SmartDashboard.putNumber("Taget Position", 0);
@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
 		}
 		
 		if (onOffA) {
-			double targetPos = controller.getRawAxis(1) * 4096 * 10.0; /* 4096 ticks/rev * 10 Rotations in either direction */
+			double targetPos = controller.getRawAxis(1) * 4096 * -10.0; /* 4096 ticks/rev * 10 Rotations in either direction */
 			motor1.set(ControlMode.MotionMagic, targetPos);
 			test1 = SmartDashboard.putNumber("Closed Loop Error",motor1.getClosedLoopError(0));
 			test1 = SmartDashboard.putNumber("Taget Position", targetPos);
