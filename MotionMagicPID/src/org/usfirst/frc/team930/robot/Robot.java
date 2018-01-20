@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Robot extends TimedRobot {
@@ -24,6 +25,9 @@ public class Robot extends TimedRobot {
 		motor1.setSensorPhase(true);
 		motor1.setInverted(false);
 		
+		motor1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 10);
+		motor1.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 10);
+		
 		motor1.configNominalOutputForward(0, 10);
 		motor1.configNominalOutputReverse(0, 10);
 		motor1.configPeakOutputForward(1, 10);
@@ -36,14 +40,20 @@ public class Robot extends TimedRobot {
 		test1 = SmartDashboard.putNumber("Cruise Velocity", 15000);
 		test1 = SmartDashboard.putNumber("Acceleration", 6000);
 		test1 = SmartDashboard.putBoolean("Update Values", false);
+		test1 = SmartDashboard.putNumber("Velocity", motor1.getSelectedSensorVelocity(0));
+		test1 = SmartDashboard.putNumber("Motor Output", motor1.getMotorOutputPercent());
+		test1 = SmartDashboard.putNumber("Closed Loop Error",0);
+		test1 = SmartDashboard.putNumber("Taget Position", 0);
 		
-		// Set PIDF values, velocity, and acceleration
+		motor1.selectProfileSlot(0, 0);
+		// Initialize PIDF values, velocity, and acceleration
 		motor1.config_kF(0, 0.2, 10);
 		motor1.config_kP(0, 0.2, 10);
 		motor1.config_kI(0, 0, 10);
 		motor1.config_kD(0, 0, 10);
 		motor1.configMotionCruiseVelocity(15000, 10);	//(int sensorUnitsPer100ms, int timeoutMs)
 		motor1.configMotionAcceleration(6000, 10);		//(int sensorUnitsPer100msPerSec, int timeoutMs)
+		motor1.setSelectedSensorPosition(0, 0, 10);
 	}
 
 	
@@ -73,7 +83,8 @@ public class Robot extends TimedRobot {
 			test1 = SmartDashboard.putBoolean("Update Values", false);
 		}
 		
-		//SmartDashboard.putNumber("Closed Loop Error", (double) motor1.getClosedLoopError(0));
+		test1 = SmartDashboard.putNumber("Position", motor1.getSelectedSensorPosition(0));
+		test1 = SmartDashboard.putNumber("Motor Output", motor1.getMotorOutputPercent());
 		
 		if(controller.getRawButton(1) && (!aPressed))
 		{
@@ -88,6 +99,8 @@ public class Robot extends TimedRobot {
 		if (onOffA) {
 			double targetPos = controller.getRawAxis(1) * 4096 * 10.0; /* 4096 ticks/rev * 10 Rotations in either direction */
 			motor1.set(ControlMode.MotionMagic, targetPos);
+			test1 = SmartDashboard.putNumber("Closed Loop Error",motor1.getClosedLoopError(0));
+			test1 = SmartDashboard.putNumber("Taget Position", targetPos);
 		} else {
 			if (controller.getRawAxis(1) > 0.2 || controller.getRawAxis(1) < -0.2) {
 				motor1.set(ControlMode.PercentOutput, controller.getRawAxis(1));

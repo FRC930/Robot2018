@@ -2,6 +2,7 @@ package org.usfirst.frc.team930.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -45,18 +46,23 @@ public class Robot extends TimedRobot {
 		lift1.setSensorPhase(true);
 		lift1.setInverted(false);
 		
+		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 10);
+		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 10);
+		
 		lift1.configNominalOutputForward(0, 10);
 		lift1.configNominalOutputReverse(0, 10);
 		lift1.configPeakOutputForward(1, 10);
 		lift1.configPeakOutputReverse(-1, 10);
 		
 		// Set PIDF values, velocity, and acceleration
+		lift1.selectProfileSlot(0, 0);
 		lift1.config_kF(0, 0.2, 10);
 		lift1.config_kP(0, 0.2, 10);
 		lift1.config_kI(0, 0, 10);
 		lift1.config_kD(0, 0, 10);
 		lift1.configMotionCruiseVelocity(15000, 10);	//(int sensorUnitsPer100ms, int timeoutMs)
 		lift1.configMotionAcceleration(6000, 10);		//(int sensorUnitsPer100msPerSec, int timeoutMs)
+		lift1.setSelectedSensorPosition(0, 0, 10);
 	}
 
 	
@@ -85,17 +91,6 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		
-		if(SmartDashboard.getBoolean("Update Values",false)) {
-			lift1.config_kF(0, SmartDashboard.getNumber("F Value", 0.2), 10);
-			lift1.config_kP(0, SmartDashboard.getNumber("P Value", 0.2), 10);
-			lift1.config_kI(0, SmartDashboard.getNumber("I Value", 0.0), 10);
-			lift1.config_kD(0, SmartDashboard.getNumber("D Value", 0.0), 10);
-			lift1.configMotionCruiseVelocity((int) SmartDashboard.getNumber("Cruise Velocity", 15000), 10);
-			lift1.configMotionAcceleration((int)SmartDashboard.getNumber("Acceleration", 6000), 10);
-			System.out.println("Updated Values");
-			test1 = SmartDashboard.putBoolean("Update Values", false);
-		}
 		
 		//a pressed -- elevator up
 		if(controller.getRawButton(1) && (!aPressed))
