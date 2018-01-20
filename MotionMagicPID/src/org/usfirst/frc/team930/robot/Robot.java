@@ -14,6 +14,8 @@ public class Robot extends TimedRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>(); */
 	
+	boolean aPressed, onOffA;
+	
 	TalonSRX motor1 = new TalonSRX(0);
 	Joystick controller = new Joystick(0);
 	
@@ -22,6 +24,9 @@ public class Robot extends TimedRobot {
 		/*m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);*/
+		
+		aPressed = false;
+		onOffA = false;
 		
 		motor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		motor1.setSensorPhase(true);
@@ -33,7 +38,7 @@ public class Robot extends TimedRobot {
 		motor1.configPeakOutputReverse(-1, 10);
 		
 		// Set PIDF values, velocity, and acceleration
-		motor1.config_kF(0, 0.2, 10);
+		motor1.config_kF(0, 0.05797, 10);
 		motor1.config_kP(0, 0.2, 10);
 		motor1.config_kI(0, 0, 10);
 		motor1.config_kD(0, 0, 10);
@@ -71,9 +76,19 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		System.out.println(motor1.getLastError());
+		System.out.println(motor1.getClosedLoopError(0));
 		
-		if (controller.getRawButton(1)) {
+		if(controller.getRawButton(1) && (!aPressed))
+		{
+			aPressed = true;
+			onOffA = !onOffA;
+			System.out.println("\nMotion Magic:\n");
+		} else if((!controller.getRawButton(1)) && aPressed) {
+			aPressed = false;
+			System.out.println("\nPercent Output:\n");
+		}
+		
+		if (onOffA) {
 			double targetPos = controller.getRawAxis(1) * 4096 * 10.0; /* 4096 ticks/rev * 10 Rotations in either direction */
 			motor1.set(ControlMode.MotionMagic, targetPos);
 		} else {
