@@ -28,23 +28,23 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  */
 public class Robot extends TimedRobot {
 	
+	public final int FULL_SPEED = 200;
+	
 	WPI_TalonSRX rightMain = new WPI_TalonSRX(0);  //Declarations for talons
 	WPI_TalonSRX leftMain = new WPI_TalonSRX(1);  //These will be the main motor controllers
 	VictorSPX rightFollow = new VictorSPX(2);     //Declarations for victors that are
 	VictorSPX leftFollow = new VictorSPX(3);   //followers to the talons
 	
-	DifferentialDrive robot = new DifferentialDrive(rightMain, leftMain);  //Declares the driving method control for robot
+	DifferentialDrive robot = new DifferentialDrive(leftMain, rightMain);  //Declares the driving method control for robot
 	
 	Joystick stick = new Joystick(0);   //XBOX Controller
 	
-	AHRS gryo;
-	PIDController pid = new PIDController(0,0,0,gryo,
-		new PIDOutput(){ 
-		public void pidWrite(double output) {
-			robot.curvatureDrive(0.1, output, false); 
-		}
-	}
-			);
+	AHRS gyro;
+	//PIDController pid;
+
+	double eSum = 0,eLast, P = 1, I = 0.1, D = 0;
+	double MP_Speed, MP_Turn;
+	double setpoint = 90, output;
 	
 	@Override
 	public void robotInit() {
@@ -59,16 +59,38 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		
+/*		pid = new PIDController(0,0,0,gyro,
+					new PIDOutput(){ 
+					public void pidWrite(double output) {
+						robot.arcadeDrive(MP_Speed, -output/FULL_SPEED);
+					}
+				}
+						);
 		
+    	gyro.reset();
+    	pid.reset();
+    	pid.setSetpoint(MP_Turn*FULL_SPEED);   //Dps is the setpoint
+    	pid.enable();*/
 		
 	}
 
 	
 	@Override
 	public void autonomousPeriodic() {
-	
-		
-		
+		 
+		///PID*****************************
+		   double error = MP_Turn*FULL_SPEED - gyro.getRawGyroZ();
+		   eSum += error;
+		   double dErr = (error - eLast);
+		  
+		   
+		   output = P * error + I * eSum + D * dErr;
+		  
+		   
+		   eLast = error;
+		  
+		   robot.arcadeDrive(MP_Speed, output/FULL_SPEED);
+		///PID----Driving Autonomously******************************
 	}
 
 	
@@ -88,7 +110,7 @@ public class Robot extends TimedRobot {
 		else                      //Tells the robot when to do a quick turn
 			check = false;
 		
-		robot.curvatureDrive(leftYStick, rightXStick, false);  //sends the values to the drivetrain
+		robot.arcadeDrive(leftYStick, -rightXStick);  //sends the values to the drivetrain
 		
 	}
 
