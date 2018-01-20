@@ -10,7 +10,12 @@ package org.usfirst.frc.team930.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 public class Robot extends TimedRobot {
 	
@@ -20,7 +25,9 @@ public class Robot extends TimedRobot {
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	
 	Joystick controller = new Joystick(0);
+	PowerDistributionPanel PDP = new PowerDistributionPanel();
 	
+	VictorSPX RightWheel = new VictorSPX (0);
 	boolean aPressed, bPressed;
 	int bCounter;
 	
@@ -77,6 +84,24 @@ public class Robot extends TimedRobot {
 			bCounter ++;
 			SmartDashboard.putNumber("# of Spam Clicks on the B Button", bCounter);
 		}
+	
+		SmartDashboard.putNumber("PDP Channel 11", PDP.getCurrent(11));
+		SmartDashboard.putData("PDP Channel 11 Graph", PDP);
+		
+		if (controller.getRawButton(6)) {
+			RightWheel.set(ControlMode.PercentOutput, 0.5);
+		} else {
+			RightWheel.set(ControlMode.PercentOutput, 0.000000); //Dominick did this.
+		}
+		
+		// for stools and giggles
+		if (controller.getRawAxis(5) > 0.1 || controller.getRawAxis(5) < -0.1) {
+			RightWheel.set(ControlMode.PercentOutput, controller.getRawAxis(5));
+		} else {
+			RightWheel.set(ControlMode.PercentOutput, 0.000000); //Dominick did tis sizz
+		}
+		
+		
 	}
 
 	@Override
