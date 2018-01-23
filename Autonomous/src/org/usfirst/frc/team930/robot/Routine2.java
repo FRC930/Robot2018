@@ -1,13 +1,16 @@
 package org.usfirst.frc.team930.robot;
 
-public class Routine2 extends Routine {
+public class Routine2 implements Routine {
 	
 	private static String variation;
-	private static int segment = 1;
+	private int segment = 1;
+	private Segments segList = new Segments();
+	private Actions actList = new Actions();
 	
 	public Routine2(String v) {
 		
-		super(v);
+		variation = v;
+		reset();
 		
 	}
 	
@@ -15,75 +18,117 @@ public class Routine2 extends Routine {
 		
 		switch (variation) {
 			case "LRL":
-				variation1();
+				System.out.println("Running Variation 1");
+				this.variation1();
 				break;
 			case "RLR":
-				variation2();
+				System.out.println("Running Variation 2");
+				this.variation2();
 				break;
 			case "LLL":
-				variation3();
+				System.out.println("Running Variation 3");
+				this.variation3();
 				break;
 			case "RRR":
-				variation4();
+				System.out.println("Running Variation 4");
+				this.variation4();
 				break;
 		}
 		
 	}
 	
-	public static void variation1() {
+	public void variation1() {
 		
-		switch (segment) {
+		switch (this.segment) {
 			case 1:
-				if(Actions.act1())
-					segment = 2;
+				System.out.println("VARIATION 1");
+				if(segList.seg1())	{
+					this.segment = 2;
+					System.out.println("Segment 1 Done");
+				}
 				break;
 			case 2:
-				if(Segments.seg1())
-					segment = 3;
+				if(actList.act1()) {
+					this.segment = 3;
+					System.out.println("Action 1 Done");
+				}
+				break;
+			case 3:
 				break;
 		}
+		
 	}
 	
-	public static void variation2() {
+	public void variation2() {
 		
-		switch (segment) {
+		switch (this.segment) {
 			case 1:
-				if(Actions.act1())
-					segment = 2;
+				System.out.println("VARIATION 1");
+				if(segList.seg1())	{
+					this.segment = 2;
+					System.out.println("Segment 1 Done");
+				}
 				break;
 			case 2:
-				if(Segments.seg1())
-					segment = 3;
+				if(actList.act1()) {
+					this.segment = 3;
+					System.out.println("Action 1 Done");
+				}
+				break;
+			case 3:
 				break;
 		}
+		
 	}
 
-	public static void variation3() {
+	public void variation3() {
 		
-		switch (segment) {
+		switch (this.segment) {
 			case 1:
-				if(Actions.act1())
-					segment = 2;
+				System.out.println("VARIATION 1");
+				if(segList.seg1())	{
+					this.segment = 2;
+					System.out.println("Segment 1 Done");
+				}
 				break;
 			case 2:
-				if(Segments.seg1())
-					segment = 3;
+				if(actList.act1()) {
+					this.segment = 3;
+					System.out.println("Action 1 Done");
+				}
+				break;
+			case 3:
 				break;
 		}
+		
 	}
 
-	public static void variation4() {
+	public void variation4() {
 		
-		switch (segment) {
+		switch (this.segment) {
 			case 1:
-				if(Actions.act1())
-					segment = 2;
+				System.out.println("VARIATION 1");
+				if(segList.seg1())	{
+					this.segment = 2;
+					System.out.println("Segment 1 Done");
+				}
 				break;
 			case 2:
-				if(Segments.seg1())
-					segment = 3;
+				if(actList.act1()) {
+					this.segment = 3;
+					System.out.println("Action 1 Done");
+				}
+				break;
+			case 3:
 				break;
 		}
+		
+	}
+	
+	public void reset() {
+		
+		this.segment = 1;
+		
 	}
 
 }

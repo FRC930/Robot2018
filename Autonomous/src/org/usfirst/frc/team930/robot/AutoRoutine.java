@@ -24,15 +24,8 @@ public class AutoRoutine {
 	
 	public void run() {
 		
-		switch (routineEnum) {
-			case ROUTINE1:
-				System.out.println("Running Routine 1");
-				routine.run();
-				break;
-			case ROUTINE2:
-				routine.run();
-				break;
-		}
+		System.out.println("Running Routine");
+		routine.run();
 		
 	}
 
