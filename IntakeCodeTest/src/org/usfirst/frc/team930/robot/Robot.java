@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team930.robot;
 
+import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -29,10 +30,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 
 	VictorSPX RWheel = new VictorSPX(0);
-	VictorSPX LWheel = new VictorSPX(1);
+	TalonSRX LWheel = new TalonSRX(1);
 
-	Solenoid MainSolenoid = new Solenoid(1);
-
+	Solenoid SolenoidRight = new Solenoid(1);
+	Solenoid SolenoidLeft = new Solenoid(2); 
+	
 	Joystick Controller = new Joystick(0);
 
 	PowerDistributionPanel PDP = new PowerDistributionPanel();
@@ -110,22 +112,24 @@ public class Robot extends TimedRobot {
 		// OnOff for the Victor
 		if (onOffAButton) {
 			RWheel.set(ControlMode.PercentOutput, 1); // running motor
-			// LWheel.set(ControlMode.PercentOutput, -1); // running motor
+			LWheel.set(ControlMode.PercentOutput, -1); // running motor
 			if (PDP.getCurrent(11) > currentThreshhold) {
 				System.out.println("check one sucessfull");
 				Timer.delay(timeDelay);
 				if (PDP.getCurrent(11) > currentThreshhold) {
 					System.out.println("check two sucessfull");
-					// MainSolenoid.set(true);
+					SolenoidRight.set(false);
+					SolenoidLeft.set(false);
 					RWheel.set(ControlMode.PercentOutput, 0);
-					// LWheel.set(ControlMode.PercentOutput,0);
+					LWheel.set(ControlMode.PercentOutput,0);
 
 				}
 			}
 		} else {
-			// MainSolenoid.set(false);
+			SolenoidRight.set(true);
+			SolenoidLeft.set(true);
 			RWheel.set(ControlMode.PercentOutput, 0);
-			// LWheel.set(ControlMode.PercentOutput, 0);
+			LWheel.set(ControlMode.PercentOutput, 0);
 		}
 		/*
 		 * //B Button for Piston if (Controller.getRawButton(2) && (!bPressed))
