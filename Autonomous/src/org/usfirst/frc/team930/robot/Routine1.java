@@ -1,39 +1,10 @@
 package org.usfirst.frc.team930.robot;
 
-public class Routine1 implements Routine {
-	
-	private static String variation;
-	private int segment = 1;
-	private Segments segList = new Segments();
-	private Actions actList = new Actions();
+public class Routine1 extends Routine {
 	
 	public Routine1(String v) {
 		
-		variation = v;
-		reset();
-		
-	}
-	
-	public void run() {
-		
-		switch (variation) {
-			case "LRL":
-				System.out.println("Running Variation 1");
-				this.variation1();
-				break;
-			case "RLR":
-				System.out.println("Running Variation 2");
-				this.variation2();
-				break;
-			case "LLL":
-				System.out.println("Running Variation 3");
-				this.variation3();
-				break;
-			case "RRR":
-				System.out.println("Running Variation 4");
-				this.variation4();
-				break;
-		}
+		super(v);
 		
 	}
 	
@@ -123,12 +94,6 @@ public class Routine1 implements Routine {
 			case 3:
 				break;
 		}
-		
-	}
-	
-	public void reset() {
-		
-		this.segment = 1;
 		
 	}
 
