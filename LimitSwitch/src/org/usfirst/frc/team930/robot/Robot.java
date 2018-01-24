@@ -7,12 +7,10 @@
 
 package org.usfirst.frc.team930.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,12 +20,15 @@ public class Robot extends TimedRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	
-	TalonSRX motor1 = new TalonSRX(0);
+	WPI_TalonSRX motor = new WPI_TalonSRX(0);
 
 	@Override
 	public void robotInit() {
-		SmartDashboard.putNumber("Talon Ouput", motor1.getMotorOutputPercent());
-		SmartDashboard.putBoolean("Update Values", false);
+		m_chooser.addDefault("Default Auto", kDefaultAuto);
+		m_chooser.addObject("My Auto", kCustomAuto);
+		SmartDashboard.putData("Auto choices", m_chooser);
+		
+		motor.enableLimitSwtich(true, true);
 		
 	}
 
@@ -54,30 +55,10 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		//update values using SmartDashboard
-		if(SmartDashboard.getBoolean("Update Values", false))
-		{
-			motor1.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Talon Output", 0));
-			SmartDashboard.putBoolean("Update Values", false);
-			
-			System.out.println("Updated Values");
-		}
-		SmartDashboard.putNumber("Talon Output", motor1.getMotorOutputPercent());
+
 	}
 
-	/**
-	 * This function is called periodically during test mode.
-	 */
 	@Override
 	public void testPeriodic() {
-		//update values using SmartDashboard
-		if(SmartDashboard.getBoolean("Update Values", false))
-		{
-			motor1.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Talon Output", 0));
-			SmartDashboard.putBoolean("Update Values", false);
-			
-			System.out.println("Updated Values");
-		}
-		SmartDashboard.putNumber("Talon Output", motor1.getMotorOutputPercent());
 	}
 }
