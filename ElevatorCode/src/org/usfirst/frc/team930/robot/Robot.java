@@ -3,7 +3,7 @@ package org.usfirst.frc.team930.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+//import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 public class Robot extends TimedRobot {
 	
 	WPI_TalonSRX lift1 = new WPI_TalonSRX(0);
-	VictorSPX lift2 = new VictorSPX(1);
+	//VictorSPX lift2 = new VictorSPX(1);
 	Joystick controller = new Joystick(0);
 	
 	boolean aPressed, onOffA, bPressed, onOffB, test1;
@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
 		bPressed = false;
 		onOffB = false;
 		
-		lift2.set(ControlMode.Follower, 0);
+		//lift2.set(ControlMode.Follower, 0);
 		
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		lift1.setSensorPhase(true);
@@ -146,7 +146,7 @@ public class Robot extends TimedRobot {
 		
 		
 		//left stick -- elevator up and down
-		if(controller.getRawAxis(1) > 0.1 || controller.getRawAxis(1) < -0.1)
+		if(controller.getRawAxis(1) > 0.2 || controller.getRawAxis(1) < -0.2)
 		{
 			lift1.set(ControlMode.PercentOutput, controller.getRawAxis(1));
 		}
