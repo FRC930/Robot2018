@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public class Robot extends TimedRobot {
 	
 	boolean aPressed, onOffA, test1;
+	double targetPos = 0.0;
 	
 	TalonSRX motor1 = new TalonSRX(0);
 	Joystick controller = new Joystick(0);
@@ -39,6 +40,7 @@ public class Robot extends TimedRobot {
 		test1 = SmartDashboard.putNumber("F Value", 0.2);
 		test1 = SmartDashboard.putNumber("Cruise Velocity", 5000);
 		test1 = SmartDashboard.putNumber("Acceleration", 2000);
+		test1 = SmartDashboard.putNumber("Target Position", 0.0);
 		test1 = SmartDashboard.putBoolean("Update Values", false);
 		test1 = SmartDashboard.putNumber("Position", motor1.getSelectedSensorPosition(0));
 		test1 = SmartDashboard.putNumber("Motor Output", motor1.getMotorOutputPercent());
@@ -79,7 +81,8 @@ public class Robot extends TimedRobot {
 			motor1.config_kD(0, SmartDashboard.getNumber("D Value", 0.0), 10);
 			motor1.configMotionCruiseVelocity((int) SmartDashboard.getNumber("Cruise Velocity", 5000), 10);
 			motor1.configMotionAcceleration((int)SmartDashboard.getNumber("Acceleration", 2000), 10);
-			System.out.println("Updated Values");
+			targetPos = SmartDashboard.getNumber("Target Position", 0.0);
+			System.out.println("Values Updated");
 			test1 = SmartDashboard.putBoolean("Update Values", false);
 		}
 		
@@ -98,9 +101,10 @@ public class Robot extends TimedRobot {
 		}
 		
 		if (onOffA) {
-			double targetPos = controller.getRawAxis(1) * 4096 * -10.0; /* 4096 ticks/rev * 10 Rotations in either direction */
+			//targetPos = controller.getRawAxis(1) * 4096 * -10.0; /* 4096 ticks/rev * 10 Rotations in either direction */
 			motor1.set(ControlMode.MotionMagic, targetPos);
 			test1 = SmartDashboard.putNumber("Closed Loop Error",motor1.getClosedLoopError(0));
+			onOffA = false;
 		} else {
 			if (controller.getRawAxis(1) > 0.2 || controller.getRawAxis(1) < -0.2) {
 				motor1.set(ControlMode.PercentOutput, controller.getRawAxis(1));
