@@ -15,6 +15,7 @@ public class Segments {
 					this.path = 2;
 			}*/
 			System.out.println("Running Segment 1 Case 1");
+			System.out.println("Count: " + count);
 
 			Robot.leftMain.set(0);
 			Robot.rightMain.set(0);
@@ -37,7 +38,8 @@ public class Segments {
 				}
 			}*/
 			System.out.println("Running Segment 1 Case 2");
-			
+			System.out.println("Count: " + count);
+
 			Robot.leftMain.set(0);
 			Robot.rightMain.set(0);
 			
