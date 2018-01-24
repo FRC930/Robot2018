@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		
+		/*
 		//a pressed -- elevator up
 		if(controller.getRawButton(1) && (!aPressed))
 		{
@@ -111,7 +111,7 @@ public class Robot extends TimedRobot {
 		} else {
 			lift1.set(ControlMode.PercentOutput, 0);
 		}
-		
+		*/
 		
 		/* a pressed -- elevator up
 		if(controller.getRawButton(1) && (!aPressed))
@@ -143,6 +143,17 @@ public class Robot extends TimedRobot {
 		} else {
 			lift1.set(ControlMode.PercentOutput, 0);
 		}*/
+		
+		
+		//left stick -- elevator up and down
+		if(controller.getRawAxis(1) > 0.1 || controller.getRawAxis(1) < -0.1)
+		{
+			lift1.set(ControlMode.PercentOutput, controller.getRawAxis(1));
+		}
+		else
+		{
+			lift1.set(ControlMode.PercentOutput, 0);
+		}
 	}
 
 
