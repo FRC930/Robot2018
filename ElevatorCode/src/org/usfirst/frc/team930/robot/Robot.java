@@ -8,8 +8,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -20,19 +18,21 @@ public class Robot extends TimedRobot {
 	Joystick controller = new Joystick(0);
 	
 	boolean aPressed, onOffA, bPressed, onOffB, test1;
-	
-	
-	private static final String kDefaultAuto = "Default";
-	private static final String kCustomAuto = "My Auto";
-	private String m_autoSelected;
-	private SendableChooser<String> m_chooser = new SendableChooser<>();
-
+	double targetPosition, fValue, pValue, iValue, dValue;
+	int velocity, acceleration;
 	
 	@Override
-	public void robotInit() {
-		m_chooser.addDefault("Default Auto", kDefaultAuto);
-		m_chooser.addObject("My Auto", kCustomAuto);
-		SmartDashboard.putData("Auto choices", m_chooser);
+	public void robotInit() {		
+		
+		// Set PIDF values, velocity, acceleration, and target position
+		fValue = 0.2;
+		pValue = 0.2;
+		iValue = 0.0;
+		dValue = 0.0;
+		velocity = 6000;
+		acceleration = 15000;
+		targetPosition = 9000.0;
+		// ------------------------------------------------------------
 		
 		
 		aPressed = false;
@@ -54,38 +54,24 @@ public class Robot extends TimedRobot {
 		lift1.configPeakOutputForward(1, 10);
 		lift1.configPeakOutputReverse(-1, 10);
 		
-		// Set PIDF values, velocity, and acceleration
 		lift1.selectProfileSlot(0, 0);
-		lift1.config_kF(0, 0.2, 10);
-		lift1.config_kP(0, 0.2, 10);
-		lift1.config_kI(0, 0, 10);
-		lift1.config_kD(0, 0, 10);
-		lift1.configMotionCruiseVelocity(15000, 10);	//(int sensorUnitsPer100ms, int timeoutMs)
-		lift1.configMotionAcceleration(6000, 10);		//(int sensorUnitsPer100msPerSec, int timeoutMs)
+		lift1.config_kF(0, fValue, 10);
+		lift1.config_kP(0, pValue, 10);
+		lift1.config_kI(0, iValue, 10);
+		lift1.config_kD(0, dValue, 10);
+		lift1.configMotionCruiseVelocity(velocity, 10);
+		lift1.configMotionAcceleration(acceleration, 10);
 		lift1.setSelectedSensorPosition(0, 0, 10);
 	}
 
 	
 	@Override
 	public void autonomousInit() {
-		m_autoSelected = m_chooser.getSelected();
-		// m_autoSelected = SmartDashboard.getString("Auto Selector",
-		// 		kDefaultAuto);
-		System.out.println("Auto selected: " + m_autoSelected);
 	}
 
 	
 	@Override
 	public void autonomousPeriodic() {
-		switch (m_autoSelected) {
-			case kCustomAuto:
-				// Put custom auto code here
-				break;
-			case kDefaultAuto:
-			default:
-				// Put default auto code here
-				break;
-		}
 	}
 
 	
@@ -97,16 +83,14 @@ public class Robot extends TimedRobot {
 		{
 			aPressed = true;
 			onOffA = !onOffA;
-			System.out.println("\nMotion Magic:\n");
 		} else if((!controller.getRawButton(1)) && aPressed) {
 			aPressed = false;
-			//System.out.println("\nPercent Output:\n");
 		}
 		
 		if (onOffA) {
-			double targetPos = 4096.0;
-			//double targetPos = controller.getRawAxis(1) * 4096 * 10.0; /* 4096 ticks/rev * 10 Rotations in either direction */
+			double targetPos = targetPosition;
 			lift1.set(ControlMode.MotionMagic, targetPos);
+			onOffA = false;
 		} else {
 			lift1.set(ControlMode.PercentOutput, 0);
 		}
@@ -116,16 +100,14 @@ public class Robot extends TimedRobot {
 		{
 			bPressed = true;
 			onOffB = !onOffB;
-			System.out.println("\nMotion Magic:\n");
 		} else if((!controller.getRawButton(2)) && bPressed) {
 			bPressed = false;
-			//System.out.println("\nPercent Output:\n");
 		}
 		
 		if (onOffB) {
-			double targetPos = -4096.0;
-			//double targetPos = controller.getRawAxis(1) * 4096 * 10.0; /* 4096 ticks/rev * 10 Rotations in either direction */
+			double targetPos = targetPosition * -1.0;
 			lift1.set(ControlMode.MotionMagic, targetPos);
+			onOffB = false;
 		} else {
 			lift1.set(ControlMode.PercentOutput, 0);
 		}
