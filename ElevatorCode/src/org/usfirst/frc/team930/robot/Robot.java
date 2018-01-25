@@ -23,34 +23,32 @@ public class Robot extends TimedRobot {
 	WPI_TalonSRX leftMain = new WPI_TalonSRX(1);  //These will be the main motor controllers
 	VictorSPX rightFollow = new VictorSPX(2);     //Declarations for victors that are
 	VictorSPX leftFollow = new VictorSPX(3);   //followers to the talons
-	//VictorSPX rightFollow2 = new VictorSPX(4);     //Declarations for victors that are
-	//VictorSPX leftFollow2 = new VictorSPX(5);   //followers to the talons
+	VictorSPX rightFollow2 = new VictorSPX(4);     //Declarations for victors that are
+	VictorSPX leftFollow2 = new VictorSPX(5);   //followers to the talons
 	
 	DifferentialDrive robot = new DifferentialDrive(leftMain, rightMain);  //Declares the driving method control for robot
 	
 	
 	//used for elevator
-	WPI_TalonSRX lift1 = new WPI_TalonSRX(4);
+	WPI_TalonSRX lift1 = new WPI_TalonSRX(6);
 	//VictorSPX lift2 = new VictorSPX(1);
 	
 	
 	//used for intake
-	VictorSPX RWheel = new VictorSPX(5);
-	TalonSRX LWheel = new TalonSRX(6);
+	VictorSPX RWheel = new VictorSPX(7);
+	VictorSPX LWheel = new VictorSPX(8);
 
-	Solenoid SolenoidRight = new Solenoid(1);
-	Solenoid SolenoidLeft = new Solenoid(2); 
+	//Solenoid SolenoidRight = new Solenoid(9);
+	//Solenoid SolenoidLeft = new Solenoid(10); 
 	
-	PowerDistributionPanel PDP = new PowerDistributionPanel();
-
-	boolean onOffAButton;
-	boolean onOffBButton;
+	//PowerDistributionPanel PDP = new PowerDistributionPanel();
 
 	double currentThreshhold;
 	double timeDelay;
 	
 	
 	Joystick controller = new Joystick(0);
+	Joystick controller2 = new Joystick(1);
 	
 	boolean aPressed, onOffA, bPressed, onOffB, test1;
 	double targetPosition, fValue, pValue, iValue, dValue;
@@ -77,7 +75,7 @@ public class Robot extends TimedRobot {
 		onOffB = false;
 		
 		//lift2.set(ControlMode.Follower, 0);
-		
+		/*
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		lift1.setSensorPhase(true);
 		lift1.setInverted(false);
@@ -98,19 +96,14 @@ public class Robot extends TimedRobot {
 		lift1.configMotionCruiseVelocity(velocity, 10);
 		lift1.configMotionAcceleration(acceleration, 10);
 		lift1.setSelectedSensorPosition(0, 0, 10);
-		
+		*/
 		
 		//used for driving
 		rightFollow.follow(rightMain);   //Sets the victors to follow their 
 		leftFollow.follow(leftMain);   //respective talons
-		//rightFollow2.follow(rightMain);   //Sets the victors to follow their 
-		//leftFollow2.follow(leftMain);   //respective talons
+		rightFollow2.follow(rightMain);   //Sets the victors to follow their 
+		leftFollow2.follow(leftMain);   //respective talons
 		robot.setQuickStopThreshold(0.1);
-		
-		
-		//used for intake
-		onOffAButton = false;
-		onOffBButton = false;
 
 		currentThreshhold = 26.5;
 		timeDelay = 1.0;
@@ -129,7 +122,7 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		boolean check;  //Value to do the quick turn or not 
+		//boolean check;  //Value to do the quick turn or not 
 		
 		double rightXStick = controller.getRawAxis(4); //Right joystick X axis
 		double leftYStick = controller.getRawAxis(1); //Left joystick Y axis
@@ -137,53 +130,49 @@ public class Robot extends TimedRobot {
 		robot.setDeadband(0.1);  //Sets the deadband for the controller values
 		
 		
-		//right stick Y axis -- elevator up and down
-		if(controller.getRawAxis(5) > 0.2 || controller.getRawAxis(5) < -0.2)
+		//left stick Y axis controller 2 -- elevator up and down
+		if(controller2.getRawAxis(1) > 0.2 || controller2.getRawAxis(1) < -0.2)
 		{
-			lift1.set(ControlMode.PercentOutput, controller.getRawAxis(5));
+			lift1.set(ControlMode.PercentOutput, -0.3 * (controller2.getRawAxis(1)));
 		}
 		else
 		{
 			lift1.set(ControlMode.PercentOutput, 0);
 		}
 				
-				
+		/*		
 		if(controller.getRawAxis(1) < 0.02)
 			check = true;
 		else                      //Tells the robot when to do a quick turn
-			check = false;
+			check = false;*/
 				
 		//robot.curvatureDrive(leftYStick, rightXStick, false);  //sends the values to the drivetrain
 		robot.arcadeDrive(leftYStick, -rightXStick);
 		
-		
-		// A Button for Victor
-		if (controller.getRawButton(1) && (!aPressed)) { // motor switch
-			aPressed = true;
-			onOffAButton = !onOffAButton;
-		} else if (!controller.getRawButton(1) && aPressed) {
-			aPressed = false;
-		}
 
-		// OnOff for the Victor
-		if (onOffAButton) {
-			RWheel.set(ControlMode.PercentOutput, 1); // running motor
-			LWheel.set(ControlMode.PercentOutput, -1); // running motor
-			if (PDP.getCurrent(11) > currentThreshhold) {
+		// Y Button -- reverse the intake
+		if (controller2.getRawButton(4)) {
+			RWheel.set(ControlMode.PercentOutput, 0.75); // running motor
+			LWheel.set(ControlMode.PercentOutput, -0.75); // running motor
+			/*if (PDP.getCurrent(11) > currentThreshhold) {
 				System.out.println("check one sucessfull");
 				Timer.delay(timeDelay);
 				if (PDP.getCurrent(11) > currentThreshhold) {
 					System.out.println("check two sucessfull");
-					SolenoidRight.set(false);
-					SolenoidLeft.set(false);
+					//SolenoidRight.set(false);
+					//SolenoidLeft.set(false);
 					RWheel.set(ControlMode.PercentOutput, 0);
 					LWheel.set(ControlMode.PercentOutput,0);
 
 				}
-			}
+			}*/
+		//A button -- intake
+		} else if(controller2.getRawButton(1)) {
+			RWheel.set(ControlMode.PercentOutput, -0.75); // running motor
+			LWheel.set(ControlMode.PercentOutput, 0.75); // running motor
 		} else {
-			SolenoidRight.set(true);
-			SolenoidLeft.set(true);
+			//SolenoidRight.set(true);
+			//SolenoidLeft.set(true);
 			RWheel.set(ControlMode.PercentOutput, 0);
 			LWheel.set(ControlMode.PercentOutput, 0);
 		}

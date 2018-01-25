@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
+	
 	TalonSRX motor1 = new TalonSRX(0);
 
 	@Override
@@ -24,6 +25,10 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Talon Output", motor1.getMotorOutputPercent());
 		SmartDashboard.putBoolean("Update Values", false);
 		
+		//used in case motor's value can't be updated to zero
+		SmartDashboard.putBoolean("Emergency Stop", false);
+		
+		//motor explicitly added to test mode display
 		LiveWindow.add((Sendable)motor1);
 		((Sendable) motor1).setName("Subsystem", "Talon");
 	}
@@ -47,6 +52,15 @@ public class Robot extends TimedRobot {
 			System.out.println("Updated Values");
 		}
 		SmartDashboard.putNumber("Talon Output", motor1.getMotorOutputPercent());
+		
+		//used to stop motor if update values doesn't work
+		if(SmartDashboard.getBoolean("Emergency Stop", false))
+		{
+			motor1.set(ControlMode.PercentOutput, 0);
+			SmartDashboard.putBoolean("Emergency Stop", false);
+			
+			System.out.println("Motor stopped");
+		}
 	}
 
 	/**
@@ -54,6 +68,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		System.out.println("Test mode");
+		
 		//update values using SmartDashboard
 		if(SmartDashboard.getBoolean("Update Values", false))
 		{
@@ -63,5 +79,14 @@ public class Robot extends TimedRobot {
 			System.out.println("Updated Values");
 		}
 		SmartDashboard.putNumber("Talon Output", motor1.getMotorOutputPercent());
+		
+		//used to stop motor if update values doesn't work
+		if(SmartDashboard.getBoolean("Emergency Stop", false))
+		{
+			motor1.set(ControlMode.PercentOutput, 0);
+			SmartDashboard.putBoolean("Emergency Stop", false);
+			
+			System.out.println("Motor stopped");
+		}
 	}
 }
