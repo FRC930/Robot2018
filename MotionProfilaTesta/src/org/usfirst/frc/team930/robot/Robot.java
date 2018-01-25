@@ -43,6 +43,11 @@ public class Robot extends TimedRobot {
 	
 	TrajectoryPoint point = new TrajectoryPoint();
 
+	int totalCnt = PointsArrayHolder.kNumPoints;
+	
+	
+	
+	double [][]pointArray = PointsArrayHolder.Points;
 	
 	@Override
 	public void robotInit() {
@@ -54,7 +59,7 @@ public class Robot extends TimedRobot {
 		//rightFollow2.follow(rightMain);   //Sets the victors to follow their 
 		//leftFollow2.follow(leftMain);   //respective talons
 		rightMain.set(ControlMode.MotionProfile, 0);
-		rightMain.configMotionProfileTrajectoryPeriod(10);
+		rightMain.configMotionProfileTrajectoryPeriod(10, 0);
 
 		
 	}
@@ -70,16 +75,17 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
-for (int i = 0; i < totalCnt; ++i) {
-			
-		rightMain.processMotionProfileBuffer();
-		leftMain.processMotionProfileBuffer();
-		point.position = pointArray[i][0];
-		point.velocity = pointArray[i][1];
-		point.profileSlotSelect = 0; /* which set of gains would you like to use? */
-}
+	for (int i = 0; i < totalCnt; ++i) {
+				
+			rightMain.processMotionProfileBuffer();
+			leftMain.processMotionProfileBuffer();
+			point.position = pointArray[i][0];
+			point.velocity = pointArray[i][1];
+			point.profileSlotSelect0 = 0; /* which set of gains would you like to use? */
+	}
 		System.out.println("CONTROL MODE: " + rightMain.getControlMode());
 		rightMain.pushMotionProfileTrajectory(point);
+		System.out.println("Downloaded POints!!!!");
 	}
 
 	
