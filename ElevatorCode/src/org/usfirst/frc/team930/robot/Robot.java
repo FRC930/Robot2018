@@ -3,18 +3,56 @@ package org.usfirst.frc.team930.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 //import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 
 
 public class Robot extends TimedRobot {
+	//used for driving
+	WPI_TalonSRX rightMain = new WPI_TalonSRX(0);  //Declarations for talons
+	WPI_TalonSRX leftMain = new WPI_TalonSRX(1);  //These will be the main motor controllers
+	VictorSPX rightFollow = new VictorSPX(2);     //Declarations for victors that are
+	VictorSPX leftFollow = new VictorSPX(3);   //followers to the talons
+	//VictorSPX rightFollow2 = new VictorSPX(4);     //Declarations for victors that are
+	//VictorSPX leftFollow2 = new VictorSPX(5);   //followers to the talons
 	
-	WPI_TalonSRX lift1 = new WPI_TalonSRX(0);
+	DifferentialDrive robot = new DifferentialDrive(leftMain, rightMain);  //Declares the driving method control for robot
+	
+	AHRS gryo;
+	
+	
+	//used for elevator
+	WPI_TalonSRX lift1 = new WPI_TalonSRX(6);
 	//VictorSPX lift2 = new VictorSPX(1);
+	
+	
+	//used for intake
+	VictorSPX RWheel = new VictorSPX(0);
+	TalonSRX LWheel = new TalonSRX(1);
+
+	Solenoid SolenoidRight = new Solenoid(1);
+	Solenoid SolenoidLeft = new Solenoid(2); 
+	
+	PowerDistributionPanel PDP = new PowerDistributionPanel();
+
+	boolean onOffAButton;
+	boolean onOffBButton;
+
+	double currentThreshhold;
+	double timeDelay;
+	
+	
 	Joystick controller = new Joystick(0);
 	
 	boolean aPressed, onOffA, bPressed, onOffB, test1;
@@ -24,6 +62,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {		
 		
+		//used for elevator
 		// Set PIDF values, velocity, acceleration, and target position
 		fValue = 0.2;
 		pValue = 0.2;
@@ -62,6 +101,22 @@ public class Robot extends TimedRobot {
 		lift1.configMotionCruiseVelocity(velocity, 10);
 		lift1.configMotionAcceleration(acceleration, 10);
 		lift1.setSelectedSensorPosition(0, 0, 10);
+		
+		
+		//used for driving
+		rightFollow.follow(rightMain);   //Sets the victors to follow their 
+		leftFollow.follow(leftMain);   //respective talons
+		//rightFollow2.follow(rightMain);   //Sets the victors to follow their 
+		//leftFollow2.follow(leftMain);   //respective talons
+		robot.setQuickStopThreshold(0.1);
+		
+		
+		//used for intake
+		onOffAButton = false;
+		onOffBButton = false;
+
+		currentThreshhold = 26.5;
+		timeDelay = 1.0;
 	}
 
 	
@@ -77,6 +132,67 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
+		boolean check;  //Value to do the quick turn or not 
+		
+		double rightXStick = controller.getRawAxis(4); //Right joystick X axis
+		double leftYStick = controller.getRawAxis(1); //Left joystick Y axis
+		
+		robot.setDeadband(0.1);  //Sets the deadband for the controller values
+		
+		
+		//right stick X axis -- elevator up and down
+		if(controller.getRawAxis(5) > 0.2 || controller.getRawAxis(5) < -0.2)
+		{
+			lift1.set(ControlMode.PercentOutput, controller.getRawAxis(5));
+		}
+		else
+		{
+			lift1.set(ControlMode.PercentOutput, 0);
+		}
+				
+				
+		if(controller.getRawAxis(1) < 0.02)
+			check = true;
+		else                      //Tells the robot when to do a quick turn
+			check = false;
+				
+		//robot.curvatureDrive(leftYStick, rightXStick, false);  //sends the values to the drivetrain
+		robot.arcadeDrive(leftYStick, -rightXStick);
+		
+		
+		// A Button for Victor
+		if (controller.getRawButton(1) && (!aPressed)) { // motor switch
+			aPressed = true;
+			onOffAButton = !onOffAButton;
+		} else if (!controller.getRawButton(1) && aPressed) {
+			aPressed = false;
+		}
+
+		// OnOff for the Victor
+		if (onOffAButton) {
+			RWheel.set(ControlMode.PercentOutput, 1); // running motor
+			LWheel.set(ControlMode.PercentOutput, -1); // running motor
+			if (PDP.getCurrent(11) > currentThreshhold) {
+				System.out.println("check one sucessfull");
+				Timer.delay(timeDelay);
+				if (PDP.getCurrent(11) > currentThreshhold) {
+					System.out.println("check two sucessfull");
+					SolenoidRight.set(false);
+					SolenoidLeft.set(false);
+					RWheel.set(ControlMode.PercentOutput, 0);
+					LWheel.set(ControlMode.PercentOutput,0);
+
+				}
+			}
+		} else {
+			SolenoidRight.set(true);
+			SolenoidLeft.set(true);
+			RWheel.set(ControlMode.PercentOutput, 0);
+			LWheel.set(ControlMode.PercentOutput, 0);
+		}
+		
+		
+				
 		/*
 		//a pressed -- elevator up
 		if(controller.getRawButton(1) && (!aPressed))
@@ -143,17 +259,6 @@ public class Robot extends TimedRobot {
 		} else {
 			lift1.set(ControlMode.PercentOutput, 0);
 		}*/
-		
-		
-		//left stick -- elevator up and down
-		if(controller.getRawAxis(1) > 0.2 || controller.getRawAxis(1) < -0.2)
-		{
-			lift1.set(ControlMode.PercentOutput, controller.getRawAxis(1));
-		}
-		else
-		{
-			lift1.set(ControlMode.PercentOutput, 0);
-		}
 	}
 
 

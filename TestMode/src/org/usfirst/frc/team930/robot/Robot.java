@@ -17,39 +17,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
-	private static final String kDefaultAuto = "Default";
-	private static final String kCustomAuto = "My Auto";
-	private String m_autoSelected;
-	private SendableChooser<String> m_chooser = new SendableChooser<>();
-	
 	TalonSRX motor1 = new TalonSRX(0);
 
 	@Override
 	public void robotInit() {
-		SmartDashboard.putNumber("Talon Ouput", motor1.getMotorOutputPercent());
+		SmartDashboard.putNumber("Talon Output", motor1.getMotorOutputPercent());
 		SmartDashboard.putBoolean("Update Values", false);
 		
+		LiveWindow.add((Sendable)motor1);
+		((Sendable) motor1).setName("Subsystem", "Talon");
 	}
 
 	@Override
 	public void autonomousInit() {
-		m_autoSelected = m_chooser.getSelected();
-		// m_autoSelected = SmartDashboard.getString("Auto Selector",
-		// 		kDefaultAuto);
-		System.out.println("Auto selected: " + m_autoSelected);
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		switch (m_autoSelected) {
-			case kCustomAuto:
-				// Put custom auto code here
-				break;
-			case kDefaultAuto:
-			default:
-				// Put default auto code here
-				break;
-		}
 	}
 
 	@Override
