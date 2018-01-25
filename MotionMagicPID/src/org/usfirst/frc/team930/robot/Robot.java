@@ -101,7 +101,6 @@ public class Robot extends TimedRobot {
 		}
 		
 		if (onOffA) {
-			//targetPos = controller.getRawAxis(1) * 4096 * -10.0; /* 4096 ticks/rev * 10 Rotations in either direction */
 			motor1.set(ControlMode.MotionMagic, targetPos);
 			test1 = SmartDashboard.putNumber("Closed Loop Error",motor1.getClosedLoopError(0));
 			onOffA = false;

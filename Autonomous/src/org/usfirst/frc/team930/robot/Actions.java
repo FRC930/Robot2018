@@ -15,6 +15,7 @@ public class Actions {
 					this.path = 2;
 			}*/
 			System.out.println("Running Action 1 Case 1");
+			System.out.println("Count: " + count);
 
 			Robot.leftMain.set(0);
 			Robot.rightMain.set(0);
@@ -37,6 +38,7 @@ public class Actions {
 				}
 			}*/
 			System.out.println("Running Action 1 Case 2");
+			System.out.println("Count: " + count);
 
 			Robot.leftMain.set(0);
 			Robot.rightMain.set(0);
