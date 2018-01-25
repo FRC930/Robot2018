@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 //import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -29,17 +28,15 @@ public class Robot extends TimedRobot {
 	
 	DifferentialDrive robot = new DifferentialDrive(leftMain, rightMain);  //Declares the driving method control for robot
 	
-	AHRS gryo;
-	
 	
 	//used for elevator
-	WPI_TalonSRX lift1 = new WPI_TalonSRX(6);
+	WPI_TalonSRX lift1 = new WPI_TalonSRX(4);
 	//VictorSPX lift2 = new VictorSPX(1);
 	
 	
 	//used for intake
-	VictorSPX RWheel = new VictorSPX(0);
-	TalonSRX LWheel = new TalonSRX(1);
+	VictorSPX RWheel = new VictorSPX(5);
+	TalonSRX LWheel = new TalonSRX(6);
 
 	Solenoid SolenoidRight = new Solenoid(1);
 	Solenoid SolenoidLeft = new Solenoid(2); 
@@ -140,7 +137,7 @@ public class Robot extends TimedRobot {
 		robot.setDeadband(0.1);  //Sets the deadband for the controller values
 		
 		
-		//right stick X axis -- elevator up and down
+		//right stick Y axis -- elevator up and down
 		if(controller.getRawAxis(5) > 0.2 || controller.getRawAxis(5) < -0.2)
 		{
 			lift1.set(ControlMode.PercentOutput, controller.getRawAxis(5));
