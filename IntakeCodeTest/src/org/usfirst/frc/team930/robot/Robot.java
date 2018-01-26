@@ -29,23 +29,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
 
-	VictorSPX RWheel = new VictorSPX(0);
-	TalonSRX LWheel = new TalonSRX(1);
-
-	Solenoid SolenoidRight = new Solenoid(1);
-	Solenoid SolenoidLeft = new Solenoid(2); 
-	
-	Joystick Controller = new Joystick(0);
-
+	//-- Intake Object Declarations and Instantiations--\\
+	VictorSPX rightIntakeWheel = new VictorSPX(7);
+	VictorSPX leftIntakeWheel = new VictorSPX(8);
+	Solenoid rightSolenoid = new Solenoid(9);
+	Solenoid leftSolenoid = new Solenoid(10); 
+	Joystick controller = new Joystick(0);
 	PowerDistributionPanel PDP = new PowerDistributionPanel();
-
-	boolean bPressed;
-	boolean aPressed;
-	boolean onOffAButton;
-	boolean onOffBButton;
-
-	double currentThreshhold;
-	double timeDelay;
+	
+	//-- Intake Variable Declarations --\\
+	double currentThreshhold,	//Threshhold for the current of channel 11 (in AMPs).
+	timeDelay, 					//Delay time to check the PDP AMP rate and for out take.
+	intakeMotorSpeed;			//Speed of intake motors.
+	boolean holdingCube;		//Check for cube.
+	
 
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
@@ -61,14 +58,12 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
-
-		aPressed = false;
-		bPressed = false;
-		onOffAButton = false;
-		onOffBButton = false;
-
+		
+		//-- Intake Variable Initializations --\\
+		holdingCube = false;
 		currentThreshhold = 26.5;
-		timeDelay = 1.0;
+		timeDelay = 0.5;
+		intakeMotorSpeed = 0.75;
 	}
 
 	@Override
@@ -100,45 +95,34 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-
-		// A Button for Victor
-		if (Controller.getRawButton(1) && (!aPressed)) { // motor switch
-			aPressed = true;
-			onOffAButton = !onOffAButton;
-		} else if (!Controller.getRawButton(1) && aPressed) {
-			aPressed = false;
-		}
-
-		// OnOff for the Victor
-		if (onOffAButton) {
-			RWheel.set(ControlMode.PercentOutput, 1); // running motor
-			LWheel.set(ControlMode.PercentOutput, -1); // running motor
-			if (PDP.getCurrent(11) > currentThreshhold) {
-				System.out.println("check one sucessfull");
-				Timer.delay(timeDelay);
-				if (PDP.getCurrent(11) > currentThreshhold) {
-					System.out.println("check two sucessfull");
-					SolenoidRight.set(false);
-					SolenoidLeft.set(false);
-					RWheel.set(ControlMode.PercentOutput, 0);
-					LWheel.set(ControlMode.PercentOutput,0);
-
+		
+		//-- Intake Code Block --\\
+		if(controller.getRawButton(1)) {												//If the A button is down.
+			if (holdingCube == false) {													//If we're not holding a cube.
+				rightIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed); 	//Turn right motor backwards.
+				leftIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 		//Turn left motor forwards.
+				if(PDP.getCurrent(11) > currentThreshhold) {							//If the PDP current on channel 11 is over currentThreshhold of amps.
+					Timer.delay(timeDelay);												//Wait
+					if(PDP.getCurrent(11) > currentThreshhold) {						//If the PDP current on channel 11 is STILL over currentThreshhold of amps.
+						holdingCube = true;												//Holding cube is true.	
+						rightIntakeWheel.set(ControlMode.PercentOutput, 0);				//Stop motors
+						leftIntakeWheel.set(ControlMode.PercentOutput, 0);
+						rightSolenoid.set(false);										//Close pistons.
+						leftSolenoid.set(false);
+					}
 				}
+			} else {																	//Else if holding cube.
+				rightIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 		//Turn right motor forwards.
+				leftIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed);		//Turn left motor backwards.
+				rightSolenoid.set(true);												//Open pistons.
+				leftSolenoid.set(true);
+				Timer.delay(timeDelay);													//Wait for cube to leave.
+				holdingCube = false;													//No longer holding cube.
 			}
-		} else {
-			SolenoidRight.set(true);
-			SolenoidLeft.set(true);
-			RWheel.set(ControlMode.PercentOutput, 0);
-			LWheel.set(ControlMode.PercentOutput, 0);
+		} else {																		//If A button is not down.
+			rightIntakeWheel.set(ControlMode.PercentOutput, 0);							//Stop motors
+			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
 		}
-		/*
-		 * //B Button for Piston if (Controller.getRawButton(2) && (!bPressed))
-		 * { bPressed = true; onOffBButton = !onOffBButton; } else if
-		 * (!Controller.getRawButton(2) && bPressed) { bPressed = false; }
-		 * //OnOff for the Piston if (onOffBButton) { OneLiftyBoi.set(true); }
-		 * else { OneLiftyBoi.set(false); }
-		 */
-
 	}
 
 	/**
