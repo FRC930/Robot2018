@@ -3,6 +3,8 @@ package org.usfirst.frc.team930.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
+
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -12,6 +14,7 @@ public class Robot extends TimedRobot {
 	
 	boolean aPressed, onOffA, test1;
 	double targetPos = 0.0;
+	ErrorCode test2;
 	
 	TalonSRX motor1 = new TalonSRX(0);
 	Joystick controller = new Joystick(0);
@@ -22,12 +25,12 @@ public class Robot extends TimedRobot {
 		aPressed = false;
 		onOffA = false;
 		
-		motor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+		test2 = motor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		motor1.setSensorPhase(true);
 		motor1.setInverted(false);
 		
-		motor1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 10);
-		motor1.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 10);
+		test2 = motor1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 10);
+		test2 = motor1.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 10);
 		
 		motor1.configNominalOutputForward(0, 10);
 		motor1.configNominalOutputReverse(0, 10);
@@ -49,13 +52,13 @@ public class Robot extends TimedRobot {
 		
 		motor1.selectProfileSlot(0, 0);
 		// Initialize PIDF values, velocity, and acceleration
-		motor1.config_kF(0, 0.2, 10);
-		motor1.config_kP(0, 0.2, 10);
-		motor1.config_kI(0, 0, 10);
-		motor1.config_kD(0, 0, 10);
-		motor1.configMotionCruiseVelocity(5000, 10);	//(int sensorUnitsPer100ms, int timeoutMs)
-		motor1.configMotionAcceleration(2000, 10);		//(int sensorUnitsPer100msPerSec, int timeoutMs)
-		motor1.setSelectedSensorPosition(0, 0, 10);
+		test2 = motor1.config_kF(0, 0.2, 10);
+		test2 = motor1.config_kP(0, 0.2, 10);
+		test2 = motor1.config_kI(0, 0, 10);
+		test2 = motor1.config_kD(0, 0, 10);
+		test2 = motor1.configMotionCruiseVelocity(5000, 10);	//(int sensorUnitsPer100ms, int timeoutMs)
+		test2 = motor1.configMotionAcceleration(2000, 10);		//(int sensorUnitsPer100msPerSec, int timeoutMs)
+		test2 = motor1.setSelectedSensorPosition(0, 0, 10);
 	}
 
 	
@@ -75,12 +78,12 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		
 		if(SmartDashboard.getBoolean("Update Values",false)) {
-			motor1.config_kF(0, SmartDashboard.getNumber("F Value", 0.2), 10);
-			motor1.config_kP(0, SmartDashboard.getNumber("P Value", 0.2), 10);
-			motor1.config_kI(0, SmartDashboard.getNumber("I Value", 0.0), 10);
-			motor1.config_kD(0, SmartDashboard.getNumber("D Value", 0.0), 10);
-			motor1.configMotionCruiseVelocity((int) SmartDashboard.getNumber("Cruise Velocity", 5000), 10);
-			motor1.configMotionAcceleration((int)SmartDashboard.getNumber("Acceleration", 2000), 10);
+			test2 = motor1.config_kF(0, SmartDashboard.getNumber("F Value", 0.2), 10);
+			test2 = motor1.config_kP(0, SmartDashboard.getNumber("P Value", 0.2), 10);
+			test2 = motor1.config_kI(0, SmartDashboard.getNumber("I Value", 0.0), 10);
+			test2 = motor1.config_kD(0, SmartDashboard.getNumber("D Value", 0.0), 10);
+			test2 = motor1.configMotionCruiseVelocity((int) SmartDashboard.getNumber("Cruise Velocity", 5000), 10);
+			test2 = motor1.configMotionAcceleration((int)SmartDashboard.getNumber("Acceleration", 2000), 10);
 			targetPos = SmartDashboard.getNumber("Target Position", 0.0);
 			System.out.println("Values Updated");
 			test1 = SmartDashboard.putBoolean("Update Values", false);
