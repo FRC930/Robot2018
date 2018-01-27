@@ -5,14 +5,12 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-//import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 
@@ -59,47 +57,43 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void robotInit() {		
+		// Motion Magic Initialization
+		/* first choose the sensor */
+		lift1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants1.kPIDLoopIdx, Constants1.kTimeoutMs);
+		lift1.setSensorPhase(false);
+		lift1.setInverted(false);
+
+		/* Set relevant frame periods to be at least as fast as periodic rate */
+		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants1.kTimeoutMs);
+		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants1.kTimeoutMs);
+
+		/* set the peak and nominal outputs */
+		lift1.configNominalOutputForward(0, Constants1.kTimeoutMs);
+		lift1.configNominalOutputReverse(0, Constants1.kTimeoutMs);
+		lift1.configPeakOutputForward(1, Constants1.kTimeoutMs);
+		lift1.configPeakOutputReverse(-1, Constants1.kTimeoutMs);
 		
-		//-- Variable initializations used for elevator --\\
-		// Set PIDF values, velocity, acceleration, and target position
-		fValue = 0.2;
-		pValue = 0.2;
-		iValue = 0.0;
-		dValue = 0.0;
-		velocity = 6000;
-		acceleration = 15000;
-		targetPosition = 9000.0;
-		// ------------------------------------------------------------
+		lift1.configForwardSoftLimitThreshold(7000, Constants1.kTimeoutMs);
+		lift1.configReverseSoftLimitThreshold(0, Constants1.kTimeoutMs);
+
+		/* set closed loop gains in slot0 - see documentation */
+		lift1.selectProfileSlot(Constants1.kSlotIdx, Constants1.kPIDLoopIdx);
+		lift1.config_kF(0, 1.55, Constants1.kTimeoutMs);
+		lift1.config_kP(0, 0.505, Constants1.kTimeoutMs);
+		lift1.config_kI(0, 0.002, Constants1.kTimeoutMs);
+		lift1.config_kD(0, 10, Constants1.kTimeoutMs);
+		/* set acceleration and vcruise velocity - see documentation */
+		lift1.configMotionCruiseVelocity(680, Constants1.kTimeoutMs);
+		lift1.configMotionAcceleration(680, Constants1.kTimeoutMs);
+		/* zero the sensor */
+		lift1.setSelectedSensorPosition(0, Constants1.kPIDLoopIdx, Constants1.kTimeoutMs);
 		
+		//-------------------------------
 		
 		aPressed = false;
 		onOffA = false;
 		bPressed = false;
 		onOffB = false;
-		
-		//lift2.set(ControlMode.Follower, 0);
-		/*
-		lift1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-		lift1.setSensorPhase(true);
-		lift1.setInverted(false);
-		
-		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 10);
-		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 10);
-		
-		lift1.configNominalOutputForward(0, 10);
-		lift1.configNominalOutputReverse(0, 10);
-		lift1.configPeakOutputForward(1, 10);
-		lift1.configPeakOutputReverse(-1, 10);
-		
-		lift1.selectProfileSlot(0, 0);
-		lift1.config_kF(0, fValue, 10);
-		lift1.config_kP(0, pValue, 10);
-		lift1.config_kI(0, iValue, 10);
-		lift1.config_kD(0, dValue, 10);
-		lift1.configMotionCruiseVelocity(velocity, 10);
-		lift1.configMotionAcceleration(acceleration, 10);
-		lift1.setSelectedSensorPosition(0, 0, 10);
-		*/
 		
 		//-- Used for driving --\\
 		rightFollow.follow(rightMain);   //Sets the victors to follow their 
@@ -136,15 +130,6 @@ public class Robot extends TimedRobot {
 		
 		robot.setDeadband(0.1);  //Sets the deadband for the controller values
 		
-		
-		//-- Basic Elevator Code for Testing --\\
-		//left stick Y axis controller 2 -- elevator up and down at 30 percent speed
-		if(controller2.getRawAxis(1) > 0.2 || controller2.getRawAxis(1) < -0.2) {
-			lift1.set(ControlMode.PercentOutput, -0.3 * (controller2.getRawAxis(1)));
-		}
-		else {
-			lift1.set(ControlMode.PercentOutput, 0);
-		}
 				
 		/*		
 		if(controller.getRawAxis(1) < 0.02)
@@ -204,41 +189,6 @@ public class Robot extends TimedRobot {
 		
 		
 				
-		/*
-		//a pressed -- elevator up
-		if(controller.getRawButton(1) && (!aPressed))
-		{
-			aPressed = true;
-			onOffA = !onOffA;
-		} else if((!controller.getRawButton(1)) && aPressed) {
-			aPressed = false;
-		}
-		
-		if (onOffA) {
-			double targetPos = targetPosition;
-			lift1.set(ControlMode.MotionMagic, targetPos);
-			onOffA = false;
-		} else {
-			lift1.set(ControlMode.PercentOutput, 0);
-		}
-		
-		//b pressed -- elevator down
-		if(controller.getRawButton(2) && (!bPressed))
-		{
-			bPressed = true;
-			onOffB = !onOffB;
-		} else if((!controller.getRawButton(2)) && bPressed) {
-			bPressed = false;
-		}
-		
-		if (onOffB) {
-			double targetPos = targetPosition * -1.0;
-			lift1.set(ControlMode.MotionMagic, targetPos);
-			onOffB = false;
-		} else {
-			lift1.set(ControlMode.PercentOutput, 0);
-		}
-		*/
 		
 		/* a pressed -- elevator up
 		if(controller.getRawButton(1) && (!aPressed))
@@ -270,9 +220,29 @@ public class Robot extends TimedRobot {
 		} else {
 			lift1.set(ControlMode.PercentOutput, 0);
 		}*/
+		
+		
+		if (controller2.getRawButton(6)) {
+			/* Motion Magic - 4096 ticks/rev * 10 Rotations in either direction */
+			lift1.set(ControlMode.MotionMagic, 7000);
+		} else if (controller2.getRawButton(5)) {
+			lift1.set(ControlMode.MotionMagic, 10);
+		} else {
+			if(controller2.getRawAxis(1) > 0.2 || controller2.getRawAxis(1) < -0.2) {
+				lift1.set(ControlMode.PercentOutput, -0.3 * (controller2.getRawAxis(1)));
+			}
+			else {
+				lift1.set(ControlMode.PercentOutput, 0);
+			}
+		}
 	}
 
-
+	public class Constants1 {
+		public static final int kSlotIdx = 0;
+		public static final int kPIDLoopIdx = 0;
+		public static final int kTimeoutMs = 10;
+	}
+	
 	@Override
 	public void testPeriodic() {
 	}
