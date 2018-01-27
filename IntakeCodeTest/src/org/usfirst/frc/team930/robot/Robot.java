@@ -32,8 +32,8 @@ public class Robot extends TimedRobot {
 	//-- Intake Object Declarations and Instantiations--\\
 	VictorSPX rightIntakeWheel = new VictorSPX(7);
 	VictorSPX leftIntakeWheel = new VictorSPX(8);
-	Solenoid rightSolenoid = new Solenoid(9);
-	Solenoid leftSolenoid = new Solenoid(10); 
+	//Solenoid rightSolenoid = new Solenoid(9);
+	//Solenoid leftSolenoid = new Solenoid(10); 
 	Joystick controller = new Joystick(0);
 	PowerDistributionPanel PDP = new PowerDistributionPanel();
 	
@@ -42,7 +42,6 @@ public class Robot extends TimedRobot {
 	timeDelay, 					//Delay time to check the PDP AMP rate and for out take.
 	intakeMotorSpeed;			//Speed of intake motors.
 	boolean holdingCube;		//Check for cube.
-	
 
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
@@ -61,7 +60,7 @@ public class Robot extends TimedRobot {
 		
 		//-- Intake Variable Initializations --\\
 		holdingCube = false;
-		currentThreshhold = 26.5;
+		currentThreshhold = 20;
 		timeDelay = 0.5;
 		intakeMotorSpeed = 0.75;
 	}
@@ -97,8 +96,12 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		
 		//-- Intake Code Block --\\
-		if(controller.getRawButton(1)) {												//If the A button is down.
-			if (holdingCube == false) {													//If we're not holding a cube.
+		System.out.println(PDP.getCurrent(11));
+		SmartDashboard.putNumber("PDP Channel 11", PDP.getCurrent(11));
+		SmartDashboard.putData("PDP Channel 11 Graph", PDP);
+		
+		if(controller.getRawButton(6)) {	//If the Right Shoulder Button is down.
+			if (!holdingCube) {															//If we're not holding a cube.
 				rightIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed); 	//Turn right motor backwards.
 				leftIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 		//Turn left motor forwards.
 				if(PDP.getCurrent(11) > currentThreshhold) {							//If the PDP current on channel 11 is over currentThreshhold of amps.
@@ -107,21 +110,24 @@ public class Robot extends TimedRobot {
 						holdingCube = true;												//Holding cube is true.	
 						rightIntakeWheel.set(ControlMode.PercentOutput, 0);				//Stop motors
 						leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-						rightSolenoid.set(false);										//Close pistons.
-						leftSolenoid.set(false);
+						//rightSolenoid.set(false);										//Close pistons.
+						//leftSolenoid.set(false);
 					}
 				}
-			} else {																	//Else if holding cube.
-				rightIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 		//Turn right motor forwards.
-				leftIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed);		//Turn left motor backwards.
-				rightSolenoid.set(true);												//Open pistons.
-				leftSolenoid.set(true);
-				Timer.delay(timeDelay);													//Wait for cube to leave.
-				holdingCube = false;													//No longer holding cube.
 			}
 		} else {																		//If A button is not down.
 			rightIntakeWheel.set(ControlMode.PercentOutput, 0);							//Stop motors
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
+		}
+		
+		if (controller.getRawButton(5) && holdingCube) {								//If Left Shoulder Button is down and we have a cube.											
+			rightIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 			//Turn right motor forwards.
+			leftIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed);			//Turn left motor backwards.
+			//rightSolenoid.set(true);													//Open pistons.
+			//leftSolenoid.set(true);
+			Timer.delay(timeDelay);														//Wait for cube to leave.
+			holdingCube = false;														//No longer holding cube.
+		
 		}
 	}
 
