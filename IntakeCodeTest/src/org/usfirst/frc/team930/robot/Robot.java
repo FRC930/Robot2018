@@ -100,7 +100,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("PDP Channel 11", PDP.getCurrent(11));
 		SmartDashboard.putData("PDP Channel 11 Graph", PDP);
 		
-		if(controller.getRawAxis(3) > 0.7) {	//If the Right Shoulder Button is down.
+		if(controller.getRawAxis(3) > 0.7) {											//If the Right Shoulder Button is down.
 			if (!holdingCube) {															//If we're not holding a cube.
 				rightIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed); 	//Turn right motor backwards.
 				leftIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 		//Turn left motor forwards.
@@ -120,14 +120,13 @@ public class Robot extends TimedRobot {
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
 		}
 		
-		if (controller.getRawAxis(2) > 0.7 && holdingCube) {								//If Left Shoulder Button is down and we have a cube.											
+		if (controller.getRawAxis(2) > 0.7 && holdingCube) {							//If Left Shoulder Button is down and we have a cube.											
 			rightIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 			//Turn right motor forwards.
 			leftIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed);			//Turn left motor backwards.
 			//rightSolenoid.set(true);													//Open pistons.
 			//leftSolenoid.set(true);
 			Timer.delay(timeDelay);														//Wait for cube to leave.
 			holdingCube = false;														//No longer holding cube.
-		
 		}
 	}
 
