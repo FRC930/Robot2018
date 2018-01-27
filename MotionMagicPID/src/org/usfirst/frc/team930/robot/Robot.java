@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
 		aPressed = false;
 		onOffA = false;
 		
-		test2 = motor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+		test2 = motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 		motor1.setSensorPhase(true);
 		motor1.setInverted(false);
 		
@@ -120,6 +120,12 @@ public class Robot extends TimedRobot {
 		if (controller.getRawButton(1)) {
 			double targetPos = leftYstick * 4096 * 10.0;
 			motor1.set(ControlMode.MotionMagic, targetPos);
+		} else {
+			motor1.set(ControlMode.PercentOutput, 0);
+		}
+		
+		if (controller.getRawAxis(5) > 0.2 || controller.getRawAxis(5) < -0.2) {
+			motor1.set(ControlMode.PercentOutput, (controller.getRawAxis(1) / -3.0));
 		} else {
 			motor1.set(ControlMode.PercentOutput, 0);
 		}
