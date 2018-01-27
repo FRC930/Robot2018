@@ -8,8 +8,6 @@
 package org.usfirst.frc.team930.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
@@ -19,20 +17,21 @@ public class Robot extends IterativeRobot {
 		//Drive.init();
 		//Intake.init();
 		//Elevator.init();
-		//autoChooser + SmartDashboard
+		AutoHandler.robotInit();
 		
 	}
 
 	@Override
 	public void autonomousInit() {
 		
-		//Getting auto info
-		//Auto notifier
+		AutoHandler.autoInit();
 		
 	}
 
 	@Override
 	public void autonomousPeriodic() {
+		
+		AutoHandler.run();
 		
 	}
 

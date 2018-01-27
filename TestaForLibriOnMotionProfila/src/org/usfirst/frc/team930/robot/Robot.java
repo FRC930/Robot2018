@@ -10,9 +10,11 @@ package org.usfirst.frc.team930.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SerialPort;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Segment;
@@ -56,6 +58,8 @@ public class Robot extends IterativeRobot {
 	//VictorSPX rightFollow2 = new VictorSPX(4);     //Declarations for victors that are
 	//VictorSPX leftFollow2 = new VictorSPX(5);
 	
+	AHRS gyro = new AHRS(SerialPort.Port.kUSB);
+	
 	
 	@Override
 	public void robotInit() {
@@ -81,7 +85,7 @@ public class Robot extends IterativeRobot {
 		enc.configureEncoder(rightMain.getSelectedSensorPosition(0), 1024, .102);
 		enc2.configureEncoder(leftMain.getSelectedSensorPosition(0), 1024, .102);
 
-		
+		gyro.reset();
 		
 		
 
@@ -91,6 +95,9 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+		
+		System.out.println(gyro.getYaw());
+		
 		double calc = (enc.calculate(rightMain.getSelectedSensorPosition(0)));
 		double calc2 = (enc2.calculate(leftMain.getSelectedSensorPosition(0)));
 
@@ -103,11 +110,27 @@ public class Robot extends IterativeRobot {
 		System.out.println(calc2);
 		}
 		
+		/*double angle_difference = r2d(leftFollower.heading)- gyro_heading;
+		double kG = 0.8 * (-1.0/80.0)
+
+		double turn = kG * angle_difference;
+
+		setLeftMotors(l + turn);
+		setRightMotors(r - turn);*/
+		
+	}
+	
+	public void teleopInit() {
+		
+		gyro.reset();
+		
 	}
 
 	
 	@Override
 	public void teleopPeriodic() {
+		
+		System.out.println(gyro.getYaw());
 		
 		double xStick = stick.getRawAxis(4);
 		double yStick = stick.getRawAxis(1);
