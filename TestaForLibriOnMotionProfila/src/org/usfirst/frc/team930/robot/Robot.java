@@ -27,7 +27,9 @@ public class Robot extends IterativeRobot {
 	
 	Waypoint[] points = new Waypoint[] {
 		    new Waypoint(0, 0, 0),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-		    new Waypoint(2, 0, Pathfinder.d2r(0))                        // Waypoint @ x=-2, y=-2, exit angle=0 radians
+		    new Waypoint(2, 0, Pathfinder.d2r(0)),  
+		    new Waypoint(5,3, Pathfinder.d2r(90)),
+		   // new Waypoint(5.5,5,Pathfinder.d2r(180))// Waypoint @ x=-2, y=-2, exit angle=0 radians
 		};
 	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.01, 4.0, 4.0, 50.0);
 
@@ -63,8 +65,8 @@ public class Robot extends IterativeRobot {
 		rightFollow2.follow(rightMain);   //Sets the victors to follow their 
 		leftFollow2.follow(leftMain); */
 		
-		enc.configurePIDVA(0.9, 0, 0, 0.3, 0);
-		enc2.configurePIDVA(0.9, 0, 0, 0.3, 0);
+		enc.configurePIDVA(0.9, 0, 0, 0.3, 0.08);
+		enc2.configurePIDVA(0.9, 0, 0, 0.3, 0.08);
 		rightFollow2.follow(rightMain);
 		rightFollow.follow(rightMain);
 		leftFollow2.follow(leftMain);
@@ -93,7 +95,7 @@ public class Robot extends IterativeRobot {
 		double calc2 = (enc2.calculate(leftMain.getSelectedSensorPosition(0)));
 
 		rightMain.set(ControlMode.PercentOutput, calc);
-		leftMain.set(ControlMode.PercentOutput, calc2);
+		leftMain.set(ControlMode.PercentOutput, -calc2);
 		
 		if(enc.isFinished() && enc2.isFinished()){}
 		else{
