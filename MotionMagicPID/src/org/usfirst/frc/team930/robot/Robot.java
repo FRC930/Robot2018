@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
 		onOffA = false;
 		
 		test2 = motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
-		motor1.setSensorPhase(true);
+		motor1.setSensorPhase(false);
 		motor1.setInverted(false);
 		
 		test2 = motor1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 10);
@@ -40,9 +40,9 @@ public class Robot extends TimedRobot {
 		test1 = SmartDashboard.putNumber("P Value", 0.2);
 		test1 = SmartDashboard.putNumber("I Value", 0.0);
 		test1 = SmartDashboard.putNumber("D Value", 0.0);
-		test1 = SmartDashboard.putNumber("F Value", 0.2);
-		test1 = SmartDashboard.putNumber("Cruise Velocity", 5000);
-		test1 = SmartDashboard.putNumber("Acceleration", 2000);
+		test1 = SmartDashboard.putNumber("F Value", 0.2341);
+		test1 = SmartDashboard.putNumber("Cruise Velocity", 480);
+		test1 = SmartDashboard.putNumber("Acceleration", 480);
 		test1 = SmartDashboard.putNumber("Target Position", 0.0);
 		test1 = SmartDashboard.putBoolean("Update Values", false);
 		test1 = SmartDashboard.putNumber("Position", motor1.getSelectedSensorPosition(0));
@@ -52,12 +52,12 @@ public class Robot extends TimedRobot {
 		
 		motor1.selectProfileSlot(0, 0);
 		// Initialize PIDF values, velocity, and acceleration
-		test2 = motor1.config_kF(0, 0.2, 10);
+		test2 = motor1.config_kF(0, 0.2341, 10);
 		test2 = motor1.config_kP(0, 0.2, 10);
 		test2 = motor1.config_kI(0, 0, 10);
 		test2 = motor1.config_kD(0, 0, 10);
-		test2 = motor1.configMotionCruiseVelocity(5000, 10);	//(int sensorUnitsPer100ms, int timeoutMs)
-		test2 = motor1.configMotionAcceleration(2000, 10);		//(int sensorUnitsPer100msPerSec, int timeoutMs)
+		test2 = motor1.configMotionCruiseVelocity(480, 10);	//(int sensorUnitsPer100ms, int timeoutMs)
+		test2 = motor1.configMotionAcceleration(480, 10);		//(int sensorUnitsPer100msPerSec, int timeoutMs)
 		test2 = motor1.setSelectedSensorPosition(0, 0, 10);
 	}
 
@@ -78,12 +78,12 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		
 		if(SmartDashboard.getBoolean("Update Values", false)) {
-			test2 = motor1.config_kF(0, SmartDashboard.getNumber("F Value", 0.2), 10);
+			test2 = motor1.config_kF(0, SmartDashboard.getNumber("F Value", 0.2341), 10);
 			test2 = motor1.config_kP(0, SmartDashboard.getNumber("P Value", 0.2), 10);
 			test2 = motor1.config_kI(0, SmartDashboard.getNumber("I Value", 0.0), 10);
 			test2 = motor1.config_kD(0, SmartDashboard.getNumber("D Value", 0.0), 10);
-			test2 = motor1.configMotionCruiseVelocity((int) SmartDashboard.getNumber("Cruise Velocity", 5000), 10);
-			test2 = motor1.configMotionAcceleration((int)SmartDashboard.getNumber("Acceleration", 2000), 10);
+			test2 = motor1.configMotionCruiseVelocity((int) SmartDashboard.getNumber("Cruise Velocity", 480), 10);
+			test2 = motor1.configMotionAcceleration((int)SmartDashboard.getNumber("Acceleration", 480), 10);
 			targetPos = SmartDashboard.getNumber("Target Position", 0.0);
 			System.out.println("Values Updated");
 			test1 = SmartDashboard.putBoolean("Update Values", false);
