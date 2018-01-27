@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+ /* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -33,7 +35,7 @@ public class Robot extends TimedRobot {
 	
 	public final int FULL_SPEED = 200;
 	public final int TIMEOUT_MS = 100;
-	
+/*	
 	WPI_TalonSRX rightMain = new WPI_TalonSRX(0);  //Declarations for talons
 	WPI_TalonSRX leftMain = new WPI_TalonSRX(1);  //These will be the main motor controllers
 	VictorSPX rightFollow = new VictorSPX(2);     //Declarations for victors that are
@@ -44,8 +46,8 @@ public class Robot extends TimedRobot {
 	DifferentialDrive robot = new DifferentialDrive(leftMain, rightMain);  //Declares the driving method control for robot
 	
 	Joystick stick = new Joystick(0);   //XBOX Controller
-	
-	AHRS gyro; 
+	*/
+	AHRS gyro = new AHRS(SerialPort.Port.kUSB); 
 
 	double eSum = 0,eLast, P = 1, I = 0.1, D = 0;
 	double MP_Speed, MP_Turn;
@@ -55,7 +57,7 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void robotInit() {
-		
+	/*	
 		rightFollow.follow(rightMain);   //Sets the victors to follow their 
 		leftFollow.follow(leftMain);   //respective talons
 		right2Follow.follow(rightMain);
@@ -76,6 +78,7 @@ public class Robot extends TimedRobot {
 		 
 		leftMain.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT_MS);
 		rightMain.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, TIMEOUT_MS);
+	    */
 	          /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
 	          /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
 	          /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
@@ -123,24 +126,33 @@ public class Robot extends TimedRobot {
 */	}
 
 	
-	@Override
-	public void teleopPeriodic() {
+	public void teleopInit() {
 		
+		gyro.reset();	
+	
+	}
+	
+	@Override
+	public void teleopPeriodic() {	
+		/*
 		double rightXStick = stick.getRawAxis(4); //Right joystick X axis
 		double leftYStick = stick.getRawAxis(1); //Left joystick Y axis
 		double targetVelocity_UnitsPer100ms = leftYStick * 4096 * 500.0 / 600;
-
+*/
+		/*
 		rightMain.set(ControlMode.Velocity, 900);
 		leftMain.set(ControlMode.Velocity, -900);
-		
+		*/
 		/*
 		robot.setDeadband(0.08);  //Sets the deadband for the controller values
 		
-		
-		robot.arcadeDrive(leftYStick, -rightXStick);  //sends the values to the drivetrain
-		System.out.println("GRYO stuff: " + gyro.isConnected());
 		*/
+		//robot.arcadeDrive(leftYStick, -rightXStick);  //sends the values to the drivetrain
+		 
+		System.out.println(gyro.getYaw());
+	
 		
+	
 	}
 
 	

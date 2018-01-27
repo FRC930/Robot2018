@@ -8,6 +8,8 @@
 package org.usfirst.frc.team930.robot;
 
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -89,6 +91,14 @@ public class Robot extends TimedRobot {
 		
 		//robot.curvatureDrive(leftYStick, rightXStick, false);  //sends the values to the drivetrain
 		robot.arcadeDrive(leftYStick, -rightXStick);
+	
+	rightMain.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0, 0);
+	leftMain.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,  0, 0);
+	
+	double targetVelocity_UnitsPer100ms = leftYStick * 4096 * 500.0 / 600;
+	rightMain.set(ControlMode.Velocity,  targetVelocity_UnitsPer100ms);
+	leftMain.set(ControlMode.Velocity,  targetVelocity_UnitsPer100ms);
+
 	}
 
 	
