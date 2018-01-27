@@ -16,7 +16,7 @@ public class Robot extends TimedRobot {
 	double targetPos = 0.0;
 	ErrorCode test2;
 	
-	TalonSRX motor1 = new TalonSRX(0);
+	TalonSRX motor1 = new TalonSRX(6);
 	Joystick controller = new Joystick(0);
 	
 	@Override
@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		
-		if(SmartDashboard.getBoolean("Update Values",false)) {
+		if(SmartDashboard.getBoolean("Update Values", false)) {
 			test2 = motor1.config_kF(0, SmartDashboard.getNumber("F Value", 0.2), 10);
 			test2 = motor1.config_kP(0, SmartDashboard.getNumber("P Value", 0.2), 10);
 			test2 = motor1.config_kI(0, SmartDashboard.getNumber("I Value", 0.0), 10);
@@ -102,17 +102,26 @@ public class Robot extends TimedRobot {
 			aPressed = false;
 			System.out.println("\nPercent Output:\n");
 		}
-		
+		/*
 		if (onOffA) {
 			motor1.set(ControlMode.MotionMagic, targetPos);
 			test1 = SmartDashboard.putNumber("Closed Loop Error",motor1.getClosedLoopError(0));
 			onOffA = false;
 		} else {
 			if (controller.getRawAxis(1) > 0.2 || controller.getRawAxis(1) < -0.2) {
-				motor1.set(ControlMode.PercentOutput, controller.getRawAxis(1));
+				motor1.set(ControlMode.PercentOutput, (controller.getRawAxis(1) / -3.0));
 			} else {
 				motor1.set(ControlMode.PercentOutput, 0);
 			}
+		}
+		*/
+		double leftYstick = -1.0 * controller.getRawAxis(1);
+		
+		if (controller.getRawButton(1)) {
+			double targetPos = leftYstick * 4096 * 10.0;
+			motor1.set(ControlMode.MotionMagic, targetPos);
+		} else {
+			motor1.set(ControlMode.PercentOutput, 0);
 		}
 	}
 

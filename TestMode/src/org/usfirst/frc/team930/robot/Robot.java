@@ -7,21 +7,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 	
 	boolean empty;
-	boolean buttonsConst[] = new boolean[10];
-	boolean buttons[] = new boolean[10];
-	String functionNames[] = new String[10];
-	String functionOutcome[] = new String[10];
+	boolean buttonsConst[] = new boolean[5];
+	boolean buttons[] = new boolean[5];
+	String functionNames[] = new String[5];
+	String functionOutcome[] = new String[5];
 
 	@Override
 	public void robotInit() {
 		
-		for (int x = 0; x < 10; x++) {
+		for (int x = 0; x < 5; x++) {
 			buttonsConst[x] = false;
 		}
 		functionNames[0] = "Left Drive Encoder";
 		functionNames[1] = "Right Drive Encoder";
 		functionNames[2] = "Elevator Encoder";
 		
+		empty = SmartDashboard.putBoolean("Test", false);
 		empty = SmartDashboard.putBooleanArray("Buttons", buttonsConst);
 		empty = SmartDashboard.putStringArray("Functions", functionNames);
 		empty = SmartDashboard.putStringArray("Function Outcome", functionOutcome);
