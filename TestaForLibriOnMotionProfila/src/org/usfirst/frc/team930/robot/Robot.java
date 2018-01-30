@@ -15,6 +15,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Timer;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Segment;
@@ -27,10 +28,13 @@ public class Robot extends IterativeRobot {
 	
 	Joystick stick = new Joystick(0);
 	
+	Timer time = new Timer();
+	
 	Waypoint[] points = new Waypoint[] {
 		    new Waypoint(0, 0, 0),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
 		    new Waypoint(2, 0, Pathfinder.d2r(0)),  
 		    new Waypoint(5,3, Pathfinder.d2r(90)),
+		   // new Waypoint(2,6,Pathfinder.d2r(180)),
 		   // new Waypoint(5.5,5,Pathfinder.d2r(180))// Waypoint @ x=-2, y=-2, exit angle=0 radians
 		};
 	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.01, 4.0, 4.0, 50.0);
@@ -38,7 +42,7 @@ public class Robot extends IterativeRobot {
 	Trajectory tra = Pathfinder.generate(points, config);
 	
 	
-	 TankModifier modifier = new TankModifier(tra).modify(0.5);
+	 TankModifier modifier = new TankModifier(tra).modify(0.768);
 
      // Do something with the new Trajectories...
      Trajectory left = modifier.getLeftTrajectory();
@@ -75,6 +79,7 @@ public class Robot extends IterativeRobot {
 		rightFollow.follow(rightMain);
 		leftFollow2.follow(leftMain);
 		leftFollow.follow(leftMain);
+		//gyro.reset();
 		
 	}
 
@@ -86,7 +91,7 @@ public class Robot extends IterativeRobot {
 		enc2.configureEncoder(leftMain.getSelectedSensorPosition(0), 1024, .102);
 
 		gyro.reset();
-		
+		time.start();
 		
 
 		
@@ -95,28 +100,31 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+		if(time.get()>1){
+		double angle_difference = Math.toDegrees(enc.getHeading()) + gyro.getYaw();
+		double kG = 0.8 * (-1.0/80.0);
+
+		double turn = kG * angle_difference;
+			
+		/*System.out.println("GYRO YAW value:   " +  gyro.getYaw());
+		System.out.println("HEading we are shooting for:  " + Math.toDegrees(enc.getHeading()));
+		System.out.println("Turn Value: " + turn);*/
 		
-		System.out.println(gyro.getYaw());
+		System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", Math.toDegrees(enc.getHeading()),-gyro.getYaw(),turn); 
 		
 		double calc = (enc.calculate(rightMain.getSelectedSensorPosition(0)));
 		double calc2 = (enc2.calculate(leftMain.getSelectedSensorPosition(0)));
 
-		rightMain.set(ControlMode.PercentOutput, calc);
-		leftMain.set(ControlMode.PercentOutput, -calc2);
+		rightMain.set(ControlMode.PercentOutput, calc - turn);
+		leftMain.set(ControlMode.PercentOutput, -(calc2 + turn));
 		
-		if(enc.isFinished() && enc2.isFinished()){}
+		/*if(enc.isFinished() && enc2.isFinished()){}
 		else{
 		System.out.println(calc);
 		System.out.println(calc2);
 		}
-		
-		/*double angle_difference = r2d(leftFollower.heading)- gyro_heading;
-		double kG = 0.8 * (-1.0/80.0)
-
-		double turn = kG * angle_difference;
-
-		setLeftMotors(l + turn);
-		setRightMotors(r - turn);*/
+		}*/
+		}
 		
 	}
 	
@@ -132,9 +140,12 @@ public class Robot extends IterativeRobot {
 		
 		System.out.println(gyro.getYaw());
 		
-		double xStick = stick.getRawAxis(4);
+		double xStick = -stick.getRawAxis(4);
 		double yStick = stick.getRawAxis(1);
-		
+		if(Math.abs(xStick) < 0.15)
+			xStick = 0;
+		if(Math.abs(yStick) <0.15)
+			yStick = 0;
 		rightMain.set(-(yStick-xStick));
 		leftMain.set(yStick+xStick);
 		
