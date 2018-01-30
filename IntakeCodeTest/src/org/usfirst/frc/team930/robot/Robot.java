@@ -61,10 +61,10 @@ public class Robot extends TimedRobot {
 		
 		//-- In take Variable Initializations --\\
 		holdingCube = false;
-		currentThreshhold = 20.0;
+		currentThreshhold = 25.0;
 		intakeMotorSpeed = 0.75;
-		PDPcounter = 1;
-		PDPcounterLimit = 15;
+		PDPcounter = 0;
+		PDPcounterLimit = 4;
 	}
 
 	@Override
@@ -109,12 +109,12 @@ public class Robot extends TimedRobot {
 				if (PDP.getCurrent(11) > currentThreshhold) {						//If we're above a threshold.				
 					PDPcounter++;													//PDPcounter = PDPcounter + 1;
 				} else {															//Else if we're below it.
-					PDPcounter = 1;													//Reset counter.
+					PDPcounter = 0;													//Reset counter.
 				}
 			} else {																//If the RT button is up
 				rightIntakeWheel.set(ControlMode.PercentOutput, 0);					//Stop motors						
 				leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-				PDPcounter = 1;														//Reset counter.
+				PDPcounter = 0;														//Reset counter.
 			}
 		}
 		
@@ -125,7 +125,7 @@ public class Robot extends TimedRobot {
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
 			//rightSolenoid.set(false);										
 			//leftSolenoid.set(false);
-			PDPcounter = 1;															//Reset counter
+			PDPcounter = 0;															//Reset counter
 		}
 		
 		if (controller.getRawAxis(2) > 0.7 && holdingCube) {						//If Left Shoulder Button is down and we have a cube.											
@@ -133,9 +133,9 @@ public class Robot extends TimedRobot {
 			leftIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed);		//Turn left motor backwards.
 			//rightSolenoid.set(true);												//Open pistons.
 			//leftSolenoid.set(true);
-			Timer.delay(0.5);														//Wait for cube to leave.
+			Timer.delay(0.4);														//Wait for cube to leave.
 			holdingCube = false;													//No longer holding cube.
-			PDPcounter = 1;															//Reset counter.
+			PDPcounter = 0;															//Reset counter.
 		}
 	}
 
