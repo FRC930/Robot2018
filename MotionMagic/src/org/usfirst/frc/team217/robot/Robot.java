@@ -57,13 +57,13 @@ public class Robot extends IterativeRobot {
 
 		/* set closed loop gains in slot0 - see documentation */
 		_talon.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
-		_talon.config_kF(0, 1.55, Constants.kTimeoutMs);
-		_talon.config_kP(0, 0.505, Constants.kTimeoutMs);
-		_talon.config_kI(0, 0.002, Constants.kTimeoutMs);
-		_talon.config_kD(0, 10, Constants.kTimeoutMs);
+		_talon.config_kF(0, 2.2, Constants.kTimeoutMs);
+		_talon.config_kP(0, 0, Constants.kTimeoutMs);
+		_talon.config_kI(0, 0, Constants.kTimeoutMs);
+		_talon.config_kD(0, 0, Constants.kTimeoutMs);
 		/* set acceleration and vcruise velocity - see documentation */
-		_talon.configMotionCruiseVelocity(680, Constants.kTimeoutMs);
-		_talon.configMotionAcceleration(680, Constants.kTimeoutMs);
+		_talon.configMotionCruiseVelocity(800, Constants.kTimeoutMs);
+		_talon.configMotionAcceleration(800, Constants.kTimeoutMs);
 		/* zero the sensor */
 		_talon.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 	}
@@ -74,7 +74,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		/* get gamepad axis - forward stick is positive */
 		double leftYstick = -1.0 * _joy.getY();
-		double rightYstick = -1.0 * _joy.getRawAxis(5);
+		double rightYstick = -1.0 * _joy.getRawAxis(5) / 2.0;
 		/* calculate the percent motor output */
 		double motorOutput = _talon.getMotorOutputPercent();
 		/* prepare line to print */
