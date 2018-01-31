@@ -24,13 +24,13 @@ public class Intake {
 	private static PowerDistributionPanel PDP = new PowerDistributionPanel(0);
 	
 	//-- In take Variable Declarations --\\
-	private double currentThreshhold,	//Threshold for the current of channel 11 (in AMPs).
-	intakeMotorSpeed;			//Speed of in take motors.
-	private boolean holdingCube;		//Check for cube.
-	private int PDPcounter,				//Counter for PDP checks.
-	PDPcounterLimit;			//The amount of times we need to check before we begin in take.	
+	private static double currentThreshhold;			//Speed of in take motors.
+	private static double intakeMotorSpeed;
+	private static boolean holdingCube;		//Check for cube.
+	private static int PDPcounter;			//The amount of times we need to check before we begin in take.	
+	private static int PDPcounterLimit;
 
-	public void init() {
+	public static void init() {
 			
 		//-- In take Variable Initializations --\\
 		holdingCube = false;

@@ -12,7 +12,7 @@ public class Elevator {
 	private static TalonSRX lift1 = new TalonSRX(6);
 	private static Joystick controller2 = new Joystick(2);
 	
-	public void init() {
+	public static void init() {
 		/* first choose the sensor */
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants1.kPIDLoopIdx, Constants1.kTimeoutMs);
 		lift1.setSensorPhase(false);

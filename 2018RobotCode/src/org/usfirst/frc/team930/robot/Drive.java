@@ -18,7 +18,7 @@ public class Drive {
 	public static final VictorSPX leftFollow2 = new VictorSPX(5);
 	public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 	
-	public void init(){
+	public static void init(){
 		rightFollow2.follow(rightMain);
 		rightFollow.follow(rightMain);
 		leftFollow2.follow(leftMain);

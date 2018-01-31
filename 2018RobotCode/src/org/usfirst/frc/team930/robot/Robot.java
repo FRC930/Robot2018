@@ -14,9 +14,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		
-		//Drive.init();
-		//Intake.init();
-		//Elevator.init();
+		Drive.init();
+		Intake.init();
+		Elevator.init();
 		AutoHandler.robotInit();
 		
 	}
@@ -38,9 +38,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		
-		//Drive.run();
-		//Intake.run();
-		//Elevator.run();
+		TeleopHandler.run();
 		
 	}
 
