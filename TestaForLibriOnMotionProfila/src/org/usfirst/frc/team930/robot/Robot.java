@@ -31,9 +31,9 @@ public class Robot extends IterativeRobot {
 	Timer time = new Timer();
 	
 	Waypoint[] points = new Waypoint[] {
-		    new Waypoint(0, 0, 0),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-		    new Waypoint(2, 0, Pathfinder.d2r(0)),  
-		    new Waypoint(5,3, Pathfinder.d2r(90)),
+		    new Waypoint(0, 3, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
+		    //new Waypoint(1, 3, Pathfinder.d2r(0)),  
+		    new Waypoint(5,0, Pathfinder.d2r(-89)),
 		   // new Waypoint(2,6,Pathfinder.d2r(180)),
 		   // new Waypoint(5.5,5,Pathfinder.d2r(180))// Waypoint @ x=-2, y=-2, exit angle=0 radians
 		};
