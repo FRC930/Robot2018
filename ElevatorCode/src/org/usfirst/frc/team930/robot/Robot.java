@@ -1,5 +1,6 @@
 package org.usfirst.frc.team930.robot;
 
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -190,9 +191,24 @@ public class Robot extends TimedRobot {
 			lift1.set(ControlMode.PercentOutput, 0);
 		}*/
 		
+		if (controller2.getRawButton(1)) {									//A pressed -- elevator down
+			lift1.set(ControlMode.MotionMagic, Constants1.intakePosition);
+		} else if (controller2.getRawButton(2)) {							//B pressed -- elevator to switch position
+			lift1.set(ControlMode.MotionMagic, Constants1.switchPosition);
+		} else if (controller2.getRawButton(3)) {							//X pressed -- elevator to scale position
+			lift1.set(ControlMode.MotionMagic, Constants1.scalePosition);
+		} else {
+			if(controller2.getRawAxis(5) > 0.2 || controller2.getRawAxis(5) < -0.2) {
+				lift1.set(ControlMode.PercentOutput, -0.3 * (controller2.getRawAxis(5)));
+			}
+			else {
+				lift1.set(ControlMode.PercentOutput, 0);
+			}
+		}
 		
+		/*
 		if (controller2.getRawButton(6)) {
-			/* Motion Magic - 4096 ticks/rev * 10 Rotations in either direction */
+			// Motion Magic - 4096 ticks/rev * 10 Rotations in either direction 
 			lift1.set(ControlMode.MotionMagic, 7000);
 		} else if (controller2.getRawButton(5)) {
 			lift1.set(ControlMode.MotionMagic, 10);
@@ -203,13 +219,16 @@ public class Robot extends TimedRobot {
 			else {
 				lift1.set(ControlMode.PercentOutput, 0);
 			}
-		}
+		}*/
 	}
 
 	public class Constants1 {
 		public static final int kSlotIdx = 0;
 		public static final int kPIDLoopIdx = 0;
 		public static final int kTimeoutMs = 10;
+		public static final double intakePosition = 0;
+		public static final double switchPosition = 2000;
+		public static final double scalePosition = 7000;
 	}
 	
 	@Override
