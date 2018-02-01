@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake {
@@ -34,10 +33,10 @@ public class Intake {
 			
 		//-- In take Variable Initializations --\\
 		holdingCube = false;
-		currentThreshhold = 25.0;
+		currentThreshhold = 35.0;
 		intakeMotorSpeed = 0.75;
 		PDPcounter = 0;
-		PDPcounterLimit = 4;
+		PDPcounterLimit = 15;
 	}
 	
 	public void run() {
