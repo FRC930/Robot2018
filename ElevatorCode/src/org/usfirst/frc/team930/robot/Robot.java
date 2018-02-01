@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 
@@ -46,7 +47,6 @@ public class Robot extends TimedRobot {
 	
 	//-- Intake Variable Declarations --\\
 	double currentThreshhold,	//Threshhold for the current of channel 11 (in AMPs).
-	timeDelay, 					//Delay time to check the PDP AMP rate and for out take.
 	intakeMotorSpeed;			//Speed of intake motors.
 	boolean holdingCube;		//Check for cube.
 	
@@ -103,10 +103,9 @@ public class Robot extends TimedRobot {
 		robot.setQuickStopThreshold(0.1);
 
 		
-		//-- Intake Variable Initializations --\\
+		//-- In take Variable Initializations --\\
 		holdingCube = false;
-		currentThreshhold = 26.5;
-		timeDelay = 0.5;
+		currentThreshhold = 25.0;
 		intakeMotorSpeed = 0.75;
 	}
 
@@ -141,54 +140,24 @@ public class Robot extends TimedRobot {
 		robot.arcadeDrive(leftYStick, -rightXStick);
 		
 		
-		//-- Basic Intake Code for Testing --\\
-		// Y Button -- reverse the intake
-		if (controller2.getRawButton(4)) {
-			rightIntakeWheel.set(ControlMode.PercentOutput, 0.75); // running motor
-			leftIntakeWheel.set(ControlMode.PercentOutput, -0.75); // running motor
-		//A button -- intake
-		} else if(controller2.getRawButton(1)) {
-			rightIntakeWheel.set(ControlMode.PercentOutput, -0.75); // running motor
-			leftIntakeWheel.set(ControlMode.PercentOutput, 0.75); // running motor
-			System.out.println(PDP.getCurrent(11));
-		} else {
-			//SolenoidRight.set(true);
-			//SolenoidLeft.set(true);
-			rightIntakeWheel.set(ControlMode.PercentOutput, 0);
+		//-- Basic Manual In take Code for Testing --\\
+		
+		if(controller.getRawAxis(3) > 0.7) {									//If the RT button is down																		
+			rightIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed); //Turn on motors
+			leftIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 		
+		} else {																//If the RT button is up
+			rightIntakeWheel.set(ControlMode.PercentOutput, 0);					//Stop motors						
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
 		}
 		
-		
-		//-- Intake Code Block --\\
-		/*if(controller.getRawButton(1)) {												//If the A button is down.
-			if (holdingCube == false) {													//If we're not holding a cube.
-				rightIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed); 	//Turn right motor backwards.
-				leftIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 		//Turn left motor forwards.
-				if(PDP.getCurrent(11) > currentThreshhold) {							//If the PDP current on channel 11 is over currentThreshhold of amps.
-					Timer.delay(timeDelay);												//Wait
-					if(PDP.getCurrent(11) > currentThreshhold) {						//If the PDP current on channel 11 is STILL over currentThreshhold of amps.
-						holdingCube = true;												//Holding cube is true.	
-						rightIntakeWheel.set(ControlMode.PercentOutput, 0);				//Stop motors
-						leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-						rightSolenoid.set(false);										//Close pistons.
-						leftSolenoid.set(false);
-					}
-				}
-			} else {																	//Else if holding cube.
-				rightIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 		//Turn right motor forwards.
-				leftIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed);		//Turn left motor backwards.
-				rightSolenoid.set(true);												//Open pistons.
-				leftSolenoid.set(true);
-				Timer.delay(timeDelay);													//Wait for cube to leave.
-				holdingCube = false;													//No longer holding cube.
-			}
-		} else {																		//If A button is not down.
-			rightIntakeWheel.set(ControlMode.PercentOutput, 0);							//Stop motors
+		if (controller.getRawAxis(2) > 0.7) {									//If Left Shoulder Button is down and we have a cube.											
+			rightIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 	//Turn right motor forwards.
+			leftIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed);	//Turn left motor backwards.											
+		} else {																//If the LT button is up
+			rightIntakeWheel.set(ControlMode.PercentOutput, 0);					//Stop motors						
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-		}*/
+		}
 		
-		
-				
 		
 		/* a pressed -- elevator up
 		if(controller.getRawButton(1) && (!aPressed))
