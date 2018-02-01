@@ -4,13 +4,12 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
 
 public class Elevator {
 	private static TalonSRX lift1 = new TalonSRX(6);
-	private static Joystick controller2 = new Joystick(2);
+	private static Joystick controller2 = new Joystick(1);
 	
 	public static void init() {
 		/* first choose the sensor */
@@ -33,13 +32,13 @@ public class Elevator {
 
 		/* set closed loop gains in slot0 - see documentation */
 		lift1.selectProfileSlot(Constants1.kSlotIdx, Constants1.kPIDLoopIdx);
-		lift1.config_kF(0, 1.55, Constants1.kTimeoutMs);
-		lift1.config_kP(0, 0.505, Constants1.kTimeoutMs);
-		lift1.config_kI(0, 0.002, Constants1.kTimeoutMs);
+		lift1.config_kF(0, 1.89, Constants1.kTimeoutMs);
+		lift1.config_kP(0, 0.5, Constants1.kTimeoutMs);
+		lift1.config_kI(0, 0, Constants1.kTimeoutMs);
 		lift1.config_kD(0, 10, Constants1.kTimeoutMs);
 		/* set acceleration and cruise velocity - see documentation */
-		lift1.configMotionCruiseVelocity(680, Constants1.kTimeoutMs);
-		lift1.configMotionAcceleration(680, Constants1.kTimeoutMs);
+		lift1.configMotionCruiseVelocity(800, Constants1.kTimeoutMs);
+		lift1.configMotionAcceleration(800, Constants1.kTimeoutMs);
 		/* zero the sensor */
 		lift1.setSelectedSensorPosition(0, Constants1.kPIDLoopIdx, Constants1.kTimeoutMs);
 	}
