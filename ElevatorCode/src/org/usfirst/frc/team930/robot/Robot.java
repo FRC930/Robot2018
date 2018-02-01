@@ -41,8 +41,8 @@ public class Robot extends TimedRobot {
 	//-- Intake Object Declarations and Instantiations--\\
 	VictorSPX rightIntakeWheel = new VictorSPX(7);
 	VictorSPX leftIntakeWheel = new VictorSPX(8);
-	Solenoid rightSolenoid = new Solenoid(9);
-	Solenoid leftSolenoid = new Solenoid(10);  
+	//Solenoid rightSolenoid = new Solenoid(9);
+	//Solenoid leftSolenoid = new Solenoid(10);  
 	PowerDistributionPanel PDP = new PowerDistributionPanel();
 
 	
@@ -127,6 +127,7 @@ public class Robot extends TimedRobot {
 		
 		double rightXStick = controller.getRawAxis(4); //Right joystick X axis
 		double leftYStick = controller.getRawAxis(1); //Left joystick Y axis
+		double targetPos = controller2.getRawAxis(1) * 7000;
 		
 		robot.setDeadband(0.1);  //Sets the deadband for the controller values
 		
@@ -191,20 +192,16 @@ public class Robot extends TimedRobot {
 			lift1.set(ControlMode.PercentOutput, 0);
 		}*/
 		
-		if (controller2.getRawButton(1)) {									//A pressed -- elevator down
-			lift1.set(ControlMode.MotionMagic, Constants1.intakePosition);
-		} else if (controller2.getRawButton(2)) {							//B pressed -- elevator to switch position
-			lift1.set(ControlMode.MotionMagic, Constants1.switchPosition);
-		} else if (controller2.getRawButton(3)) {							//X pressed -- elevator to scale position
-			lift1.set(ControlMode.MotionMagic, Constants1.scalePosition);
-		} else {
-			if(controller2.getRawAxis(5) > 0.2 || controller2.getRawAxis(5) < -0.2) {
-				lift1.set(ControlMode.PercentOutput, -0.3 * (controller2.getRawAxis(5)));
-			}
-			else {
-				lift1.set(ControlMode.PercentOutput, 0);
-			}
+		//Left joystick -- elevator control
+		if(controller2.getRawAxis(1) > 0.2)
+		{
+			lift1.set(ControlMode.MotionMagic, targetPos);
 		}
+		if(controller2.getRawAxis(1) < -0.2 && lift1.getSelectedSensorPosition(0) > 0)
+		{
+			lift1.set(ControlMode.MotionMagic, 0);
+		}
+		
 		
 		/*
 		if (controller2.getRawButton(6)) {
