@@ -78,13 +78,13 @@ public class Robot extends TimedRobot {
 
 		/* set closed loop gains in slot0 - see documentation */
 		lift1.selectProfileSlot(Constants1.kSlotIdx, Constants1.kPIDLoopIdx);
-		lift1.config_kF(0, 1.55, Constants1.kTimeoutMs);
-		lift1.config_kP(0, 0.505, Constants1.kTimeoutMs);
-		lift1.config_kI(0, 0.002, Constants1.kTimeoutMs);
+		lift1.config_kF(0, 1.89, Constants1.kTimeoutMs);
+		lift1.config_kP(0, 0.5, Constants1.kTimeoutMs);
+		lift1.config_kI(0, 0, Constants1.kTimeoutMs);
 		lift1.config_kD(0, 10, Constants1.kTimeoutMs);
 		/* set acceleration and vcruise velocity - see documentation */
-		lift1.configMotionCruiseVelocity(680, Constants1.kTimeoutMs);
-		lift1.configMotionAcceleration(680, Constants1.kTimeoutMs);
+		lift1.configMotionCruiseVelocity(800, Constants1.kTimeoutMs);
+		lift1.configMotionAcceleration(800, Constants1.kTimeoutMs);
 		/* zero the sensor */
 		lift1.setSelectedSensorPosition(0, Constants1.kPIDLoopIdx, Constants1.kTimeoutMs);
 		
@@ -197,8 +197,8 @@ public class Robot extends TimedRobot {
 		} else if (controller2.getRawButton(5)) {
 			lift1.set(ControlMode.MotionMagic, 10);
 		} else {
-			if(controller2.getRawAxis(1) > 0.2 || controller2.getRawAxis(1) < -0.2) {
-				lift1.set(ControlMode.PercentOutput, -0.3 * (controller2.getRawAxis(1)));
+			if(controller2.getRawAxis(5) > 0.2 || controller2.getRawAxis(5) < -0.2) {
+				lift1.set(ControlMode.PercentOutput, -0.3 * (controller2.getRawAxis(5)));
 			}
 			else {
 				lift1.set(ControlMode.PercentOutput, 0);
