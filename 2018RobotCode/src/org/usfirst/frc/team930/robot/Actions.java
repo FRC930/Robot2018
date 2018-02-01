@@ -12,8 +12,8 @@ public class Actions {
 			System.out.println("Running Action 1 Case 1");
 			System.out.println("Count: " + count);
 
-			Robot.leftMain.set(0);
-			Robot.rightMain.set(0);
+			//Robot.leftMain.set(0);
+			//Robot.rightMain.set(0);
 			
 			if(this.count == 100) {
 				this.count = 1;
@@ -27,8 +27,8 @@ public class Actions {
 			System.out.println("Running Action 1 Case 2");
 			System.out.println("Count: " + count);
 
-			Robot.leftMain.set(0);
-			Robot.rightMain.set(0);
+			//Robot.leftMain.set(0);
+			//Robot.rightMain.set(0);
 			
 			if(this.count == 100) {
 				this.count = 1;

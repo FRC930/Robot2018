@@ -1,44 +1,32 @@
 package org.usfirst.frc.team930.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 	
-	TalonSRX motor1 = new TalonSRX(0);
 	boolean empty;
-	boolean buttons[] = new boolean[10];
-	String functionNames[] = new String[10];
-	String functionOutcome[] = new String[10];
+	boolean buttonsConst[] = new boolean[5];
+	boolean buttons[] = new boolean[5];
+	String functionNames[] = new String[5];
+	String functionOutcome[] = new String[5];
 
 	@Override
 	public void robotInit() {
 		
-		for (int x = 0; x < 10; x++) {
-			buttons[x] = false;
+		for (int x = 0; x < 5; x++) {
+			buttonsConst[x] = false;
 		}
 		functionNames[0] = "Left Drive Encoder";
 		functionNames[1] = "Right Drive Encoder";
 		functionNames[2] = "Elevator Encoder";
 		
-		empty = SmartDashboard.putNumber("Talon Output", motor1.getMotorOutputPercent());
-		empty = SmartDashboard.putBoolean("Update Values", false);
-		empty = SmartDashboard.putBooleanArray("Buttons", buttons);
+		empty = SmartDashboard.putBoolean("Test", false);
+		empty = SmartDashboard.putBooleanArray("Buttons", buttonsConst);
 		empty = SmartDashboard.putStringArray("Functions", functionNames);
 		empty = SmartDashboard.putStringArray("Function Outcome", functionOutcome);
 		
-		
-		//used in case motor's value can't be updated to zero
-		SmartDashboard.putBoolean("Emergency Stop", false);
-		
-		//motor explicitly added to test mode display
-		LiveWindow.add((Sendable)motor1);
-		((Sendable) motor1).setName("Subsystem", "Talon");
 	}
 
 	@Override
@@ -51,50 +39,46 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-<<<<<<< HEAD
-		//update values using SmartDashboard
-		if(SmartDashboard.getBoolean("Update Values", false))
-		{
-			motor1.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Talon Output", 0));
-			SmartDashboard.putBoolean("Update Values", false);
-			
-			System.out.println("Updated Values");
-		}
-		SmartDashboard.putNumber("Talon Output", motor1.getMotorOutputPercent());
-		
-		//used to stop motor if update values doesn't work
-		if(SmartDashboard.getBoolean("Emergency Stop", false))
-		{
-			motor1.set(ControlMode.PercentOutput, 0);
-			SmartDashboard.putBoolean("Emergency Stop", false);
-			
-			System.out.println("Motor stopped");
-		}
-=======
->>>>>>> 5530a5fda8f910cea1ec7e200311f829d0ad0766
 	}
 	
 	@Override
 	public void testPeriodic() {
-		System.out.println("Test mode");
+		buttons = SmartDashboard.getBooleanArray("Buttons", buttonsConst);
 		
-		//update values using SmartDashboard
-		if(SmartDashboard.getBoolean("Update Values", false))
-		{
-			motor1.set(ControlMode.PercentOutput, SmartDashboard.getNumber("Talon Output", 0));
-			empty = SmartDashboard.putBoolean("Update Values", false);
-			
-			System.out.println("Updated Values");
+		if(buttons[0]) {
+			empty = SmartDashboard.putBooleanArray("Buttons", buttonsConst);
+			boolean test = true;
+			// add code to test left drive encoder
+			if(test) {
+				functionOutcome[0] = "Passed";
+			} else {
+				functionOutcome[0] = "Failed";
+			}
+			empty = SmartDashboard.putStringArray("Function Outcome", functionOutcome);
 		}
-		SmartDashboard.putNumber("Talon Output", motor1.getMotorOutputPercent());
 		
-		//used to stop motor if update values doesn't work
-		if(SmartDashboard.getBoolean("Emergency Stop", false))
-		{
-			motor1.set(ControlMode.PercentOutput, 0);
-			SmartDashboard.putBoolean("Emergency Stop", false);
-			
-			System.out.println("Motor stopped");
+		if(buttons[1]) {
+			empty = SmartDashboard.putBooleanArray("Buttons", buttonsConst);
+			boolean test = true;
+			// add code to test right drive encoder
+			if(test) {
+				functionOutcome[1] = "Passed";
+			} else {
+				functionOutcome[1] = "Failed";
+			}
+			empty = SmartDashboard.putStringArray("Function Outcome", functionOutcome);
+		}
+		
+		if(buttons[2]) {
+			empty = SmartDashboard.putBooleanArray("Buttons", buttonsConst);
+			boolean test = true;
+			// add code to test elevator encoder
+			if(test) {
+				functionOutcome[2] = "Passed";
+			} else {
+				functionOutcome[2] = "Failed";
+			}
+			empty = SmartDashboard.putStringArray("Function Outcome", functionOutcome);
 		}
 	}
 }

@@ -32,17 +32,17 @@ public class Robot extends TimedRobot {
 	//-- Intake Object Declarations and Instantiations--\\
 	VictorSPX rightIntakeWheel = new VictorSPX(7);
 	VictorSPX leftIntakeWheel = new VictorSPX(8);
-	Solenoid rightSolenoid = new Solenoid(9);
-	Solenoid leftSolenoid = new Solenoid(10); 
+	//Solenoid rightSolenoid = new Solenoid(9);
+	//Solenoid leftSolenoid = new Solenoid(10); 
 	Joystick controller = new Joystick(0);
-	PowerDistributionPanel PDP = new PowerDistributionPanel();
+	PowerDistributionPanel PDP = new PowerDistributionPanel(0);
 	
 	//-- Intake Variable Declarations --\\
 	double currentThreshhold,	//Threshhold for the current of channel 11 (in AMPs).
-	timeDelay, 					//Delay time to check the PDP AMP rate and for out take.
 	intakeMotorSpeed;			//Speed of intake motors.
 	boolean holdingCube;		//Check for cube.
-	
+	int PDPcounter,				//Counter for PDP checks.
+	PDPcounterLimit;			//The amount of times we need to check before we begin in take.	
 
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
@@ -59,11 +59,12 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
 		
-		//-- Intake Variable Initializations --\\
+		//-- In take Variable Initializations --\\
 		holdingCube = false;
-		currentThreshhold = 26.5;
-		timeDelay = 0.5;
+		currentThreshhold = 35.0;
 		intakeMotorSpeed = 0.75;
+		PDPcounter = 0;
+		PDPcounterLimit = 15;
 	}
 
 	@Override
@@ -96,32 +97,45 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		
-		//-- Intake Code Block --\\
-		if(controller.getRawButton(1)) {												//If the A button is down.
-			if (holdingCube == false) {													//If we're not holding a cube.
-				rightIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed); 	//Turn right motor backwards.
-				leftIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 		//Turn left motor forwards.
-				if(PDP.getCurrent(11) > currentThreshhold) {							//If the PDP current on channel 11 is over currentThreshhold of amps.
-					Timer.delay(timeDelay);												//Wait
-					if(PDP.getCurrent(11) > currentThreshhold) {						//If the PDP current on channel 11 is STILL over currentThreshhold of amps.
-						holdingCube = true;												//Holding cube is true.	
-						rightIntakeWheel.set(ControlMode.PercentOutput, 0);				//Stop motors
-						leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-						rightSolenoid.set(false);										//Close pistons.
-						leftSolenoid.set(false);
-					}
+		//-- In take Code Block --\\
+		System.out.println(PDP.getCurrent(11));
+		SmartDashboard.putNumber("PDP Channel 11", PDP.getCurrent(11));
+		SmartDashboard.putData("PDP Channel 11 Graph", PDP);
+		
+		if (!holdingCube) {															//If we're not holding a cube.
+			if(controller.getRawAxis(3) > 0.7) {									//If the RT button is down																		
+				rightIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed); //Turn on motors
+				leftIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 		
+				if (PDP.getCurrent(11) > currentThreshhold) {						//If we're above a threshold.				
+					PDPcounter++;													//PDPcounter = PDPcounter + 1;
+				} else {															//Else if we're below it.
+					PDPcounter = 0;													//Reset counter.
 				}
-			} else {																	//Else if holding cube.
-				rightIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 		//Turn right motor forwards.
-				leftIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed);		//Turn left motor backwards.
-				rightSolenoid.set(true);												//Open pistons.
-				leftSolenoid.set(true);
-				Timer.delay(timeDelay);													//Wait for cube to leave.
-				holdingCube = false;													//No longer holding cube.
+			} else {																//If the RT button is up
+				rightIntakeWheel.set(ControlMode.PercentOutput, 0);					//Stop motors						
+				leftIntakeWheel.set(ControlMode.PercentOutput, 0);
+				PDPcounter = 0;														//Reset counter.
 			}
-		} else {																		//If A button is not down.
-			rightIntakeWheel.set(ControlMode.PercentOutput, 0);							//Stop motors
+		}
+		
+		if (PDPcounter >= PDPcounterLimit) {										//If the counter is equal to or above the limit.
+			System.out.println("Kenneth moo's");	//Checks if it passes for user.
+			holdingCube = true;														//We are holding a cube.								
+			rightIntakeWheel.set(ControlMode.PercentOutput, 0);						//Stops motors		
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
+			//rightSolenoid.set(false);										
+			//leftSolenoid.set(false);
+			PDPcounter = 0;															//Reset counter
+		}
+		
+		if (controller.getRawAxis(2) > 0.7 && holdingCube) {						//If Left Shoulder Button is down and we have a cube.											
+			rightIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 		//Turn right motor forwards.
+			leftIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed);		//Turn left motor backwards.
+			//rightSolenoid.set(true);												//Open pistons.
+			//leftSolenoid.set(true);
+			Timer.delay(0.4);														//Wait for cube to leave.
+			holdingCube = false;													//No longer holding cube.
+			PDPcounter = 0;															//Reset counter.
 		}
 	}
 

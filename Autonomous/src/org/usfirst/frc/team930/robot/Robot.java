@@ -57,7 +57,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		
-		Enum routine = Routines.ROUTINE1;//(Enum) autoChooser.getSelected();
+		Enum routine = (Enum) autoChooser.getSelected();
 		String variation = "LRL";//DriverStation.getInstance().getGameSpecificMessage();
 		
 		auto = new AutoRoutine(routine, variation);
