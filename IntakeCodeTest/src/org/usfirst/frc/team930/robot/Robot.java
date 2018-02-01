@@ -61,10 +61,10 @@ public class Robot extends TimedRobot {
 		
 		//-- In take Variable Initializations --\\
 		holdingCube = false;
-		currentThreshhold = 25.0;
+		currentThreshhold = 60.0;
 		intakeMotorSpeed = 0.75;
 		PDPcounter = 0;
-		PDPcounterLimit = 4;
+		PDPcounterLimit = 30;
 	}
 
 	@Override
