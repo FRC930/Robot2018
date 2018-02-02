@@ -50,6 +50,8 @@ public class Robot extends TimedRobot {
 	double currentThreshhold,	//Threshhold for the current of channel 11 (in AMPs).
 	intakeMotorSpeed;			//Speed of intake motors.
 	boolean holdingCube;		//Check for cube.
+	int PDPcounter,				//Counter for PDP checks.
+	PDPcounterLimit;			//The amount of times we need to check before we begin in take.	
 	
 	
 	boolean aPressed, onOffA, bPressed, onOffB, test1;
@@ -106,8 +108,10 @@ public class Robot extends TimedRobot {
 		
 		//-- In take Variable Initializations --\\
 		holdingCube = false;
-		currentThreshhold = 25.0;
+		currentThreshhold = 35.0;
 		intakeMotorSpeed = 0.75;
+		PDPcounter = 0;
+		PDPcounterLimit = 15;
 	}
 
 	
@@ -144,7 +148,7 @@ public class Robot extends TimedRobot {
 		
 		//-- Basic Manual In take Code for Testing --\\
 		
-		if(controller.getRawAxis(3) > 0.7) {									//If the RT button is down																		
+		if(controller.getRawAxis(3) > 0.7 || controller2.getRawAxis(3) > 0.7) {									//If the RT button is down																		
 			rightIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed); //Turn on motors
 			leftIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 		
 		} else {																//If the RT button is up
@@ -152,7 +156,7 @@ public class Robot extends TimedRobot {
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
 		}
 		
-		if (controller.getRawAxis(2) > 0.7) {									//If Left Shoulder Button is down and we have a cube.											
+		if (controller.getRawAxis(2) > 0.7 ||  controller2.getRawAxis(2) > 0.7) {									//If Left Shoulder Button is down and we have a cube.											
 			rightIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 	//Turn right motor forwards.
 			leftIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed);	//Turn left motor backwards.											
 		} else {																//If the LT button is up
