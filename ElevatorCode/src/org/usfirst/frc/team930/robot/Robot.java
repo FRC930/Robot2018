@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
 		/* first choose the sensor */
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants1.kPIDLoopIdx, Constants1.kTimeoutMs);
 		lift1.setSensorPhase(false);
-		lift1.setInverted(false);
+		lift1.setInverted(true);
 
 		/* Set relevant frame periods to be at least as fast as periodic rate */
 		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants1.kTimeoutMs);
@@ -143,26 +143,22 @@ public class Robot extends TimedRobot {
 			check = false;*/
 				
 		//robot.curvatureDrive(leftYStick, rightXStick, false);  //sends the values to the drivetrain
-		robot.arcadeDrive(leftYStick, -rightXStick);
+		robot.arcadeDrive(leftYStick, -0.75 * rightXStick);
 		
 		
 		//-- Basic Manual In take Code for Testing --\\
 		
-		if(controller.getRawAxis(3) > 0.7 || controller2.getRawAxis(3) > 0.7) {									//If the RT button is down																		
+		if (controller.getRawAxis(3) > 0.7 || controller2.getRawAxis(3) > 0.7) {									//If the RT button is down																		
 			rightIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed); //Turn on motors
 			leftIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 		
-		} else {																//If the RT button is up
+		} else if (controller.getRawAxis(2) > 0.7 || controller2.getRawAxis(2) > 0.7) {																//If the RT button is up
+			rightIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 	//Turn right motor forwards.
+			leftIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed);
+		} else {
 			rightIntakeWheel.set(ControlMode.PercentOutput, 0);					//Stop motors						
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
 		}
 		
-		if (controller.getRawAxis(2) > 0.7 ||  controller2.getRawAxis(2) > 0.7) {									//If Left Shoulder Button is down and we have a cube.											
-			rightIntakeWheel.set(ControlMode.PercentOutput, intakeMotorSpeed); 	//Turn right motor forwards.
-			leftIntakeWheel.set(ControlMode.PercentOutput, -intakeMotorSpeed);	//Turn left motor backwards.											
-		} else {																//If the LT button is up
-			rightIntakeWheel.set(ControlMode.PercentOutput, 0);					//Stop motors						
-			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-		}
 		
 		
 		/* a pressed -- elevator up
@@ -199,11 +195,15 @@ public class Robot extends TimedRobot {
 		//Left joystick -- elevator control
 		if(controller2.getRawAxis(1) > 0.2)
 		{
-			lift1.set(ControlMode.MotionMagic, targetPos);
+			lift1.set(ControlMode.MotionMagic, 7000);
 		}
-		if(controller2.getRawAxis(1) < -0.2 && lift1.getSelectedSensorPosition(0) > 0)
+		else if(controller2.getRawAxis(1) < -0.2 && lift1.getSelectedSensorPosition(0) > 0)
 		{
 			lift1.set(ControlMode.MotionMagic, 0);
+		}
+		else
+		{
+			lift1.set(ControlMode.PercentOutput, 0);
 		}
 		
 		
