@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.SerialPort;
 
 public class Drive {
 	
-	public static final Joystick stick = new Joystick(0);
 	public static final WPI_TalonSRX rightMain = new WPI_TalonSRX(4);  
 	public static final WPI_TalonSRX leftMain = new WPI_TalonSRX(1); 
 	public static final VictorSPX rightFollow = new VictorSPX(2);    
