@@ -8,8 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
 
 public class Drive {
-
-	public static final Joystick stick = new Joystick(0);
+	
 	public static final WPI_TalonSRX rightMain = new WPI_TalonSRX(4);  
 	public static final WPI_TalonSRX leftMain = new WPI_TalonSRX(1); 
 	public static final VictorSPX rightFollow = new VictorSPX(2);    
@@ -25,9 +24,9 @@ public class Drive {
 		leftFollow.follow(leftMain);
 	}
 	
-	public void run(){
-		double xStick = -stick.getRawAxis(4);
-		double yStick = stick.getRawAxis(1);
+	public static void run(Joystick stick1){
+		double xStick = -stick1.getRawAxis(4);
+		double yStick = stick1.getRawAxis(1);
 		if(Math.abs(xStick) < 0.15)
 			xStick = 0;
 		if(Math.abs(yStick) <0.15)
