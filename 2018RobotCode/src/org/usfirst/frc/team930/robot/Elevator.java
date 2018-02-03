@@ -15,7 +15,7 @@ public class Elevator {
 		/* first choose the sensor */
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 		lift1.setSensorPhase(false);
-		lift1.setInverted(false);
+		lift1.setInverted(true);
 
 		/* Set relevant frame periods to be at least as fast as periodic rate */
 		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
@@ -59,8 +59,37 @@ public class Elevator {
 		}
 	}
 	
-	public double getPosition()
+	/*
+	  x = 1 : intake position
+	  x = 2 : switch position
+	  x = 3 : scale position
+	 */
+	public boolean atPosition(int x)
 	{
+		if (x == 1) {
+			if (lift1.getSelectedSensorPosition(0) > 0 && lift1.getSelectedSensorPosition(0) < (Constants.intakePosition + 10)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else if (x == 2) {
+			if (lift1.getSelectedSensorPosition(0) > (Constants.switchPosition - 10) && lift1.getSelectedSensorPosition(0) < (Constants.switchPosition + 10)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else if (x == 3) {
+			if (lift1.getSelectedSensorPosition(0) > (Constants.scalePosition - 10) && lift1.getSelectedSensorPosition(0) < (Constants.scalePosition + 10)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	public double getPosition() {
 		return lift1.getSelectedSensorPosition(0);
 	}
 }
