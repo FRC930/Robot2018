@@ -25,9 +25,9 @@ public class Drive {
 		leftFollow.follow(leftMain);
 	}
 	
-	public void run(){
-		double xStick = -stick.getRawAxis(4);
-		double yStick = stick.getRawAxis(1);
+	public void run(Joystick stick1){
+		double xStick = -stick1.getRawAxis(4);
+		double yStick = stick1.getRawAxis(1);
 		if(Math.abs(xStick) < 0.15)
 			xStick = 0;
 		if(Math.abs(yStick) <0.15)

@@ -24,7 +24,7 @@ public class TeleopHandler {
 	
 	public static void run() {
 		
-		// Drive.run(stick1);
+		Drive.run(stick1);
 		
 		//if(stick1.getRawAxis(3) > 0.7 || stick2.getRawAxis(3) > 0.7) {																	
 			// Intake.run(States.INTAKING);
