@@ -25,8 +25,8 @@ public class Drive {
 	}
 	
 	public static void run(Joystick stick1){
-		double xStick = -stick1.getRawAxis(4);
-		double yStick = stick1.getRawAxis(1);
+		double xStick = -stick1.getRawAxis(Constants.rightXaxis);
+		double yStick = stick1.getRawAxis(Constants.leftYaxis);
 		if(Math.abs(xStick) < Constants.deadBand)
 			xStick = 0;
 		if(Math.abs(yStick) < Constants.deadBand)
