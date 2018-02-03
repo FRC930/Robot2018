@@ -7,8 +7,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.Joystick;
-
 public class Elevator {
 	private static TalonSRX lift1 = new TalonSRX(6);
 	private States stateEnum;
