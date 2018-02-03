@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -44,6 +45,8 @@ public class Robot extends TimedRobot {
 	//Solenoid rightSolenoid = new Solenoid(9);
 	//Solenoid leftSolenoid = new Solenoid(10);  
 	PowerDistributionPanel PDP = new PowerDistributionPanel();
+	
+	Compressor comp = new Compressor(0);
 
 	
 	//-- Intake Variable Declarations --\\
@@ -104,6 +107,8 @@ public class Robot extends TimedRobot {
 		rightFollow2.follow(rightMain);   //Sets the victors to follow their 
 		leftFollow2.follow(leftMain);   //respective talons
 		robot.setQuickStopThreshold(0.1);
+		
+		comp.setClosedLoopControl(true);
 
 		
 		//-- In take Variable Initializations --\\
