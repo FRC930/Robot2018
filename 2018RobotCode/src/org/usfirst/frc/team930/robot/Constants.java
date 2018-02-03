@@ -2,7 +2,33 @@ package org.usfirst.frc.team930.robot;
 
 public class Constants {
 	
+	//Joystick
+	//****Axis
+	public static final int leftXaxis = 0;
+	public static final int leftYaxis = 1;
+	public static final int leftTriggerAxis = 2;
+	public static final int rightTriggetAxis = 3;
+	public static final int rightXaxis = 4;
+	public static final int rightYaxis = 5;
+	
+	//****Buttons
+	public static final int A = 1;
+	public static final int B = 2;
+	public static final int X = 3;
+	public static final int Y = 4;
+	public static final int LB = 5;
+	public static final int RB = 6;
+	public static final int backButton = 7;
+	public static final int startButton = 8;
+	
 	// Drive Constants
+	public static final int rightMainTalonID = 4;
+	public static final int leftMainTalonID = 1;
+	public static final int rightFollowVictorID = 2;
+	public static final int leftFollowVictorID = 3;
+	public static final int rightFollow2VictorID = 4;
+	public static final int leftFollow2Victor = 5;
+	public static final double deadBand = 0.15;
 	
 	// In take Constants
 	public static final double currentThreshhold = 35.0;	//Thresh hold for the in take PDP current			
