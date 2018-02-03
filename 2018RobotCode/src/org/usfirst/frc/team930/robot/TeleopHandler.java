@@ -18,7 +18,9 @@ public class TeleopHandler {
 		// Elevator states
 		INTAKE_POSITION,
 		SWITCH_POSITION,
-		SCALE_POSITION
+		SCALE_POSITION_L,
+		SCALE_POSITION_M,
+		SCALE_POSITION_H
 		 
 	}
 	

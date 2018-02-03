@@ -57,8 +57,14 @@ public class Elevator {
 		case SWITCH_POSITION:
 			goToPosition(Constants.switchPosition);
 			break;
-		case SCALE_POSITION:
-			goToPosition(Constants.scalePosition);
+		case SCALE_POSITION_L:
+			goToPosition(Constants.scalePositionLow);
+			break;
+		case SCALE_POSITION_M:
+			goToPosition(Constants.scalePositionMid);
+			break;
+		case SCALE_POSITION_H:
+			goToPosition(Constants.scalePositionHigh);
 			break;
 		default:
 			lift1.set(ControlMode.PercentOutput, 0);
@@ -82,8 +88,20 @@ public class Elevator {
 			} else {
 				return false;
 			}
-		case SCALE_POSITION:
-			if (lift1.getSelectedSensorPosition(0) > (Constants.scalePosition - 10) && lift1.getSelectedSensorPosition(0) < (Constants.scalePosition + 10)) {
+		case SCALE_POSITION_L:
+			if (lift1.getSelectedSensorPosition(0) > (Constants.scalePositionLow - 10) && lift1.getSelectedSensorPosition(0) < (Constants.scalePositionLow + 10)) {
+				return true;
+			} else {
+				return false;
+			}
+		case SCALE_POSITION_M:
+			if (lift1.getSelectedSensorPosition(0) > (Constants.scalePositionMid - 10) && lift1.getSelectedSensorPosition(0) < (Constants.scalePositionMid + 10)) {
+				return true;
+			} else {
+				return false;
+			}
+		case SCALE_POSITION_H:
+			if (lift1.getSelectedSensorPosition(0) > (Constants.scalePositionHigh - 10) && lift1.getSelectedSensorPosition(0) < (Constants.scalePositionHigh + 10)) {
 				return true;
 			} else {
 				return false;
