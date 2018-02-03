@@ -22,9 +22,9 @@ public class MotionProfile {
 		time = new Timer();
 		
 		Waypoint[] points = new Waypoint[] {
-			    new Waypoint(0, 0, 0),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-			    new Waypoint(2, 0, Pathfinder.d2r(0)),  
-			    new Waypoint(4,3, Pathfinder.d2r(90)),
+				new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
+			    new Waypoint(2,0,0),
+			    new Waypoint(5,-2,Pathfinder.d2r(270)),
 			   // new Waypoint(2,6,Pathfinder.d2r(180)),
 			   // new Waypoint(5.5,5,Pathfinder.d2r(180))// Waypoint @ x=-2, y=-2, exit angle=0 radians
 			};
@@ -40,7 +40,7 @@ public class MotionProfile {
 	    Trajectory right = modifier.getRightTrajectory();
 		enc = new EncoderFollower(right);
 		enc2 = new EncoderFollower(left);
-		enc.configurePIDVA(0.9, 0, 0, 0.3, 0.08);
+		enc.configurePIDVA(0.9, 0, 0, 0.3, 0.08); 
 		enc2.configurePIDVA(0.9, 0, 0, 0.3, 0.08);
 		enc.configureEncoder(Drive.rightMain.getSelectedSensorPosition(0), 1024, .102);
 		enc2.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
@@ -51,16 +51,28 @@ public class MotionProfile {
 	
 	public void run(){
 		if(time.get()>1){
-			double angle_difference = Math.toDegrees(enc.getHeading()) + Drive.gyro.getYaw();
-			double kG = 0.8 * (-1.0/80.0);
+			
+			double heading = Math.toDegrees(enc.getHeading());
+			if(heading >180)
+				heading = heading%180-180;
+			double yaw = Drive.gyro.getYaw();//(Math.toDegrees(enc.getHeading())-180)%180;
+			/*if(gyro.getYaw()<0)
+				yaw = yaw + 360;*/
+			
+			double error = heading + yaw;
+			if(error>180)
+				error = error-360;
+			else if(error < -180)
+				error = error+360;
+			double kG = -0.025;//0.8 * (-1.0/80.0);
 
-			double turn = kG * angle_difference;
+			double turn = kG * error;
 				
 			/*System.out.println("GYRO YAW value:   " +  gyro.getYaw());
 			System.out.println("HEading we are shooting for:  " + Math.toDegrees(enc.getHeading()));
 			System.out.println("Turn Value: " + turn);*/
 			
-			System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", Math.toDegrees(enc.getHeading()),-Drive.gyro.getYaw(),turn); 
+			System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading,-yaw,turn); 
 			
 			double calc = (enc.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
 			double calc2 = (enc2.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
@@ -74,6 +86,7 @@ public class MotionProfile {
 			System.out.println(calc2);
 			}
 			}*/
+			}
 	}
 	}
-}
+
