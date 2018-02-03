@@ -1,5 +1,7 @@
 package org.usfirst.frc.team930.robot;
 
+import org.usfirst.frc.team930.robot.TeleopHandler.States;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -9,7 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class Elevator {
 	private static TalonSRX lift1 = new TalonSRX(6);
-	private static Joystick controller2 = new Joystick(1);
+	private States stateEnum;
 	
 	public static void init() {
 		/* first choose the sensor */
@@ -47,44 +49,48 @@ public class Elevator {
 		lift1.set(ControlMode.MotionMagic, height);
 	}
 
-	public void run() {
-		if (controller2.getRawButton(1)) {
+	public void run(Enum pos1) {
+		stateEnum = (States) pos1;
+		
+		switch(stateEnum) {
+		case INTAKE_POSITION:
 			goToPosition(Constants.intakePosition);
-		} else if (controller2.getRawButton(2)) {
+			break;
+		case SWITCH_POSITION:
 			goToPosition(Constants.switchPosition);
-		} else if (controller2.getRawButton(3)) {
+			break;
+		case SCALE_POSITION:
 			goToPosition(Constants.scalePosition);
-		} else {
+			break;
+		default:
 			lift1.set(ControlMode.PercentOutput, 0);
 		}
 	}
+
 	
-	/*
-	  x = 1 : intake position
-	  x = 2 : switch position
-	  x = 3 : scale position
-	 */
-	public boolean atPosition(int x)
-	{
-		if (x == 1) {
+	public boolean atPosition(Enum pos2) {
+		stateEnum = (States) pos2;
+		
+		switch(stateEnum) {
+		case INTAKE_POSITION:
 			if (lift1.getSelectedSensorPosition(0) > 0 && lift1.getSelectedSensorPosition(0) < (Constants.intakePosition + 10)) {
 				return true;
 			} else {
 				return false;
 			}
-		} else if (x == 2) {
+		case SWITCH_POSITION:
 			if (lift1.getSelectedSensorPosition(0) > (Constants.switchPosition - 10) && lift1.getSelectedSensorPosition(0) < (Constants.switchPosition + 10)) {
 				return true;
 			} else {
 				return false;
 			}
-		} else if (x == 3) {
+		case SCALE_POSITION:
 			if (lift1.getSelectedSensorPosition(0) > (Constants.scalePosition - 10) && lift1.getSelectedSensorPosition(0) < (Constants.scalePosition + 10)) {
 				return true;
 			} else {
 				return false;
 			}
-		} else {
+		default:
 			return false;
 		}
 	}
