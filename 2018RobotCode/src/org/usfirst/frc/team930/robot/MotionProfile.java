@@ -13,11 +13,11 @@ import jaci.pathfinder.modifiers.TankModifier;
 
 public class MotionProfile {
 
-	EncoderFollower enc;
-	EncoderFollower enc2;
-	Timer time;
+	private static EncoderFollower enc;
+	private static EncoderFollower enc2;
+	private static Timer time;
 	
-	public void init(){
+	public static void init(){
 		
 		time = new Timer();
 		
@@ -43,9 +43,9 @@ public class MotionProfile {
 		time.start();
 	}
 	
-	public void run(){
+	public static void run(double d){
 		
-		if(time.get()>1){
+		if(time.get()>d){
 			
 			double heading = Math.toDegrees(enc.getHeading());
 			
@@ -58,6 +58,7 @@ public class MotionProfile {
 				error = error-360;
 			else if(error < -180)
 				error = error+360;
+			
 			double kG = -0.025;//0.8 * (-1.0/80.0);
 
 			double turn = kG * error;
