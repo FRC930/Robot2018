@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -67,7 +68,7 @@ public class Robot extends TimedRobot {
 		/* first choose the sensor */
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants1.kPIDLoopIdx, Constants1.kTimeoutMs);
 		lift1.setSensorPhase(false);
-		lift1.setInverted(true);
+		lift1.setInverted(false);
 
 		/* Set relevant frame periods to be at least as fast as periodic rate */
 		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants1.kTimeoutMs);
@@ -80,7 +81,7 @@ public class Robot extends TimedRobot {
 		lift1.configPeakOutputReverse(-1, Constants1.kTimeoutMs);
 		
 		lift1.configForwardSoftLimitThreshold(7000, Constants1.kTimeoutMs);
-		lift1.configReverseSoftLimitThreshold(0, Constants1.kTimeoutMs);
+		lift1.configReverseSoftLimitThreshold(50, Constants1.kTimeoutMs);
 
 		/* set closed loop gains in slot0 - see documentation */
 		lift1.selectProfileSlot(Constants1.kSlotIdx, Constants1.kPIDLoopIdx);
@@ -164,6 +165,18 @@ public class Robot extends TimedRobot {
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
 		}
 		
+		if(controller.getRawButton(4)) {
+			controller.setRumble(GenericHID.RumbleType.kLeftRumble , 0.5);
+			controller.setRumble(GenericHID.RumbleType.kRightRumble , 0.5);
+		} else if(controller2.getRawButton(4)) {
+			controller2.setRumble(GenericHID.RumbleType.kLeftRumble , 0.5);
+			controller2.setRumble(GenericHID.RumbleType.kRightRumble , 0.5);
+		} else {
+			controller.setRumble(GenericHID.RumbleType.kLeftRumble , 0);
+			controller.setRumble(GenericHID.RumbleType.kRightRumble , 0);
+			controller2.setRumble(GenericHID.RumbleType.kLeftRumble , 0);
+			controller2.setRumble(GenericHID.RumbleType.kRightRumble , 0);
+		}
 		
 		
 		/* a pressed -- elevator up
@@ -198,11 +211,11 @@ public class Robot extends TimedRobot {
 		}*/
 		
 		//Left joystick -- elevator control
-		if(controller2.getRawAxis(1) > 0.2)
+		if(controller2.getRawAxis(1) < -0.2)
 		{
 			lift1.set(ControlMode.MotionMagic, 7000);
 		}
-		else if(controller2.getRawAxis(1) < -0.2 && lift1.getSelectedSensorPosition(0) > 0)
+		else if(controller2.getRawAxis(1) > 0.2 && lift1.getSelectedSensorPosition(0) > 0)
 		{
 			lift1.set(ControlMode.MotionMagic, 0);
 		}

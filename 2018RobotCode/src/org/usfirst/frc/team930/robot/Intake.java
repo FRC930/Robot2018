@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -61,6 +62,8 @@ public class Intake {
 			holdingCube = true;														//We are holding a cube.								
 			rightIntakeWheel.set(ControlMode.PercentOutput, 0);						//Stops motors		
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
+			//controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0.5);			//Rumbles controller when cube is held
+			//controller.setRumble(GenericHID.RumbleType.kRightRumble, 0.5);
 			//rightSolenoid.set(false);										
 			//leftSolenoid.set(false);
 			PDPcounter = 0;															//Reset counter
@@ -69,6 +72,8 @@ public class Intake {
 		if (controller.getRawAxis(2) > 0.7 && holdingCube) {						//If Left Shoulder Button is down and we have a cube.											
 			rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); 		//Turn right motor forwards.
 			leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);		//Turn left motor backwards.
+			//controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0);			//Turn off rumble when cube leaves
+			//controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
 			//rightSolenoid.set(true);												//Open pistons.
 			//leftSolenoid.set(true);
 			Timer.delay(0.4);														//Wait for cube to leave.
