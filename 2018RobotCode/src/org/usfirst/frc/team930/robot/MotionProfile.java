@@ -21,11 +21,8 @@ public class MotionProfile {
 		
 		time = new Timer();
 		
-		Waypoint[] points = new Waypoint[] {
-				new Waypoint(0, 0, Pathfinder.d2r(0)),     
-			    new Waypoint(2,0,0),
-			    new Waypoint(5,-2,Pathfinder.d2r(270)),
-			};
+		Waypoint[] points = AutoRoutine.points;
+		
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.01, 4.0, 4.0, 50.0);
 
 		Trajectory tra = Pathfinder.generate(points, config);
