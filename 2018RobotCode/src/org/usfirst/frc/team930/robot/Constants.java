@@ -7,7 +7,7 @@ public class Constants {
 	public static final int leftXaxis = 0;
 	public static final int leftYaxis = 1;
 	public static final int leftTriggerAxis = 2;
-	public static final int rightTriggetAxis = 3;
+	public static final int rightTriggerAxis = 3;
 	public static final int rightXaxis = 4;
 	public static final int rightYaxis = 5;
 	

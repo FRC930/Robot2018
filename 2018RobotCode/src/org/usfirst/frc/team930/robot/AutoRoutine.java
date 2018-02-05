@@ -9,7 +9,6 @@ import jaci.pathfinder.Waypoint;
 public class AutoRoutine {
 
 	private String variation;
-	private StartPositions pos;
 	private Routine r;
 
 	private StartPositions posEnum;

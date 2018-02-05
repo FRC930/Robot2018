@@ -32,7 +32,7 @@ public class AutoHandler {
 		posChooser.addObject("Left", StartPositions.LEFT);
 		posChooser.addObject("Middle", StartPositions.MIDDLE);
         posChooser.addObject("Right", StartPositions.RIGHT);
-        SmartDashboard.putData("Postions", posChooser);
+        SmartDashboard.putData("Positions", posChooser);
         
         goalChooser.addObject("Always Switch", Goal.ALWAYS_SWITCH);
         goalChooser.addObject("Always Scale", Goal.ALWAYS_SCALE);
