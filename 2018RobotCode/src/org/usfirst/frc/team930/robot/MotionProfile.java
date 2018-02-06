@@ -72,6 +72,12 @@ public class MotionProfile {
 			Drive.leftMain.set(ControlMode.PercentOutput, -(calc2 + turn));
 			
 		}
+		
+		
+		
+	}
+	public boolean isLastPoint(){
+		return (enc.isFinished()&&enc2.isFinished());
 	}
 }
 	
