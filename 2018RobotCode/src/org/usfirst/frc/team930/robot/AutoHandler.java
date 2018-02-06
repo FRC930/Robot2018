@@ -67,16 +67,16 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
-					auto = new LeftRightScale(variation);
+					auto= new LeftRightScale(variation);
 					break;
 				case "RLR":
-					auto = new LeftLeftScale(variation);
+					auto= new LeftLeftScale(variation);
 					break;
 				case "LLL":
-					auto = new LeftLeftScale(variation);
+					auto= new LeftLeftScale(variation);
 					break;
 				case "RRR":
-					auto = new LeftRightScale(variation);
+					auto= new LeftRightScale(variation);
 					break;
 
 				}
@@ -85,16 +85,16 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
-					auto = new LeftRightSwitch(variation);
+					auto= new LeftLeftSwitch(variation);
 					break;
 				case "RLR":
-					auto = new LeftLeftSwitch(variation);
+					auto= new LeftRightSwitch(variation);
 					break;
 				case "LLL":
-					auto = new LeftLeftSwitch(variation);
+					auto= new LeftLeftSwitch(variation);
 					break;
 				case "RRR":
-					auto = new LeftRightSwitch(variation);
+					auto= new LeftRightSwitch(variation);
 					break;
 
 				}
@@ -103,16 +103,16 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
-					auto = new LeftLeftSwitch(variation);
+					auto= new LeftLeftSwitch(variation);
 					break;
 				case "RLR":
-					auto = new LeftLeftScale(variation);
+					auto= new LeftLeftScale(variation);
 					break;
 				case "LLL":
-					auto = new LeftLeftScale(variation);
+					auto= new LeftLeftScale(variation);
 					break;
 				case "RRR":
-					auto = new Line(variation);
+					auto= new Line(variation);
 					break;
 
 				}
@@ -121,16 +121,16 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
-					auto = new LeftLeftSwitch(variation);
+					auto= new LeftLeftSwitch(variation);
 					break;
 				case "RLR":
-					auto = new LeftLeftScale(variation);
+					auto= new LeftLeftScale(variation);
 					break;
 				case "LLL":
-					auto = new LeftLeftSwitch(variation);
+					auto= new LeftLeftSwitch(variation);
 					break;
 				case "RRR":
-					auto = new Line(variation);
+					auto= new Line(variation);
 					break;
 
 				}
@@ -144,22 +144,22 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
-					auto = new MiddleLeftSwitch(variation);
+					auto= new MiddleLeftSwitch(variation);
 					break;
 				case "RLR":
-					auto = new MiddleRightSwitch(variation);
+					auto= new MiddleRightSwitch(variation);
 					break;
 				case "LLL":
-					auto = new MiddleLeftSwitch(variation);
+					auto= new MiddleLeftSwitch(variation);
 					break;
 				case "RRR":
-					auto = new MiddleRightSwitch(variation);
+					auto= new MiddleRightSwitch(variation);
 					break;
 
 				}
 				break;
 			case LINE:
-				auto = new Line(variation);
+				auto= new Line(variation);
 				break;
 
 			}
@@ -171,16 +171,16 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
-					auto = new RightRightScale(variation);
+					auto= new RightRightScale(variation);
 					break;
 				case "RLR":
-					auto = new RightLeftScale(variation);
+					auto= new RightLeftScale(variation);
 					break;
 				case "LLL":
-					auto = new RightLeftScale(variation);
+					auto= new RightLeftScale(variation);
 					break;
 				case "RRR":
-					auto = new RightRightScale(variation);
+					auto= new RightRightScale(variation);
 					break;
 
 				}
@@ -189,16 +189,16 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
-					auto = new RightRightSwitch(variation);
+					auto= new RightLeftSwitch(variation);
 					break;
 				case "RLR":
-					auto = new RightLeftSwitch(variation);
+					auto= new RightRightSwitch(variation);
 					break;
 				case "LLL":
-					auto = new RightLeftSwitch(variation);
+					auto= new RightLeftSwitch(variation);
 					break;
 				case "RRR":
-					auto = new RightRightSwitch(variation);
+					auto= new RightRightSwitch(variation);
 					break;
 
 				}
@@ -207,16 +207,16 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
-					auto = new RightScale(variation);
+					auto= new RightRightScale(variation);
 					break;
 				case "RLR":
-					auto = new RightSwitch(variation);
+					auto= new RightRightSwitch(variation);
 					break;
 				case "LLL":
-					auto = new Line(variation);
+					auto= new Line(variation);
 					break;
 				case "RRR":
-					auto = new RightScale(variation);
+					auto= new RightRightScale(variation);
 					break;
 
 				}
@@ -225,16 +225,16 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
-					auto = new RightScale(variation);
+					auto= new RightRightScale(variation);
 					break;
 				case "RLR":
-					auto = new RightSwitch(variation);
+					auto= new RightRightSwitch(variation);
 					break;
 				case "LLL":
-					auto = new Line(variation);
+					auto= new Line(variation);
 					break;
 				case "RRR":
-					auto = new RightSwitch(variation);
+					auto= new RightRightSwitch(variation);
 					break;
 
 				}

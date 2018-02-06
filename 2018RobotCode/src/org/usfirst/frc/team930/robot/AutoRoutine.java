@@ -48,10 +48,10 @@ public class AutoRoutine {
 				switch (variation) {
 
 				case "LRL":
-					r = new LeftRightSwitch(variation);
+					r = new LeftLeftSwitch(variation);
 					break;
 				case "RLR":
-					r = new LeftLeftSwitch(variation);
+					r = new LeftRightSwitch(variation);
 					break;
 				case "LLL":
 					r = new LeftLeftSwitch(variation);
@@ -152,10 +152,10 @@ public class AutoRoutine {
 				switch (variation) {
 
 				case "LRL":
-					r = new RightRightSwitch(variation);
+					r = new RightLeftSwitch(variation);
 					break;
 				case "RLR":
-					r = new RightLeftSwitch(variation);
+					r = new RightRightSwitch(variation);
 					break;
 				case "LLL":
 					r = new RightLeftSwitch(variation);
@@ -170,16 +170,16 @@ public class AutoRoutine {
 				switch (variation) {
 
 				case "LRL":
-					r = new RightScale(variation);
+					r = new RightRightScale(variation);
 					break;
 				case "RLR":
-					r = new RightSwitch(variation);
+					r = new RightRightSwitch(variation);
 					break;
 				case "LLL":
 					r = new Line(variation);
 					break;
 				case "RRR":
-					r = new RightScale(variation);
+					r = new RightRightScale(variation);
 					break;
 
 				}
@@ -188,16 +188,16 @@ public class AutoRoutine {
 				switch (variation) {
 
 				case "LRL":
-					r = new RightScale(variation);
+					r = new RightRightScale(variation);
 					break;
 				case "RLR":
-					r = new RightSwitch(variation);
+					r = new RightRightSwitch(variation);
 					break;
 				case "LLL":
 					r = new Line(variation);
 					break;
 				case "RRR":
-					r = new RightSwitch(variation);
+					r = new RightRightSwitch(variation);
 					break;
 
 				}
