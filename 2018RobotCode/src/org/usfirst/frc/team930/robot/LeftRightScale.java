@@ -1,8 +1,8 @@
 package org.usfirst.frc.team930.robot;
 
-public class Line extends Routine{
+public class LeftRightScale extends Routine {
 	
-	public Line(String v) {
+	public LeftRightScale(String v) {
 		
 		super(v);
 		
@@ -31,4 +31,3 @@ public class Line extends Routine{
 	}
 
 }
-

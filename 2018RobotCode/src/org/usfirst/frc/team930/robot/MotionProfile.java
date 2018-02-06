@@ -17,7 +17,7 @@ public class MotionProfile {
 	private static EncoderFollower enc2;
 	private static Timer time;
 	
-	public static void init(){
+	public static void init() {
 		
 		time = new Timer();
 		
@@ -41,9 +41,10 @@ public class MotionProfile {
 
 		Drive.gyro.reset();
 		time.start();
+		
 	}
 	
-	public static void run(double d){
+	public static void run(double d) {
 		
 		if(time.get()>d){
 			
@@ -72,13 +73,15 @@ public class MotionProfile {
 			Drive.leftMain.set(ControlMode.PercentOutput, -(calc2 + turn));
 			
 		}
-		
-		
-		
+			
 	}
-	public boolean isLastPoint(){
+	
+	public static boolean isLastPoint(){
+		
 		return (enc.isFinished()&&enc2.isFinished());
+		
 	}
+	
 }
 	
 	

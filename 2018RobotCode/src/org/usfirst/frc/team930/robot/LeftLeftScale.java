@@ -1,13 +1,13 @@
 package org.usfirst.frc.team930.robot;
 
-public class Line extends Routine{
+public class LeftLeftScale extends Routine {
 	
-	public Line(String v) {
+	public LeftLeftScale(String v) {
 		
 		super(v);
 		
 	}
-
+	
 	public void variation() {
 		
 		switch (this.autoStep) {
@@ -31,4 +31,3 @@ public class Line extends Routine{
 	}
 
 }
-

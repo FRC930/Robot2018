@@ -3,7 +3,6 @@ package org.usfirst.frc.team930.robot;
 import org.usfirst.frc.team930.robot.AutoHandler.Goal;
 import org.usfirst.frc.team930.robot.AutoHandler.StartPositions;
 
-import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;
 
 public class AutoRoutine {
@@ -28,22 +27,52 @@ public class AutoRoutine {
 			switch (goalEnum) {
 
 			case ALWAYS_SCALE:
-				r = new LeftScale(variation);
+				switch (variation) {
+
+				case "LRL":
+					r = new LeftRightScale(variation);
+					break;
+				case "RLR":
+					r = new LeftLeftScale(variation);
+					break;
+				case "LLL":
+					r = new LeftLeftScale(variation);
+					break;
+				case "RRR":
+					r = new LeftRightScale(variation);
+					break;
+
+				}
 				break;
 			case ALWAYS_SWITCH:
-				r = new LeftSwitch(variation);
+				switch (variation) {
+
+				case "LRL":
+					r = new LeftRightSwitch(variation);
+					break;
+				case "RLR":
+					r = new LeftLeftSwitch(variation);
+					break;
+				case "LLL":
+					r = new LeftLeftSwitch(variation);
+					break;
+				case "RRR":
+					r = new LeftRightSwitch(variation);
+					break;
+
+				}
 				break;
 			case PERFERRED_SCALE:
 				switch (variation) {
 
 				case "LRL":
-					r = new LeftSwitch(variation);
+					r = new LeftLeftSwitch(variation);
 					break;
 				case "RLR":
-					r = new LeftScale(variation);
+					r = new LeftLeftScale(variation);
 					break;
 				case "LLL":
-					r = new LeftScale(variation);
+					r = new LeftLeftScale(variation);
 					break;
 				case "RRR":
 					r = new Line(variation);
@@ -55,13 +84,13 @@ public class AutoRoutine {
 				switch (variation) {
 
 				case "LRL":
-					r = new LeftSwitch(variation);
+					r = new LeftLeftSwitch(variation);
 					break;
 				case "RLR":
-					r = new LeftScale(variation);
+					r = new LeftLeftScale(variation);
 					break;
 				case "LLL":
-					r = new LeftSwitch(variation);
+					r = new LeftLeftSwitch(variation);
 					break;
 				case "RRR":
 					r = new Line(variation);
@@ -102,10 +131,40 @@ public class AutoRoutine {
 			switch (goalEnum) {
 
 			case ALWAYS_SCALE:
-				r = new RightScale(variation);
+				switch (variation) {
+
+				case "LRL":
+					r = new RightRightScale(variation);
+					break;
+				case "RLR":
+					r = new RightLeftScale(variation);
+					break;
+				case "LLL":
+					r = new RightLeftScale(variation);
+					break;
+				case "RRR":
+					r = new RightRightScale(variation);
+					break;
+
+				}
 				break;
 			case ALWAYS_SWITCH:
-				r = new RightSwitch(variation);
+				switch (variation) {
+
+				case "LRL":
+					r = new RightRightSwitch(variation);
+					break;
+				case "RLR":
+					r = new RightLeftSwitch(variation);
+					break;
+				case "LLL":
+					r = new RightLeftSwitch(variation);
+					break;
+				case "RRR":
+					r = new RightRightSwitch(variation);
+					break;
+
+				}
 				break;
 			case PERFERRED_SCALE:
 				switch (variation) {

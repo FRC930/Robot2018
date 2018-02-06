@@ -1,8 +1,8 @@
 package org.usfirst.frc.team930.robot;
 
-public class Line extends Routine{
+public class RightLeftSwitch extends Routine {
 	
-	public Line(String v) {
+	public RightLeftSwitch(String v) {
 		
 		super(v);
 		
@@ -31,4 +31,3 @@ public class Line extends Routine{
 	}
 
 }
-
