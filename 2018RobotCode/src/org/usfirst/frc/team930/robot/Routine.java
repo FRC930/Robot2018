@@ -3,7 +3,7 @@ package org.usfirst.frc.team930.robot;
 public abstract class Routine {
 	
 	protected static String variation;
-	protected int segment = 1;
+	protected int autoStep = 1;
 	protected Segments segList = new Segments();
 	protected Actions actList = new Actions();
 	
@@ -47,7 +47,7 @@ public abstract class Routine {
 	
 	public void reset() {
 		
-		this.segment = 1;
+		this.autoStep = 1;
 		
 	}
 

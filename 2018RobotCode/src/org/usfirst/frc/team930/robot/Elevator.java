@@ -8,8 +8,8 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Elevator {
-	private static TalonSRX lift1 = new TalonSRX(6);
-	private States stateEnum;
+	public static TalonSRX lift1 = new TalonSRX(6);
+	private static States stateEnum;
 	
 	public static void init() {
 		/* first choose the sensor */
@@ -43,11 +43,11 @@ public class Elevator {
 		lift1.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 	}
 	
-	public void goToPosition(double height) {
+	public static void goToPosition(double height) {
 		lift1.set(ControlMode.MotionMagic, height);
 	}
 
-	public void run(Enum pos1) {
+	public static void run(Enum pos1) {
 		stateEnum = (States) pos1;
 		
 		switch(stateEnum) {

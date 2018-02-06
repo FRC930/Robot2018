@@ -1,8 +1,8 @@
 package org.usfirst.frc.team930.robot;
 
-public class Routine4 extends Routine{
+public class LeftScale extends Routine {
 	
-	public Routine4(String v) {
+	public LeftScale(String v) {
 		
 		super(v);
 		
@@ -10,16 +10,16 @@ public class Routine4 extends Routine{
 	
 	public void variation1() {
 		
-		switch (this.segment) {
+		switch (this.autoStep) {
 			case 1:
 				if(segList.seg1())	{
-					this.segment = 2;
+					this.autoStep = 2;
 					System.out.println("Segment 1 Done");
 				}
 				break;
 			case 2:
 				if(actList.act1()) {
-					this.segment = 3;
+					this.autoStep = 3;
 					System.out.println("Action 1 Done");
 				}
 				break;
@@ -32,16 +32,16 @@ public class Routine4 extends Routine{
 	
 	public void variation2() {
 		
-		switch (this.segment) {
+		switch (this.autoStep) {
 			case 1:
 				if(segList.seg1())	{
-					this.segment = 2;
+					this.autoStep = 2;
 					System.out.println("Segment 1 Done");
 				}
 				break;
 			case 2:
 				if(actList.act1()) {
-					this.segment = 3;
+					this.autoStep = 3;
 					System.out.println("Action 1 Done");
 				}
 				break;
@@ -53,16 +53,16 @@ public class Routine4 extends Routine{
 
 	public void variation3() {
 		
-		switch (this.segment) {
+		switch (this.autoStep) {
 			case 1:
 				if(segList.seg1())	{
-					this.segment = 2;
+					this.autoStep = 2;
 					System.out.println("Segment 1 Done");
 				}
 				break;
 			case 2:
 				if(actList.act1()) {
-					this.segment = 3;
+					this.autoStep = 3;
 					System.out.println("Action 1 Done");
 				}
 				break;
@@ -74,16 +74,16 @@ public class Routine4 extends Routine{
 
 	public void variation4() {
 		
-		switch (this.segment) {
+		switch (this.autoStep) {
 			case 1:
 				if(segList.seg1())	{
-					this.segment = 2;
+					this.autoStep = 2;
 					System.out.println("Segment 1 Done");
 				}
 				break;
 			case 2:
 				if(actList.act1()) {
-					this.segment = 3;
+					this.autoStep = 3;
 					System.out.println("Action 1 Done");
 				}
 				break;
@@ -94,4 +94,3 @@ public class Routine4 extends Routine{
 	}
 
 }
-

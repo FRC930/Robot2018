@@ -28,25 +28,25 @@ public class AutoRoutine {
 			switch (goalEnum) {
 
 			case ALWAYS_SCALE:
-				r = new Routine1(variation);
+				r = new LeftScale(variation);
 				break;
 			case ALWAYS_SWITCH:
-				r = new Routine2(variation);
+				r = new LeftSwitch(variation);
 				break;
 			case PERFERRED_SCALE:
 				switch (variation) {
 
 				case "LRL":
-					r = new Routine2(variation);
+					r = new LeftSwitch(variation);
 					break;
 				case "RLR":
-					r = new Routine1(variation);
+					r = new LeftScale(variation);
 					break;
 				case "LLL":
-					r = new Routine1(variation);
+					r = new LeftScale(variation);
 					break;
 				case "RRR":
-					r = new Routine7(variation);
+					r = new Line(variation);
 					break;
 
 				}
@@ -55,16 +55,16 @@ public class AutoRoutine {
 				switch (variation) {
 
 				case "LRL":
-					r = new Routine2(variation);
+					r = new LeftSwitch(variation);
 					break;
 				case "RLR":
-					r = new Routine1(variation);
+					r = new LeftScale(variation);
 					break;
 				case "LLL":
-					r = new Routine2(variation);
+					r = new LeftSwitch(variation);
 					break;
 				case "RRR":
-					r = new Routine7(variation);
+					r = new Line(variation);
 					break;
 
 				}
@@ -75,10 +75,25 @@ public class AutoRoutine {
 			switch (goalEnum) {
 
 			case ALWAYS_SWITCH:
-				r = new Routine4(variation);
+				switch (variation) {
+
+				case "LRL":
+					r = new MiddleLeftSwitch(variation);
+					break;
+				case "RLR":
+					r = new MiddleRightSwitch(variation);
+					break;
+				case "LLL":
+					r = new MiddleLeftSwitch(variation);
+					break;
+				case "RRR":
+					r = new MiddleRightSwitch(variation);
+					break;
+
+				}
 				break;
 			case LINE:
-				r = new Routine7(variation);
+				r = new Line(variation);
 				break;
 
 			}
@@ -87,25 +102,25 @@ public class AutoRoutine {
 			switch (goalEnum) {
 
 			case ALWAYS_SCALE:
-				r = new Routine5(variation);
+				r = new RightScale(variation);
 				break;
 			case ALWAYS_SWITCH:
-				r = new Routine6(variation);
+				r = new RightSwitch(variation);
 				break;
 			case PERFERRED_SCALE:
 				switch (variation) {
 
 				case "LRL":
-					r = new Routine5(variation);
+					r = new RightScale(variation);
 					break;
 				case "RLR":
-					r = new Routine6(variation);
+					r = new RightSwitch(variation);
 					break;
 				case "LLL":
-					r = new Routine7(variation);
+					r = new Line(variation);
 					break;
 				case "RRR":
-					r = new Routine5(variation);
+					r = new RightScale(variation);
 					break;
 
 				}
@@ -114,16 +129,16 @@ public class AutoRoutine {
 				switch (variation) {
 
 				case "LRL":
-					r = new Routine5(variation);
+					r = new RightScale(variation);
 					break;
 				case "RLR":
-					r = new Routine6(variation);
+					r = new RightSwitch(variation);
 					break;
 				case "LLL":
-					r = new Routine7(variation);
+					r = new Line(variation);
 					break;
 				case "RRR":
-					r = new Routine6(variation);
+					r = new RightSwitch(variation);
 					break;
 
 				}
