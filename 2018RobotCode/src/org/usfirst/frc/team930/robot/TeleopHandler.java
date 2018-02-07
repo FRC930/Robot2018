@@ -29,11 +29,13 @@ public class TeleopHandler {
 		Drive.run(stick1);
 		
 		if(stick1.getRawAxis(Constants.rightTriggerAxis) > 0.7 || stick2.getRawAxis(Constants.rightTriggerAxis) > 0.7)																
-			Intake.run(States.INTAKING);
+			Intake.run(States.INTAKING, stick1, stick2);
 		else if(stick1.getRawAxis(Constants.leftTriggerAxis) > 0.7 || stick2.getRawAxis(Constants.leftTriggerAxis) > 0.7)																
-			Intake.run(States.OUTTAKING);
+			Intake.run(States.OUTTAKING, stick1, stick2);
 		else
-			Intake.run(States.INTAKE_DONE);
+			Intake.run(States.INTAKE_DONE, stick1, stick2);
+		
+		
 		
 		if(stick2.getRawAxis(Constants.leftYaxis) < -0.2)														
 			Elevator.run(States.SCALE_POSITION_H);

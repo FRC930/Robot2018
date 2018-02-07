@@ -22,7 +22,6 @@ public class Intake {
 	private static VictorSPX leftIntakeWheel = new VictorSPX(8);
 	// private static Solenoid rightSolenoid = new Solenoid(9);
 	// private static Solenoid leftSolenoid = new Solenoid(10);
-	private static Joystick controller = new Joystick(0);
 	private static PowerDistributionPanel PDP = new PowerDistributionPanel(0);
 
 	// -- In take Variable Declarations --\\
@@ -38,7 +37,7 @@ public class Intake {
 		PDPcounter = 0;
 	}
 
-	public static void run(Enum state) {
+	public static void run(Enum state, Joystick stick1, Joystick stick2) {
 		
 		stateEnum = (States) state;
 
@@ -48,40 +47,41 @@ public class Intake {
 		SmartDashboard.putData("PDP Channel 11 Graph", PDP);
 
 		switch (stateEnum) {
-		case INTAKING:
-			intaking();
-			break;
-		case INTAKE_DONE:
-			intakeDone();
-			break;
-		case OUTTAKING:
-			outtaking();
-			break;
-			
-		default:
-			break;
+			case INTAKING:
+				inTaking(stick1, stick2);
+				break;
+			case INTAKE_DONE:
+				inTakeDone();
+				break;
+			case OUTTAKING:
+				outTaking();
+				break;
+				
+			default:
+				break;
 		}
 	}
-	public static void intaking() {
+	
+	public static void inTaking() {
 		
-		if (!holdingCube) { // If we're not holding a cube.
-			if (controller.getRawAxis(3) > 0.7) { // If the RT button is down
-				rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); // Turn on motors
+		if (!holdingCube) { 																	// If we're not holding a cube.
+			if (controller.getRawAxis(3) > 0.7) { 												// If the RT button is down
+				rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); 	// Turn on motors
 				leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);
-				if (PDP.getCurrent(11) > Constants.currentThreshhold) { // If we're above a threshold.
-					PDPcounter++; // PDPcounter = PDPcounter + 1;
-				} else { // Else if we're below it.
-					PDPcounter = 0; // Reset counter.
+				if (PDP.getCurrent(11) > Constants.currentThreshhold) { 						// If we're above a threshold.
+					PDPcounter++; 																// PDPcounter = PDPcounter + 1;
+				} else { 																		// Else if we're below it.
+					PDPcounter = 0; 															// Reset counter.
 				}
-			} else { // If the RT button is up
-				rightIntakeWheel.set(ControlMode.PercentOutput, 0); // Stop motors
+			} else { 																			// If the RT button is up
+				rightIntakeWheel.set(ControlMode.PercentOutput, 0);								// Stop motors
 				leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-				PDPcounter = 0; // Reset counter.
+				PDPcounter = 0; 																// Reset counter.
 			}
 		}
 	}
 		
-	public static void intakeDone() {
+	public static void inTakeDone() {
 
 		if (PDPcounter >= Constants.PDPcounterLimit) { // If the counter is equal to or above the limit.
 			System.out.println("Itwerks"); // Checks if it passes for user.
@@ -97,7 +97,7 @@ public class Intake {
 		}
 	}
 	
-	public static void outtaking() {
+	public static void outTaking() {
 
 		if (controller.getRawAxis(2) > 0.7 && holdingCube) { // If Left Shoulder Button is down and we have a cube.
 			rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn right motor
