@@ -51,6 +51,9 @@ public class Robot extends TimedRobot {
 		/* zero the sensor */
 		_talon.setSelectedSensorPosition(0, Constants2.kPIDLoopIdx, Constants2.kTimeoutMs);
 		
+		SmartDashboard.putNumber("Forward Soft Limit", 7000);
+		SmartDashboard.putNumber("Reverse Soft Limit", 0);
+		
 		SmartDashboard.putNumber("P Value", kP);
 		SmartDashboard.putNumber("I Value", kI);
 		SmartDashboard.putNumber("D Value", kD);
@@ -82,6 +85,8 @@ public class Robot extends TimedRobot {
 			_talon.config_kP(0, SmartDashboard.getNumber("P Value", kP), Constants2.kTimeoutMs);
 			_talon.config_kI(0, SmartDashboard.getNumber("I Value", kI), Constants2.kTimeoutMs);
 			_talon.config_kD(0, SmartDashboard.getNumber("D Value", kD), Constants2.kTimeoutMs);
+			_talon.configForwardSoftLimitThreshold((int)SmartDashboard.getNumber("Forward Soft Limit", 7000), Constants2.kTimeoutMs);
+			_talon.configReverseSoftLimitThreshold((int)SmartDashboard.getNumber("Reverse Soft Limit", 0), Constants2.kTimeoutMs);
 			targetPos = SmartDashboard.getNumber("Target Position", targetPos);
 			_talon.configMotionCruiseVelocity((int) SmartDashboard.getNumber("Cruise Velocity", velocity), Constants2.kTimeoutMs);
 			_talon.configMotionAcceleration((int)SmartDashboard.getNumber("Acceleration", velocity), Constants2.kTimeoutMs);
