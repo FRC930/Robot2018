@@ -7,96 +7,224 @@
 
 package org.usfirst.frc.team930.robot;
 
-
-import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Trajectory.Segment;
+import jaci.pathfinder.Waypoint;
+import jaci.pathfinder.followers.EncoderFollower;
+import jaci.pathfinder.modifiers.TankModifier;
 
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.properties file in the
- * project.
- */
-public class Robot extends TimedRobot {
+public class Robot extends IterativeRobot {
 	
-	WPI_TalonSRX rightMain = new WPI_TalonSRX(0);  //Declarations for talons
-	WPI_TalonSRX leftMain = new WPI_TalonSRX(1);  //These will be the main motor controllers
-	VictorSPX rightFollow = new VictorSPX(2);     //Declarations for victors that are
-	VictorSPX leftFollow = new VictorSPX(3);   //followers to the talons
-	VictorSPX right2Follow = new VictorSPX(4);     //Declarations for victors that are
-	VictorSPX left2Follow = new VictorSPX(5);  
+	Joystick stick = new Joystick(0);
+	
+	Timer time = new Timer();
+	
+	Waypoint[] points = new Waypoint[] {
+			new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
+		    new Waypoint(2,0,0),
+		    new Waypoint(5,-2,Pathfinder.d2r(270)),
+//		    new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
+//		    new Waypoint(3,0,0),
+//		    new Waypoint(5,-2,Pathfinder.d2r(270)),
+//		    new Waypoint(7,-4,Pathfinder.d2r(0)),
+//		    new Waypoint(9,-2, Pathfinder.d2r(90)),
+//		    new Waypoint(7,0,Pathfinder.d2r(180)),
+//		    new Waypoint(5,-2,Pathfinder.d2r(270)),
+//		    new Waypoint(3,-4,Pathfinder.d2r(180)),
+//		    new Waypoint(1,-2, Pathfinder.d2r(90)),
+//		    new Waypoint(3,0,0)
+			/*new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
+		    new Waypoint(4,0,0),
+		    new Waypoint(6,-2,Pathfinder.d2r(270)),
+		    new Waypoint(4,-4,Pathfinder.d2r(180)),
+		    new Waypoint(2,-2, Pathfinder.d2r(90)),
+		    new Waypoint(4,0,0),
+		    new Waypoint(6,-2,Pathfinder.d2r(270)),
+		    new Waypoint(4,-4,Pathfinder.d2r(180)),
+		    new Waypoint(2,-2, Pathfinder.d2r(90)),
+		    new Waypoint(4,0,0),
+		    new Waypoint(6,-2,Pathfinder.d2r(270)),
+		    new Waypoint(4,-4,Pathfinder.d2r(180)),
+		    new Waypoint(2,-2, Pathfinder.d2r(90)),
+		    new Waypoint(4,0,0),
+		    new Waypoint(6,-2,Pathfinder.d2r(270)),
+		    new Waypoint(4,-4,Pathfinder.d2r(180)),
+		    new Waypoint(2,-2, Pathfinder.d2r(90)),
+		    new Waypoint(4,0,0),*/
+			 /*new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
+			    new Waypoint(3,0,0),
+			    new Waypoint(4,-1,Pathfinder.d2r(315)),
+			    new Waypoint(5,-2,Pathfinder.d2r(0)),
+			    new Waypoint(6,-1, Pathfinder.d2r(90)),
+			    new Waypoint(5,0,Pathfinder.d2r(180)),
+			    new Waypoint(4,-1,Pathfinder.d2r(225)),
+			    new Waypoint(3,-2,Pathfinder.d2r(180)),
+			    new Waypoint(2,-1, Pathfinder.d2r(90)),
+			    new Waypoint(3,0,0)*/
+		    
+		   // new Waypoint(2,6,Pathfinder.d2r(180)),
+		   // new Waypoint(5.5,5,Pathfinder.d2r(180))// Waypoint @ x=-2, y=-2, exit angle=0 radians
+		};
+	
+	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.01, 4.0, 4.0, 50.0);
+
+	Trajectory tra = Pathfinder.generate(points, config);
+	
+	
+	 TankModifier modifier = new TankModifier(tra).modify(0.768);
+
+     // Do something with the new Trajectories...
+     Trajectory left = modifier.getLeftTrajectory();
+     Trajectory right = modifier.getRightTrajectory();
+	private EncoderFollower enc = new EncoderFollower(right);
+	private EncoderFollower enc2 = new EncoderFollower(left);
+	WPI_TalonSRX rightMain = new WPI_TalonSRX(4);  //Declarations for talons
+	WPI_TalonSRX leftMain = new WPI_TalonSRX(1); 
+	
+	WPI_TalonSRX rightFollow = new WPI_TalonSRX(5);     //Declarations for victors that are
+	WPI_TalonSRX leftFollow = new WPI_TalonSRX(2);   //followers to the talons
+	WPI_TalonSRX rightFollow2 = new WPI_TalonSRX(6);     //Declarations for victors that are
+	WPI_TalonSRX leftFollow2 = new WPI_TalonSRX(3);
+	//These will be the main motor controllers
+	//VictorSPX rightFollow = new VictorSPX(2);     //Declarations for victors that are
+	//VictorSPX leftFollow = new VictorSPX(3);   //followers to the talons
 	//VictorSPX rightFollow2 = new VictorSPX(4);     //Declarations for victors that are
-	//VictorSPX leftFollow2 = new VictorSPX(5);   //followers to the talons
-		
-	Joystick stick = new Joystick(0);   //XBOX Controller
+	//VictorSPX leftFollow2 = new VictorSPX(5);
 	
-	TrajectoryPoint point = new TrajectoryPoint();
-
-	int totalCnt = PointsArrayHolder.kNumPoints;
+	AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 	
-	
-	
-	double [][]pointArray = PointsArrayHolder.Points;
 	
 	@Override
 	public void robotInit() {
 		
-		rightFollow.follow(rightMain);   //Sets the victors to follow their 
-		leftFollow.follow(leftMain);  
-		right2Follow.follow(rightMain);   //Sets the victors to follow their 
-		left2Follow.follow(leftMain); //respective talons
-		//rightFollow2.follow(rightMain);   //Sets the victors to follow their 
-		//leftFollow2.follow(leftMain);   //respective talons
-		rightMain.set(ControlMode.MotionProfile, 0);
-		rightMain.configMotionProfileTrajectoryPeriod(10, 0);
-
+		for(int i = 0; i < points.length;i++){
+			SmartDashboard.putNumber("Point.x #" + i, points[i].x);
+			SmartDashboard.putNumber("Point.y #"+ i, points[i].y);
+			SmartDashboard.putNumber("Poiint.A #"+i, Math.toDegrees(points[i].angle));
+		}
+		
+		/*rightFollow.follow(rightMain);   //Sets the victors to follow their 
+		leftFollow.follow(leftMain);   //respective talons
+		rightFollow2.follow(rightMain);   //Sets the victors to follow their 
+		leftFollow2.follow(leftMain); */
+		gyro.reset();
+		
+		enc.configurePIDVA(0.9, 0, 0, 0.3, 0.08); //Ka = 0.3
+		enc2.configurePIDVA(0.9, 0, 0, 0.3, 0.08);
+		rightFollow2.follow(rightMain);
+		rightFollow.follow(rightMain);
+		leftFollow2.follow(leftMain);
+		leftFollow.follow(leftMain);
+		//gyro.reset();
 		
 	}
 
-	
+
 	@Override
 	public void autonomousInit() {
 		
+		enc.configureEncoder(rightMain.getSelectedSensorPosition(0), 1024, .102);
+		enc2.configureEncoder(leftMain.getSelectedSensorPosition(0), 1024, .102);
+
+		gyro.reset();
+		time.start();
 		
+
 		
 	}
 
-	
+
 	@Override
 	public void autonomousPeriodic() {
-	for (int i = 0; i < totalCnt; ++i) {
-				
-			rightMain.processMotionProfileBuffer();
-			leftMain.processMotionProfileBuffer();
-			point.position = pointArray[i][0];
-			point.velocity = pointArray[i][1];
-			point.profileSlotSelect0 = 0; /* which set of gains would you like to use? */
+		if(time.get()>1){
+		
+		double heading = Math.toDegrees(enc.getHeading());
+		if(heading >180)
+			heading = heading%180-180;
+		double yaw = gyro.getYaw();//(Math.toDegrees(enc.getHeading())-180)%180;
+		/*if(gyro.getYaw()<0)
+			yaw = yaw + 360;*/
+		
+		double error = heading + yaw;
+		if(error>180)
+			error = error-360;
+		else if(error < -180)
+			error = error+360;
+		double kG = -0.025;//0.8 * (-1.0/80.0);
+
+		double turn = kG * error;
+			
+		/*System.out.println("GYRO YAW value:   " +  gyro.getYaw());
+		System.out.println("HEading we are shooting for:  " + Math.toDegrees(enc.getHeading()));
+		System.out.println("Turn Value: " + turn);*/
+		
+		System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading,-yaw,turn); 
+		
+		double calc = (enc.calculate(rightMain.getSelectedSensorPosition(0)));
+		double calc2 = (enc2.calculate(leftMain.getSelectedSensorPosition(0)));
+
+		rightMain.set(ControlMode.PercentOutput, calc - turn);
+		leftMain.set(ControlMode.PercentOutput, -(calc2 + turn));
+		
+		/*if(enc.isFinished() && enc2.isFinished()){}
+		else{
+		System.out.println(calc);
+		System.out.println(calc2);
+		}
+		}*/
+		}
+		
 	}
-		System.out.println("CONTROL MODE: " + rightMain.getControlMode());
-		rightMain.pushMotionProfileTrajectory(point);
-		System.out.println("Downloaded POints!!!!");
+	
+	public void teleopInit() {
+		
+		gyro.reset();
+		
 	}
 
 	
 	@Override
 	public void teleopPeriodic() {
 		
-
+		/*gyro.setAngleAdjustment(180);*/
+		System.out.println(gyro.getAngle()%360);
+		
+		
+		
+		double xStick = -stick.getRawAxis(4);
+		double yStick = stick.getRawAxis(1);
+		if(Math.abs(xStick) < 0.15)
+			xStick = 0;
+		if(Math.abs(yStick) <0.15)
+			yStick = 0;
+		rightMain.set(-(yStick-xStick));
+		leftMain.set(yStick+xStick);
+		
 	}
 
 	
 	@Override
 	public void testPeriodic() {
+	}
+	
+	@Override
+	public void disabledPeriodic(){
+		for(int i = 0; i<points.length;i++){
+			points[i].x = SmartDashboard.getNumber("Point.x #" + i, points[i].x);
+			points[i].y = SmartDashboard.getNumber("Point.y #" + i, points[i].y);
+			points[i].angle = Math.toRadians(SmartDashboard.getNumber("Point.A #" + i, points[i].angle));
+		}
 	}
 }
