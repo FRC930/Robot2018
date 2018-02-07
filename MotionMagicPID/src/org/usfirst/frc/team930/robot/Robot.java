@@ -14,8 +14,8 @@ public class Robot extends TimedRobot {
 	TalonSRX _talon = new TalonSRX(6);
 	Joystick _joy = new Joystick(0);
 	StringBuilder _sb = new StringBuilder();
-	boolean aPressed, onOffA;
-	double kF = 1.0, kP = 1.0, kI = 0.002, kD = 10.0, targetPos = 6500;
+	boolean stopBool = false;
+	double kF = 1.0, kP = 1.0, kI = 0.002, kD = 10.0, targetPos = 6500, returnPos = 0;
 	int velocity = 800, accel = 800;
 	
 	@Override
@@ -104,6 +104,7 @@ public class Robot extends TimedRobot {
 			_sb.append("\terr:");
 			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
 			_sb.append("\ttrg:");
+			stopBool = true;
 		}
 		else if(_joy.getRawAxis(1) > 0.2 && _talon.getSelectedSensorPosition(0) > 0)
 		{
@@ -111,15 +112,30 @@ public class Robot extends TimedRobot {
 			_sb.append("\terr:");
 			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
 			_sb.append("\ttrg:");
+			stopBool = true;
 		}
 		else
 		{
+			if(stopBool) {
+				returnPos = _talon.getSelectedSensorPosition(0);
+				if(_talon.getSelectedSensorVelocity(0) > 0) {
+					returnPos += 10;
+				} else if(_talon.getSelectedSensorVelocity(0) < 0) {
+					returnPos -= 10;
+				}
+				stopBool = false;
+			}
+			
+			_talon.set(ControlMode.MotionMagic, returnPos);
+			
+			/*
 			if(_joy.getRawAxis(5) > 0.2 || _joy.getRawAxis(5) < 0.2)
 			{
 				_talon.set(ControlMode.PercentOutput, (_joy.getRawAxis(5) * -0.5));
 			} else {
 				_talon.set(ControlMode.PercentOutput, 0);
 			}
+			*/
 		}
 		/* instrumentation */
 		Instrum1.Process(_talon, _sb);
