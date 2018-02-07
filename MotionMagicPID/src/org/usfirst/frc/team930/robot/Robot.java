@@ -15,7 +15,7 @@ public class Robot extends TimedRobot {
 	Joystick _joy = new Joystick(0);
 	StringBuilder _sb = new StringBuilder();
 	boolean stopBool = false;
-	double kF = 1.0, kP = 1.0, kI = 0.002, kD = 10.0, targetPos = 6500, returnPos = 0;
+	double kF = 1.0, kP = 1.0, kI = 0.002, kD = 10.0, targetPos = 6500, returnPos = 0, softLimF = 6500, softLimR = 0;
 	int velocity = 800, accel = 800;
 	
 	@Override
@@ -36,8 +36,8 @@ public class Robot extends TimedRobot {
 		_talon.configPeakOutputForward(1, Constants2.kTimeoutMs);
 		_talon.configPeakOutputReverse(-1, Constants2.kTimeoutMs);
 		
-		_talon.configForwardSoftLimitThreshold((int) targetPos, Constants2.kTimeoutMs);
-		_talon.configReverseSoftLimitThreshold(0, Constants2.kTimeoutMs);
+		_talon.configForwardSoftLimitThreshold((int) softLimF, Constants2.kTimeoutMs);
+		_talon.configReverseSoftLimitThreshold((int) softLimR, Constants2.kTimeoutMs);
 
 		/* set closed loop gains in slot0 - see documentation */
 		_talon.selectProfileSlot(Constants2.kSlotIdx, Constants2.kPIDLoopIdx);
@@ -51,9 +51,8 @@ public class Robot extends TimedRobot {
 		/* zero the sensor */
 		_talon.setSelectedSensorPosition(0, Constants2.kPIDLoopIdx, Constants2.kTimeoutMs);
 		
-		SmartDashboard.putNumber("Forward Soft Limit", 7000);
-		SmartDashboard.putNumber("Reverse Soft Limit", 0);
-		
+		SmartDashboard.putNumber("Forward Soft Limit", softLimF);
+		SmartDashboard.putNumber("Reverse Soft Limit", softLimR);
 		SmartDashboard.putNumber("P Value", kP);
 		SmartDashboard.putNumber("I Value", kI);
 		SmartDashboard.putNumber("D Value", kD);
@@ -85,11 +84,11 @@ public class Robot extends TimedRobot {
 			_talon.config_kP(0, SmartDashboard.getNumber("P Value", kP), Constants2.kTimeoutMs);
 			_talon.config_kI(0, SmartDashboard.getNumber("I Value", kI), Constants2.kTimeoutMs);
 			_talon.config_kD(0, SmartDashboard.getNumber("D Value", kD), Constants2.kTimeoutMs);
-			_talon.configForwardSoftLimitThreshold((int)SmartDashboard.getNumber("Forward Soft Limit", 7000), Constants2.kTimeoutMs);
-			_talon.configReverseSoftLimitThreshold((int)SmartDashboard.getNumber("Reverse Soft Limit", 0), Constants2.kTimeoutMs);
+			_talon.configForwardSoftLimitThreshold((int) SmartDashboard.getNumber("Forward Soft Limit", softLimF), Constants2.kTimeoutMs);
+			_talon.configReverseSoftLimitThreshold((int) SmartDashboard.getNumber("Reverse Soft Limit", softLimR), Constants2.kTimeoutMs);
 			targetPos = SmartDashboard.getNumber("Target Position", targetPos);
 			_talon.configMotionCruiseVelocity((int) SmartDashboard.getNumber("Cruise Velocity", velocity), Constants2.kTimeoutMs);
-			_talon.configMotionAcceleration((int)SmartDashboard.getNumber("Acceleration", velocity), Constants2.kTimeoutMs);
+			_talon.configMotionAcceleration((int) SmartDashboard.getNumber("Acceleration", velocity), Constants2.kTimeoutMs);
 			System.out.println("Values Updated");
 			SmartDashboard.putBoolean("Update Values", false);
 		} 
