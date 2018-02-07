@@ -28,7 +28,7 @@ public class Intake {
 	// -- In take Variable Declarations --\\
 	private static boolean holdingCube; // Check for cube.
 	private static int PDPcounter;
-	private States stateEnum;
+	private static States stateEnum;
 	// The amount of times we need to check before we begin in take.
 
 	public static void init() {
@@ -38,7 +38,9 @@ public class Intake {
 		PDPcounter = 0;
 	}
 
-	public void run() {
+	public static void run(Enum state) {
+		
+		stateEnum = (States) state;
 
 		// -- In take Code Block --\\
 		System.out.println(PDP.getCurrent(11));
@@ -60,7 +62,7 @@ public class Intake {
 			break;
 		}
 	}
-	public void intaking() {
+	public static void intaking() {
 		
 		if (!holdingCube) { // If we're not holding a cube.
 			if (controller.getRawAxis(3) > 0.7) { // If the RT button is down
@@ -79,7 +81,7 @@ public class Intake {
 		}
 	}
 		
-	public void intakeDone() {
+	public static void intakeDone() {
 
 		if (PDPcounter >= Constants.PDPcounterLimit) { // If the counter is equal to or above the limit.
 			System.out.println("Itwerks"); // Checks if it passes for user.
@@ -95,7 +97,7 @@ public class Intake {
 		}
 	}
 	
-	public void outtaking() {
+	public static void outtaking() {
 
 		if (controller.getRawAxis(2) > 0.7 && holdingCube) { // If Left Shoulder Button is down and we have a cube.
 			rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn right motor
@@ -111,5 +113,7 @@ public class Intake {
 			holdingCube = false; // No longer holding cube.
 			PDPcounter = 0; // Reset counter.
 		}
+		
 	}
+	
 }
