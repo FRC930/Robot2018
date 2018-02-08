@@ -20,6 +20,8 @@ public class Constants {
 	public static final int RB = 6;
 	public static final int backButton = 7;
 	public static final int startButton = 8;
+	public static final int rightJoyButton = 9;
+	public static final int leftJoyButton = 10;
 	
 	// Drive Constants
 	public static final int rightMainTalonID = 4;
