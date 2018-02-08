@@ -37,7 +37,7 @@ public class Intake {
 		PDPcounter = 0;
 	}
 
-	public static void run(Enum state, Joystick stick1, Joystick stick2) {
+	public static void run(Enum state) {
 		
 		stateEnum = (States) state;
 
