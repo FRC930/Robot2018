@@ -20,7 +20,12 @@ public class TeleopHandler {
 		SWITCH_POSITION,
 		SCALE_POSITION_L,
 		SCALE_POSITION_M,
-		SCALE_POSITION_H
+		SCALE_POSITION_H,
+		//Ramp States
+		RIGHT_RAMP_DOWN,
+		LEFT_RAMP_DOWN,
+		RIGHT_RAMP_UP,
+		LEFT_RAMP_UP
 		 
 	}
 	
@@ -49,6 +54,15 @@ public class TeleopHandler {
 			Elevator.run(States.SCALE_POSITION_L);
 		else
 			Elevator.run(States.INTAKE_POSITION);
+		
+		/*if(button1)
+			Ramp.run(States.RIGHT_RAMP_DOWN);
+		if(button2)
+			Ramp.run(States.LEFT_RAMP_DOWN);
+		if(button3)
+			Ramp.run(States.RIGHT_RAMP_UP);
+		if(button4)
+			Ramp.run(States.LEFT_RAMP_UP);*/
 		
 	}
 
