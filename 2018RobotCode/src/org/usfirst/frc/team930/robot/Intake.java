@@ -25,7 +25,6 @@ public class Intake {
 	private static PowerDistributionPanel PDP = new PowerDistributionPanel(0);
 
 	// -- In take Variable Declarations --\\
-	private static boolean holdingCube; // Check for cube.
 	private static int PDPcounter;
 	private static States stateEnum;
 	// The amount of times we need to check before we begin in take.
@@ -33,7 +32,6 @@ public class Intake {
 	public static void init() {
 
 		// -- In take Variable Initializations --\\
-		holdingCube = false;
 		PDPcounter = 0;
 	}
 
@@ -70,25 +68,29 @@ public class Intake {
 		}
 	}
 	
+	public static boolean returnCubeInside() {
+		boolean cubeInside = false;
+		if (PDPcounter >= Constants.PDPcounterLimit) {
+			cubeInside = true;
+		}
+		return cubeInside;
+	}
+	
 	public static void inTaking() {
-		
-		if (!holdingCube) { 																	// If we're not holding a cube.								
+			
+		updatePDPcounter();
+
+		if (returnCubeInside()) { 															// If the counter is equal to or above the limit.														
+			rightIntakeWheel.set(ControlMode.PercentOutput, 0);								// Stops motors
+			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
+			// controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0.5); //Rumbles
+			// controller when cube is held
+			// controller.setRumble(GenericHID.RumbleType.kRightRumble, 0.5);
+			// rightSolenoid.set(false);
+			// leftSolenoid.set(false);
+		} else {
 			rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); 		// Turn on motors
 			leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);
-			updatePDPcounter();
-		
-			if (PDPcounter >= Constants.PDPcounterLimit) { 										// If the counter is equal to or above the limit.
-				System.out.println("Itwerks"); 													// Checks if it passes for user.
-				holdingCube = true; 															// We are holding a cube.
-				rightIntakeWheel.set(ControlMode.PercentOutput, 0);								// Stops motors
-				leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-				// controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0.5); //Rumbles
-				// controller when cube is held
-				// controller.setRumble(GenericHID.RumbleType.kRightRumble, 0.5);
-				// rightSolenoid.set(false);
-				// leftSolenoid.set(false);
-				PDPcounter = 0; 																// Reset counter
-			}
 		}
 	}
 		
@@ -99,22 +101,13 @@ public class Intake {
 	}
 	
 	public static void outTaking() {
-
-		if (holdingCube) { // If Left Shoulder Button is down and we have a cube.
-			rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn right motor
-																							// forwards.
-			leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); // Turn left motor
-																							// backwards.
-			// controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0); //Turn off rumble
-			// when cube leaves
-			// controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
-			// rightSolenoid.set(true); //Open pistons.
-			// leftSolenoid.set(true);
-			Timer.delay(0.4); // Wait for cube to leave.
-			holdingCube = false; // No longer holding cube.
-			PDPcounter = 0; // Reset counter.
-		}
-		
-	}
-	
+		rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn right motor
+		leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); // Turn left motor
+		// controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0); //Turn off rumble
+		// when cube leaves
+		// controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+		// rightSolenoid.set(true); //Open pistons.
+		// leftSolenoid.set(true);
+		PDPcounter = 0; // Reset counter.
+	}	
 }
