@@ -8,20 +8,22 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 //import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 //import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-//import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 //import edu.wpi.first.wpilibj.Solenoid;
 //import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake {
 
 	private static VictorSPX rightIntakeWheel = new VictorSPX(7);
 	private static VictorSPX leftIntakeWheel = new VictorSPX(8);
-	// private static Solenoid rightSolenoid = new Solenoid(9);
-	// private static Solenoid leftSolenoid = new Solenoid(10);
+	private static Joystick controller = new Joystick(0);
+	private static Joystick controller2 = new Joystick(1);
+	private static Compressor comp = new Compressor(0);
 	private static PowerDistributionPanel PDP = new PowerDistributionPanel(0);
 
 	// -- In take Variable Declarations --\\
@@ -30,7 +32,7 @@ public class Intake {
 	// The amount of times we need to check before we begin in take.
 
 	public static void init() {
-
+		comp.setClosedLoopControl(true);
 		// -- In take Variable Initializations --\\
 		PDPcounter = 0;
 	}
@@ -77,27 +79,23 @@ public class Intake {
 	}
 	
 	public static void inTaking() {
-			
-		updatePDPcounter();
-
 		if (returnCubeInside()) { 															// If the counter is equal to or above the limit.														
 			rightIntakeWheel.set(ControlMode.PercentOutput, 0);								// Stops motors
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-			// controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0.5); //Rumbles
-			// controller when cube is held
-			// controller.setRumble(GenericHID.RumbleType.kRightRumble, 0.5);
-			// rightSolenoid.set(false);
-			// leftSolenoid.set(false);
+			
+			controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0.5); //Rumbles
+			controller.setRumble(GenericHID.RumbleType.kRightRumble, 0.5);
 		} else {
 			rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); 		// Turn on motors
 			leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);
+			updatePDPcounter();
 		}
 	}
 		
 	public static void inTakeDone() {
 		rightIntakeWheel.set(ControlMode.PercentOutput, 0);										// Stop motors
 		leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-		PDPcounter = 0; 
+		PDPcounter = 0;
 	}
 	
 	public static void outTaking() {
