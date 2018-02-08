@@ -8,6 +8,9 @@ public class TeleopHandler {
 	
 	private static final Joystick stick1 = new Joystick(0);
 	private static final Joystick stick2 = new Joystick(1);
+	private static boolean buttonCheckRB = false;
+	private static boolean buttonCheckLB = false;
+	private static int counter = 0;
 	
 	enum States {
 		
@@ -42,8 +45,34 @@ public class TeleopHandler {
 		
 		
 		//Elevator
-		//Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
+		if(Math.abs(stick2.getRawAxis(Constants.rightYaxis))>0.15);
+			//Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
+		else if(counter == 0)
+			Elevator.run(States.INTAKE_POSITION);
+		else if(counter == 1)
+			Elevator.run(States.SWITCH_POSITION);
+		else if(counter == 2)
+			Elevator.run(States.SCALE_POSITION_L);
+		else if(counter == 3)
+			Elevator.run(States.SCALE_POSITION_M);
+		else if(counter == 4)
+			Elevator.run(States.SCALE_POSITION_H);
 		
+		if(!buttonCheckRB && stick2.getRawButton(Constants.RB)){
+			if(counter < 4)
+				counter++;
+			buttonCheckRB = true;
+		}
+		else if(buttonCheckRB && !stick2.getRawButton(Constants.RB))
+			buttonCheckRB = false;
+		
+		if(!buttonCheckLB && stick2.getRawButton(Constants.LB)){
+			if(counter >1)
+				counter--;
+			buttonCheckLB = true;
+		}
+		else if(buttonCheckLB && !stick2.getRawButton(Constants.LB))
+			buttonCheckLB = false;
 		
 		/*if(button1)
 			Ramp.run(States.RIGHT_RAMP_DOWN);
