@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
 	
 	
 	boolean aPressed, onOffA, bPressed, onOffB, test1;
-	double targetPosition, fValue, pValue, iValue, dValue;
+	double targetPosition, fValue, pValue, iValue, dValue, returnPos;
 	int velocity, acceleration;
 	
 	@Override
@@ -118,6 +118,8 @@ public class Robot extends TimedRobot {
 		intakeMotorSpeed = 0.75;
 		PDPcounter = 0;
 		PDPcounterLimit = 15;
+		
+		targetPosition = 0;
 	}
 
 	
@@ -137,7 +139,7 @@ public class Robot extends TimedRobot {
 		
 		double rightXStick = controller.getRawAxis(4); //Right joystick X axis
 		double leftYStick = controller.getRawAxis(1); //Left joystick Y axis
-		double targetPos = controller2.getRawAxis(1) * 7000;
+		double targetPos = controller2.getRawAxis(1) * -3500 + 3500;
 		
 		robot.setDeadband(0.1);  //Sets the deadband for the controller values
 		
@@ -211,17 +213,30 @@ public class Robot extends TimedRobot {
 		}*/
 		
 		//Left joystick -- elevator control
-		if(controller2.getRawAxis(1) < -0.2)
-		{
-			lift1.set(ControlMode.MotionMagic, 7000);
-		}
-		else if(controller2.getRawAxis(1) > 0.2 && lift1.getSelectedSensorPosition(0) > 0)
-		{
+		if(controller2.getRawAxis(1) < -0.2) {
+			lift1.set(ControlMode.MotionMagic, 6500);
+		} else if(controller2.getRawAxis(1) > 0.2 && lift1.getSelectedSensorPosition(0) > 0) {
 			lift1.set(ControlMode.MotionMagic, 0);
-		}
-		else
-		{
+		} else {
 			lift1.set(ControlMode.PercentOutput, 0);
+		}
+		
+		if((targetPosition < 6500 && targetPosition >=0) && controller2.getRawAxis(5) < -0.2){
+			targetPosition += (controller2.getRawAxis(5) * -100);
+		} else if((targetPosition <= 6500 && targetPosition > 0) && controller2.getRawAxis(5) > 0.2){
+			targetPosition += (controller2.getRawAxis(5) * 100);
+		}
+		
+		if((controller2.getRawAxis(5) < -0.2 || controller2.getRawAxis(5) > 0.2) && lift1.getSelectedSensorPosition(0) >= 0) {
+			lift1.set(ControlMode.MotionMagic, targetPosition);
+		} else {
+			returnPos = lift1.getSelectedSensorPosition(0);
+			if(lift1.getSelectedSensorVelocity(0) > 0) {
+				returnPos += (lift1.getSelectedSensorVelocity(0) /1.5);
+			} else if(lift1.getSelectedSensorVelocity(0) < 0) {
+				returnPos -= (lift1.getSelectedSensorVelocity(0) * 3.0);
+			}
+			lift1.set(ControlMode.MotionMagic, returnPos);
 		}
 		
 		
