@@ -5,14 +5,14 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import org.usfirst.frc.team930.robot.TeleopHandler.States;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+//import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+//import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import edu.wpi.first.wpilibj.GenericHID;
+//import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.TimedRobot;
+//import edu.wpi.first.wpilibj.Solenoid;
+//import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -54,7 +54,7 @@ public class Intake {
 				inTakeDone();
 				break;
 			case OUTTAKING:
-				outTaking();
+				outTaking(stick1, stick2);
 				break;
 				
 			default:
@@ -62,10 +62,10 @@ public class Intake {
 		}
 	}
 	
-	public static void inTaking() {
+	public static void inTaking(Joystick stick1, Joystick stick2) {
 		
 		if (!holdingCube) { 																	// If we're not holding a cube.
-			if (controller.getRawAxis(3) > 0.7) { 												// If the RT button is down
+			if (stick1.getRawAxis(Constants.rightTriggerAxis) > 0.7 || stick2.getRawAxis(Constants.rightTriggerAxis) > 0.7) { 												// If the RT button is down
 				rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); 	// Turn on motors
 				leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);
 				if (PDP.getCurrent(11) > Constants.currentThreshhold) { 						// If we're above a threshold.
@@ -83,10 +83,10 @@ public class Intake {
 		
 	public static void inTakeDone() {
 
-		if (PDPcounter >= Constants.PDPcounterLimit) { // If the counter is equal to or above the limit.
-			System.out.println("Itwerks"); // Checks if it passes for user.
-			holdingCube = true; // We are holding a cube.
-			rightIntakeWheel.set(ControlMode.PercentOutput, 0); // Stops motors
+		if (PDPcounter >= Constants.PDPcounterLimit) { 				// If the counter is equal to or above the limit.
+			System.out.println("Itwerks"); 							// Checks if it passes for user.
+			holdingCube = true; 									// We are holding a cube.
+			rightIntakeWheel.set(ControlMode.PercentOutput, 0);		// Stops motors
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
 			// controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0.5); //Rumbles
 			// controller when cube is held
@@ -97,9 +97,9 @@ public class Intake {
 		}
 	}
 	
-	public static void outTaking() {
+	public static void outTaking(Joystick stick1, Joystick stick2) {
 
-		if (controller.getRawAxis(2) > 0.7 && holdingCube) { // If Left Shoulder Button is down and we have a cube.
+		if ((stick1.getRawAxis(Constants.leftTriggerAxis) > 0.7 || stick2.getRawAxis(Constants.leftTriggerAxis) > 0.7) && holdingCube) { // If Left Shoulder Button is down and we have a cube.
 			rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn right motor
 																							// forwards.
 			leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); // Turn left motor
