@@ -48,13 +48,13 @@ public class Intake {
 
 		switch (stateEnum) {
 			case INTAKING:
-				inTaking(stick1, stick2);
+				inTaking();
 				break;
 			case INTAKE_DONE:
 				inTakeDone();
 				break;
 			case OUTTAKING:
-				outTaking(stick1, stick2);
+				outTaking();
 				break;
 				
 			default:
@@ -62,44 +62,45 @@ public class Intake {
 		}
 	}
 	
-	public static void inTaking(Joystick stick1, Joystick stick2) {
+	public static void updatePDPcounter() {
+		if (PDP.getCurrent(11) > Constants.currentThreshhold) { 						// If we're above a threshold.
+			PDPcounter++; 																// PDPcounter = PDPcounter + 1;
+		} else { 																		// Else if we're below it.
+			PDPcounter = 0; 															// Reset counter.
+		}
+	}
+	
+	public static void inTaking() {
 		
-		if (!holdingCube) { 																	// If we're not holding a cube.
-			if (stick1.getRawAxis(Constants.rightTriggerAxis) > 0.7 || stick2.getRawAxis(Constants.rightTriggerAxis) > 0.7) { 												// If the RT button is down
-				rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); 	// Turn on motors
-				leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);
-				if (PDP.getCurrent(11) > Constants.currentThreshhold) { 						// If we're above a threshold.
-					PDPcounter++; 																// PDPcounter = PDPcounter + 1;
-				} else { 																		// Else if we're below it.
-					PDPcounter = 0; 															// Reset counter.
-				}
-			} else { 																			// If the RT button is up
-				rightIntakeWheel.set(ControlMode.PercentOutput, 0);								// Stop motors
+		if (!holdingCube) { 																	// If we're not holding a cube.								
+			rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); 		// Turn on motors
+			leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);
+			updatePDPcounter();
+		
+			if (PDPcounter >= Constants.PDPcounterLimit) { 										// If the counter is equal to or above the limit.
+				System.out.println("Itwerks"); 													// Checks if it passes for user.
+				holdingCube = true; 															// We are holding a cube.
+				rightIntakeWheel.set(ControlMode.PercentOutput, 0);								// Stops motors
 				leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-				PDPcounter = 0; 																// Reset counter.
+				// controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0.5); //Rumbles
+				// controller when cube is held
+				// controller.setRumble(GenericHID.RumbleType.kRightRumble, 0.5);
+				// rightSolenoid.set(false);
+				// leftSolenoid.set(false);
+				PDPcounter = 0; 																// Reset counter
 			}
 		}
 	}
 		
 	public static void inTakeDone() {
-
-		if (PDPcounter >= Constants.PDPcounterLimit) { 				// If the counter is equal to or above the limit.
-			System.out.println("Itwerks"); 							// Checks if it passes for user.
-			holdingCube = true; 									// We are holding a cube.
-			rightIntakeWheel.set(ControlMode.PercentOutput, 0);		// Stops motors
-			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-			// controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0.5); //Rumbles
-			// controller when cube is held
-			// controller.setRumble(GenericHID.RumbleType.kRightRumble, 0.5);
-			// rightSolenoid.set(false);
-			// leftSolenoid.set(false);
-			PDPcounter = 0; // Reset counter
-		}
+		rightIntakeWheel.set(ControlMode.PercentOutput, 0);										// Stop motors
+		leftIntakeWheel.set(ControlMode.PercentOutput, 0);
+		PDPcounter = 0; 
 	}
 	
-	public static void outTaking(Joystick stick1, Joystick stick2) {
+	public static void outTaking() {
 
-		if ((stick1.getRawAxis(Constants.leftTriggerAxis) > 0.7 || stick2.getRawAxis(Constants.leftTriggerAxis) > 0.7) && holdingCube) { // If Left Shoulder Button is down and we have a cube.
+		if (holdingCube) { // If Left Shoulder Button is down and we have a cube.
 			rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn right motor
 																							// forwards.
 			leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); // Turn left motor
