@@ -123,9 +123,9 @@ public class Robot extends TimedRobot {
 			if(stopBool) {
 				returnPos = _talon.getSelectedSensorPosition(0);
 				if(_talon.getSelectedSensorVelocity(0) > 0) {
-					returnPos += 10;
+					returnPos += (_talon.getSelectedSensorVelocity(0) /1.5);
 				} else if(_talon.getSelectedSensorVelocity(0) < 0) {
-					returnPos -= 10;
+					returnPos -= (_talon.getSelectedSensorVelocity(0) * 3.0);
 				}
 				stopBool = false;
 			}
