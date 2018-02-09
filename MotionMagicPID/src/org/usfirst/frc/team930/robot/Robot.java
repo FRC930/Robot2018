@@ -1,10 +1,11 @@
 package org.usfirst.frc.team930.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 
-import java.util.concurrent.TimeUnit;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -17,6 +18,10 @@ public class Robot extends TimedRobot {
 	boolean stopBool = false;
 	double kF = 1.0, kP = 1.0, kI = 0.002, kD = 10.0, targetPos = 6500, returnPos = 0, softLimF = 6500, softLimR = 0;
 	int velocity = 800, accel = 800;
+	
+	int count = 0;
+	boolean aPressed = false, bPressed = false;
+	// a-button 6, b-button 5
 	
 	@Override
 	public void robotInit() {
@@ -78,7 +83,7 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		
+		// Updates Shuffleboard values
 		if(SmartDashboard.getBoolean("Update Values", false)) {
 			_talon.config_kF(0, SmartDashboard.getNumber("F Value", kF), Constants2.kTimeoutMs);
 			_talon.config_kP(0, SmartDashboard.getNumber("P Value", kP), Constants2.kTimeoutMs);
@@ -92,10 +97,10 @@ public class Robot extends TimedRobot {
 			System.out.println("Values Updated");
 			SmartDashboard.putBoolean("Update Values", false);
 		} 
-		
-		/* calculate the percent motor output */
+		/*
+		// calculate the percent motor output
 		double motorOutput = _talon.getMotorOutputPercent();
-		/* prepare line to print */
+		// prepare line to print
 		_sb.append("\tOut%:");
 		_sb.append(motorOutput);
 		_sb.append("\tVel:");
@@ -132,20 +137,66 @@ public class Robot extends TimedRobot {
 			
 			_talon.set(ControlMode.MotionMagic, returnPos);
 			
-			/*
-			if(_joy.getRawAxis(5) > 0.2 || _joy.getRawAxis(5) < 0.2)
-			{
-				_talon.set(ControlMode.PercentOutput, (_joy.getRawAxis(5) * -0.5));
-			} else {
-				_talon.set(ControlMode.PercentOutput, 0);
-			}
-			*/
+			//if(_joy.getRawAxis(5) > 0.2 || _joy.getRawAxis(5) < 0.2)
+			//{
+			//	_talon.set(ControlMode.PercentOutput, (_joy.getRawAxis(5) * -0.5));
+			//} else {
+			//	_talon.set(ControlMode.PercentOutput, 0);
+			//}
 		}
-		/* instrumentation */
+		// instrumentation
 		Instrum1.Process(_talon, _sb);
 		try {
 			TimeUnit.MILLISECONDS.sleep(10);
 		} catch (Exception e) {
+		}
+		*/
+		if (_joy.getRawButton(6) && (!aPressed)) {
+			aPressed = true;
+			if(count < 4 && count >= 0){
+				count++;
+				_joy.setRumble(GenericHID.RumbleType.kLeftRumble , 0.5);
+				_joy.setRumble(GenericHID.RumbleType.kRightRumble , 0.5);
+				Timer.delay(0.05 + (0.05 * count));
+				_joy.setRumble(GenericHID.RumbleType.kLeftRumble , 0.0);
+				_joy.setRumble(GenericHID.RumbleType.kRightRumble , 0.0);
+			}
+		} else if ((!_joy.getRawButton(6)) && aPressed) {
+			aPressed = false;
+		}
+
+		if (_joy.getRawButton(5) && (!bPressed)) {
+			bPressed = true;
+			if(count <= 4 && count > 0){
+				count--;
+				_joy.setRumble(GenericHID.RumbleType.kLeftRumble , 0.5);
+				_joy.setRumble(GenericHID.RumbleType.kRightRumble , 0.5);
+				Timer.delay(0.05 + (0.05 * count));
+				_joy.setRumble(GenericHID.RumbleType.kLeftRumble , 0.0);
+				_joy.setRumble(GenericHID.RumbleType.kRightRumble , 0.0);
+			}
+		} else if ((!_joy.getRawButton(5)) && bPressed) {
+			bPressed = false;
+		}
+
+		switch(count){
+		case 0:
+			_talon.set(ControlMode.MotionMagic, 0);
+			break;
+		case 1:
+			_talon.set(ControlMode.MotionMagic, 1000);
+			break;
+		case 2:
+			_talon.set(ControlMode.MotionMagic, 2000);
+			break;
+		case 3:
+			_talon.set(ControlMode.MotionMagic, 4000);
+			break;
+		case 4:
+			_talon.set(ControlMode.MotionMagic, 6500);
+			break;
+		default:
+			_talon.set(ControlMode.MotionMagic, 0);
 		}
 	}
 	
