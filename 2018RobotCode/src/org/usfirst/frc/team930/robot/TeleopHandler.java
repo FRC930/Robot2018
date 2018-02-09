@@ -3,6 +3,7 @@ package org.usfirst.frc.team930.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 
 public class TeleopHandler {
 	
@@ -11,6 +12,16 @@ public class TeleopHandler {
 	private static boolean buttonCheckRB = false;
 	private static boolean buttonCheckLB = false;
 	private static int counter = 0;
+	private static Solenoid rightSolenoid = new Solenoid(0);
+	private static boolean solenoid = false;
+	
+	public static void init() {
+		rightSolenoid.set(false);
+	}
+	
+	public static void disabled() {
+		rightSolenoid.set(solenoid);
+	}
 	
 	enum States {
 		
@@ -33,6 +44,13 @@ public class TeleopHandler {
 	}
 	
 	public static void run() {
+		
+		if(stick1.getRawButton(1))
+			solenoid = true;
+		
+		rightSolenoid.set(solenoid);
+		
+		System.out.println("Solenoid: " + rightSolenoid.get());
 		
 		Drive.run(stick1);
 		
