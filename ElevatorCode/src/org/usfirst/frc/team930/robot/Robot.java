@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -61,6 +62,11 @@ public class Robot extends TimedRobot {
 	boolean aPressed, onOffA, bPressed, onOffB, test1;
 	double targetPosition, fValue, pValue, iValue, dValue, returnPos;
 	int velocity, acceleration;
+	boolean stopBool = false;
+	
+	int count = 0;
+	boolean pressed6 = false, pressed5 = false, switchBool = false;
+	// a-button 6, b-button 5
 	
 	@Override
 	public void robotInit() {		
@@ -213,32 +219,107 @@ public class Robot extends TimedRobot {
 		}*/
 		
 		//Left joystick -- elevator control
-		if(controller2.getRawAxis(1) < -0.2) {
+		/*if(controller2.getRawAxis(1) < -0.2) {
 			lift1.set(ControlMode.MotionMagic, 6500);
 		} else if(controller2.getRawAxis(1) > 0.2 && lift1.getSelectedSensorPosition(0) > 0) {
 			lift1.set(ControlMode.MotionMagic, 0);
 		} else {
 			lift1.set(ControlMode.PercentOutput, 0);
-		}
+		}*/
 		
 		if((targetPosition < 6500 && targetPosition >=0) && controller2.getRawAxis(5) < -0.2){
-			targetPosition += (controller2.getRawAxis(5) * -100);
+			targetPosition += (controller2.getRawAxis(5) * -200);
 		} else if((targetPosition <= 6500 && targetPosition > 0) && controller2.getRawAxis(5) > 0.2){
-			targetPosition += (controller2.getRawAxis(5) * 100);
+			targetPosition -= (controller2.getRawAxis(5) * 200);
 		}
 		
-		if((controller2.getRawAxis(5) < -0.2 || controller2.getRawAxis(5) > 0.2) && lift1.getSelectedSensorPosition(0) >= 0) {
-			lift1.set(ControlMode.MotionMagic, targetPosition);
-		} else {
-			returnPos = lift1.getSelectedSensorPosition(0);
-			if(lift1.getSelectedSensorVelocity(0) > 0) {
-				returnPos += (lift1.getSelectedSensorVelocity(0) /1.5);
-			} else if(lift1.getSelectedSensorVelocity(0) < 0) {
-				returnPos -= (lift1.getSelectedSensorVelocity(0) * 3.0);
+		if(targetPosition > 6500) {
+			targetPosition = 6500;
+		} else if (targetPosition < 0) {
+			targetPosition = 0;
+		}
+		
+		if(controller2.getRawAxis(5) < -0.2 || controller2.getRawAxis(5) > 0.2){
+			if(controller2.getRawAxis(5) < -0.2 || controller2.getRawAxis(5) > 0.2) {
+				lift1.set(ControlMode.MotionMagic, targetPosition);
+				stopBool = true;
+			} else {
+				if(stopBool) {
+					returnPos = lift1.getSelectedSensorPosition(0);
+					if(lift1.getSelectedSensorVelocity(0) > 0) {
+						returnPos += (lift1.getSelectedSensorVelocity(0) * 2.3);
+					} else if(lift1.getSelectedSensorVelocity(0) < 0) {
+						returnPos += (lift1.getSelectedSensorVelocity(0) * 2.3);
+					}
+					stopBool = false;
+					targetPosition = returnPos;
+				}
+				lift1.set(ControlMode.MotionMagic, targetPosition);
+				//lift1.set(ControlMode.PercentOutput, 0);
 			}
-			lift1.set(ControlMode.MotionMagic, returnPos);
+		}else {
+			if (controller2.getRawButton(6) && (!pressed6)) {
+				pressed6 = true;
+				switchBool = true;
+				if(count < 4 && count >= 0){
+					count++;
+					controller2.setRumble(GenericHID.RumbleType.kLeftRumble , 0.5);
+					controller2.setRumble(GenericHID.RumbleType.kRightRumble , 0.5);
+					Timer.delay(0.05 + (0.05 * count));
+					controller2.setRumble(GenericHID.RumbleType.kLeftRumble , 0.0);
+					controller2.setRumble(GenericHID.RumbleType.kRightRumble , 0.0);
+				}
+			} else if ((!controller2.getRawButton(6)) && pressed6) {
+				pressed6 = false;
+			}
+
+			if (controller2.getRawButton(5) && (!pressed5)) {
+				pressed5 = true;
+				switchBool = true;
+				if(count <= 4 && count > 0){
+					count--;
+					controller2.setRumble(GenericHID.RumbleType.kLeftRumble , 0.5);
+					controller2.setRumble(GenericHID.RumbleType.kRightRumble , 0.5);
+					Timer.delay(0.05 + (0.05 * count));
+					controller2.setRumble(GenericHID.RumbleType.kLeftRumble , 0.0);
+					controller2.setRumble(GenericHID.RumbleType.kRightRumble , 0.0);
+				}
+			} else if ((!controller2.getRawButton(5)) && pressed5) {
+				pressed5 = false;
+			}
+			
+			if (switchBool){
+				switch(count){
+				case 0:
+					targetPosition = 0;
+					lift1.set(ControlMode.MotionMagic, targetPosition);
+					switchBool = false;
+					break;
+				case 1:
+					targetPosition = 1000;
+					lift1.set(ControlMode.MotionMagic, targetPosition);
+					switchBool = false;
+					break;
+				case 2:
+					targetPosition = 2000;
+					lift1.set(ControlMode.MotionMagic, targetPosition);
+					switchBool = false;
+					break;
+				case 3:
+					targetPosition = 4000;
+					lift1.set(ControlMode.MotionMagic, targetPosition);
+					switchBool = false;
+					break;
+				case 4:
+					targetPosition = 6500;
+					lift1.set(ControlMode.MotionMagic, targetPosition);
+					switchBool = false;
+					break;
+				}
+			}
 		}
-		
+		SmartDashboard.putNumber("Position", lift1.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Target", targetPosition);
 		
 		/*
 		if (controller2.getRawButton(6)) {
