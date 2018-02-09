@@ -5,11 +5,14 @@ import org.usfirst.frc.team930.robot.AutoHandler.StartPositions;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Waypoint;
 
 public class AutoHandler {
 	
 	public static SendableChooser<StartPositions> posChooser = new SendableChooser<StartPositions>();
 	public static SendableChooser<Goal> goalChooser = new SendableChooser<Goal>();
+	
+	public static Waypoint[] points;
 	
 	public static Routine auto;
 	

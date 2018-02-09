@@ -21,7 +21,7 @@ public class MotionProfile {
 		
 		time = new Timer();
 		
-		Waypoint[] points = AutoRoutine.points;
+		Waypoint[] points = AutoHandler.points;
 		
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.01, 4.0, 4.0, 50.0);
 
