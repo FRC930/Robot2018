@@ -49,7 +49,6 @@ public class Robot extends TimedRobot {
 	PowerDistributionPanel PDP = new PowerDistributionPanel();
 	
 	Compressor comp = new Compressor(0);
-
 	
 	//-- Intake Variable Declarations --\\
 	double currentThreshhold,	//Threshhold for the current of channel 11 (in AMPs).
@@ -116,7 +115,6 @@ public class Robot extends TimedRobot {
 		robot.setQuickStopThreshold(0.1);
 		
 		comp.setClosedLoopControl(true);
-
 		
 		//-- In take Variable Initializations --\\
 		holdingCube = false;
@@ -141,7 +139,7 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		//boolean check;  //Value to do the quick turn or not 
+		//boolean check;  //Value to do the quick turn or not
 		
 		double rightXStick = controller.getRawAxis(4); //Right joystick X axis
 		double leftYStick = controller.getRawAxis(1); //Left joystick Y axis
