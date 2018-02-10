@@ -1,12 +1,13 @@
 package org.usfirst.frc.team930.robot;
 
-import org.usfirst.frc.team930.robot.TeleopHandler.States;
+import org.usfirst.frc.team930.robot.TeleopHandler.RampStates;
+
 
 import edu.wpi.first.wpilibj.Solenoid;
 
 public class Ramp {
 
-	static States state;
+	static RampStates state;
 	private static Solenoid rampL = new Solenoid(0);
 	private static Solenoid rampR = new Solenoid(1);
 	private static Solenoid raiseR = new Solenoid(2);
@@ -21,7 +22,7 @@ public class Ramp {
 	
 	public static void run(Enum s){
 		
-		state = (States) s;
+		state = (RampStates) s;
 		
 		switch(state){
 		

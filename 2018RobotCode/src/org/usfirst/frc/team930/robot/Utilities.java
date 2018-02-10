@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 public class Utilities {
 	
-	Compressor comp = new Compressor(0);
-	PowerDistributionPanel pdp = new PowerDistributionPanel(0);
+	public static Compressor comp = new Compressor(0);
+	public static PowerDistributionPanel pdp = new PowerDistributionPanel(0);
 
 }

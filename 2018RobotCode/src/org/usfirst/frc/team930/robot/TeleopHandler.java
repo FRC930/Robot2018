@@ -24,24 +24,25 @@ public class TeleopHandler {
 		rightSolenoid.set(solenoid);
 	}
 	
-	enum States {
-		
-		// Intake states
+	enum IntakeStates{
 		INTAKING,
 		INTAKE_DONE,
 		OUTTAKING,
-		// Elevator states
+		LIFTER_UP,
+		LIFTER_DOWN
+	}
+	enum ElevatorStates{
 		INTAKE_POSITION,
 		SWITCH_POSITION,
 		SCALE_POSITION_L,
 		SCALE_POSITION_M,
-		SCALE_POSITION_H,
-		//Ramp States
+		SCALE_POSITION_H
+	}
+	enum RampStates{
 		RIGHT_RAMP_DOWN,
 		LEFT_RAMP_DOWN,
 		RIGHT_RAMP_UP,
 		LEFT_RAMP_UP
-		 
 	}
 	
 	public static void run() {
@@ -56,26 +57,26 @@ public class TeleopHandler {
 		Drive.run(stick1.getRawAxis(Constants.rightXaxis), stick1.getRawAxis(Constants.leftYaxis));
 		
 		if(stick2.getRawAxis(Constants.rightTriggerAxis) > 0.7)																
-			Intake.run(States.INTAKING);
+			Intake.run(IntakeStates.INTAKING);
 		else if(stick2.getRawAxis(Constants.leftTriggerAxis) > 0.7)																
-			Intake.run(States.OUTTAKING);
+			Intake.run(IntakeStates.OUTTAKING);
 		else
-			Intake.run(States.INTAKE_DONE);
+			Intake.run(IntakeStates.INTAKE_DONE);
 		
 		
 		//Elevator
-		if(Math.abs(stick2.getRawAxis(Constants.rightYaxis))>0.15);
-			//Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
+		if(Math.abs(stick2.getRawAxis(Constants.rightYaxis))>0.15)
+			Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
 		else if(counter == 0)
-			Elevator.run(States.INTAKE_POSITION);
+			Elevator.run(ElevatorStates.INTAKE_POSITION);
 		else if(counter == 1)
-			Elevator.run(States.SWITCH_POSITION);
+			Elevator.run(ElevatorStates.SWITCH_POSITION);
 		else if(counter == 2)
-			Elevator.run(States.SCALE_POSITION_L);
+			Elevator.run(ElevatorStates.SCALE_POSITION_L);
 		else if(counter == 3)
-			Elevator.run(States.SCALE_POSITION_M);
+			Elevator.run(ElevatorStates.SCALE_POSITION_M);
 		else if(counter == 4)
-			Elevator.run(States.SCALE_POSITION_H);
+			Elevator.run(ElevatorStates.SCALE_POSITION_H);
 		
 		if(!buttonCheckRB && stick2.getRawButton(Constants.RB)){
 			if(counter < 4)
@@ -94,11 +95,11 @@ public class TeleopHandler {
 			buttonCheckLB = false;
 		
 		/*if(button1)
-			Ramp.run(States.RIGHT_RAMP_DOWN);
+			Ramp.run(RampStates.RIGHT_RAMP_DOWN);
 		if(button2)
-			Ramp.run(States.LEFT_RAMP_DOWN);
+			Ramp.run(RampStates.LEFT_RAMP_DOWN);
 		if(button3)
-			Ramp.run(States.RIGHT_RAMP_UP);
+			Ramp.run(RampStates.RIGHT_RAMP_UP);
 		if(button4)
 			Ramp.run(States.LEFT_RAMP_UP);*/
 		
