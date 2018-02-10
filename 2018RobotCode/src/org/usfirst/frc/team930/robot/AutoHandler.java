@@ -3,6 +3,7 @@ package org.usfirst.frc.team930.robot;
 import org.usfirst.frc.team930.robot.AutoHandler.Goal;
 import org.usfirst.frc.team930.robot.AutoHandler.StartPositions;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Waypoint;
@@ -11,6 +12,7 @@ public class AutoHandler {
 	
 	public static SendableChooser<StartPositions> posChooser = new SendableChooser<StartPositions>();
 	public static SendableChooser<Goal> goalChooser = new SendableChooser<Goal>();
+	private static Timer time = new Timer();
 	
 	public static Waypoint[] points;
 	
@@ -20,7 +22,8 @@ public class AutoHandler {
 		
 		 RIGHT,
 		 MIDDLE,
-		 LEFT
+		 LEFT,
+		 NOTHING
 		 
 	}
 	
@@ -39,6 +42,7 @@ public class AutoHandler {
 		posChooser.addObject("Left", StartPositions.LEFT);
 		posChooser.addObject("Middle", StartPositions.MIDDLE);
         posChooser.addObject("Right", StartPositions.RIGHT);
+        posChooser.addObject("Do Noting", StartPositions.NOTHING);
         SmartDashboard.putData("Positions", posChooser);
         
         goalChooser.addObject("Always Switch", Goal.ALWAYS_SWITCH);
@@ -50,6 +54,8 @@ public class AutoHandler {
         
         SmartDashboard.putNumber("Time Delay", 0);
 		
+    	
+		time.reset();
 	}
 	
 	public static void autoInit() {
@@ -60,9 +66,14 @@ public class AutoHandler {
 		
 		StartPositions posEnum = (StartPositions) startPositions;
 		Goal goalEnum = (Goal) goal;
+	
+		time.start();
 		
 		switch (posEnum) {
 
+		case NOTHING:
+			break;
+			
 		case LEFT:
 			switch (goalEnum) {
 
@@ -70,32 +81,24 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
-					auto= new LeftRightScale(variation);
-					break;
-				case "RLR":
-					auto= new LeftLeftScale(variation);
-					break;
-				case "LLL":
-					auto= new LeftLeftScale(variation);
-					break;
 				case "RRR":
 					auto= new LeftRightScale(variation);
 					break;
-
+				case "RLR":
+				case "LLL":
+					auto= new LeftLeftScale(variation);
+					break;
+				
 				}
 				break;
 			case ALWAYS_SWITCH:
 				switch (variation) {
 
-				case "LRL":
-					auto= new LeftLeftSwitch(variation);
-					break;
-				case "RLR":
-					auto= new LeftRightSwitch(variation);
-					break;
+				case "LRL":	
 				case "LLL":
 					auto= new LeftLeftSwitch(variation);
 					break;
+				case "RLR":
 				case "RRR":
 					auto= new LeftRightSwitch(variation);
 					break;
@@ -109,8 +112,6 @@ public class AutoHandler {
 					auto= new LeftLeftSwitch(variation);
 					break;
 				case "RLR":
-					auto= new LeftLeftScale(variation);
-					break;
 				case "LLL":
 					auto= new LeftLeftScale(variation);
 					break;
@@ -124,13 +125,11 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
+				case "LLL":
 					auto= new LeftLeftSwitch(variation);
 					break;
 				case "RLR":
 					auto= new LeftLeftScale(variation);
-					break;
-				case "LLL":
-					auto= new LeftLeftSwitch(variation);
 					break;
 				case "RRR":
 					auto= new Line(variation);
@@ -138,8 +137,22 @@ public class AutoHandler {
 
 				}
 				break;
+			case LINE:
+				switch (variation) {
 
+				case "LRL":
+				case "LLL":
+					auto= new LineScore(variation);
+					break;
+				case "RLR":
+				case "RRR":
+					auto= new Line(variation);
+					break;
+
+				}
+				break;
 			}
+			break;
 		case MIDDLE:
 			switch (goalEnum) {
 
@@ -147,14 +160,10 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
-					auto= new MiddleLeftSwitch(variation);
-					break;
-				case "RLR":
-					auto= new MiddleRightSwitch(variation);
-					break;
 				case "LLL":
 					auto= new MiddleLeftSwitch(variation);
 					break;
+				case "RLR":
 				case "RRR":
 					auto= new MiddleRightSwitch(variation);
 					break;
@@ -174,32 +183,24 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
-					auto= new RightRightScale(variation);
-					break;
-				case "RLR":
-					auto= new RightLeftScale(variation);
-					break;
-				case "LLL":
-					auto= new RightLeftScale(variation);
-					break;
 				case "RRR":
 					auto= new RightRightScale(variation);
 					break;
-
+				case "RLR":
+				case "LLL":
+					auto= new RightLeftScale(variation);
+					break;
+				
 				}
 				break;
 			case ALWAYS_SWITCH:
 				switch (variation) {
 
 				case "LRL":
-					auto= new RightLeftSwitch(variation);
-					break;
-				case "RLR":
-					auto= new RightRightSwitch(variation);
-					break;
 				case "LLL":
 					auto= new RightLeftSwitch(variation);
 					break;
+				case "RLR":
 				case "RRR":
 					auto= new RightRightSwitch(variation);
 					break;
@@ -210,6 +211,7 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
+				case "RRR":
 					auto= new RightRightScale(variation);
 					break;
 				case "RLR":
@@ -218,10 +220,7 @@ public class AutoHandler {
 				case "LLL":
 					auto= new Line(variation);
 					break;
-				case "RRR":
-					auto= new RightRightScale(variation);
-					break;
-
+			
 				}
 				break;
 			case PERFERRED_SWITCH:
@@ -231,20 +230,31 @@ public class AutoHandler {
 					auto= new RightRightScale(variation);
 					break;
 				case "RLR":
+				case "RRR":
 					auto= new RightRightSwitch(variation);
 					break;
 				case "LLL":
 					auto= new Line(variation);
 					break;
+				
+				}
+				break;
+			case LINE:
+				switch (variation) {
+
+				case "LRL":
+				case "LLL":
+					auto= new Line(variation);
+					break;
+				case "RLR":
 				case "RRR":
-					auto= new RightRightSwitch(variation);
+					auto= new LineScore(variation);
 					break;
 
 				}
 				break;
-
 			}
-
+			break;
 		}
 		
 		MotionProfile.init();
@@ -252,9 +262,11 @@ public class AutoHandler {
 	}
 	
 	public static void run() {
-		
-		auto.run();
-		//MotionProfile.run(SmartDashboard.getNumber("Time Delay", 0););
+		if(time.get() > SmartDashboard.getNumber("Time Delay", 0)){
+			auto.run();
+			time.stop();
+		}
+		//MotionProfile.run();
 		
 	}
 

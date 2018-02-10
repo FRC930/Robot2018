@@ -32,5 +32,9 @@ public class Drive {
 		rightMain.set(-(yStick-xStick));
 		leftMain.set(yStick+xStick);
 	}
+	public static void runAt(double left, double right){
+		rightMain.set(right);
+		leftMain.set(left);
+	}
 	
 }

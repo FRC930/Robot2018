@@ -15,11 +15,8 @@ public class MotionProfile {
 
 	private static EncoderFollower enc;
 	private static EncoderFollower enc2;
-	private static Timer time;
-	
+
 	public static void init() {
-		
-		time = new Timer();
 		
 		Waypoint[] points = AutoHandler.points;
 		
@@ -40,14 +37,11 @@ public class MotionProfile {
 		enc2.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
 
 		Drive.gyro.reset();
-		time.start();
 		
 	}
 	
-	public static void run(double d) {
+	public static void run() {
 		
-		if(time.get()>d){
-			
 			double heading = Math.toDegrees(enc.getHeading());
 			
 			if(heading >180)
@@ -73,8 +67,6 @@ public class MotionProfile {
 			Drive.leftMain.set(ControlMode.PercentOutput, -(calc2 + turn));
 			
 		}
-			
-	}
 	
 	public static boolean isLastPoint(){
 		
