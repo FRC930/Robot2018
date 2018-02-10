@@ -8,10 +8,12 @@ public class TeleopHandler {
 	
 	private static final Joystick stick1 = new Joystick(0);
 	private static final Joystick stick2 = new Joystick(1);
+	private static final Timer elevatorTimer = new Timer();
 	private static boolean buttonCheckRB = false;
 	private static boolean buttonCheckLB = false;
 	private static int elevatorCounter = 0;
 	private static boolean switchBool = false;
+	private static double timeAmount = 0;
 	
 	public static void init() {
 	
@@ -55,16 +57,15 @@ public class TeleopHandler {
 		
 		
 		//Elevator
-Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
+		Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
 		
 		if (stick2.getRawButton(Constants.RB) && (!buttonCheckRB)) {
 			buttonCheckRB = true;
 			switchBool = true;
 			if(elevatorCounter < 4 && elevatorCounter >= 0){
 				elevatorCounter++;
-				setRumble(2, 0.5);
-				Timer.delay(0.05 + (0.05 * elevatorCounter));
-				setRumble(2, 0.0);
+				timeAmount = 0.1 + (0.05 * elevatorCounter);
+				elevatorTimer.start();
 			}
 		} else if ((!stick2.getRawButton(Constants.RB)) && buttonCheckRB) {
 			buttonCheckRB = false;
@@ -75,9 +76,8 @@ Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
 			switchBool = true;
 			if(elevatorCounter <= 4 && elevatorCounter > 0){
 				elevatorCounter--;
-				setRumble(2, 0.5);
-				Timer.delay(0.05 + (0.05 * elevatorCounter));
-				setRumble(2, 0.0);
+				timeAmount = 0.1 + (0.05 * elevatorCounter);
+				elevatorTimer.start();
 			}
 		} else if ((!stick2.getRawButton(Constants.LB)) && buttonCheckLB) {
 			buttonCheckLB = false;
@@ -106,6 +106,15 @@ Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
 				switchBool = false;
 				break;
 			}
+		}
+		
+		if(elevatorTimer.get() > 0.001 && elevatorTimer.get() < timeAmount){
+			setRumble(2, 1.0);
+		} else if(elevatorTimer.get() > timeAmount){
+			elevatorTimer.stop();
+			elevatorTimer.reset();
+		} else {
+			setRumble(2, 0);
 		}
 		
 		/*if(button1)
