@@ -70,6 +70,24 @@ public class Elevator {
 			lift1.set(ControlMode.PercentOutput, 0);
 		}
 	}
+	
+	public static void run(double axisValue) {
+		double targetPosition = lift1.getSelectedSensorPosition(0);
+		
+		if((targetPosition  < Constants.scalePositionHigh && targetPosition >=0) && axisValue < -0.2){
+			targetPosition += (axisValue * -200);
+		} else if((targetPosition <= Constants.scalePositionHigh && targetPosition > 0) && axisValue > 0.2){
+			targetPosition -= (axisValue * 200);
+		}
+		
+		if(targetPosition > Constants.scalePositionHigh) {
+			targetPosition = Constants.scalePositionHigh;
+		} else if (targetPosition < 0) {
+			targetPosition = 0;
+		}
+		
+		lift1.set(ControlMode.MotionMagic, targetPosition);
+	}
 
 	
 	public boolean atPosition(Enum pos2) {
