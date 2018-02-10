@@ -53,7 +53,7 @@ public class TeleopHandler {
 		
 		System.out.println("Solenoid: " + rightSolenoid.get());
 		
-		Drive.run(stick1);
+		Drive.run(stick1.getRawAxis(Constants.rightXaxis), stick1.getRawAxis(Constants.leftYaxis));
 		
 		if(stick2.getRawAxis(Constants.rightTriggerAxis) > 0.7)																
 			Intake.run(States.INTAKING);
