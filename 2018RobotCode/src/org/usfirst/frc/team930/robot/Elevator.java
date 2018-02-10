@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Elevator {
-	public static TalonSRX lift1 = new TalonSRX(6);
+	public static TalonSRX lift1 = new TalonSRX(Constants.liftTalonID);
 	private static ElevatorStates stateEnum;
 
 	private static double targetPosition;
@@ -80,7 +80,7 @@ public class Elevator {
 	public static void run(double axisValue) {
 		
 		if(Math.abs(axisValue) > Constants.deadBand){
-			targetPosition += (axisValue * -400);
+			targetPosition += (axisValue * Constants.targetMultiplier);
 		}
 		
 		if(targetPosition > Constants.scalePositionHigh) {

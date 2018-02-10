@@ -47,11 +47,12 @@ public class Constants {
 	public static final int kSlotIdx = 0;
 	public static final int kPIDLoopIdx = 0;
 	public static final int kTimeoutMs = 10;
-	public static final double intakePosition = 0;
+	public static final double intakePosition = 50;
 	public static final double switchPosition = 2000;
 	public static final double scalePositionLow = 5000;
 	public static final double scalePositionMid = 6000;
 	public static final double scalePositionHigh = 7000;
+	public static final int targetMultiplier = -400;
 	
 	//Ramp Constants
 	public static final int rampLSolenoidID = 0;
