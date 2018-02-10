@@ -46,4 +46,7 @@ public class Constants {
 	public static final double scalePositionLow = 5000;
 	public static final double scalePositionMid = 6000;
 	public static final double scalePositionHigh = 7000;
+	
+	//PDP Ports
+	public static final int pdpIntakePort = 11;
 }

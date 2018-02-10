@@ -2,6 +2,7 @@ package org.usfirst.frc.team930.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
 
@@ -101,6 +102,16 @@ public class TeleopHandler {
 		if(button4)
 			Ramp.run(States.LEFT_RAMP_UP);*/
 		
+	}
+	public static void setRumble(int controller, double intensity){
+		if(controller == 1){
+			stick1.setRumble(GenericHID.RumbleType.kLeftRumble, intensity);
+			stick1.setRumble(GenericHID.RumbleType.kRightRumble, intensity);
+		}
+		else if(controller == 2){
+			stick2.setRumble(GenericHID.RumbleType.kLeftRumble, intensity);
+			stick2.setRumble(GenericHID.RumbleType.kRightRumble, intensity);
+		}
 	}
 
 }
