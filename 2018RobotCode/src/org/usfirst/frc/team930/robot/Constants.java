@@ -24,12 +24,12 @@ public class Constants {
 	public static final int leftJoyButton = 10;
 	
 	// Drive Constants
-	public static final int rightMainTalonID = 0; 
-	public static final int rightFollowVictorID = 1;
-	public static final int rightFollow2VictorID = 2;
-	public static final int leftMainTalonID = 3;  
-	public static final int leftFollowVictorID = 4;
-	public static final int leftFollow2Victor = 5;
+	public static final int rightMainTalonID = 1; 
+	public static final int rightFollowVictorID = 2;
+	public static final int rightFollow2VictorID = 3;
+	public static final int leftMainTalonID = 4;  
+	public static final int leftFollowVictorID = 5;
+	public static final int leftFollow2Victor = 6;
 	public static final double deadBand = 0.15;
 	
 	// In take Constants
