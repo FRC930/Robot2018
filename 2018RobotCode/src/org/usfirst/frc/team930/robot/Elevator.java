@@ -12,49 +12,57 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Elevator {
+	// Object Declarations
 	public static TalonSRX lift1 = new TalonSRX(Constants.liftTalonID);
+	
+	// Variable Declarations
 	private static ElevatorStates stateEnum;
-
 	private static double targetPosition;
 	
 	public static void init() {
-		/* first choose the sensor */
+		// Setup the sensor
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 		lift1.setSensorPhase(false);
 		lift1.setInverted(false);
 
-		/* Set relevant frame periods to be at least as fast as periodic rate */
+		// Set relevant frame periods to be at least as fast as periodic rate
 		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
 		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
 
-		/* set the peak and nominal outputs */
+		// Set the peak and nominal outputs
 		lift1.configNominalOutputForward(0, Constants.kTimeoutMs);
 		lift1.configNominalOutputReverse(0, Constants.kTimeoutMs);
 		lift1.configPeakOutputForward(1, Constants.kTimeoutMs);
 		lift1.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 		
+		// Set forward and reverse soft limits
 		lift1.configForwardSoftLimitThreshold(7000, Constants.kTimeoutMs);
 		lift1.configReverseSoftLimitThreshold(0, Constants.kTimeoutMs);
 
-		/* set closed loop gains in slot0 - see documentation */
+		// Set closed loop gains in slot 0
 		lift1.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
 		lift1.config_kF(0, 1.89, Constants.kTimeoutMs);
 		lift1.config_kP(0, 0.5, Constants.kTimeoutMs);
 		lift1.config_kI(0, 0, Constants.kTimeoutMs);
 		lift1.config_kD(0, 10, Constants.kTimeoutMs);
-		/* set acceleration and cruise velocity - see documentation */
+		
+		// Set acceleration and cruise velocity
 		lift1.configMotionCruiseVelocity(800, Constants.kTimeoutMs);
 		lift1.configMotionAcceleration(800, Constants.kTimeoutMs);
-		/* zero the sensor */
+		
+		// Zero the sensor
 		lift1.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 		
+		// Set starting target position to intake position
 		targetPosition = Constants.intakePosition;
 	}
 	
+	// Set motor's position to double value that is passed through using motion magic
 	public static void goToPosition(double height) {
 		lift1.set(ControlMode.MotionMagic, height);
 	}
 
+	// Set motor's target position based on enum passed through
 	public static void run(Enum pos1) {
 		stateEnum = (ElevatorStates) pos1;
 		
@@ -77,12 +85,14 @@ public class Elevator {
 		}
 	}
 
+	// Set motor's target position based on joystick value
 	public static void run(double axisValue) {
-		
+		// If joystick moves, change target position based on the joystick's value
 		if(Math.abs(axisValue) > Constants.deadBand){
 			targetPosition += (axisValue * Constants.targetMultiplier);
 		}
 		
+		// Keep target position within a select range
 		if(targetPosition > Constants.scalePositionHigh) {
 			targetPosition = Constants.scalePositionHigh;
 		} else if (targetPosition < Constants.intakePosition) {
@@ -92,6 +102,7 @@ public class Elevator {
 		goToPosition(targetPosition);
 	}
 	
+	// Check to confirm the elevator has reached its target position
 	public boolean atPosition(Enum pos2) {
 		stateEnum = (ElevatorStates) pos2;
 		
@@ -131,6 +142,7 @@ public class Elevator {
 		}
 	}
 	
+	// Returns the actual position of the elevator
 	public double getPosition() {
 		return lift1.getSelectedSensorPosition(0);
 	}
