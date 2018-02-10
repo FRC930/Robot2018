@@ -17,11 +17,8 @@ public class Intake {
 	//-- Object Declarations --\\
 	private static VictorSPX rightIntakeWheel = new VictorSPX(7);	//Victor of right in take wheel
 	private static VictorSPX leftIntakeWheel = new VictorSPX(8);	//Victor of left in take wheel
-	private static Joystick controller = new Joystick(0);			//Controller 1 (for rumble)
-	private static Joystick controller2 = new Joystick(1);			//Controller 2 (for rumble)
 	private static Compressor comp = new Compressor(0);				//Compressor object
 	private static PowerDistributionPanel PDP = new PowerDistributionPanel(0);	//PDP for getting current
-
 	// -- Variable Declarations --\\
 	private static int PDPcounter;		//Integer used to count up loops
 	private static States stateEnum;	//States for saving states of in take
@@ -29,12 +26,12 @@ public class Intake {
 	//-- Function Declarations and Implementations --\\
 	
 	//	Function:	updatePDPcounter
-	//	Purpose:	Checks the current of channel 11. If the current is above 
+	//	Purpose:	Checks the current of the intake motors If the current is above 
 	//				a certain threshold, it adds one to the counter
 	//	Inputs:		None
 	//	Outputs:	None
 	public static void updatePDPcounter() {
-		if (PDP.getCurrent(11) > Constants.currentThreshhold) { 						
+		if (PDP.getCurrent(Constants.pdpIntakePort) > Constants.currentThreshhold) { 						
 			PDPcounter++; 																
 		} else { 																	
 			PDPcounter = 0; 															
@@ -66,10 +63,7 @@ public class Intake {
 			rightIntakeWheel.set(ControlMode.PercentOutput, 0);	// Stops motors
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
 			
-			controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0.5); //Rumbles
-			controller.setRumble(GenericHID.RumbleType.kRightRumble, 0.5);
-			controller2.setRumble(GenericHID.RumbleType.kLeftRumble, 0.5); //Rumbles
-			controller2.setRumble(GenericHID.RumbleType.kRightRumble, 0.5);
+			TeleopHandler.setRumble(2,0.5);
 		} else {
 			rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);	// Turn on motors
 			leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);
@@ -115,9 +109,9 @@ public class Intake {
 		stateEnum = (States) state;	//states used to record the state of the robot
 		
 		//-- Debug Messages --\\
-		System.out.println(PDP.getCurrent(11));
-		SmartDashboard.putNumber("PDP Channel 11", PDP.getCurrent(11));
-		SmartDashboard.putData("PDP Channel 11 Graph", PDP);
+		System.out.println(PDP.getCurrent(Constants.pdpIntakePort));
+		SmartDashboard.putNumber("PDP Intake Port Reading", PDP.getCurrent(Constants.pdpIntakePort));
+		SmartDashboard.putData("PDP Intake Port Graph", PDP);
 		
 		//-- State Checking --\\
 		switch (stateEnum) {
