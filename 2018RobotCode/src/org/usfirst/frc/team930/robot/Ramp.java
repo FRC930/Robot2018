@@ -6,13 +6,20 @@ import edu.wpi.first.wpilibj.Solenoid;
 
 public class Ramp {
 
-	States state;
-	Solenoid rampL = new Solenoid(0);
-	Solenoid rampR = new Solenoid(1);
-	Solenoid raiseR = new Solenoid(2);
-	Solenoid raiseL = new Solenoid(3);
+	static States state;
+	private static Solenoid rampL = new Solenoid(0);
+	private static Solenoid rampR = new Solenoid(1);
+	private static Solenoid raiseR = new Solenoid(2);
+	private static Solenoid raiseL = new Solenoid(3);
 	
-	public void run(Enum s){
+	public static void init(){
+		rampL.set(false);
+		rampR.set(false);
+		raiseR.set(false);
+		raiseL.set(false);
+	}
+	
+	public static void run(Enum s){
 		
 		state = (States) s;
 		
@@ -34,22 +41,22 @@ public class Ramp {
 		}
 		}
 
-	private void leftRampUP() {
+	private static void leftRampUP() {
 		raiseL.set(true);
 		
 	}
 
-	private void rightRampUp() {
+	private static void rightRampUp() {
 		raiseR.set(true);
 		
 	}
 
-	private void leftRampDown() {
+	private static void leftRampDown() {
 		rampL.set(true);
 		
 	}
 
-	private void rightRampDown() {
+	private static void rightRampDown() {
 		rampR.set(true);
 		
 	}

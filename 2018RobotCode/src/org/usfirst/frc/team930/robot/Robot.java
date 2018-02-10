@@ -17,6 +17,7 @@ public class Robot extends IterativeRobot {
 		Drive.init();
 		Intake.init();
 		Elevator.init();
+		Ramp.init();
 		AutoHandler.robotInit();
 		TeleopHandler.init();
 		
