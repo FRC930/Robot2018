@@ -1,15 +1,21 @@
 package org.usfirst.frc.team930.robot;
 
-import org.usfirst.frc.team930.robot.TeleopHandler.States;
+import org.usfirst.frc.team930.robot.TeleopHandler.ElevatorStates;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
+
 public class Elevator {
 	public static TalonSRX lift1 = new TalonSRX(6);
-	private static States stateEnum;
+	private static ElevatorStates stateEnum;
+
+	private static double targetPosition;
 	
 	public static void init() {
 		/* first choose the sensor */
@@ -41,6 +47,8 @@ public class Elevator {
 		lift1.configMotionAcceleration(800, Constants.kTimeoutMs);
 		/* zero the sensor */
 		lift1.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+		
+		targetPosition = Constants.intakePosition;
 	}
 	
 	public static void goToPosition(double height) {
@@ -48,50 +56,44 @@ public class Elevator {
 	}
 
 	public static void run(Enum pos1) {
-		stateEnum = (States) pos1;
+		stateEnum = (ElevatorStates) pos1;
 		
 		switch(stateEnum) {
 		case INTAKE_POSITION:
-			goToPosition(Constants.intakePosition);
+			targetPosition = Constants.intakePosition;
 			break;
 		case SWITCH_POSITION:
-			goToPosition(Constants.switchPosition);
+			targetPosition = Constants.switchPosition;
 			break;
 		case SCALE_POSITION_L:
-			goToPosition(Constants.scalePositionLow);
+			targetPosition = Constants.scalePositionLow;
 			break;
 		case SCALE_POSITION_M:
-			goToPosition(Constants.scalePositionMid);
+			targetPosition = Constants.scalePositionMid;
 			break;
 		case SCALE_POSITION_H:
-			goToPosition(Constants.scalePositionHigh);
+			targetPosition = Constants.scalePositionHigh;
 			break;
-		default:
-			lift1.set(ControlMode.PercentOutput, 0);
 		}
 	}
-	
+
 	public static void run(double axisValue) {
-		double targetPosition = lift1.getSelectedSensorPosition(0);
 		
-		if((targetPosition  < Constants.scalePositionHigh && targetPosition >=0) && axisValue < -0.2){
-			targetPosition += (axisValue * -200);
-		} else if((targetPosition <= Constants.scalePositionHigh && targetPosition > 0) && axisValue > 0.2){
-			targetPosition -= (axisValue * 200);
+		if(Math.abs(axisValue) > Constants.deadBand){
+			targetPosition += (axisValue * -400);
 		}
 		
 		if(targetPosition > Constants.scalePositionHigh) {
 			targetPosition = Constants.scalePositionHigh;
-		} else if (targetPosition < 0) {
-			targetPosition = 0;
+		} else if (targetPosition < Constants.intakePosition) {
+			targetPosition = Constants.intakePosition;
 		}
 		
-		lift1.set(ControlMode.MotionMagic, targetPosition);
+		goToPosition(targetPosition);
 	}
-
 	
 	public boolean atPosition(Enum pos2) {
-		stateEnum = (States) pos2;
+		stateEnum = (ElevatorStates) pos2;
 		
 		switch(stateEnum) {
 		case INTAKE_POSITION:

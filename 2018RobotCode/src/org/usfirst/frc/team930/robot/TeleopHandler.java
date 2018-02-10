@@ -1,10 +1,8 @@
 package org.usfirst.frc.team930.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 
 public class TeleopHandler {
 	
@@ -13,6 +11,7 @@ public class TeleopHandler {
 	private static boolean buttonCheckRB = false;
 	private static boolean buttonCheckLB = false;
 	private static int elevatorCounter = 0;
+	private static boolean switchBool = false;
 	
 	public static void init() {
 	
@@ -56,34 +55,58 @@ public class TeleopHandler {
 		
 		
 		//Elevator
-		if(Math.abs(stick2.getRawAxis(Constants.rightYaxis))>0.15)
-			Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
-		else if(elevatorCounter == 0)
-			Elevator.run(ElevatorStates.INTAKE_POSITION);
-		else if(elevatorCounter == 1)
-			Elevator.run(ElevatorStates.SWITCH_POSITION);
-		else if(elevatorCounter == 2)
-			Elevator.run(ElevatorStates.SCALE_POSITION_L);
-		else if(elevatorCounter == 3)
-			Elevator.run(ElevatorStates.SCALE_POSITION_M);
-		else if(elevatorCounter == 4)
-			Elevator.run(ElevatorStates.SCALE_POSITION_H);
+Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
 		
-		if(!buttonCheckRB && stick2.getRawButton(Constants.RB)){
-			if(elevatorCounter < 4)
-				elevatorCounter++;
+		if (stick2.getRawButton(Constants.RB) && (!buttonCheckRB)) {
 			buttonCheckRB = true;
-		}
-		else if(buttonCheckRB && !stick2.getRawButton(Constants.RB))
+			switchBool = true;
+			if(elevatorCounter < 4 && elevatorCounter >= 0){
+				elevatorCounter++;
+				setRumble(2, 0.5);
+				Timer.delay(0.05 + (0.05 * elevatorCounter));
+				setRumble(2, 0.0);
+			}
+		} else if ((!stick2.getRawButton(Constants.RB)) && buttonCheckRB) {
 			buttonCheckRB = false;
-		
-		if(!buttonCheckLB && stick2.getRawButton(Constants.LB)){
-			if(elevatorCounter >1)
-				elevatorCounter--;
-			buttonCheckLB = true;
 		}
-		else if(buttonCheckLB && !stick2.getRawButton(Constants.LB))
+
+		if (stick2.getRawButton(Constants.LB) && (!buttonCheckLB)) {
+			buttonCheckLB = true;
+			switchBool = true;
+			if(elevatorCounter <= 4 && elevatorCounter > 0){
+				elevatorCounter--;
+				setRumble(2, 0.5);
+				Timer.delay(0.05 + (0.05 * elevatorCounter));
+				setRumble(2, 0.0);
+			}
+		} else if ((!stick2.getRawButton(Constants.LB)) && buttonCheckLB) {
 			buttonCheckLB = false;
+		}
+		
+		if (switchBool){
+			switch(elevatorCounter){
+			case 0:
+				Elevator.run(ElevatorStates.INTAKE_POSITION);
+				switchBool = false;
+				break;
+			case 1:
+				Elevator.run(ElevatorStates.SWITCH_POSITION);
+				switchBool = false;
+				break;
+			case 2:
+				Elevator.run(ElevatorStates.SCALE_POSITION_L);
+				switchBool = false;
+				break;
+			case 3:
+				Elevator.run(ElevatorStates.SCALE_POSITION_M);
+				switchBool = false;
+				break;
+			case 4:
+				Elevator.run(ElevatorStates.SCALE_POSITION_H);
+				switchBool = false;
+				break;
+			}
+		}
 		
 		/*if(button1)
 			Ramp.run(RampStates.RIGHT_RAMP_DOWN);
