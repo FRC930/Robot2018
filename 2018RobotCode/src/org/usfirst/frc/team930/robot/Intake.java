@@ -70,8 +70,8 @@ public class Intake {
 			setIntakeGrip(true);
 			TeleopHandler.setRumble(2,0.5);
 		} else {
-			rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);	// Turn on motors
-			leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);
+			rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);	// Turn on motors
+			leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);
 			updatePDPcounter();
 			setIntakeGrip(true);
 		}
@@ -97,8 +97,8 @@ public class Intake {
 	//	Inputs:		None
 	//	Outputs:	None
 	private static void outTaking() {
-		rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn right motor
-		leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); // Turn left motor
+		rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); // Turn right motor
+		leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn left motor
 		PDPcounter = 0; // Reset counter.
 		setIntakeGrip(true);
 	}	
