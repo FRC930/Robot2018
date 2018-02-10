@@ -24,20 +24,26 @@ public class Constants {
 	public static final int leftJoyButton = 10;
 	
 	// Drive Constants
-	public static final int rightMainTalonID = 4;
-	public static final int leftMainTalonID = 1;
-	public static final int rightFollowVictorID = 2;
-	public static final int leftFollowVictorID = 3;
-	public static final int rightFollow2VictorID = 4;
+	public static final int rightMainTalonID = 0; 
+	public static final int rightFollowVictorID = 1;
+	public static final int rightFollow2VictorID = 2;
+	public static final int leftMainTalonID = 3;  
+	public static final int leftFollowVictorID = 4;
 	public static final int leftFollow2Victor = 5;
 	public static final double deadBand = 0.15;
 	
 	// In take Constants
-	public static final double currentThreshhold = 22.0;	//Thresh hold for the in take PDP current			
-	public static final double intakeMotorSpeed = 0.75;		//Speed of in take motors.
-	public static final int PDPcounterLimit = 2;			//Limit for loop counter.
+	public static final int rightIntakeWheelVictorID  = 7;
+	public static final int leftIntakeWheelVictorID = 8;
+	public static final int lifterForwardSolenoidID = 4;
+	public static final int lifterReverseSolenoidID = 5;
+	public static final int gripperSolenoidID = 6;
+	public static final double currentThreshhold = 22.0;				
+	public static final double intakeMotorSpeed = 0.75;		
+	public static final int PDPcounterLimit = 2;			
 	
 	// Elevator Constants
+	public static final int liftTalonID = 6;
 	public static final int kSlotIdx = 0;
 	public static final int kPIDLoopIdx = 0;
 	public static final int kTimeoutMs = 10;
@@ -46,6 +52,12 @@ public class Constants {
 	public static final double scalePositionLow = 5000;
 	public static final double scalePositionMid = 6000;
 	public static final double scalePositionHigh = 7000;
+	
+	//Ramp Constants
+	public static final int rampLSolenoidID = 0;
+	public static final int rampRSolenoidID = 1;
+	public static final int raiseLSolenoidID = 2;
+	public static final int raiseRSolenoidID = 3;
 	
 	//PDP Ports
 	public static final int pdpIntakePort = 11;

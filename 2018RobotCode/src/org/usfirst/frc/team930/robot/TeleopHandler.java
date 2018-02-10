@@ -12,16 +12,14 @@ public class TeleopHandler {
 	private static final Joystick stick2 = new Joystick(1);
 	private static boolean buttonCheckRB = false;
 	private static boolean buttonCheckLB = false;
-	private static int counter = 0;
-	private static Solenoid rightSolenoid = new Solenoid(0);
-	private static boolean solenoid = false;
+	private static int elevatorCounter = 0;
 	
 	public static void init() {
-		rightSolenoid.set(false);
+	
 	}
 	
 	public static void disabled() {
-		rightSolenoid.set(solenoid);
+		
 	}
 	
 	enum IntakeStates{
@@ -47,13 +45,6 @@ public class TeleopHandler {
 	
 	public static void run() {
 		
-		if(stick1.getRawButton(1))
-			solenoid = true;
-		
-		rightSolenoid.set(solenoid);
-		
-		System.out.println("Solenoid: " + rightSolenoid.get());
-		
 		Drive.run(stick1.getRawAxis(Constants.rightXaxis), stick1.getRawAxis(Constants.leftYaxis));
 		
 		if(stick2.getRawAxis(Constants.rightTriggerAxis) > 0.7)																
@@ -67,28 +58,28 @@ public class TeleopHandler {
 		//Elevator
 		if(Math.abs(stick2.getRawAxis(Constants.rightYaxis))>0.15)
 			Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
-		else if(counter == 0)
+		else if(elevatorCounter == 0)
 			Elevator.run(ElevatorStates.INTAKE_POSITION);
-		else if(counter == 1)
+		else if(elevatorCounter == 1)
 			Elevator.run(ElevatorStates.SWITCH_POSITION);
-		else if(counter == 2)
+		else if(elevatorCounter == 2)
 			Elevator.run(ElevatorStates.SCALE_POSITION_L);
-		else if(counter == 3)
+		else if(elevatorCounter == 3)
 			Elevator.run(ElevatorStates.SCALE_POSITION_M);
-		else if(counter == 4)
+		else if(elevatorCounter == 4)
 			Elevator.run(ElevatorStates.SCALE_POSITION_H);
 		
 		if(!buttonCheckRB && stick2.getRawButton(Constants.RB)){
-			if(counter < 4)
-				counter++;
+			if(elevatorCounter < 4)
+				elevatorCounter++;
 			buttonCheckRB = true;
 		}
 		else if(buttonCheckRB && !stick2.getRawButton(Constants.RB))
 			buttonCheckRB = false;
 		
 		if(!buttonCheckLB && stick2.getRawButton(Constants.LB)){
-			if(counter >1)
-				counter--;
+			if(elevatorCounter >1)
+				elevatorCounter--;
 			buttonCheckLB = true;
 		}
 		else if(buttonCheckLB && !stick2.getRawButton(Constants.LB))

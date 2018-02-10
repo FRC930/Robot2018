@@ -20,10 +20,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Intake {
 	
 	//-- Object Declarations --\\
-	private static VictorSPX rightIntakeWheel = new VictorSPX(7);	//Victor of right in take wheel
-	private static VictorSPX leftIntakeWheel = new VictorSPX(8);	//Victor of left in take wheel
-	private static DoubleSolenoid lifter = new DoubleSolenoid(4,5);
-	private static Solenoid gripper = new Solenoid(6);
+	private static VictorSPX rightIntakeWheel = new VictorSPX(Constants.rightIntakeWheelVictorID);	//Victor of right in take wheel
+	private static VictorSPX leftIntakeWheel = new VictorSPX(Constants.leftIntakeWheelVictorID);	//Victor of left in take wheel
+	private static DoubleSolenoid lifter = new DoubleSolenoid(Constants.lifterForwardSolenoidID,Constants.lifterReverseSolenoidID);
+	private static Solenoid gripper = new Solenoid(Constants.gripperSolenoidID);
 	// -- Variable Declarations --\\
 	private static int PDPcounter;		//Integer used to count up loops
 	private static IntakeStates stateEnum;	//States for saving states of in take

@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.Solenoid;
 public class Ramp {
 
 	static RampStates state;
-	private static Solenoid rampL = new Solenoid(0);
-	private static Solenoid rampR = new Solenoid(1);
-	private static Solenoid raiseR = new Solenoid(2);
-	private static Solenoid raiseL = new Solenoid(3);
+	private static Solenoid rampL = new Solenoid(Constants.rampLSolenoidID);
+	private static Solenoid rampR = new Solenoid(Constants.rampRSolenoidID);
+	private static Solenoid raiseL = new Solenoid(Constants.raiseLSolenoidID);
+	private static Solenoid raiseR = new Solenoid(Constants.raiseRSolenoidID);
 	
 	public static void init(){
 		rampL.set(false);
