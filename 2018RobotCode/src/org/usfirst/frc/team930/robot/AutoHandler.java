@@ -42,7 +42,7 @@ public class AutoHandler {
 		posChooser.addObject("Left", StartPositions.LEFT);
 		posChooser.addObject("Middle", StartPositions.MIDDLE);
         posChooser.addObject("Right", StartPositions.RIGHT);
-        posChooser.addObject("Do Noting", StartPositions.NOTHING);
+        posChooser.addObject("Do Nothing", StartPositions.NOTHING);
         SmartDashboard.putData("Positions", posChooser);
         
         goalChooser.addObject("Always Switch", Goal.ALWAYS_SWITCH);
