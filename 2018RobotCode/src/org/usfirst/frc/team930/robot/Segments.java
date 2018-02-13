@@ -13,7 +13,7 @@ public class Segments {
 			System.out.println("Running Segment 1 Case 1");
 			System.out.println("Count: " + point);
 			
-			if(MotionProfile.isLastPoint()) {
+			if(point == 10/*MotionProfile.isLastPoint()*/) {
 				this.point = 0;
 				this.path = 2;
 			}
@@ -25,9 +25,9 @@ public class Segments {
 			System.out.println("Running Segment 1 Case 2");
 			System.out.println("Count: " + point);
 			
-			if(MotionProfile.isLastPoint()) {
+			if(point == 10/*MotionProfile.isLastPoint()*/) {
 				this.point = 0;
-				this.path = 1;
+				this.path = 2;
 				isFinished = true;
 			}
 			

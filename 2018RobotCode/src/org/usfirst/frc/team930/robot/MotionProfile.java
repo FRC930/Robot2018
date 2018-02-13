@@ -22,12 +22,23 @@ public class MotionProfile {
 		
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.01, 4.0, 4.0, 50.0);
 
-		Trajectory tra = Pathfinder.generate(points, config);
+		System.out.println("Making Points 1");
+		
+		Trajectory tra = Pathfinder.generate(points, config);//////////////
+		
+		System.out.println("Making Points 2");
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.768);
+		
+		System.out.println("Making Points 3");
 
 	    Trajectory left = modifier.getLeftTrajectory();
+	    
+	    System.out.println("Making Points 4");
+	    
 	    Trajectory right = modifier.getRightTrajectory();
+	    
+	    System.out.println("Points Made");
 	    
 		enc = new EncoderFollower(right);
 		enc2 = new EncoderFollower(left);

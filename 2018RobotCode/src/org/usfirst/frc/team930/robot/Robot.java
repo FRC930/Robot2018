@@ -26,14 +26,18 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		
+		System.out.println("Init Start");
 		AutoHandler.autoInit();
+		System.out.println("Init End");
 		
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 		
+		System.out.println("Run Start");
 		AutoHandler.run();
+		System.out.println("Run End");
 		
 	}
 

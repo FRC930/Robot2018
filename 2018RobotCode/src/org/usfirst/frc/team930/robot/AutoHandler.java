@@ -6,6 +6,7 @@ import org.usfirst.frc.team930.robot.AutoHandler.StartPositions;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;
 
 public class AutoHandler {
@@ -14,7 +15,10 @@ public class AutoHandler {
 	public static SendableChooser<Goal> goalChooser = new SendableChooser<Goal>();
 	private static Timer time = new Timer();
 	
-	public static Waypoint[] points;
+	static Waypoint[] points = new Waypoint[] {
+			new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
+		    new Waypoint(0, 0, Pathfinder.d2r(0))
+	};
 	
 	public static Routine auto;
 	
@@ -60,9 +64,13 @@ public class AutoHandler {
 	
 	public static void autoInit() {
 		
+		System.out.println("In Init");
+		
 		Enum startPositions = (Enum) posChooser.getSelected();
 		Enum goal = (Enum) goalChooser.getSelected();
 		String variation = "LRL";//DriverStation.getInstance().getGameSpecificMessage();
+		
+		System.out.println("Auto Chosen");
 		
 		StartPositions posEnum = (StartPositions) startPositions;
 		Goal goalEnum = (Goal) goal;
@@ -72,6 +80,8 @@ public class AutoHandler {
 		switch (posEnum) {
 
 		case NOTHING:
+			System.out.println("Auto Made");
+			auto = new NothingAuto(variation);
 			break;
 			
 		case LEFT:
@@ -257,11 +267,14 @@ public class AutoHandler {
 			break;
 		}
 		
+		System.out.println("MP Init Start");
 		MotionProfile.init();
+		System.out.println("MP Init End");
 		
 	}
 	
 	public static void run() {
+		
 		if(time.get() > SmartDashboard.getNumber("Time Delay", 0)){
 			auto.run();
 			time.stop();
