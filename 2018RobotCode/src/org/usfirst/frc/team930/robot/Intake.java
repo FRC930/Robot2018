@@ -1,79 +1,152 @@
+
+//-- Preprocessor Directives --\\
 package org.usfirst.frc.team930.robot;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import org.usfirst.frc.team930.robot.TeleopHandler.IntakeStates;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+//-- Main Class Header --\\
 public class Intake {
 	
-	private static VictorSPX rightIntakeWheel = new VictorSPX(7);
-	private static VictorSPX leftIntakeWheel = new VictorSPX(8);
-	//private static Solenoid rightSolenoid = new Solenoid(9);
-	//private static Solenoid leftSolenoid = new Solenoid(10); 
-	private static Joystick controller = new Joystick(0);
-	private static PowerDistributionPanel PDP = new PowerDistributionPanel(0);
+	//-- Object Declarations --\\
+	private static VictorSPX rightIntakeWheel = new VictorSPX(Constants.rightIntakeWheelVictorID);	//Victor of right in take wheel
+	private static VictorSPX leftIntakeWheel = new VictorSPX(Constants.leftIntakeWheelVictorID);	//Victor of left in take wheel
+	private static DoubleSolenoid lifter = new DoubleSolenoid(Constants.lifterForwardSolenoidID,Constants.lifterReverseSolenoidID);
+	private static Solenoid gripper = new Solenoid(Constants.gripperSolenoidID);
+	// -- Variable Declarations --\\
+	private static int PDPcounter;		//Integer used to count up loops
+	private static IntakeStates stateEnum;	//States for saving states of in take
 	
-	//-- In take Variable Declarations --\\
-	private static boolean holdingCube;		//Check for cube.
-	private static int PDPcounter;			//The amount of times we need to check before we begin in take.	
-
-	public static void init() {
-			
-		//-- In take Variable Initializations --\\
-		holdingCube = false;
-		PDPcounter = 0;
+	//-- Function Declarations and Implementations --\\
+	
+	//	Function:	updatePDPcounter
+	//	Purpose:	Checks the current of the intake motors If the current is above 
+	//				a certain threshold, it adds one to the counter
+	//	Inputs:		None
+	//	Outputs:	None
+	private static void updatePDPcounter() {
+		if (Utilities.pdp.getCurrent(Constants.pdpIntakePort) > Constants.currentThreshhold) { 						
+			PDPcounter++; 																
+		} else { 																	
+			PDPcounter = 0; 															
+		}
 	}
 	
-	public void run() {
-		
-		//-- In take Code Block --\\
-		System.out.println(PDP.getCurrent(11));
-		SmartDashboard.putNumber("PDP Channel 11", PDP.getCurrent(11));
-		SmartDashboard.putData("PDP Channel 11 Graph", PDP);
-		
-		if (!holdingCube) {															//If we're not holding a cube.
-			if(controller.getRawAxis(3) > 0.7) {									//If the RT button is down																		
-				rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); //Turn on motors
-				leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); 		
-				if (PDP.getCurrent(11) > Constants.currentThreshhold) {						//If we're above a threshold.				
-					PDPcounter++;													//PDPcounter = PDPcounter + 1;
-				} else {															//Else if we're below it.
-					PDPcounter = 0;													//Reset counter.
-				}
-			} else {																//If the RT button is up
-				rightIntakeWheel.set(ControlMode.PercentOutput, 0);					//Stop motors						
-				leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-				PDPcounter = 0;														//Reset counter.
-			}
+	//------------------------------------------------------------------------------------------- 
+	
+	//	Function:	returnCubeInside
+	//	Purpose:	Checks if there is a cube inside the in take
+	//	Inputs:		None
+	//	Outputs:	A boolean, returning if there is a cube inside or not
+	private static boolean returnCubeInside() {
+		boolean cubeInside = false;
+		if (PDPcounter >= Constants.PDPcounterLimit) {
+			cubeInside = true;
 		}
-		
-		if (PDPcounter >= Constants.PDPcounterLimit) {										//If the counter is equal to or above the limit.
-			System.out.println("Kenneth moo's");	//Checks if it passes for user.
-			holdingCube = true;														//We are holding a cube.								
-			rightIntakeWheel.set(ControlMode.PercentOutput, 0);						//Stops motors		
+		return cubeInside;
+	}
+	
+	//------------------------------------------------------------------------
+	
+	//	Function:	inTaking
+	//	Purpose:	Runs in code for when we're in taking a cube (RT is down)
+	//	Inputs:		None
+	//	Outputs:	None
+	private static void inTaking() {
+		if (returnCubeInside()) { 																									
+			rightIntakeWheel.set(ControlMode.PercentOutput, 0);	// Stops motors
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-			//rightSolenoid.set(false);										
-			//leftSolenoid.set(false);
-			PDPcounter = 0;															//Reset counter
+			setIntakeGrip(true);
+			TeleopHandler.setRumble(2,0.5);
+		} else {
+			rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);	// Turn on motors
+			leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);
+			updatePDPcounter();
+			setIntakeGrip(true);
 		}
+	}
+	
+	//------------------------------------------------------------------------
+	
+	//	Function:	inTakeDone
+	//	Purpose:	Runs in code for when we're not in taking (no buttons down)
+	//	Inputs:		None
+	//	Outputs:	None
+	private static void inTakeDone() {
+		rightIntakeWheel.set(ControlMode.PercentOutput, 0);	// Stop motors
+		leftIntakeWheel.set(ControlMode.PercentOutput, 0);
+		PDPcounter = 0;
+		setIntakeGrip(true);
+	}
+	
+	//------------------------------------------------------------------------
+	
+	//	Function:	outTaking
+	//	Purpose:	Runs in code for when we're out taking (LT down)
+	//	Inputs:		None
+	//	Outputs:	None
+	private static void outTaking() {
+		rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); // Turn right motor
+		leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn left motor
+		PDPcounter = 0; // Reset counter.
+		setIntakeGrip(true);
+	}	
+	
+	//------------------------------------------------------------------------
+	
+	private static void setIntakeGrip(boolean grip){
+		gripper.set(grip);
+	}
+	
+	private static void setIntakeLifter(Value stage){
+		lifter.set(stage);
+	}
+	//-- Initializing Variables and Objects --\\
+	public static void init() {
+		//-- In take Variable Initializations --\\
+		PDPcounter = 0;
+		Utilities.comp.setClosedLoopControl(true);	//Sets the compressor on
+		setIntakeGrip(false);
+		setIntakeLifter(Value.kReverse);
+	}
+	
+	//-- Main Loop (called in Robot.java) --\\
+	public static void run(Enum state) {
+		stateEnum = (IntakeStates) state;	//states used to record the state of the robot
 		
-		if (controller.getRawAxis(2) > 0.7 && holdingCube) {						//If Left Shoulder Button is down and we have a cube.											
-			rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); 		//Turn right motor forwards.
-			leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);		//Turn left motor backwards.
-			//rightSolenoid.set(true);												//Open pistons.
-			//leftSolenoid.set(true);
-			Timer.delay(0.4);														//Wait for cube to leave.
-			holdingCube = false;													//No longer holding cube.
-			PDPcounter = 0;															//Reset counter.
+		//-- Debug Messages --\\
+		System.out.println(Utilities.pdp.getCurrent(Constants.pdpIntakePort));
+		SmartDashboard.putNumber("PDP Intake Port Reading", Utilities.pdp.getCurrent(Constants.pdpIntakePort));
+		SmartDashboard.putData("PDP Intake Port Graph", Utilities.pdp);
+		
+		//-- State Checking --\\
+		switch (stateEnum) {
+			case INTAKING:		//If the right trigger is down
+				inTaking();
+				break;
+			case INTAKE_DONE:	//If no trigger buttons are down
+				inTakeDone();
+				break;
+			case OUTTAKING:		//If the left trigger is down
+				outTaking();
+				break;
+			case LIFTER_UP:
+				setIntakeLifter(Value.kReverse);
+			case LIFTER_DOWN:
+				setIntakeLifter(Value.kForward);
+			default:			//If all fail, do this
+				break;
 		}
 	}
 }

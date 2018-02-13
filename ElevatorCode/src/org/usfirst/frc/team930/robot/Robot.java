@@ -9,12 +9,14 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -47,7 +49,6 @@ public class Robot extends TimedRobot {
 	PowerDistributionPanel PDP = new PowerDistributionPanel();
 	
 	Compressor comp = new Compressor(0);
-
 	
 	//-- Intake Variable Declarations --\\
 	double currentThreshhold,	//Threshhold for the current of channel 11 (in AMPs).
@@ -58,8 +59,13 @@ public class Robot extends TimedRobot {
 	
 	
 	boolean aPressed, onOffA, bPressed, onOffB, test1;
-	double targetPosition, fValue, pValue, iValue, dValue;
+	double targetPosition, fValue, pValue, iValue, dValue, returnPos;
 	int velocity, acceleration;
+	boolean stopBool = false;
+	
+	int count = 0;
+	boolean pressed6 = false, pressed5 = false, switchBool = false;
+	// a-button 6, b-button 5
 	
 	@Override
 	public void robotInit() {		
@@ -67,7 +73,7 @@ public class Robot extends TimedRobot {
 		/* first choose the sensor */
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants1.kPIDLoopIdx, Constants1.kTimeoutMs);
 		lift1.setSensorPhase(false);
-		lift1.setInverted(true);
+		lift1.setInverted(false);
 
 		/* Set relevant frame periods to be at least as fast as periodic rate */
 		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants1.kTimeoutMs);
@@ -80,7 +86,7 @@ public class Robot extends TimedRobot {
 		lift1.configPeakOutputReverse(-1, Constants1.kTimeoutMs);
 		
 		lift1.configForwardSoftLimitThreshold(7000, Constants1.kTimeoutMs);
-		lift1.configReverseSoftLimitThreshold(0, Constants1.kTimeoutMs);
+		lift1.configReverseSoftLimitThreshold(50, Constants1.kTimeoutMs);
 
 		/* set closed loop gains in slot0 - see documentation */
 		lift1.selectProfileSlot(Constants1.kSlotIdx, Constants1.kPIDLoopIdx);
@@ -109,7 +115,6 @@ public class Robot extends TimedRobot {
 		robot.setQuickStopThreshold(0.1);
 		
 		comp.setClosedLoopControl(true);
-
 		
 		//-- In take Variable Initializations --\\
 		holdingCube = false;
@@ -117,6 +122,8 @@ public class Robot extends TimedRobot {
 		intakeMotorSpeed = 0.75;
 		PDPcounter = 0;
 		PDPcounterLimit = 15;
+		
+		targetPosition = 0;
 	}
 
 	
@@ -132,11 +139,11 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		//boolean check;  //Value to do the quick turn or not 
+		//boolean check;  //Value to do the quick turn or not
 		
 		double rightXStick = controller.getRawAxis(4); //Right joystick X axis
 		double leftYStick = controller.getRawAxis(1); //Left joystick Y axis
-		double targetPos = controller2.getRawAxis(1) * 7000;
+		double targetPos = controller2.getRawAxis(1) * -3500 + 3500;
 		
 		robot.setDeadband(0.1);  //Sets the deadband for the controller values
 		
@@ -164,6 +171,18 @@ public class Robot extends TimedRobot {
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
 		}
 		
+		if(controller.getRawButton(4)) {
+			controller.setRumble(GenericHID.RumbleType.kLeftRumble , 0.5);
+			controller.setRumble(GenericHID.RumbleType.kRightRumble , 0.5);
+		} else if(controller2.getRawButton(4)) {
+			controller2.setRumble(GenericHID.RumbleType.kLeftRumble , 0.5);
+			controller2.setRumble(GenericHID.RumbleType.kRightRumble , 0.5);
+		} else {
+			controller.setRumble(GenericHID.RumbleType.kLeftRumble , 0);
+			controller.setRumble(GenericHID.RumbleType.kRightRumble , 0);
+			controller2.setRumble(GenericHID.RumbleType.kLeftRumble , 0);
+			controller2.setRumble(GenericHID.RumbleType.kRightRumble , 0);
+		}
 		
 		
 		/* a pressed -- elevator up
@@ -198,19 +217,107 @@ public class Robot extends TimedRobot {
 		}*/
 		
 		//Left joystick -- elevator control
-		if(controller2.getRawAxis(1) > 0.2)
-		{
-			lift1.set(ControlMode.MotionMagic, 7000);
-		}
-		else if(controller2.getRawAxis(1) < -0.2 && lift1.getSelectedSensorPosition(0) > 0)
-		{
+		/*if(controller2.getRawAxis(1) < -0.2) {
+			lift1.set(ControlMode.MotionMagic, 6500);
+		} else if(controller2.getRawAxis(1) > 0.2 && lift1.getSelectedSensorPosition(0) > 0) {
 			lift1.set(ControlMode.MotionMagic, 0);
-		}
-		else
-		{
+		} else {
 			lift1.set(ControlMode.PercentOutput, 0);
+		}*/
+		
+		if((targetPosition < 6500 && targetPosition >=0) && controller2.getRawAxis(5) < -0.2){
+			targetPosition += (controller2.getRawAxis(5) * -200);
+		} else if((targetPosition <= 6500 && targetPosition > 0) && controller2.getRawAxis(5) > 0.2){
+			targetPosition -= (controller2.getRawAxis(5) * 200);
 		}
 		
+		if(targetPosition > 6500) {
+			targetPosition = 6500;
+		} else if (targetPosition < 0) {
+			targetPosition = 0;
+		}
+		
+		if(controller2.getRawAxis(5) < -0.2 || controller2.getRawAxis(5) > 0.2){
+			if(controller2.getRawAxis(5) < -0.2 || controller2.getRawAxis(5) > 0.2) {
+				lift1.set(ControlMode.MotionMagic, targetPosition);
+				stopBool = true;
+			} else {
+				if(stopBool) {
+					returnPos = lift1.getSelectedSensorPosition(0);
+					if(lift1.getSelectedSensorVelocity(0) > 0) {
+						returnPos += (lift1.getSelectedSensorVelocity(0) * 2.3);
+					} else if(lift1.getSelectedSensorVelocity(0) < 0) {
+						returnPos += (lift1.getSelectedSensorVelocity(0) * 2.3);
+					}
+					stopBool = false;
+					targetPosition = returnPos;
+				}
+				lift1.set(ControlMode.MotionMagic, targetPosition);
+				//lift1.set(ControlMode.PercentOutput, 0);
+			}
+		}else {
+			if (controller2.getRawButton(6) && (!pressed6)) {
+				pressed6 = true;
+				switchBool = true;
+				if(count < 4 && count >= 0){
+					count++;
+					controller2.setRumble(GenericHID.RumbleType.kLeftRumble , 0.5);
+					controller2.setRumble(GenericHID.RumbleType.kRightRumble , 0.5);
+					Timer.delay(0.05 + (0.05 * count));
+					controller2.setRumble(GenericHID.RumbleType.kLeftRumble , 0.0);
+					controller2.setRumble(GenericHID.RumbleType.kRightRumble , 0.0);
+				}
+			} else if ((!controller2.getRawButton(6)) && pressed6) {
+				pressed6 = false;
+			}
+
+			if (controller2.getRawButton(5) && (!pressed5)) {
+				pressed5 = true;
+				switchBool = true;
+				if(count <= 4 && count > 0){
+					count--;
+					controller2.setRumble(GenericHID.RumbleType.kLeftRumble , 0.5);
+					controller2.setRumble(GenericHID.RumbleType.kRightRumble , 0.5);
+					Timer.delay(0.05 + (0.05 * count));
+					controller2.setRumble(GenericHID.RumbleType.kLeftRumble , 0.0);
+					controller2.setRumble(GenericHID.RumbleType.kRightRumble , 0.0);
+				}
+			} else if ((!controller2.getRawButton(5)) && pressed5) {
+				pressed5 = false;
+			}
+			
+			if (switchBool){
+				switch(count){
+				case 0:
+					targetPosition = 0;
+					lift1.set(ControlMode.MotionMagic, targetPosition);
+					switchBool = false;
+					break;
+				case 1:
+					targetPosition = 1000;
+					lift1.set(ControlMode.MotionMagic, targetPosition);
+					switchBool = false;
+					break;
+				case 2:
+					targetPosition = 2000;
+					lift1.set(ControlMode.MotionMagic, targetPosition);
+					switchBool = false;
+					break;
+				case 3:
+					targetPosition = 4000;
+					lift1.set(ControlMode.MotionMagic, targetPosition);
+					switchBool = false;
+					break;
+				case 4:
+					targetPosition = 6500;
+					lift1.set(ControlMode.MotionMagic, targetPosition);
+					switchBool = false;
+					break;
+				}
+			}
+		}
+		SmartDashboard.putNumber("Position", lift1.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Target", targetPosition);
 		
 		/*
 		if (controller2.getRawButton(6)) {

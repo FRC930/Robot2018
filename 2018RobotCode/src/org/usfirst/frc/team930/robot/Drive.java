@@ -6,15 +6,16 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive {
 	
-	public static final WPI_TalonSRX rightMain = new WPI_TalonSRX(4);  
-	public static final WPI_TalonSRX leftMain = new WPI_TalonSRX(1); 
-	public static final VictorSPX rightFollow = new VictorSPX(2);    
-	public static final VictorSPX leftFollow = new VictorSPX(3);   
-	public static final VictorSPX rightFollow2 = new VictorSPX(4);     
-	public static final VictorSPX leftFollow2 = new VictorSPX(5);
+	public static final WPI_TalonSRX rightMain = new WPI_TalonSRX(Constants.rightMainTalonID);  
+	public static final WPI_TalonSRX leftMain = new WPI_TalonSRX(Constants.leftMainTalonID); 
+	public static final VictorSPX rightFollow = new VictorSPX(Constants.rightFollowVictorID);    
+	public static final VictorSPX leftFollow = new VictorSPX(Constants.leftFollowVictorID);   
+	public static final VictorSPX rightFollow2 = new VictorSPX(Constants.rightFollow2VictorID);     
+	public static final VictorSPX leftFollow2 = new VictorSPX(Constants.leftFollow2Victor);
 	public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 	
 	public static void init(){
@@ -24,15 +25,23 @@ public class Drive {
 		leftFollow.follow(leftMain);
 	}
 	
-	public static void run(Joystick stick1){
-		double xStick = -stick1.getRawAxis(4);
-		double yStick = stick1.getRawAxis(1);
-		if(Math.abs(xStick) < 0.15)
+	public static void run(double xStick, double yStick){
+		updateDashboard();
+		if(Math.abs(xStick) < Constants.deadBand)
 			xStick = 0;
-		if(Math.abs(yStick) <0.15)
+		if(Math.abs(yStick) < Constants.deadBand)
 			yStick = 0;
 		rightMain.set(-(yStick-xStick));
-		leftMain.set(yStick+xStick);
+		leftMain.set((yStick+xStick));
 	}
-	
+	public static void runAt(double left, double right){
+		rightMain.set(right);
+		leftMain.set(left);
+	}
+	public static void updateDashboard(){
+		SmartDashboard.putNumber("Gyro", gyro.getYaw());
+		SmartDashboard.putNumber("Left Encoder", leftMain.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("Right Encoder", rightMain.getSelectedSensorVelocity(0));
+
+	}
 }

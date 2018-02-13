@@ -3,44 +3,41 @@ package org.usfirst.frc.team930.robot;
 public class Actions {
 	
 	private int path = 1;
-	private int count = 1;
+	private int point = 1;
 	
 	public boolean act1() {
+		
 		boolean isFinished = false;
 		switch (this.path) {
 		case 1:
 			System.out.println("Running Action 1 Case 1");
-			System.out.println("Count: " + count);
-
-			//Robot.leftMain.set(0);
-			//Robot.rightMain.set(0);
+			System.out.println("Count: " + point);
 			
-			if(this.count == 100) {
-				this.count = 1;
+			if(point == 10/*MotionProfile.isLastPoint()*/) {
+				this.point = 0;
 				this.path = 2;
 			}
 			
-			this.count++;
+			this.point++;
 			
 			break;
 		case 2:
 			System.out.println("Running Action 1 Case 2");
-			System.out.println("Count: " + count);
-
-			//Robot.leftMain.set(0);
-			//Robot.rightMain.set(0);
+			System.out.println("Count: " + point);
 			
-			if(this.count == 100) {
-				this.count = 1;
-				this.path = 1;
+			if(point == 10/*MotionProfile.isLastPoint()*/) {
+				this.point = 0;
+				this.path = 2;
 				isFinished = true;
 			}
 			
-			this.count++;
+			this.point++;
 			
 			break;
 		}
+		
 		return isFinished;
+		
 	}
 
 }

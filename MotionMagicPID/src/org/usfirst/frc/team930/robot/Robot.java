@@ -1,64 +1,71 @@
 package org.usfirst.frc.team930.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 
-import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Robot extends TimedRobot {
+	TalonSRX _talon = new TalonSRX(6);
+	Joystick _joy = new Joystick(0);
+	StringBuilder _sb = new StringBuilder();
+	boolean stopBool = false;
+	double kF = 1.0, kP = 1.0, kI = 0.002, kD = 10.0, targetPos = 6500, returnPos = 0, softLimF = 6500, softLimR = 0;
+	int velocity = 800, accel = 800;
 	
-	boolean aPressed, onOffA, test1;
-	double targetPos = 0.0;
-	ErrorCode test2;
-	
-	TalonSRX motor1 = new TalonSRX(6);
-	Joystick controller = new Joystick(0);
+	int count = 0;
+	boolean aPressed = false, bPressed = false;
+	// a-button 6, b-button 5
 	
 	@Override
 	public void robotInit() {
+
+		/* first choose the sensor */
+		_talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants2.kPIDLoopIdx, Constants2.kTimeoutMs);
+		_talon.setSensorPhase(false);
+		_talon.setInverted(false);
+
+		/* Set relevant frame periods to be at least as fast as periodic rate */
+		_talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants2.kTimeoutMs);
+		_talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants2.kTimeoutMs);
+
+		/* set the peak and nominal outputs */
+		_talon.configNominalOutputForward(0, Constants2.kTimeoutMs);
+		_talon.configNominalOutputReverse(0, Constants2.kTimeoutMs);
+		_talon.configPeakOutputForward(1, Constants2.kTimeoutMs);
+		_talon.configPeakOutputReverse(-1, Constants2.kTimeoutMs);
 		
-		aPressed = false;
-		onOffA = false;
+		_talon.configForwardSoftLimitThreshold((int) softLimF, Constants2.kTimeoutMs);
+		_talon.configReverseSoftLimitThreshold((int) softLimR, Constants2.kTimeoutMs);
+
+		/* set closed loop gains in slot0 - see documentation */
+		_talon.selectProfileSlot(Constants2.kSlotIdx, Constants2.kPIDLoopIdx);
+		_talon.config_kF(0, kF, Constants2.kTimeoutMs);
+		_talon.config_kP(0, kP, Constants2.kTimeoutMs);
+		_talon.config_kI(0, kI, Constants2.kTimeoutMs);
+		_talon.config_kD(0, kD, Constants2.kTimeoutMs);
+		/* set acceleration and cruise velocity - see documentation */
+		_talon.configMotionCruiseVelocity(velocity, Constants2.kTimeoutMs);
+		_talon.configMotionAcceleration(accel, Constants2.kTimeoutMs);
+		/* zero the sensor */
+		_talon.setSelectedSensorPosition(0, Constants2.kPIDLoopIdx, Constants2.kTimeoutMs);
 		
-		test2 = motor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
-		motor1.setSensorPhase(false);
-		motor1.setInverted(false);
-		
-		test2 = motor1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 10);
-		test2 = motor1.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 10);
-		
-		motor1.configNominalOutputForward(0, 10);
-		motor1.configNominalOutputReverse(0, 10);
-		motor1.configPeakOutputForward(1, 10);
-		motor1.configPeakOutputReverse(-1, 10);
-		
-		test1 = SmartDashboard.putNumber("P Value", 0.2);
-		test1 = SmartDashboard.putNumber("I Value", 0.0);
-		test1 = SmartDashboard.putNumber("D Value", 0.0);
-		test1 = SmartDashboard.putNumber("F Value", 0.2341);
-		test1 = SmartDashboard.putNumber("Cruise Velocity", 480);
-		test1 = SmartDashboard.putNumber("Acceleration", 480);
-		test1 = SmartDashboard.putNumber("Target Position", 0.0);
-		test1 = SmartDashboard.putBoolean("Update Values", false);
-		test1 = SmartDashboard.putNumber("Position", motor1.getSelectedSensorPosition(0));
-		test1 = SmartDashboard.putNumber("Motor Output", motor1.getMotorOutputPercent());
-		test1 = SmartDashboard.putNumber("Closed Loop Error",0);
-		test1 = SmartDashboard.putNumber("Velocity", motor1.getSelectedSensorVelocity(0));
-		
-		motor1.selectProfileSlot(0, 0);
-		// Initialize PIDF values, velocity, and acceleration
-		test2 = motor1.config_kF(0, 0.2341, 10);
-		test2 = motor1.config_kP(0, 0.2, 10);
-		test2 = motor1.config_kI(0, 0, 10);
-		test2 = motor1.config_kD(0, 0, 10);
-		test2 = motor1.configMotionCruiseVelocity(480, 10);	//(int sensorUnitsPer100ms, int timeoutMs)
-		test2 = motor1.configMotionAcceleration(480, 10);		//(int sensorUnitsPer100msPerSec, int timeoutMs)
-		test2 = motor1.setSelectedSensorPosition(0, 0, 10);
+		SmartDashboard.putNumber("Forward Soft Limit", softLimF);
+		SmartDashboard.putNumber("Reverse Soft Limit", softLimR);
+		SmartDashboard.putNumber("P Value", kP);
+		SmartDashboard.putNumber("I Value", kI);
+		SmartDashboard.putNumber("D Value", kD);
+		SmartDashboard.putNumber("F Value", kF);
+		SmartDashboard.putNumber("Cruise Velocity", velocity);
+		SmartDashboard.putNumber("Acceleration", accel);
+		SmartDashboard.putNumber("Taget Position", targetPos);
+		SmartDashboard.putBoolean("Update Values", false);
 	}
 
 	
@@ -76,61 +83,122 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		
+		// Updates Shuffleboard values
 		if(SmartDashboard.getBoolean("Update Values", false)) {
-			test2 = motor1.config_kF(0, SmartDashboard.getNumber("F Value", 0.2341), 10);
-			test2 = motor1.config_kP(0, SmartDashboard.getNumber("P Value", 0.2), 10);
-			test2 = motor1.config_kI(0, SmartDashboard.getNumber("I Value", 0.0), 10);
-			test2 = motor1.config_kD(0, SmartDashboard.getNumber("D Value", 0.0), 10);
-			test2 = motor1.configMotionCruiseVelocity((int) SmartDashboard.getNumber("Cruise Velocity", 480), 10);
-			test2 = motor1.configMotionAcceleration((int)SmartDashboard.getNumber("Acceleration", 480), 10);
-			targetPos = SmartDashboard.getNumber("Target Position", 0.0);
+			_talon.config_kF(0, SmartDashboard.getNumber("F Value", kF), Constants2.kTimeoutMs);
+			_talon.config_kP(0, SmartDashboard.getNumber("P Value", kP), Constants2.kTimeoutMs);
+			_talon.config_kI(0, SmartDashboard.getNumber("I Value", kI), Constants2.kTimeoutMs);
+			_talon.config_kD(0, SmartDashboard.getNumber("D Value", kD), Constants2.kTimeoutMs);
+			_talon.configForwardSoftLimitThreshold((int) SmartDashboard.getNumber("Forward Soft Limit", softLimF), Constants2.kTimeoutMs);
+			_talon.configReverseSoftLimitThreshold((int) SmartDashboard.getNumber("Reverse Soft Limit", softLimR), Constants2.kTimeoutMs);
+			targetPos = SmartDashboard.getNumber("Target Position", targetPos);
+			_talon.configMotionCruiseVelocity((int) SmartDashboard.getNumber("Cruise Velocity", velocity), Constants2.kTimeoutMs);
+			_talon.configMotionAcceleration((int) SmartDashboard.getNumber("Acceleration", velocity), Constants2.kTimeoutMs);
 			System.out.println("Values Updated");
-			test1 = SmartDashboard.putBoolean("Update Values", false);
-		}
-		
-		test1 = SmartDashboard.putNumber("Position", motor1.getSelectedSensorPosition(0));
-		test1 = SmartDashboard.putNumber("Motor Output", motor1.getMotorOutputPercent());
-		test1 = SmartDashboard.putNumber("Velocity", motor1.getSelectedSensorVelocity(0));
-		
-		if(controller.getRawButton(1) && (!aPressed))
-		{
-			aPressed = true;
-			onOffA = !onOffA;
-			System.out.println("\nMotion Magic:\n");
-		} else if((!controller.getRawButton(1)) && aPressed) {
-			aPressed = false;
-			System.out.println("\nPercent Output:\n");
-		}
+			SmartDashboard.putBoolean("Update Values", false);
+		} 
 		/*
-		if (onOffA) {
-			motor1.set(ControlMode.MotionMagic, targetPos);
-			test1 = SmartDashboard.putNumber("Closed Loop Error",motor1.getClosedLoopError(0));
-			onOffA = false;
-		} else {
-			if (controller.getRawAxis(1) > 0.2 || controller.getRawAxis(1) < -0.2) {
-				motor1.set(ControlMode.PercentOutput, (controller.getRawAxis(1) / -3.0));
-			} else {
-				motor1.set(ControlMode.PercentOutput, 0);
+		// calculate the percent motor output
+		double motorOutput = _talon.getMotorOutputPercent();
+		// prepare line to print
+		_sb.append("\tOut%:");
+		_sb.append(motorOutput);
+		_sb.append("\tVel:");
+		_sb.append(_talon.getSelectedSensorVelocity(Constants2.kPIDLoopIdx));
+		
+		
+		if(_joy.getRawAxis(1) < -0.2)
+		{
+			_talon.set(ControlMode.MotionMagic, targetPos);
+			_sb.append("\terr:");
+			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
+			_sb.append("\ttrg:");
+			stopBool = true;
+		}
+		else if(_joy.getRawAxis(1) > 0.2 && _talon.getSelectedSensorPosition(0) > 0)
+		{
+			_talon.set(ControlMode.MotionMagic, 0);
+			_sb.append("\terr:");
+			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
+			_sb.append("\ttrg:");
+			stopBool = true;
+		}
+		else
+		{
+			if(stopBool) {
+				returnPos = _talon.getSelectedSensorPosition(0);
+				if(_talon.getSelectedSensorVelocity(0) > 0) {
+					returnPos += (_talon.getSelectedSensorVelocity(0) /1.5);
+				} else if(_talon.getSelectedSensorVelocity(0) < 0) {
+					returnPos -= (_talon.getSelectedSensorVelocity(0) * 3.0);
+				}
+				stopBool = false;
 			}
+			
+			_talon.set(ControlMode.MotionMagic, returnPos);
+			
+			//if(_joy.getRawAxis(5) > 0.2 || _joy.getRawAxis(5) < 0.2)
+			//{
+			//	_talon.set(ControlMode.PercentOutput, (_joy.getRawAxis(5) * -0.5));
+			//} else {
+			//	_talon.set(ControlMode.PercentOutput, 0);
+			//}
+		}
+		// instrumentation
+		Instrum1.Process(_talon, _sb);
+		try {
+			TimeUnit.MILLISECONDS.sleep(10);
+		} catch (Exception e) {
 		}
 		*/
-		double leftYstick = -1.0 * controller.getRawAxis(1);
-		
-		if (controller.getRawButton(1)) {
-			double targetPos = leftYstick * 4096 * 10.0;
-			motor1.set(ControlMode.MotionMagic, targetPos);
-		} else {
-			motor1.set(ControlMode.PercentOutput, 0);
+		if (_joy.getRawButton(6) && (!aPressed)) {
+			aPressed = true;
+			if(count < 4 && count >= 0){
+				count++;
+				_joy.setRumble(GenericHID.RumbleType.kLeftRumble , 0.5);
+				_joy.setRumble(GenericHID.RumbleType.kRightRumble , 0.5);
+				Timer.delay(0.05 + (0.05 * count));
+				_joy.setRumble(GenericHID.RumbleType.kLeftRumble , 0.0);
+				_joy.setRumble(GenericHID.RumbleType.kRightRumble , 0.0);
+			}
+		} else if ((!_joy.getRawButton(6)) && aPressed) {
+			aPressed = false;
 		}
-		
-		if (controller.getRawAxis(5) > 0.2 || controller.getRawAxis(5) < -0.2) {
-			motor1.set(ControlMode.PercentOutput, (controller.getRawAxis(1) / -3.0));
-		} else {
-			motor1.set(ControlMode.PercentOutput, 0);
+
+		if (_joy.getRawButton(5) && (!bPressed)) {
+			bPressed = true;
+			if(count <= 4 && count > 0){
+				count--;
+				_joy.setRumble(GenericHID.RumbleType.kLeftRumble , 0.5);
+				_joy.setRumble(GenericHID.RumbleType.kRightRumble , 0.5);
+				Timer.delay(0.05 + (0.05 * count));
+				_joy.setRumble(GenericHID.RumbleType.kLeftRumble , 0.0);
+				_joy.setRumble(GenericHID.RumbleType.kRightRumble , 0.0);
+			}
+		} else if ((!_joy.getRawButton(5)) && bPressed) {
+			bPressed = false;
+		}
+
+		switch(count){
+		case 0:
+			_talon.set(ControlMode.MotionMagic, 0);
+			break;
+		case 1:
+			_talon.set(ControlMode.MotionMagic, 1000);
+			break;
+		case 2:
+			_talon.set(ControlMode.MotionMagic, 2000);
+			break;
+		case 3:
+			_talon.set(ControlMode.MotionMagic, 4000);
+			break;
+		case 4:
+			_talon.set(ControlMode.MotionMagic, 6500);
+			break;
+		default:
+			_talon.set(ControlMode.MotionMagic, 0);
 		}
 	}
-
 	
 	@Override
 	public void testPeriodic() {

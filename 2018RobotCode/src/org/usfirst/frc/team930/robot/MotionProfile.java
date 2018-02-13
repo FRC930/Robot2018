@@ -13,23 +13,21 @@ import jaci.pathfinder.modifiers.TankModifier;
 
 public class MotionProfile {
 
-	EncoderFollower enc;
-	EncoderFollower enc2;
-	Timer time;
-	
-	public void init(){
+	private static EncoderFollower enc;
+	private static EncoderFollower enc2;
+
+	public static void init() {
 		
-		time = new Timer();
-		
-		Waypoint[] points = AutoRoutine.points;
+		Waypoint[] points = AutoHandler.points;
 		
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.01, 4.0, 4.0, 50.0);
-
+		
 		Trajectory tra = Pathfinder.generate(points, config);
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.768);
 
 	    Trajectory left = modifier.getLeftTrajectory();
+	    
 	    Trajectory right = modifier.getRightTrajectory();
 	    
 		enc = new EncoderFollower(right);
@@ -40,13 +38,11 @@ public class MotionProfile {
 		enc2.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
 
 		Drive.gyro.reset();
-		time.start();
+		
 	}
 	
-	public void run(){
+	public static void run() {
 		
-		if(time.get()>1){
-			
 			double heading = Math.toDegrees(enc.getHeading());
 			
 			if(heading >180)
@@ -58,6 +54,7 @@ public class MotionProfile {
 				error = error-360;
 			else if(error < -180)
 				error = error+360;
+			
 			double kG = -0.025;//0.8 * (-1.0/80.0);
 
 			double turn = kG * error;
@@ -71,7 +68,13 @@ public class MotionProfile {
 			Drive.leftMain.set(ControlMode.PercentOutput, -(calc2 + turn));
 			
 		}
+	
+	public static boolean isLastPoint(){
+		
+		return (enc.isFinished()&&enc2.isFinished());
+		
 	}
+	
 }
 	
 	
