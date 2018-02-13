@@ -7,10 +7,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
-
 public class Elevator {
 	// Object Declarations
 	public static TalonSRX lift1 = new TalonSRX(Constants.liftTalonID);
@@ -18,6 +14,7 @@ public class Elevator {
 	// Variable Declarations
 	private static ElevatorStates stateEnum;
 	private static double targetPosition;
+	private static boolean positionBool;
 	
 	public static void init() {
 		// Setup the sensor
@@ -55,6 +52,7 @@ public class Elevator {
 		
 		// Set starting target position to intake position
 		targetPosition = Constants.intakePosition;
+		positionBool = true;
 	}
 	
 	// Set motor's position to double value that is passed through using motion magic
@@ -69,18 +67,23 @@ public class Elevator {
 		switch(stateEnum) {
 		case INTAKE_POSITION:
 			targetPosition = Constants.intakePosition;
+			positionBool = true;
 			break;
 		case SWITCH_POSITION:
 			targetPosition = Constants.switchPosition;
+			positionBool = true;
 			break;
 		case SCALE_POSITION_L:
 			targetPosition = Constants.scalePositionLow;
+			positionBool = true;
 			break;
 		case SCALE_POSITION_M:
 			targetPosition = Constants.scalePositionMid;
+			positionBool = true;
 			break;
 		case SCALE_POSITION_H:
 			targetPosition = Constants.scalePositionHigh;
+			positionBool = true;
 			break;
 		}
 	}
@@ -90,6 +93,7 @@ public class Elevator {
 		// If joystick moves, change target position based on the joystick's value
 		if(Math.abs(axisValue) > Constants.deadBand){
 			targetPosition += (axisValue * Constants.targetMultiplier);
+			positionBool = false;
 		}
 		
 		// Keep target position within a select range
@@ -103,41 +107,10 @@ public class Elevator {
 	}
 	
 	// Check to confirm the elevator has reached its target position
-	public boolean atPosition(Enum pos2) {
-		stateEnum = (ElevatorStates) pos2;
-		
-		switch(stateEnum) {
-		case INTAKE_POSITION:
-			if (lift1.getSelectedSensorPosition(0) > 0 && lift1.getSelectedSensorPosition(0) < (Constants.intakePosition + 10)) {
-				return true;
-			} else {
-				return false;
-			}
-		case SWITCH_POSITION:
-			if (lift1.getSelectedSensorPosition(0) > (Constants.switchPosition - 10) && lift1.getSelectedSensorPosition(0) < (Constants.switchPosition + 10)) {
-				return true;
-			} else {
-				return false;
-			}
-		case SCALE_POSITION_L:
-			if (lift1.getSelectedSensorPosition(0) > (Constants.scalePositionLow - 10) && lift1.getSelectedSensorPosition(0) < (Constants.scalePositionLow + 10)) {
-				return true;
-			} else {
-				return false;
-			}
-		case SCALE_POSITION_M:
-			if (lift1.getSelectedSensorPosition(0) > (Constants.scalePositionMid - 10) && lift1.getSelectedSensorPosition(0) < (Constants.scalePositionMid + 10)) {
-				return true;
-			} else {
-				return false;
-			}
-		case SCALE_POSITION_H:
-			if (lift1.getSelectedSensorPosition(0) > (Constants.scalePositionHigh - 10) && lift1.getSelectedSensorPosition(0) < (Constants.scalePositionHigh + 10)) {
-				return true;
-			} else {
-				return false;
-			}
-		default:
+	public boolean atPosition() {
+		if ((lift1.getSelectedSensorPosition(0) > (targetPosition - 10) && lift1.getSelectedSensorPosition(0) < (targetPosition + 10)) && positionBool) {
+			return true;
+		} else {
 			return false;
 		}
 	}
