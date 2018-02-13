@@ -31,7 +31,7 @@ public class Drive {
 		if(Math.abs(yStick) < Constants.deadBand)
 			yStick = 0;
 		rightMain.set(-(yStick-xStick));
-		leftMain.set(yStick+xStick);
+		leftMain.set((yStick+xStick));
 	}
 	public static void runAt(double left, double right){
 		rightMain.set(right);

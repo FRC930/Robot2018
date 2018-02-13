@@ -24,17 +24,17 @@ public class Constants {
 	public static final int leftJoyButton = 10;
 	
 	// Drive Constants
-	public static final int rightMainTalonID = 0; 
-	public static final int rightFollowVictorID = 1;
-	public static final int rightFollow2VictorID = 2;
-	public static final int leftMainTalonID = 3;  
-	public static final int leftFollowVictorID = 4;
-	public static final int leftFollow2Victor = 5;
-	public static final double deadBand = 0.15;
+	public static final int rightMainTalonID = 1; 
+	public static final int rightFollowVictorID = 2;
+	public static final int rightFollow2VictorID = 3;
+	public static final int leftMainTalonID = 4;  
+	public static final int leftFollowVictorID = 5;
+	public static final int leftFollow2Victor = 6;
+	public static final double deadBand = 0.2;
 	
 	// In take Constants
-	public static final int rightIntakeWheelVictorID  = 7;
-	public static final int leftIntakeWheelVictorID = 8;
+	public static final int rightIntakeWheelVictorID  = 8;
+	public static final int leftIntakeWheelVictorID = 9;
 	public static final int lifterForwardSolenoidID = 4;
 	public static final int lifterReverseSolenoidID = 5;
 	public static final int gripperSolenoidID = 6;
@@ -43,7 +43,7 @@ public class Constants {
 	public static final int PDPcounterLimit = 2;			
 	
 	// Elevator Constants
-	public static final int liftTalonID = 6;
+	public static final int liftTalonID = 7;
 	public static final int kSlotIdx = 0;
 	public static final int kPIDLoopIdx = 0;
 	public static final int kTimeoutMs = 10;
