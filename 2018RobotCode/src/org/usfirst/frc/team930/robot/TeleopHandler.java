@@ -16,10 +16,13 @@ public class TeleopHandler {
 	private static double timeAmount = 0;
 	
 	public static void init() {
-	
+		
 	}
 	
 	public static void disabled() {
+		
+		Drive.updateDashboard();
+		Elevator.updateDashboard();
 		
 	}
 	

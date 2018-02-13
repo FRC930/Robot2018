@@ -7,6 +7,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class Elevator {
 	// Object Declarations
 	public static TalonSRX lift1 = new TalonSRX(Constants.liftTalonID);
@@ -62,6 +64,7 @@ public class Elevator {
 
 	// Set motor's target position based on enum passed through
 	public static void run(Enum pos1) {
+		updateDashboard();
 		stateEnum = (ElevatorStates) pos1;
 		
 		switch(stateEnum) {
@@ -107,7 +110,7 @@ public class Elevator {
 	}
 	
 	// Check to confirm the elevator has reached its target position
-	public boolean atPosition() {
+	public static boolean atPosition() {
 		if ((lift1.getSelectedSensorPosition(0) > (targetPosition - 10) && lift1.getSelectedSensorPosition(0) < (targetPosition + 10)) && positionBool) {
 			return true;
 		} else {
@@ -116,7 +119,11 @@ public class Elevator {
 	}
 	
 	// Returns the actual position of the elevator
-	public double getPosition() {
+	public static double getPosition() {
 		return lift1.getSelectedSensorPosition(0);
+	}
+	
+	public static void updateDashboard(){
+		SmartDashboard.putNumber("Elevator Encoder",lift1.getSelectedSensorPosition(0));
 	}
 }

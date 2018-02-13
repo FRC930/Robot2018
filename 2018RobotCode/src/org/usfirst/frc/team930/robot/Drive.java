@@ -6,6 +6,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive {
 	
@@ -25,6 +26,7 @@ public class Drive {
 	}
 	
 	public static void run(double xStick, double yStick){
+		updateDashboard();
 		if(Math.abs(xStick) < Constants.deadBand)
 			xStick = 0;
 		if(Math.abs(yStick) < Constants.deadBand)
@@ -36,5 +38,10 @@ public class Drive {
 		rightMain.set(right);
 		leftMain.set(left);
 	}
-	
+	public static void updateDashboard(){
+		SmartDashboard.putNumber("Gyro", gyro.getYaw());
+		SmartDashboard.putNumber("Left Encoder", leftMain.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("Right Encoder", rightMain.getSelectedSensorVelocity(0));
+
+	}
 }
