@@ -64,13 +64,9 @@ public class AutoHandler {
 	
 	public static void autoInit() {
 		
-		System.out.println("In Init");
-		
 		Enum startPositions = (Enum) posChooser.getSelected();
 		Enum goal = (Enum) goalChooser.getSelected();
 		String variation = "LRL";//DriverStation.getInstance().getGameSpecificMessage();
-		
-		System.out.println("Auto Chosen");
 		
 		StartPositions posEnum = (StartPositions) startPositions;
 		Goal goalEnum = (Goal) goal;
@@ -80,7 +76,6 @@ public class AutoHandler {
 		switch (posEnum) {
 
 		case NOTHING:
-			System.out.println("Auto Made");
 			auto = new NothingAuto(variation);
 			break;
 			
@@ -267,9 +262,7 @@ public class AutoHandler {
 			break;
 		}
 		
-		System.out.println("MP Init Start");
 		MotionProfile.init();
-		System.out.println("MP Init End");
 		
 	}
 	
