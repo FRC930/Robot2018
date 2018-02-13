@@ -26,6 +26,7 @@ public class Drive {
 	}
 	
 	public static void run(double xStick, double yStick){
+		updateDashboard();
 		if(Math.abs(xStick) < Constants.deadBand)
 			xStick = 0;
 		if(Math.abs(yStick) < Constants.deadBand)
