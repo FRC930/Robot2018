@@ -110,7 +110,7 @@ public class Elevator {
 	}
 	
 	// Check to confirm the elevator has reached its target position
-	public boolean atPosition() {
+	public static boolean atPosition() {
 		if ((lift1.getSelectedSensorPosition(0) > (targetPosition - 10) && lift1.getSelectedSensorPosition(0) < (targetPosition + 10)) && positionBool) {
 			return true;
 		} else {
@@ -119,9 +119,10 @@ public class Elevator {
 	}
 	
 	// Returns the actual position of the elevator
-	public double getPosition() {
+	public static double getPosition() {
 		return lift1.getSelectedSensorPosition(0);
 	}
+	
 	public static void updateDashboard(){
 		SmartDashboard.putNumber("Elevator Encoder",lift1.getSelectedSensorPosition(0));
 	}
