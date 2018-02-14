@@ -8,6 +8,7 @@ public class TeleopHandler {
 	
 	private static final Joystick stick1 = new Joystick(0);
 	private static final Joystick stick2 = new Joystick(1);
+	//private static final Joystick stick3 = new Joystick(2);
 	private static final Timer elevatorTimer = new Timer();
 	private static boolean buttonCheckRB = false;
 	private static boolean buttonCheckLB = false;
@@ -128,6 +129,15 @@ public class TeleopHandler {
 			Ramp.run(RampStates.RIGHT_RAMP_UP);
 		if(stick2.getRawButton(Constants.Y))
 			Ramp.run(RampStates.LEFT_RAMP_UP);
+		
+		/*if(stick3.getRawButton(7))
+			Ramp.run(RampStates.RIGHT_RAMP_DOWN);
+		if(stick2.getRawButton(2))
+			Ramp.run(RampStates.LEFT_RAMP_DOWN);
+		if(stick3.getRawButton(12))
+			Ramp.run(RampStates.RIGHT_RAMP_UP);
+		if(stick3.getRawButton(1))
+			Ramp.run(RampStates.LEFT_RAMP_UP);*/
 		
 	}
 	public static void setRumble(int controller, double intensity){
