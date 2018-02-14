@@ -17,9 +17,9 @@ public class Utilities {
 		
 	}
 	
-	public static void getPDPCurrent() {
+	public static double getPDPCurrent() {
 		
-		pdp.getCurrent(Constants.pdpIntakePort);
+		return pdp.getCurrent(Constants.pdpIntakePort);
 		
 	}
 	

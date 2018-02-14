@@ -34,7 +34,7 @@ public class Intake {
 	//-- Function Declarations and Implementations --\\
 	
 	private static void updatePDPcounter() {	//updates the pdp counter
-		if (Utilities.pdp.getCurrent(Constants.pdpIntakePort) > Constants.currentThreshhold) { 						
+		if (Utilities.getPDPCurrent() > Constants.currentThreshhold) { 						
 			PDPcounter++; 																
 		} else { 																	
 			PDPcounter = 0; 															
@@ -103,7 +103,7 @@ public class Intake {
 		//-- In take Variable Initializations --\\
 
 		PDPcounter = 0;
-		Utilities.comp.setClosedLoopControl(true);	//Sets the compressor on
+		Utilities.turnOnCompressor();	//Sets the compressor on
 		setIntakeGrip(false);
 		setIntakeLifter(Value.kReverse);
 	}
@@ -115,8 +115,8 @@ public class Intake {
 		
 		//-- Debug Messages --\\
 
-		System.out.println(Utilities.pdp.getCurrent(Constants.pdpIntakePort));
-		SmartDashboard.putNumber("PDP Intake Port Reading", Utilities.pdp.getCurrent(Constants.pdpIntakePort));
+		System.out.println(Utilities.getPDPCurrent());
+		SmartDashboard.putNumber("PDP Intake Port Reading", Utilities.getPDPCurrent());
 		SmartDashboard.putData("PDP Intake Port Graph", Utilities.pdp);
 		
 		//-- State Checking --\\
