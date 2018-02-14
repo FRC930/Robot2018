@@ -7,8 +7,6 @@
 
 package org.usfirst.frc.team930.robot;
 
-import javax.xml.bind.annotation.XmlElementDecl.GLOBAL;
-
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.Joystick;
@@ -21,6 +19,11 @@ public class Robot extends TimedRobot {
 	
 	static I2C wire = new I2C(Port.kOnboard, 4);
 	Joystick controller = new Joystick(0);
+	
+	private static final int address = 90;
+	
+	private boolean aReleased;
+	private boolean aPressed;
 
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
@@ -33,6 +36,9 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
+		
+		aReleased = false;
+		aPressed = false;
 	}
 
 	
@@ -61,15 +67,21 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		if (controller.getRawButton(2)) {
-			String WriteString = "go";
-			char[] CharArray = WriteString.toCharArray();
-			byte[] WriteData = new byte[CharArray.length];
-			for (int i = 0; i < CharArray.length; i++) {
-				WriteData[i] = (byte) CharArray[i];
-			}
-			wire.transaction(WriteData, WriteData.length, null, 0);
+		if (controller.getRawButtonPressed(1) && !aPressed) {
+			aPressed = true;
+			//registerAddress, data
+			
+		} else if (controller.getRawButtonReleased(1) && aPressed && !aReleased) {
+			aReleased = true;
 		}
+		
+		if (aPressed && aReleased) {
+			aPressed = false;
+			aReleased = false;
+			
+			wire.write(address, 100);	
+		}
+
 	}
 
 	
