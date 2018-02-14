@@ -8,8 +8,8 @@
 
 //-- Type and Constant Declarations --\\
 #define NUMPIXELS 120 // Number of LEDs in strip
-#define DATAPIN    11
-#define CLOCKPIN   10
+#define DATAPIN    12
+#define CLOCKPIN   13
 
 Adafruit_DotStar strip = Adafruit_DotStar(NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
 

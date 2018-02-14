@@ -62,4 +62,9 @@ public class Constants {
 	
 	//PDP Ports
 	public static final int pdpIntakePort = 11;
+	
+	// Camera Constants
+	public static final int cameraResWidth = 640;
+	public static final int cameraResHeight = 480;
+	public static final int cameraPort = 2;
 }
