@@ -19,6 +19,14 @@ public class Drive {
 	public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 	
 	public static void init(){
+		rightMain.setInverted(false);
+		rightFollow.setInverted(false);
+		rightFollow2.setInverted(false);
+		
+		leftMain.setInverted(true);
+		leftFollow.setInverted(true);
+		leftFollow2.setInverted(true);
+		
 		rightFollow2.follow(rightMain);
 		rightFollow.follow(rightMain);
 		leftFollow2.follow(leftMain);
@@ -31,7 +39,8 @@ public class Drive {
 			xStick = 0;
 		if(Math.abs(yStick) < Constants.deadBand)
 			yStick = 0;
-		rightMain.set(-(yStick-xStick));
+		yStick *= -1;
+		rightMain.set((yStick-xStick));
 		leftMain.set((yStick+xStick));
 	}
 	public static void runAt(double left, double right){
