@@ -70,7 +70,6 @@ public class Robot extends TimedRobot {
 		if (controller.getRawButtonPressed(1) && !aPressed) {
 			aPressed = true;
 			//registerAddress, data
-			
 		} else if (controller.getRawButtonReleased(1) && aPressed && !aReleased) {
 			aReleased = true;
 		}
