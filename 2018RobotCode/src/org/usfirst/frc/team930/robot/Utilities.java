@@ -11,7 +11,7 @@ public class Utilities {
 	
 	public static Compressor comp = new Compressor(0);
 	public static PowerDistributionPanel pdp = new PowerDistributionPanel(0);
-	public static UsbCamera camera = new UsbCamera("Camera", Constants.cameraPort);
+	public static UsbCamera camera = new UsbCamera("Camera", Constants.cameraDeviceID);
 	public static CvSink cvSink;
 	public static CvSource outputStream;
 	
@@ -28,7 +28,7 @@ public class Utilities {
 	}
 	
 	public static void startCapture() {
-		camera = CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture("Robot Camera", Constants.cameraDeviceID);
 		camera.setResolution(Constants.cameraResWidth, Constants.cameraResHeight);
 		cvSink = CameraServer.getInstance().getVideo();
         outputStream = CameraServer.getInstance().putVideo("Video", Constants.cameraResWidth, Constants.cameraResHeight);

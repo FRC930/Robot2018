@@ -66,5 +66,5 @@ public class Constants {
 	// Camera Constants
 	public static final int cameraResWidth = 640;
 	public static final int cameraResHeight = 480;
-	public static final int cameraPort = 2;
+	public static final int cameraDeviceID = 2;
 }
