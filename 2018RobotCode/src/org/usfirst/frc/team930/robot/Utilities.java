@@ -11,7 +11,7 @@ public class Utilities {
 	
 	public static Compressor comp = new Compressor(0);
 	public static PowerDistributionPanel pdp = new PowerDistributionPanel(0);
-	public static UsbCamera camera = new UsbCamera("Camera", 2);
+	public static UsbCamera camera = new UsbCamera("Camera", Constants.cameraPort);
 	public static CvSink cvSink;
 	public static CvSource outputStream;
 	
@@ -29,9 +29,9 @@ public class Utilities {
 	
 	public static void startCapture() {
 		camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(640, 480);
+		camera.setResolution(Constants.cameraResWidth, Constants.cameraResHeight);
 		cvSink = CameraServer.getInstance().getVideo();
-        outputStream = CameraServer.getInstance().putVideo("Video", 640, 480);
+        outputStream = CameraServer.getInstance().putVideo("Video", Constants.cameraResWidth, Constants.cameraResHeight);
 	}
 
 }
