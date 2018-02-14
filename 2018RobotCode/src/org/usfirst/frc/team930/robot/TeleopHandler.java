@@ -16,7 +16,8 @@ public class TeleopHandler {
 	private static double timeAmount = 0;
 	
 	public static void init() {
-		
+		Utilities.startCapture();
+		Utilities.setResolution(640, 480);
 	}
 	
 	public static void disabled() {
