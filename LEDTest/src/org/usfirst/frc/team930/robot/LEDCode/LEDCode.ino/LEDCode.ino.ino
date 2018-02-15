@@ -13,7 +13,7 @@
 #include <Adafruit_DotStar.h>
 #include <SPI.h>
 
-#define NUMPIXELS 120
+#define NUMPIXELS 200
 #define CLOCKPIN 11
 #define DATAPIN 10                                                    
 Adafruit_DotStar strip = Adafruit_DotStar(NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
