@@ -268,11 +268,12 @@ public class AutoHandler {
 	
 	public static void run() {
 		
-		if(time.get() > SmartDashboard.getNumber("Time Delay", 0)){
+		if(time.get() > SmartDashboard.getNumber("Time Delay", 0) && !Drive.checkSensors()){
 			auto.run();
 			time.stop();
 		}
-		//MotionProfile.run();
+		else
+			Drive.run(0, 0);
 		
 	}
 
