@@ -6,9 +6,9 @@ public class NothingAuto extends Routine{
 	
 	Timer time = new Timer();
 	
-	public NothingAuto(String v) {
+	public NothingAuto(String v, double d) {
 		
-		super(v);
+		super(v, d);
 		time.reset();
 		time.start();
 		

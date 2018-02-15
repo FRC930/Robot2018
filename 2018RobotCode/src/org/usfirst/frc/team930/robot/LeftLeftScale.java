@@ -2,9 +2,9 @@ package org.usfirst.frc.team930.robot;
 
 public class LeftLeftScale extends Routine {
 	
-	public LeftLeftScale(String v) {
+	public LeftLeftScale(String v, double d) {
 		
-		super(v);
+		super(v, d);
 		
 	}
 	
