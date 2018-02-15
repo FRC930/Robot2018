@@ -17,6 +17,8 @@ public class Elevator {
 	private static ElevatorStates stateEnum;
 	private static double targetPosition;
 	private static boolean positionBool;
+	private static boolean check;
+	private static double counter;
 	
 	public static void init() {
 		// Setup the sensor
@@ -55,6 +57,8 @@ public class Elevator {
 		// Set starting target position to intake position
 		targetPosition = Constants.intakePosition;
 		positionBool = true;
+		check = false;
+		counter = 0;
 	}
 	
 	// Set motor's position to double value that is passed through using motion magic
@@ -121,6 +125,22 @@ public class Elevator {
 	// Returns the actual position of the elevator
 	public static double getPosition() {
 		return lift1.getSelectedSensorPosition(0);
+	}
+	
+	//Check if encoder is returning information
+	public static boolean checkSensor() {
+		//checks if motor is moving and encoder does not return any velocity
+		if(lift1.getMotorOutputPercent() != 0 && lift1.getSelectedSensorVelocity(0) == 0) {
+			counter++;
+			if(counter >= Constants.counterLimit) {
+				counter = 0;
+				check = true;
+			} 
+		} else {
+			check = false;
+		}
+		
+		return check;
 	}
 	
 	public static void updateDashboard(){

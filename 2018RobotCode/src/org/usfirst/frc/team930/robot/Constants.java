@@ -58,6 +58,7 @@ public class Constants {
 	public static final double scalePositionMid = 6000;
 	public static final double scalePositionHigh = 7000;
 	public static final int targetMultiplier = -400;
+	public static final int counterLimit = 3;
 	
 	//Ramp Constants
 	public static final int rampLSolenoidID = 0;

@@ -6,6 +6,7 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Utilities {
 	
@@ -27,11 +28,15 @@ public class Utilities {
 		
 	}
 	
+	public static void updateDashboard() {
+		SmartDashboard.putBoolean("Toggle Camera", false);
+	}
+	
 	public static void startCapture() {
 		CameraServer.getInstance().startAutomaticCapture("Robot Camera", Constants.cameraDeviceID);
 		camera.setResolution(Constants.cameraResWidth, Constants.cameraResHeight);
 		cvSink = CameraServer.getInstance().getVideo();
-        outputStream = CameraServer.getInstance().putVideo("Video", Constants.cameraResWidth, Constants.cameraResHeight);
+		outputStream = CameraServer.getInstance().putVideo("Video", Constants.cameraResWidth, Constants.cameraResHeight);
 	}
 
 }
