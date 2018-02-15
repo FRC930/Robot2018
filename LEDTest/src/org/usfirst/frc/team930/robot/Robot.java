@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
-		wire = new I2C(Port.kOnboard, 84);
+		wire = new I2C(Port.kOnboard, address);
 		sendData = 0;
 	}
 
