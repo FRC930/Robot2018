@@ -24,10 +24,9 @@ public class TeleopHandler {
 	}
 	
 	public static void disabled() {
-		
 		Drive.updateDashboard();
 		Elevator.updateDashboard();
-		
+		LEDHandler.run(RobotStates.DISABLED);
 	}
 	
 	enum RobotStates {
@@ -57,6 +56,8 @@ public class TeleopHandler {
 	}
 	
 	public static void run() {
+		
+		LEDHandler.run(RobotStates.ENABLED);
 		
 		Drive.run(stick1.getRawAxis(Constants.rightXaxis), stick1.getRawAxis(Constants.leftYaxis));
 		
