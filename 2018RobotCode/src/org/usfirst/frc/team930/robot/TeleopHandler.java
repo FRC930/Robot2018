@@ -30,6 +30,11 @@ public class TeleopHandler {
 		
 	}
 	
+	enum RobotStates {
+		ENABLED,
+		DISABLED
+	}
+	
 	enum IntakeStates{
 		INTAKING,
 		INTAKE_DONE,
