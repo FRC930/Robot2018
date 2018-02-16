@@ -6,9 +6,9 @@ public class LineScore extends Routine{
 	
 	Timer time = new Timer();
 	
-	public LineScore(String v) {
+	public LineScore(String v, double d) {
 		
-		super(v);
+		super(v, d);
 		time.reset();
 		time.start();
 		

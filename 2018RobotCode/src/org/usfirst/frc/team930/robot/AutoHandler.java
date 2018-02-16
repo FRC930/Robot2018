@@ -13,7 +13,6 @@ public class AutoHandler {
 	
 	public static SendableChooser<StartPositions> posChooser = new SendableChooser<StartPositions>();
 	public static SendableChooser<Goal> goalChooser = new SendableChooser<Goal>();
-	private static Timer time = new Timer();
 	
 	static Waypoint[] points = new Waypoint[] {
 			new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
@@ -58,8 +57,6 @@ public class AutoHandler {
         
         SmartDashboard.putNumber("Time Delay", 0);
 		
-    	
-		time.reset();
 	}
 	
 	public static void autoInit() {
@@ -71,12 +68,12 @@ public class AutoHandler {
 		StartPositions posEnum = (StartPositions) startPositions;
 		Goal goalEnum = (Goal) goal;
 	
-		time.start();
+		double delay = SmartDashboard.getNumber("Time Delay", 0);
 		
 		switch (posEnum) {
 
 		case NOTHING:
-			auto = new NothingAuto(variation);
+			auto = new NothingAuto(variation, delay);
 			break;
 			
 		case LEFT:
@@ -87,11 +84,11 @@ public class AutoHandler {
 
 				case "LRL":
 				case "RRR":
-					auto= new LeftRightScale(variation);
+					auto= new LeftRightScale(variation, delay);
 					break;
 				case "RLR":
 				case "LLL":
-					auto= new LeftLeftScale(variation);
+					auto= new LeftLeftScale(variation, delay);
 					break;
 				
 				}
@@ -101,11 +98,11 @@ public class AutoHandler {
 
 				case "LRL":	
 				case "LLL":
-					auto= new LeftLeftSwitch(variation);
+					auto= new LeftLeftSwitch(variation, delay);
 					break;
 				case "RLR":
 				case "RRR":
-					auto= new LeftRightSwitch(variation);
+					auto= new LeftRightSwitch(variation, delay);
 					break;
 
 				}
@@ -114,14 +111,14 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
-					auto= new LeftLeftSwitch(variation);
+					auto= new LeftLeftSwitch(variation, delay);
 					break;
 				case "RLR":
 				case "LLL":
-					auto= new LeftLeftScale(variation);
+					auto= new LeftLeftScale(variation, delay);
 					break;
 				case "RRR":
-					auto= new Line(variation);
+					auto= new Line(variation, delay);
 					break;
 
 				}
@@ -131,13 +128,13 @@ public class AutoHandler {
 
 				case "LRL":
 				case "LLL":
-					auto= new LeftLeftSwitch(variation);
+					auto= new LeftLeftSwitch(variation, delay);
 					break;
 				case "RLR":
-					auto= new LeftLeftScale(variation);
+					auto= new LeftLeftScale(variation, delay);
 					break;
 				case "RRR":
-					auto= new Line(variation);
+					auto= new Line(variation, delay);
 					break;
 
 				}
@@ -147,11 +144,11 @@ public class AutoHandler {
 
 				case "LRL":
 				case "LLL":
-					auto= new LineScore(variation);
+					auto= new LineScore(variation, delay);
 					break;
 				case "RLR":
 				case "RRR":
-					auto= new Line(variation);
+					auto= new Line(variation, delay);
 					break;
 
 				}
@@ -166,17 +163,17 @@ public class AutoHandler {
 
 				case "LRL":
 				case "LLL":
-					auto= new MiddleLeftSwitch(variation);
+					auto= new MiddleLeftSwitch(variation, delay);
 					break;
 				case "RLR":
 				case "RRR":
-					auto= new MiddleRightSwitch(variation);
+					auto= new MiddleRightSwitch(variation, delay);
 					break;
 
 				}
 				break;
 			case LINE:
-				auto= new Line(variation);
+				auto= new Line(variation, delay);
 				break;
 
 			}
@@ -189,11 +186,11 @@ public class AutoHandler {
 
 				case "LRL":
 				case "RRR":
-					auto= new RightRightScale(variation);
+					auto= new RightRightScale(variation, delay);
 					break;
 				case "RLR":
 				case "LLL":
-					auto= new RightLeftScale(variation);
+					auto= new RightLeftScale(variation, delay);
 					break;
 				
 				}
@@ -203,11 +200,11 @@ public class AutoHandler {
 
 				case "LRL":
 				case "LLL":
-					auto= new RightLeftSwitch(variation);
+					auto= new RightLeftSwitch(variation, delay);
 					break;
 				case "RLR":
 				case "RRR":
-					auto= new RightRightSwitch(variation);
+					auto= new RightRightSwitch(variation, delay);
 					break;
 
 				}
@@ -217,13 +214,13 @@ public class AutoHandler {
 
 				case "LRL":
 				case "RRR":
-					auto= new RightRightScale(variation);
+					auto= new RightRightScale(variation, delay);
 					break;
 				case "RLR":
-					auto= new RightRightSwitch(variation);
+					auto= new RightRightSwitch(variation, delay);
 					break;
 				case "LLL":
-					auto= new Line(variation);
+					auto= new Line(variation, delay);
 					break;
 			
 				}
@@ -232,14 +229,14 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LRL":
-					auto= new RightRightScale(variation);
+					auto= new RightRightScale(variation, delay);
 					break;
 				case "RLR":
 				case "RRR":
-					auto= new RightRightSwitch(variation);
+					auto= new RightRightSwitch(variation, delay);
 					break;
 				case "LLL":
-					auto= new Line(variation);
+					auto= new Line(variation, delay);
 					break;
 				
 				}
@@ -249,11 +246,11 @@ public class AutoHandler {
 
 				case "LRL":
 				case "LLL":
-					auto= new Line(variation);
+					auto= new Line(variation, delay);
 					break;
 				case "RLR":
 				case "RRR":
-					auto= new LineScore(variation);
+					auto= new LineScore(variation, delay);
 					break;
 
 				}
@@ -268,11 +265,12 @@ public class AutoHandler {
 	
 	public static void run() {
 		
-		if(time.get() > SmartDashboard.getNumber("Time Delay", 0)){
+		if(!Drive.checkSensors()){
 			auto.run();
-			time.stop();
+			//MotionProfile.run();
 		}
-		//MotionProfile.run();
+		else
+			Drive.runAt(0, 0);
 		
 	}
 

@@ -1,23 +1,26 @@
 package org.usfirst.frc.team930.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TeleopHandler {
 	
 	private static final Joystick stick1 = new Joystick(0);
 	private static final Joystick stick2 = new Joystick(1);
+	//private static final Joystick stick3 = new Joystick(2);
 	private static final Timer elevatorTimer = new Timer();
 	private static boolean buttonCheckRB = false;
 	private static boolean buttonCheckLB = false;
 	private static int elevatorCounter = 0;
 	private static boolean switchBool = false;
 	private static double timeAmount = 0;
+	private static boolean toggledTwice = false;
 	
 	public static void init() {
 		Utilities.startCapture();
-		Utilities.setResolution(640, 480);
 	}
 	
 	public static void disabled() {
@@ -25,6 +28,11 @@ public class TeleopHandler {
 		Drive.updateDashboard();
 		Elevator.updateDashboard();
 		
+	}
+	
+	enum RobotStates {
+		ENABLED,
+		DISABLED
 	}
 	
 	enum IntakeStates{
@@ -121,6 +129,21 @@ public class TeleopHandler {
 			setRumble(2, 0);
 		}
 		
+		//stop elevator if encoder is not returning information
+		if(Elevator.checkSensor()) {
+			Elevator.stop();
+		}
+		
+		if(SmartDashboard.getBoolean("Toggle Camera", false) && !toggledTwice) {
+			CameraServer.getInstance().removeCamera("Camera");
+			toggledTwice = true;
+			SmartDashboard.putBoolean("Toggle Camera", false);
+		} else if(SmartDashboard.getBoolean("Toggle Camera", false) && toggledTwice) {
+			Utilities.startCapture();
+			toggledTwice = false;
+			SmartDashboard.putBoolean("Toggle Camera", false);
+		}
+		
 		if(stick2.getRawButton(Constants.A))
 			Ramp.run(RampStates.RIGHT_RAMP_DOWN);
 		if(stick2.getRawButton(Constants.B))
@@ -129,6 +152,15 @@ public class TeleopHandler {
 			Ramp.run(RampStates.RIGHT_RAMP_UP);
 		if(stick2.getRawButton(Constants.Y))
 			Ramp.run(RampStates.LEFT_RAMP_UP);
+		
+		/*if(stick3.getRawButton(7))
+			Ramp.run(RampStates.RIGHT_RAMP_DOWN);
+		if(stick2.getRawButton(2))
+			Ramp.run(RampStates.LEFT_RAMP_DOWN);
+		if(stick3.getRawButton(12))
+			Ramp.run(RampStates.RIGHT_RAMP_UP);
+		if(stick3.getRawButton(1))
+			Ramp.run(RampStates.LEFT_RAMP_UP);*/
 		
 	}
 	public static void setRumble(int controller, double intensity){

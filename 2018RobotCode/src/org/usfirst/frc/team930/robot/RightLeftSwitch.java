@@ -2,9 +2,9 @@ package org.usfirst.frc.team930.robot;
 
 public class RightLeftSwitch extends Routine {
 	
-	public RightLeftSwitch(String v) {
+	public RightLeftSwitch(String v, double d) {
 		
-		super(v);
+		super(v, d);
 		
 	}
 

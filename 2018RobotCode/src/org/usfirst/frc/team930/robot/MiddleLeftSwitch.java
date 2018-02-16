@@ -2,9 +2,9 @@ package org.usfirst.frc.team930.robot;
 
 public class MiddleLeftSwitch extends Routine{
 	
-	public MiddleLeftSwitch(String v) {
+	public MiddleLeftSwitch(String v, double d) {
 		
-		super(v);
+		super(v, d);
 		
 	}
 

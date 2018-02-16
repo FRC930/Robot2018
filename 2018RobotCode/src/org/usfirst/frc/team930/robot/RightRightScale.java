@@ -2,9 +2,9 @@ package org.usfirst.frc.team930.robot;
 
 public class RightRightScale extends Routine {
 	
-	public RightRightScale(String v) {
+	public RightRightScale(String v, double d) {
 		
-		super(v);
+		super(v, d);
 		
 	}
 

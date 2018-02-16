@@ -22,6 +22,11 @@ public class Constants {
 	public static final int startButton = 8;
 	public static final int rightJoyButton = 9;
 	public static final int leftJoyButton = 10;
+	//---Button Board
+	public static final int btnRightRampUp = 12;
+	public static final int btnRightRampDown = 2;
+	public static final int btnLeftRampUp = 1;
+	public static final int btnLeftRampDown = 7; 
 	
 	// Drive Constants
 	public static final int rightMainTalonID = 1; 
@@ -53,6 +58,7 @@ public class Constants {
 	public static final double scalePositionMid = 6000;
 	public static final double scalePositionHigh = 7000;
 	public static final int targetMultiplier = -400;
+	public static final int counterLimit = 3;
 	
 	//Ramp Constants
 	public static final int rampLSolenoidID = 0;
@@ -62,4 +68,9 @@ public class Constants {
 	
 	//PDP Ports
 	public static final int pdpIntakePort = 11;
+	
+	// Camera Constants
+	public static final int cameraResWidth = 640;
+	public static final int cameraResHeight = 480;
+	public static final int cameraDeviceID = 2;
 }

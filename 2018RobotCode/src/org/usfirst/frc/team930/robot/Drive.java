@@ -18,7 +18,19 @@ public class Drive {
 	public static final VictorSPX leftFollow2 = new VictorSPX(Constants.leftFollow2Victor);
 	public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 	
+	public static int leftMotorCounter = 0;
+	public static int rightMotorCounter = 0;
+	public static boolean check = false;
+	
 	public static void init(){
+		rightMain.setInverted(false);
+		rightFollow.setInverted(false);
+		rightFollow2.setInverted(false);
+		
+		leftMain.setInverted(true);
+		leftFollow.setInverted(true);
+		leftFollow2.setInverted(true);
+		
 		rightFollow2.follow(rightMain);
 		rightFollow.follow(rightMain);
 		leftFollow2.follow(leftMain);
@@ -31,7 +43,8 @@ public class Drive {
 			xStick = 0;
 		if(Math.abs(yStick) < Constants.deadBand)
 			yStick = 0;
-		rightMain.set(-(yStick-xStick));
+		yStick *= -1;
+		rightMain.set((yStick-xStick));
 		leftMain.set((yStick+xStick));
 	}
 	public static void runAt(double left, double right){
@@ -43,5 +56,27 @@ public class Drive {
 		SmartDashboard.putNumber("Left Encoder", leftMain.getSelectedSensorVelocity(0));
 		SmartDashboard.putNumber("Right Encoder", rightMain.getSelectedSensorVelocity(0));
 
+	}
+	public static boolean checkSensors(){
+		
+		if(!gyro.isConnected())
+			check = true;
+		
+		else if(leftMain.get()!= 0 && leftMain.getSelectedSensorVelocity(0) == 0){
+			leftMotorCounter++;
+			if(leftMotorCounter >= 4){
+				leftMotorCounter = 0;
+				check= true;
+			}
+		}
+		
+		else if(rightMain.get()!=0 && rightMain.getSelectedSensorVelocity(0) == 0){
+			rightMotorCounter++;
+			if(rightMotorCounter >= 4){
+				check= true;
+				rightMotorCounter = 0;
+			}
+		}
+		return check;
 	}
 }

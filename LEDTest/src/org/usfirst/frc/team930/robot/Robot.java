@@ -17,28 +17,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 	
-	static I2C wire = new I2C(Port.kOnboard, 4);
-	Joystick controller = new Joystick(0);
+	private I2C wire;
+	private Joystick controller = new Joystick(0);
 	
-	private static final int address = 90;
-	
-	private boolean aReleased;
-	private boolean aPressed;
+	private static final int address = 84;
+	private int sendData;
 
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
-
 	
 	@Override
 	public void robotInit() {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
-		
-		aReleased = false;
-		aPressed = false;
+		wire = new I2C(Port.kOnboard, address);
+		sendData = 0;
 	}
 
 	
@@ -67,23 +63,15 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		if (controller.getRawButtonPressed(1) && !aPressed) {
-			aPressed = true;
+		if (controller.getRawButton(1)) {
+			System.out.println("NO STINKY ROBOTS");
+			sendData = 50;
 			//registerAddress, data
-			
-		} else if (controller.getRawButtonReleased(1) && aPressed && !aReleased) {
-			aReleased = true;
+		} else {
+			sendData = 120;
 		}
-		
-		if (aPressed && aReleased) {
-			aPressed = false;
-			aReleased = false;
-			
-			wire.write(address, 100);	
-		}
-
+		wire.write(address, sendData);	
 	}
-
 	
 	@Override
 	public void testPeriodic() {
