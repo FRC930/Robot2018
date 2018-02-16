@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Elevator {
 	// Object Declarations
 	public static TalonSRX lift1 = new TalonSRX(Constants.liftTalonID);
+	public static TalonSRX lift2 = new TalonSRX(Constants.lift2TalonID);
 	
 	// Variable Declarations
 	private static ElevatorStates stateEnum;
@@ -21,6 +22,10 @@ public class Elevator {
 	private static double counter;
 	
 	public static void init() {
+		
+		//Sets the 2nd Talon to follow the main
+		lift2.follow(lift1);
+		
 		// Setup the sensor
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 		lift1.setSensorPhase(false);

@@ -9,10 +9,11 @@ public abstract class Routine {
 	protected Segments segList = new Segments();
 	protected Actions actList = new Actions();
 	protected Timer time = new Timer();
+	protected TimeDelay initDelay; 
 	
 	public Routine(String v, double delay) {
 		
-		TimeDelay time = new TimeDelay(delay);
+		initDelay = new TimeDelay(delay);
 		variation = v;
 		reset();
 		
@@ -20,6 +21,7 @@ public abstract class Routine {
 	
 	public void run() {
 		
+		initDelay.execute(time.get());
 		this.variation();
 		
 	}
