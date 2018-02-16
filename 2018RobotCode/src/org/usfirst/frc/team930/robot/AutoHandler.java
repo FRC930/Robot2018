@@ -36,7 +36,8 @@ public class AutoHandler {
 		ALWAYS_SCALE,
 		PERFERRED_SWITCH,
 		PERFERRED_SCALE,
-		LINE
+		LINE,
+		LINE_SCORE
 		
 	}
 	
@@ -53,6 +54,7 @@ public class AutoHandler {
         goalChooser.addObject("Perferred Switch", Goal.PERFERRED_SWITCH);
         goalChooser.addObject("Perferred Scale", Goal.PERFERRED_SCALE);
         goalChooser.addObject("Just Line", Goal.LINE);
+        goalChooser.addObject("Line & Score", Goal.LINE_SCORE);
         SmartDashboard.putData("Goals", goalChooser);
         
         SmartDashboard.putNumber("Time Delay", 0);
