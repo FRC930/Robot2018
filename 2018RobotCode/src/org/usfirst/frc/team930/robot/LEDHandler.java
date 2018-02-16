@@ -3,50 +3,59 @@
 package org.usfirst.frc.team930.robot;
 
 import org.usfirst.frc.team930.robot.TeleopHandler.IntakeStates;
+import org.usfirst.frc.team930.robot.TeleopHandler.RobotStates;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.I2C.Port;
 
 //-- Main Class Header --\\
 public class LEDHandler {
 	
 	//-- Object Declarations --\\
-
-	// -- Variable Declarations --\\
+	private static I2C wire;
 	
-	private static IntakeStates intakeStateEnum;	//States for the entire robot
+	// -- Variable Declarations --\\
+	private static int sendData;
+	private static RobotStates robotStateEnum;	//States for the entire robot
 	
 	//-- Function Declarations and Implementations --\\
 
+	
 	//-- Initializing Variables and Objects --\\
 
 	public static void init() {	//runs in Robot.java, for initializing
 		//-- In take Variable Initializations --\\
-
-		
+		wire = new I2C(Port.kOnboard, Constants.arduinoAddress);
+		sendData = 0;
 	}
 	
 	// Main Loop (called in Robot.java) 
 
 	public static void run(Enum state) {
-		intakeStateEnum = (IntakeStates) state;	//states used to record the state of the robot
+		
+		robotStateEnum = (RobotStates) state;	//states used to record the state of the robot
 		
 		//-- State Checking --\\
-		/*
-		switch (stateEnum) {
-			case INTAKING:		//If the right trigger is down
-				inTaking();
+		
+		switch (robotStateEnum) {
+			case ENABLED:		
+				
 				break;
-			case INTAKE_DONE:	//If no trigger buttons are down
-				inTakeDone();
+			case DISABLED:	
+				
 				break;
-			case OUTTAKING:		//If the left trigger is down
-				outTaking();
-				break;
-			case LIFTER_UP:
-				setIntakeLifter(Value.kReverse);
-			case LIFTER_DOWN:
-				setIntakeLifter(Value.kForward);
-			default:			//If all fail, do this
+			default:			
 				break;
 		}
-		*/
+		/*
+		 * if (controller.getRawButton(1)) {
+			System.out.println("NO STINKY ROBOTS");
+			sendData = 50;
+			//registerAddress, data
+		} else {
+			sendData = 120;
+		}
+		wire.write(address, sendData);	
+		 */
+		
 	}
 }
