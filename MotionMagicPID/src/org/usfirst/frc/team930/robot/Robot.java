@@ -17,7 +17,7 @@ public class Robot extends TimedRobot {
 	TalonSRX _talon = new TalonSRX(6);
 	Joystick _joy = new Joystick(0);
 	StringBuilder _sb = new StringBuilder();
-	double kF = 1.0, kP = 1.0, kI = 0.002, kD = 10.0, targetPos = 6500, returnPos = 0, softLimF = 6500, softLimR = 0;
+	double kF = 1.89, kP = 0.5, kI = 0, kD = 10.0, targetPos = 6500, returnPos = 0, softLimF = 6500, softLimR = 0;
 	int velocity = 800, accel = 800;
 	
 	int count = 0;
