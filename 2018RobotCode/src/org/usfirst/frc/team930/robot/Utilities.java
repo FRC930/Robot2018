@@ -1,5 +1,6 @@
 package org.usfirst.frc.team930.robot;
 
+import org.opencv.core.Mat;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
@@ -15,6 +16,8 @@ public class Utilities {
 	public static UsbCamera camera = new UsbCamera("Camera", Constants.cameraDeviceID);
 	public static CvSink cvSink;
 	public static CvSource outputStream;
+	public static Mat source = new Mat();
+	public static Mat output = new Mat();
 	
 	public static void turnOnCompressor() {
 		
@@ -35,6 +38,7 @@ public class Utilities {
 	public static void startCapture() {
 		CameraServer.getInstance().startAutomaticCapture("Robot Camera", Constants.cameraDeviceID);
 		camera.setResolution(Constants.cameraResWidth, Constants.cameraResHeight);
+		camera.setFPS(30);
 		cvSink = CameraServer.getInstance().getVideo();
 		outputStream = CameraServer.getInstance().putVideo("Video", Constants.cameraResWidth, Constants.cameraResHeight);
 	}
