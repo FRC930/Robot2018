@@ -108,14 +108,14 @@ public class Robot extends TimedRobot {
 		_sb.append(_talon.getSelectedSensorVelocity(Constants2.kPIDLoopIdx));
 		
 		
-		if(_joy.getRawAxis(1) < -0.2)
+		if(_joy.getRawButton(2))
 		{
 			_talon.set(ControlMode.MotionMagic, targetPos);
 			_sb.append("\terr:");
 			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
 			_sb.append("\ttrg:");
 		}
-		else if(_joy.getRawAxis(1) > 0.2 && _talon.getSelectedSensorPosition(0) > 0)
+		else if(_joy.getRawButton(1))
 		{
 			_talon.set(ControlMode.MotionMagic, 50);
 			_sb.append("\terr:");
