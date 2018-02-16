@@ -1,8 +1,10 @@
 package org.usfirst.frc.team930.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TeleopHandler {
 	
@@ -15,6 +17,7 @@ public class TeleopHandler {
 	private static int elevatorCounter = 0;
 	private static boolean switchBool = false;
 	private static double timeAmount = 0;
+	private static boolean toggledTwice = false;
 	
 	public static void init() {
 		Utilities.startCapture();
@@ -119,6 +122,21 @@ public class TeleopHandler {
 			elevatorTimer.reset();
 		} else {
 			setRumble(2, 0);
+		}
+		
+		//stop elevator if encoder is not returning information
+		if(Elevator.checkSensor()) {
+			Elevator.stop();
+		}
+		
+		if(SmartDashboard.getBoolean("Toggle Camera", false) && !toggledTwice) {
+			CameraServer.getInstance().removeCamera("Camera");
+			toggledTwice = true;
+			SmartDashboard.putBoolean("Toggle Camera", false);
+		} else if(SmartDashboard.getBoolean("Toggle Camera", false) && toggledTwice) {
+			Utilities.startCapture();
+			toggledTwice = false;
+			SmartDashboard.putBoolean("Toggle Camera", false);
 		}
 		
 		if(stick2.getRawButton(Constants.A))

@@ -143,6 +143,11 @@ public class Elevator {
 		return check;
 	}
 	
+	//stops the elevator motor
+	public static void stop() {
+		lift1.set(ControlMode.PercentOutput, 0);
+	}
+	
 	public static void updateDashboard(){
 		SmartDashboard.putNumber("Elevator Encoder",lift1.getSelectedSensorPosition(0));
 	}
