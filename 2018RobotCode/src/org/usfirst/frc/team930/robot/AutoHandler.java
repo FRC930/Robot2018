@@ -121,7 +121,7 @@ public class AutoHandler {
 					auto= new LeftLeftScale(variation, delay);
 					break;
 				case "RRR":
-					auto= new Line(variation, delay);
+					auto= new LineElevator(variation, delay);
 					break;
 
 				}
@@ -137,13 +137,13 @@ public class AutoHandler {
 					auto= new LeftLeftScale(variation, delay);
 					break;
 				case "RRR":
-					auto= new Line(variation, delay);
+					auto= new LineElevator(variation, delay);
 					break;
 
 				}
 				break;
 			case LINE:
-					auto= new Line(variation, delay);
+					auto= new LineElevator(variation, delay);
 				break;
 			case LINE_SCORE:
 				switch(variation){
@@ -153,7 +153,7 @@ public class AutoHandler {
 						break;
 					case "RLR":
 					case "RRR":
-						auto= new Line(variation, delay);
+						auto= new LineElevator(variation, delay);
 						break;
 				}
 				break;
@@ -177,7 +177,7 @@ public class AutoHandler {
 				}
 				break;
 			case LINE:
-				auto= new Line(variation, delay);
+				auto= new LineElevator(variation, delay);
 				break;
 			case LINE_SCORE:
 				auto= new LineScore(variation,delay);
@@ -226,7 +226,7 @@ public class AutoHandler {
 					auto= new RightRightSwitch(variation, delay);
 					break;
 				case "LLL":
-					auto= new Line(variation, delay);
+					auto= new LineElevator(variation, delay);
 					break;
 			
 				}
@@ -242,19 +242,19 @@ public class AutoHandler {
 					auto= new RightRightSwitch(variation, delay);
 					break;
 				case "LLL":
-					auto= new Line(variation, delay);
+					auto= new LineElevator(variation, delay);
 					break;
 				
 				}
 				break;
 			case LINE:
-				auto= new Line(variation, delay);
+				auto= new LineElevator(variation, delay);
 				break;
 			case LINE_SCORE:
 				switch(variation){
 					case "LRL":
 					case "LLL":
-						auto= new Line(variation, delay);
+						auto= new LineElevator(variation, delay);
 						break;
 					case "RLR":
 					case "RRR":
