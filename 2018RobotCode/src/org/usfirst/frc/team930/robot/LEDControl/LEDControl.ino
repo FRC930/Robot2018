@@ -22,9 +22,10 @@
 
 //-- Type and Constant Definitions --\\
 
-#define TOP_STRIP_NUMPIXELS 119
+#define TOP_STRIP_NUMPIXELS 100
 #define TOP_STRIP_CLOCKPIN 11
-#define TOP_STRIP_DATAPIN 10   
+#define TOP_STRIP_DATAPIN 10 
+#define BRIGHTNESS 30  
 #define WAITTIME 50 
 
 //-- Object Declarations --\\
@@ -33,9 +34,12 @@ Adafruit_DotStar topStrip = Adafruit_DotStar(TOP_STRIP_NUMPIXELS, TOP_STRIP_DATA
 
 // -- Variable Declarations --\\
 
-int patternID = 0
+int patternID = 0;
+int enabledPatternHead = 0;
+int enabledPatternTail = -10; // Index of first 'on' and 'off' pixels
 
 //-- Initializing Variables and Objects --\\
+
 
 void setup() {
   Wire.begin(84);                // join i2c bus with address #84
@@ -47,8 +51,8 @@ void setup() {
     clock_prescale_set(clock_div_1); // Enable 16 MHz on Trinket
   #endif
 
-  strip.begin(); // Initialize pins for output
-  strip.show();  // Turn all LEDs off ASAP
+  topStrip.begin(); // Initialize pins for output
+  topStrip.show();  // Turn all LEDs off ASAP
 }
 
 //-- Main Loop --\\
@@ -57,7 +61,7 @@ void loop() {
   if (patternID == 1) {
     disabledPattern();
   } else if (patternID == 2) {
-    
+    enabledPattern();
   }
 }
 
@@ -74,8 +78,8 @@ void receiveEvent(int howMany) {
 //-- Pattern for Disabled --\\
 
 void disabledPattern() {
-  topStrip.setBrightness(25);
-  for (int i = 0; i < NUMPIXELS; i++) { 
+  topStrip.setBrightness(BRIGHTNESS);
+  for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) { 
     topStrip.setPixelColor(i, 0, 255, 0 );
   }
   topStrip.show();
@@ -83,21 +87,17 @@ void disabledPattern() {
 }
 
 //-- Pattern for Enabled --\\
-int enabledPatternHead = 0, enabledPatternTail = -10; // Index of first 'on' and 'off' pixels
-uint32_t enabledPatternColor = 0xFF0000;                            // 'On' color (starts red)
 
 void enabledPattern() {
-  topStrip.setBrightness(25);
+  topStrip.setBrightness(BRIGHTNESS);
   
-  topStrip.setPixelColor(enabledPatternHead, enabledPatternColor); // 'On' pixel at head
+  topStrip.setPixelColor(enabledPatternHead, 0, 0, 255); // 'On' pixel at head
   topStrip.setPixelColor(enabledPatternTail, 0);     // 'Off' pixel at tail
   topStrip.show();                                   // Refresh strip
-  delay(20);                                         // Pause 20 milliseconds (~50 FPS)
+  delay(10);                                         // Pause 10 milliseconds (~25 FPS)
 
   if (++enabledPatternHead >= TOP_STRIP_NUMPIXELS) {         // Increment head index.  Off end of strip?
     enabledPatternHead = 0;                                 //  Yes, reset head index to start
-    if ((enabledPatternColor >>= 8) == 0)                                  //  Next color (B->R->G) ... past blue now?
-      enabledPatternColor = 0xFF0000;                                     //   Yes, reset to red
   }
   
   if (++enabledPatternTail >= TOP_STRIP_NUMPIXELS) {
