@@ -20,6 +20,7 @@ public class TeleopHandler {
 	private static boolean switchBool = false;
 	private static double timeAmount = 0;
 	private static boolean toggledTwice = false;
+	private static boolean lifterToggle = false;
 	
 	public static void init() {
 		Utilities.startCapture();
@@ -75,11 +76,17 @@ public class TeleopHandler {
 		
 		if (stick2.getRawButton(Constants.A) && (!buttonCheckA)) {
 			buttonCheckA = true;
-			Intake.run(IntakeStates.LIFTER_DOWN);
+			if(!lifterToggle){
+				Intake.run(IntakeStates.LIFTER_DOWN);
+				lifterToggle = true;
+			}
+			else{
+				Intake.run(IntakeStates.LIFTER_UP);
+				lifterToggle = false;
+			}
 		}
 		else if ((!stick2.getRawButton(Constants.A)) && buttonCheckA) {
 			buttonCheckA = false;
-			Intake.run(IntakeStates.LIFTER_UP);
 		}
 		
 		
