@@ -38,6 +38,9 @@ public class Drive {
 	}
 	
 	public static void run(double xStick, double yStick){
+		
+		System.out.println("Gyro: " + gyro.getYaw());
+		
 		updateDashboard();
 		if(Math.abs(xStick) < Constants.deadBand)
 			xStick = 0;

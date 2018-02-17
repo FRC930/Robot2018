@@ -23,8 +23,8 @@ public class Intake {
 
 	private static VictorSPX rightIntakeWheel = new VictorSPX(Constants.rightIntakeWheelVictorID);	//Victor of right in take wheel
 	private static VictorSPX leftIntakeWheel = new VictorSPX(Constants.leftIntakeWheelVictorID);	//Victor of left in take wheel
-	private static DoubleSolenoid lifter = new DoubleSolenoid(Constants.lifterForwardSolenoidID, Constants.lifterReverseSolenoidID);
-	private static Solenoid gripper = new Solenoid(Constants.gripperSolenoidID);
+	//private static DoubleSolenoid lifter = new DoubleSolenoid(Constants.lifterForwardSolenoidID, Constants.lifterReverseSolenoidID);
+	//private static Solenoid gripper = new Solenoid(Constants.gripperSolenoidID);
 
 	// -- Variable Declarations --\\
 
@@ -88,13 +88,13 @@ public class Intake {
 	//------------------------------------------------------------------------------------------- 
 	
 	private static void setIntakeGrip(boolean grip) {	//method to set the compressors
-		gripper.set(grip);
+		//gripper.set(grip);
 	}
 	
 	//------------------------------------------------------------------------------------------- 
 
 	private static void setIntakeLifter(Value stage) {	//method used to set the intake's lifer mechanism
-		lifter.set(stage);
+		//lifter.set(stage);
 	}
 
 	//-- Initializing Variables and Objects --\\
@@ -103,7 +103,7 @@ public class Intake {
 		//-- In take Variable Initializations --\\
 
 		PDPcounter = 0;
-		Utilities.turnOnCompressor();	//Sets the compressor on
+		//Utilities.turnOnCompressor();	//Sets the compressor on
 		setIntakeGrip(false);
 		setIntakeLifter(Value.kReverse);
 	}

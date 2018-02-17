@@ -3,6 +3,7 @@ package org.usfirst.frc.team930.robot;
 import org.usfirst.frc.team930.robot.AutoHandler.Goal;
 import org.usfirst.frc.team930.robot.AutoHandler.StartPositions;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -65,7 +66,7 @@ public class AutoHandler {
 		
 		Enum startPositions = (Enum) posChooser.getSelected();
 		Enum goal = (Enum) goalChooser.getSelected();
-		String variation = "LRL";//DriverStation.getInstance().getGameSpecificMessage();
+		String variation = DriverStation.getInstance().getGameSpecificMessage();
 		
 		StartPositions posEnum = (StartPositions) startPositions;
 		Goal goalEnum = (Goal) goal;

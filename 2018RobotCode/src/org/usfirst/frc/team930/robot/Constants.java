@@ -35,7 +35,7 @@ public class Constants {
 	public static final int leftMainTalonID = 4;  
 	public static final int leftFollowVictorID = 5;
 	public static final int leftFollow2Victor = 6;
-	public static final double deadBand = 0.2;
+	public static final double deadBand = 0.15;
 	
 	// In take Constants
 	public static final int rightIntakeWheelVictorID  = 9;

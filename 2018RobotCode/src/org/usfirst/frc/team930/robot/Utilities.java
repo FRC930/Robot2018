@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Utilities {
 	
-	public static Compressor comp = new Compressor(0);
+	//public static Compressor comp = new Compressor(0);
 	public static PowerDistributionPanel pdp = new PowerDistributionPanel(0);
 	public static UsbCamera camera = new UsbCamera("Camera", Constants.cameraDeviceID);
 	public static CvSink cvSink;
@@ -21,7 +21,7 @@ public class Utilities {
 	
 	public static void turnOnCompressor() {
 		
-		comp.setClosedLoopControl(true);
+		//comp.setClosedLoopControl(true);
 		
 	}
 	
