@@ -50,10 +50,10 @@ public class Elevator {
 
 		// Set closed loop gains in slot 0
 		lift1.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
-		lift1.config_kF(0, 1.89, Constants.kTimeoutMs);
-		lift1.config_kP(0, 0.5, Constants.kTimeoutMs);
-		lift1.config_kI(0, 0, Constants.kTimeoutMs);
-		lift1.config_kD(0, 10, Constants.kTimeoutMs);
+		lift1.config_kF(0, Constants.kF, Constants.kTimeoutMs);
+		lift1.config_kP(0, Constants.kP, Constants.kTimeoutMs);
+		lift1.config_kI(0, Constants.kI, Constants.kTimeoutMs);
+		lift1.config_kD(0, Constants.kD, Constants.kTimeoutMs);
 		
 		// Set acceleration and cruise velocity
 		lift1.configMotionCruiseVelocity(800, Constants.kTimeoutMs);
@@ -153,9 +153,9 @@ public class Elevator {
 		return check;
 	}
 	
-	//stops the elevator motor
-	public static void stop() {
-		lift1.set(ControlMode.PercentOutput, 0);
+	// set the elevator motor to manual percent output mode
+	public static void runManualControl(double axisValue) {
+		lift1.set(ControlMode.PercentOutput, axisValue);
 	}
 	
 	public static void updateDashboard(){

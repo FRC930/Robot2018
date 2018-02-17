@@ -53,6 +53,10 @@ public class Constants {
 	public static final int kSlotIdx = 0;
 	public static final int kPIDLoopIdx = 0;
 	public static final int kTimeoutMs = 10;
+	public static final double kF = 1.89;
+	public static final double kP = 0.5;
+	public static final double kI = 0;
+	public static final double kD = 10;
 	public static final double intakePosition = 50;
 	public static final double switchPosition = 2000;
 	public static final double scalePositionLow = 5000;

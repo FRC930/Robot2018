@@ -21,7 +21,7 @@ public class Robot extends TimedRobot {
 	double kF = 1.89, kP = 0.5, kI = 0, kD = 10.0, targetPos = 0, returnPos = 0, softLimF = 6500, softLimR = 0;
 	int velocity = 800, accel = 800;
 	boolean positionBool = false;
-	double highPosition = 6500, lowPosition = 50;
+	double highPosition = 6500, lowPosition = 50, multiplier = -1.0;
 	
 	int count = 0;
 	boolean aPressed = false, bPressed = false;
@@ -66,13 +66,14 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Reverse Soft Limit", softLimR);
 		SmartDashboard.putNumber("High Position", highPosition);
 		SmartDashboard.putNumber("Low Position", lowPosition);
+		SmartDashboard.putNumber("Multiplier", multiplier);
 		SmartDashboard.putNumber("P Value", kP);
 		SmartDashboard.putNumber("I Value", kI);
 		SmartDashboard.putNumber("D Value", kD);
 		SmartDashboard.putNumber("F Value", kF);
 		SmartDashboard.putNumber("Cruise Velocity", velocity);
 		SmartDashboard.putNumber("Acceleration", accel);
-		SmartDashboard.putNumber("Taget Position", targetPos);
+		SmartDashboard.putNumber("Target Position", targetPos);
 		SmartDashboard.putBoolean("Update Values", false);
 	}
 
@@ -95,6 +96,7 @@ public class Robot extends TimedRobot {
 		if(SmartDashboard.getBoolean("Update Values", false)) {
 			highPosition = SmartDashboard.getNumber("High Position", highPosition);
 			lowPosition = SmartDashboard.getNumber("Low Position", lowPosition);
+			multiplier = SmartDashboard.getNumber("Multiplier", multiplier);
 			_talon.config_kF(0, SmartDashboard.getNumber("F Value", kF), Constants2.kTimeoutMs);
 			_talon.config_kP(0, SmartDashboard.getNumber("P Value", kP), Constants2.kTimeoutMs);
 			_talon.config_kI(0, SmartDashboard.getNumber("I Value", kI), Constants2.kTimeoutMs);
@@ -103,7 +105,7 @@ public class Robot extends TimedRobot {
 			_talon.configReverseSoftLimitThreshold((int) SmartDashboard.getNumber("Reverse Soft Limit", softLimR), Constants2.kTimeoutMs);
 			targetPos = SmartDashboard.getNumber("Target Position", targetPos);
 			_talon.configMotionCruiseVelocity((int) SmartDashboard.getNumber("Cruise Velocity", velocity), Constants2.kTimeoutMs);
-			_talon.configMotionAcceleration((int) SmartDashboard.getNumber("Acceleration", velocity), Constants2.kTimeoutMs);
+			_talon.configMotionAcceleration((int) SmartDashboard.getNumber("Acceleration", accel), Constants2.kTimeoutMs);
 			System.out.println("Values Updated");
 			SmartDashboard.putBoolean("Update Values", false);
 		} 
@@ -117,37 +119,19 @@ public class Robot extends TimedRobot {
 		_sb.append(_talon.getSelectedSensorVelocity(Constants2.kPIDLoopIdx));
 		
 		
-		if(_joy.getRawButton(2))
-		{
+		//B button -- up, A button -- down, left stick -- manual control
+		if(_joy.getRawButton(2)) {
 			_talon.set(ControlMode.MotionMagic, highPosition);
 			_sb.append("\terr:");
 			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
 			_sb.append("\ttrg:");
-		}
-		else if(_joy.getRawButton(1))
-		{
+		} else if(_joy.getRawButton(1)) {
 			_talon.set(ControlMode.MotionMagic, lowPosition);
 			_sb.append("\terr:");
 			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
 			_sb.append("\ttrg:");
-		}
-		else
-		{
-			/*
-			// If joystick moves, change target position based on the joystick's value
-			if(Math.abs(_joy.getRawAxis(1)) > 0.2){
-				targetPos += (_joy.getRawAxis(1) * -400);
-				positionBool = false;
-			}
-			
-			// Keep target position within a select range
-			if(targetPos > 6500) {
-				targetPos = 6500;
-			} else if (targetPos < 50) {
-				targetPos = 50;
-			}*/
-			
-			_talon.set(ControlMode.PercentOutput, _joy.getRawAxis(1) * 1.0);
+		} else {	
+			_talon.set(ControlMode.PercentOutput, _joy.getRawAxis(1) * multiplier);
 			/*_sb.append("\terr:");
 			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
 			_sb.append("\ttrg:");*/
