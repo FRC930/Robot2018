@@ -17,6 +17,8 @@ public class Line extends Routine{
 	public void variation() {
 		
 		System.out.println("Line");
+		System.out.println("Elevator Up");
+		Elevator.run(TeleopHandler.ElevatorStates.SWITCH_POSITION);
 		if(time.get() <= 5)
 			Drive.runAt(0.25, 0.25);
 		else {

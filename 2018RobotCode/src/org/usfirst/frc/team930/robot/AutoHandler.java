@@ -272,12 +272,12 @@ public class AutoHandler {
 	
 	public static void run() {
 		
-		if(!Drive.checkSensors()){
+		//if(!Drive.checkSensors()){
 			auto.run();
 			//MotionProfile.run();
-		}
-		else
-			Drive.runAt(0, 0);
+		//}
+		//else
+			//Drive.runAt(0, 0);
 		
 	}
 
