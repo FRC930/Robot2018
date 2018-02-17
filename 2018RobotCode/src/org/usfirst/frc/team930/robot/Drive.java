@@ -68,7 +68,6 @@ public class Drive {
 		else if(leftMain.get()!= 0 && leftMain.getSelectedSensorVelocity(0) == 0){
 			leftMotorCounter++;
 			if(leftMotorCounter >= 4){
-				leftMotorCounter = 0;
 				check= true;
 			}
 		}
@@ -77,9 +76,15 @@ public class Drive {
 			rightMotorCounter++;
 			if(rightMotorCounter >= 4){
 				check= true;
-				rightMotorCounter = 0;
 			}
 		}
 		return check;
+	}
+	
+	public static void resetSensorCheck() {
+		
+		leftMotorCounter = 0;
+		rightMotorCounter = 0;
+		
 	}
 }

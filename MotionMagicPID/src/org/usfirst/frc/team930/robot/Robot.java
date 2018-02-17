@@ -148,9 +148,9 @@ public class Robot extends TimedRobot {
 			}*/
 			
 			_talon.set(ControlMode.PercentOutput, _joy.getRawAxis(1) * 1.0);
-			_sb.append("\terr:");
+			/*_sb.append("\terr:");
 			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
-			_sb.append("\ttrg:");
+			_sb.append("\ttrg:");*/
 			
 			
 			/*

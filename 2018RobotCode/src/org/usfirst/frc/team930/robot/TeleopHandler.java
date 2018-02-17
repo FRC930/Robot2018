@@ -10,10 +10,12 @@ public class TeleopHandler {
 	
 	private static final Joystick stick1 = new Joystick(0);
 	private static final Joystick stick2 = new Joystick(1);
-	//private static final Joystick stick3 = new Joystick(2);
+	private static final Joystick stick3 = new Joystick(2);
 	private static final Timer elevatorTimer = new Timer();
 	private static boolean buttonCheckRB = false;
 	private static boolean buttonCheckLB = false;
+	private static boolean buttonCheckA = false;
+	private static boolean buttonCheckY = false;
 	private static int elevatorCounter = 0;
 	private static boolean switchBool = false;
 	private static double timeAmount = 0;
@@ -57,16 +59,28 @@ public class TeleopHandler {
 	
 	public static void run() {
 		
+		// LEDs
 		LEDHandler.run(RobotStates.ENABLED);
 		
+		// Drive
 		Drive.run(stick1.getRawAxis(Constants.rightXaxis), stick1.getRawAxis(Constants.leftYaxis));
 		
+		// Intake
 		if(stick2.getRawAxis(Constants.rightTriggerAxis) > 0.7)																
 			Intake.run(IntakeStates.INTAKING);
 		else if(stick2.getRawAxis(Constants.leftTriggerAxis) > 0.7)																
 			Intake.run(IntakeStates.OUTTAKING);
 		else
 			Intake.run(IntakeStates.INTAKE_DONE);
+		
+		if (stick2.getRawButton(Constants.A) && (!buttonCheckA)) {
+			buttonCheckA = true;
+			Intake.run(IntakeStates.LIFTER_DOWN);
+		}
+		else if ((!stick2.getRawButton(Constants.A)) && buttonCheckA) {
+			buttonCheckA = false;
+			Intake.run(IntakeStates.LIFTER_UP);
+		}
 		
 		
 		//Elevator
@@ -149,23 +163,23 @@ public class TeleopHandler {
 			SmartDashboard.putBoolean("Toggle Camera", false);
 		}
 		
-		if(stick2.getRawButton(Constants.A))
+		/*if(stick2.getRawButton(Constants.A))
 			Ramp.run(RampStates.RIGHT_RAMP_DOWN);
 		if(stick2.getRawButton(Constants.B))
 			Ramp.run(RampStates.LEFT_RAMP_DOWN);
 		if(stick2.getRawButton(Constants.X))
 			Ramp.run(RampStates.RIGHT_RAMP_UP);
 		if(stick2.getRawButton(Constants.Y))
-			Ramp.run(RampStates.LEFT_RAMP_UP);
+			Ramp.run(RampStates.LEFT_RAMP_UP);*/
 		
-		/*if(stick3.getRawButton(7))
+		if(stick3.getRawButton(7))
 			Ramp.run(RampStates.RIGHT_RAMP_DOWN);
 		if(stick2.getRawButton(2))
 			Ramp.run(RampStates.LEFT_RAMP_DOWN);
 		if(stick3.getRawButton(12))
 			Ramp.run(RampStates.RIGHT_RAMP_UP);
 		if(stick3.getRawButton(1))
-			Ramp.run(RampStates.LEFT_RAMP_UP);*/
+			Ramp.run(RampStates.LEFT_RAMP_UP);
 		
 	}
 	public static void setRumble(int controller, double intensity){

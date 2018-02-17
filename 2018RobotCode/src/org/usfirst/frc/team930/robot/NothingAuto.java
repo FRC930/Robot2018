@@ -17,6 +17,7 @@ public class NothingAuto extends Routine{
 	public void variation() {
 		
 		System.out.println("Nothing Auto");
+		Drive.runAt(0, 0);
 		
 	}
 
