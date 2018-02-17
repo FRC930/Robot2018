@@ -132,8 +132,12 @@ public class TeleopHandler {
 		
 		//stop elevator if encoder is not returning information
 		if(Elevator.checkSensor()) {
-			Elevator.stop();
+			Elevator.loopState = true;
+		} else {
+			Elevator.loopState = false;
 		}
+		
+		
 		
 		if(SmartDashboard.getBoolean("Toggle Camera", false) && !toggledTwice) {
 			CameraServer.getInstance().removeCamera("Camera");

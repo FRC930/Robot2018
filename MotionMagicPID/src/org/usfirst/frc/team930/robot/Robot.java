@@ -14,11 +14,14 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Robot extends TimedRobot {
-	TalonSRX _talon = new TalonSRX(6);
+	TalonSRX _talon = new TalonSRX(7);
+	TalonSRX _talon2 = new TalonSRX(8);
 	Joystick _joy = new Joystick(0);
 	StringBuilder _sb = new StringBuilder();
-	double kF = 1.89, kP = 0.5, kI = 0, kD = 10.0, targetPos = 6500, returnPos = 0, softLimF = 6500, softLimR = 0;
+	double kF = 1.89, kP = 0.5, kI = 0, kD = 10.0, targetPos = 0, returnPos = 0, softLimF = 6500, softLimR = 0;
 	int velocity = 800, accel = 800;
+	boolean positionBool = false;
+	double highPosition = 6500, lowPosition = 50;
 	
 	int count = 0;
 	boolean aPressed = false, bPressed = false;
@@ -26,6 +29,8 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void robotInit() {
+		
+		_talon2.follow(_talon);
 
 		/* first choose the sensor */
 		_talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants2.kPIDLoopIdx, Constants2.kTimeoutMs);
@@ -59,6 +64,8 @@ public class Robot extends TimedRobot {
 		
 		SmartDashboard.putNumber("Forward Soft Limit", softLimF);
 		SmartDashboard.putNumber("Reverse Soft Limit", softLimR);
+		SmartDashboard.putNumber("High Position", highPosition);
+		SmartDashboard.putNumber("Low Position", lowPosition);
 		SmartDashboard.putNumber("P Value", kP);
 		SmartDashboard.putNumber("I Value", kI);
 		SmartDashboard.putNumber("D Value", kD);
@@ -86,6 +93,8 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		// Updates Shuffleboard values
 		if(SmartDashboard.getBoolean("Update Values", false)) {
+			highPosition = SmartDashboard.getNumber("High Position", highPosition);
+			lowPosition = SmartDashboard.getNumber("Low Position", lowPosition);
 			_talon.config_kF(0, SmartDashboard.getNumber("F Value", kF), Constants2.kTimeoutMs);
 			_talon.config_kP(0, SmartDashboard.getNumber("P Value", kP), Constants2.kTimeoutMs);
 			_talon.config_kI(0, SmartDashboard.getNumber("I Value", kI), Constants2.kTimeoutMs);
@@ -110,20 +119,41 @@ public class Robot extends TimedRobot {
 		
 		if(_joy.getRawButton(2))
 		{
-			_talon.set(ControlMode.MotionMagic, targetPos);
+			_talon.set(ControlMode.MotionMagic, highPosition);
 			_sb.append("\terr:");
 			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
 			_sb.append("\ttrg:");
 		}
 		else if(_joy.getRawButton(1))
 		{
-			_talon.set(ControlMode.MotionMagic, 50);
+			_talon.set(ControlMode.MotionMagic, lowPosition);
 			_sb.append("\terr:");
 			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
 			_sb.append("\ttrg:");
 		}
 		else
 		{
+			/*
+			// If joystick moves, change target position based on the joystick's value
+			if(Math.abs(_joy.getRawAxis(1)) > 0.2){
+				targetPos += (_joy.getRawAxis(1) * -400);
+				positionBool = false;
+			}
+			
+			// Keep target position within a select range
+			if(targetPos > 6500) {
+				targetPos = 6500;
+			} else if (targetPos < 50) {
+				targetPos = 50;
+			}*/
+			
+			_talon.set(ControlMode.PercentOutput, _joy.getRawAxis(1) * 1.0);
+			_sb.append("\terr:");
+			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
+			_sb.append("\ttrg:");
+			
+			
+			/*
 			if(Math.abs(_joy.getRawAxis(1)) > 0.15){
 				returnPos += (_joy.getRawAxis(1) * -400);
 			}
@@ -136,7 +166,7 @@ public class Robot extends TimedRobot {
 			}
 			
 			_talon.set(ControlMode.MotionMagic, returnPos);
-			
+			*/
 		}
 		// instrumentation
 		Instrum1.Process(_talon, _sb);

@@ -21,6 +21,9 @@ public class Elevator {
 	private static boolean check;
 	private static double counter;
 	
+	//true is open-loop, false is closed-loop
+	public static boolean loopState;
+	
 	public static void init() {
 		
 		//Sets the 2nd Talon to follow the main
@@ -64,6 +67,7 @@ public class Elevator {
 		positionBool = true;
 		check = false;
 		counter = 0;
+		loopState = false;
 	}
 	
 	// Set motor's position to double value that is passed through using motion magic
@@ -142,6 +146,7 @@ public class Elevator {
 				check = true;
 			} 
 		} else {
+			counter = 0;
 			check = false;
 		}
 		
