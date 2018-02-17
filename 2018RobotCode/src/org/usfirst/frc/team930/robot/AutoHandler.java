@@ -143,17 +143,18 @@ public class AutoHandler {
 				}
 				break;
 			case LINE:
-				switch (variation) {
-
-				case "LRL":
-				case "LLL":
-					auto= new LineScore(variation, delay);
-					break;
-				case "RLR":
-				case "RRR":
 					auto= new Line(variation, delay);
-					break;
-
+				break;
+			case LINE_SCORE:
+				switch(variation){
+					case "LRL":
+					case "LLL":
+						auto= new LineScore(variation, delay);
+						break;
+					case "RLR":
+					case "RRR":
+						auto= new Line(variation, delay);
+						break;
 				}
 				break;
 			}
@@ -178,7 +179,9 @@ public class AutoHandler {
 			case LINE:
 				auto= new Line(variation, delay);
 				break;
-
+			case LINE_SCORE:
+				auto= new LineScore(variation,delay);
+				break;
 			}
 			break;
 		case RIGHT:
@@ -245,17 +248,18 @@ public class AutoHandler {
 				}
 				break;
 			case LINE:
-				switch (variation) {
-
-				case "LRL":
-				case "LLL":
-					auto= new Line(variation, delay);
-					break;
-				case "RLR":
-				case "RRR":
-					auto= new LineScore(variation, delay);
-					break;
-
+				auto= new Line(variation, delay);
+				break;
+			case LINE_SCORE:
+				switch(variation){
+					case "LRL":
+					case "LLL":
+						auto= new Line(variation, delay);
+						break;
+					case "RLR":
+					case "RRR":
+						auto= new LineScore(variation, delay);
+						break;
 				}
 				break;
 			}
