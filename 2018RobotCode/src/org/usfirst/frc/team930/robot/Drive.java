@@ -23,13 +23,15 @@ public class Drive {
 	public static boolean check = false;
 	
 	public static void init(){
-		rightMain.setInverted(false);
-		rightFollow.setInverted(false);
-		rightFollow2.setInverted(false);
+		gyro.reset();
 		
+		rightMain.setInverted(false);
 		leftMain.setInverted(true);
 		leftFollow.setInverted(true);
 		leftFollow2.setInverted(true);
+		
+		rightMain.setSensorPhase(true);
+		leftMain.setSensorPhase(true);
 		
 		rightFollow2.follow(rightMain);
 		rightFollow.follow(rightMain);
@@ -39,14 +41,16 @@ public class Drive {
 	
 	public static void run(double xStick, double yStick){
 		
-		System.out.println("Gyro: " + gyro.getYaw());
-		
+		System.out.println("Gyro: " + gyro.getYaw() + "  Connected: " + gyro.isConnected());
+		yStick = Math.pow(yStick,3);
+		xStick = Math.pow(xStick, 3);
 		updateDashboard();
 		if(Math.abs(xStick) < Constants.deadBand)
 			xStick = 0;
 		if(Math.abs(yStick) < Constants.deadBand)
 			yStick = 0;
 		yStick *= -1;
+		
 		rightMain.set((yStick-xStick));
 		leftMain.set((yStick+xStick));
 	}
