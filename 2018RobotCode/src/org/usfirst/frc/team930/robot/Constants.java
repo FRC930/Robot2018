@@ -38,8 +38,8 @@ public class Constants {
 	public static final double deadBand = 0.2;
 	
 	// In take Constants
-	public static final int rightIntakeWheelVictorID  = 8;
-	public static final int leftIntakeWheelVictorID = 9;
+	public static final int rightIntakeWheelVictorID  = 9;
+	public static final int leftIntakeWheelVictorID = 10;
 	public static final int lifterForwardSolenoidID = 4;
 	public static final int lifterReverseSolenoidID = 5;
 	public static final int gripperSolenoidID = 6;
@@ -49,7 +49,7 @@ public class Constants {
 	
 	// Elevator Constants
 	public static final int liftTalonID = 7;
-	public static final int lift2TalonID = 10;
+	public static final int lift2TalonID = 8;
 	public static final int kSlotIdx = 0;
 	public static final int kPIDLoopIdx = 0;
 	public static final int kTimeoutMs = 10;
