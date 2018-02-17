@@ -20,6 +20,7 @@ public class Robot extends IterativeRobot {
 		Ramp.init();
 		AutoHandler.robotInit();
 		TeleopHandler.init();
+		LEDHandler.init();
 		
 	}
 
