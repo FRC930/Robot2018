@@ -65,14 +65,14 @@ public class Drive {
 		if(!gyro.isConnected())
 			check = true;
 		
-		else if(leftMain.get()!= 0 && leftMain.getSelectedSensorVelocity(0) == 0){
+		else if(Math.abs(leftMain.get())> 0.1 && leftMain.getSelectedSensorVelocity(0) == 0){
 			leftMotorCounter++;
 			if(leftMotorCounter >= 4){
 				check= true;
 			}
 		}
 		
-		else if(rightMain.get()!=0 && rightMain.getSelectedSensorVelocity(0) == 0){
+		else if(Math.abs(rightMain.get())>0.1 && rightMain.getSelectedSensorVelocity(0) == 0){
 			rightMotorCounter++;
 			if(rightMotorCounter >= 4){
 				check= true;
