@@ -1,16 +1,19 @@
 #include <Adafruit_DotStar.h>
-#define DATAPIN 11
-#define CLOCKPIN 13
-#define NUMPIXELS 120
+#define DATAPIN 10
+#define CLOCKPIN 11
+#define NUMPIXELS 100
 Adafruit_DotStar strip = Adafruit_DotStar(
   NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
 void setup() {
-strip.begin(); 
+  strip.begin(); 
   strip.show();
 }
 
 void loop() {
- for (int i=0; i <= 255; i++){
-  strip.setPixelColor(i, 0, 0, 255);
- }
+  strip.setBrightness(35);
+  for (int i=0; i <= NUMPIXELS; i++){
+    strip.setPixelColor(i, 0, 255, 0);
+  } 
+  strip.show();
+  delay(1);
 }

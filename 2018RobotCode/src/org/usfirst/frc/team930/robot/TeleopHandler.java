@@ -34,7 +34,10 @@ public class TeleopHandler {
 	
 	enum RobotStates {
 		ENABLED,
-		DISABLED
+		DISABLED,
+		INTAKING,
+		INTAKE_DONE,
+		OUTTAKING
 	}
 	
 	enum IntakeStates{
@@ -61,18 +64,23 @@ public class TeleopHandler {
 	public static void run() {
 		
 		// LEDs
-		LEDHandler.run(RobotStates.ENABLED);
+		if((stick2.getRawAxis(Constants.rightTriggerAxis) <= 0.7) && (stick2.getRawAxis(Constants.leftTriggerAxis) <= 0.7)) {
+			LEDHandler.run(RobotStates.ENABLED);
+		}
 		
 		// Drive
 		Drive.run(stick1.getRawAxis(Constants.rightXaxis), stick1.getRawAxis(Constants.leftYaxis));
 		
-		// Intake
-		if(stick2.getRawAxis(Constants.rightTriggerAxis) > 0.7)																
+		// In take
+		if(stick2.getRawAxis(Constants.rightTriggerAxis) > 0.7)	{
 			Intake.run(IntakeStates.INTAKING);
-		else if(stick2.getRawAxis(Constants.leftTriggerAxis) > 0.7)																
+			LEDHandler.run(RobotStates.INTAKING);
+		} else if(stick2.getRawAxis(Constants.leftTriggerAxis) > 0.7) {															
 			Intake.run(IntakeStates.OUTTAKING);
-		else
+			LEDHandler.run(RobotStates.OUTTAKING);
+		} else {
 			Intake.run(IntakeStates.INTAKE_DONE);
+		}
 		
 		if (stick2.getRawButton(Constants.A) && (!buttonCheckA)) {
 			buttonCheckA = true;
@@ -156,6 +164,10 @@ public class TeleopHandler {
 			Elevator.loopState = true;
 		} else {
 			Elevator.loopState = false;
+		}
+		
+		if(Elevator.loopState) {
+			Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
 		}
 		
 		

@@ -14,15 +14,15 @@
 #include <SPI.h>
 
 #define YELLOW 0xFFE0
-#define NUMPIXELS 119
+#define NUMPIXELS 100
 #define CLOCKPIN 11
 #define DATAPIN 10   
-#define WAITTIME 50                                                 
+#define WAITTIME 100                                                 
 Adafruit_DotStar strip = Adafruit_DotStar(NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
   
 void setup() {
   Wire.begin(84);                // join i2c bus with address #84
-  Wire.onReceive(receiveEvent); // register event
+
   Serial.begin(9600);           // start serial for output
 
   #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000L)
@@ -38,7 +38,7 @@ void loop() {
   strip.setBrightness(25);
   
   for (int i = 0; i < NUMPIXELS; i++) { 
-    strip.setPixelColor(i,0,0,128);
+    strip.setPixelColor(i,255,0,0);
   }
   strip.show();
   delay(WAITTIME);
@@ -54,7 +54,7 @@ void loop() {
   }
   strip.show();
   delay(WAITTIME);
-  
-}*/
+  */
+}
 
 

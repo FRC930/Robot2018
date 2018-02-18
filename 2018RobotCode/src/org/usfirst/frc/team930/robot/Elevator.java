@@ -54,6 +54,7 @@ public class Elevator {
 		lift1.config_kP(0, 1.6, Constants.kTimeoutMs);
 		lift1.config_kI(0, 0, Constants.kTimeoutMs);
 		lift1.config_kD(0, 0, Constants.kTimeoutMs);
+
 		
 		// Set acceleration and cruise velocity
 		lift1.configMotionCruiseVelocity(800, Constants.kTimeoutMs);
@@ -153,9 +154,9 @@ public class Elevator {
 		return check;
 	}
 	
-	//stops the elevator motor
-	public static void stop() {
-		lift1.set(ControlMode.PercentOutput, 0);
+	// set the elevator motor to manual percent output mode
+	public static void runManualControl(double axisValue) {
+		lift1.set(ControlMode.PercentOutput, axisValue);
 	}
 	
 	public static void updateDashboard(){

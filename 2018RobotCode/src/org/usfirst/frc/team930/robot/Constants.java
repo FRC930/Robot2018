@@ -35,7 +35,7 @@ public class Constants {
 	public static final int leftMainTalonID = 4;  
 	public static final int leftFollowVictorID = 5;
 	public static final int leftFollow2Victor = 6;
-	public static final double deadBand = 0.15;
+	public static final double deadBand = 0.05;
 	
 	// In take Constants
 	public static final int rightIntakeWheelVictorID  = 9;
@@ -53,11 +53,13 @@ public class Constants {
 	public static final int kSlotIdx = 0;
 	public static final int kPIDLoopIdx = 0;
 	public static final int kTimeoutMs = 10;
+
 	public static final double intakePosition = 0;
 	public static final double switchPosition = 3000;
 	public static final double scalePositionLow = 6750;
 	public static final double scalePositionMid = 7750;
 	public static final double scalePositionHigh = 8500;
+
 	public static final int targetMultiplier = -400;
 	public static final int counterLimit = 3;
 	

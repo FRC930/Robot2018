@@ -37,25 +37,22 @@ public class LEDHandler {
 		//-- State Checking --\\
 		
 		switch (robotStateEnum) {
+			case INTAKING:
+				sendData = 3;
+				break;
+			case OUTTAKING:
+				sendData = 5;
+				break;
 			case ENABLED:		
-				
+				sendData = 2;
 				break;
 			case DISABLED:	
-				
+				sendData = 1;
 				break;
 			default:			
 				break;
 		}
-		/*
-		 * if (controller.getRawButton(1)) {
-			System.out.println("NO STINKY ROBOTS");
-			sendData = 50;
-			//registerAddress, data
-		} else {
-			sendData = 120;
-		}
-		wire.write(address, sendData);	
-		 */
 		
+		wire.write(Constants.arduinoAddress, sendData);	
 	}
 }
