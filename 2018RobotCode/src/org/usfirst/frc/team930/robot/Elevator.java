@@ -31,7 +31,7 @@ public class Elevator {
 		
 		// Setup the sensor
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-		lift1.setSensorPhase(false);
+		lift1.setSensorPhase(true);
 		lift1.setInverted(false);
 
 		// Set relevant frame periods to be at least as fast as periodic rate
@@ -45,15 +45,15 @@ public class Elevator {
 		lift1.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 		
 		// Set forward and reverse soft limits
-		lift1.configForwardSoftLimitThreshold(7000, Constants.kTimeoutMs);
-		lift1.configReverseSoftLimitThreshold(0, Constants.kTimeoutMs);
+		lift1.configForwardSoftLimitThreshold(7500, Constants.kTimeoutMs);
+		lift1.configReverseSoftLimitThreshold(10, Constants.kTimeoutMs);
 
 		// Set closed loop gains in slot 0
 		lift1.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
-		lift1.config_kF(0, 1.89, Constants.kTimeoutMs);
-		lift1.config_kP(0, 0.5, Constants.kTimeoutMs);
+		lift1.config_kF(0, 1.1, Constants.kTimeoutMs);
+		lift1.config_kP(0, 1.6, Constants.kTimeoutMs);
 		lift1.config_kI(0, 0, Constants.kTimeoutMs);
-		lift1.config_kD(0, 10, Constants.kTimeoutMs);
+		lift1.config_kD(0, 0, Constants.kTimeoutMs);
 		
 		// Set acceleration and cruise velocity
 		lift1.configMotionCruiseVelocity(800, Constants.kTimeoutMs);
