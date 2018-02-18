@@ -14,10 +14,10 @@ void setup() {
 }
 
 void loop() {
-  //kyleFunction();
+  kyleFunction();
   //trentonFunction();
   //mixFunction();
-  smoothFunction();
+  //smoothFunction();
 }
 
 int lerp(double a, double b, double t) {

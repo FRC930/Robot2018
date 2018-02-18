@@ -37,6 +37,12 @@ public class LEDHandler {
 		//-- State Checking --\\
 		
 		switch (robotStateEnum) {
+			case INTAKING:
+				sendData = 3;
+				break;
+			case OUTTAKING:
+				sendData = 5;
+				break;
 			case ENABLED:		
 				sendData = 2;
 				break;
