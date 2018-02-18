@@ -25,7 +25,7 @@
 #define TOP_STRIP_NUMPIXELS 100
 #define TOP_STRIP_CLOCKPIN 11
 #define TOP_STRIP_DATAPIN 10 
-#define BRIGHTNESS 30  
+#define BRIGHTNESS 20  
 #define WAITTIME 50 
 
 //-- Object Declarations --\\
@@ -39,7 +39,6 @@ int enabledPatternHead = 0;
 int enabledPatternTail = -10; // Index of first 'on' and 'off' pixels
 
 //-- Initializing Variables and Objects --\\
-
 
 void setup() {
   Wire.begin(84);                // join i2c bus with address #84
@@ -97,17 +96,24 @@ void testPattern() {
 
 //-- Pattern for Blue Tail (Dominick E.)--\\
 
-void enabledPattern() {
+void enabledPattern(int theLength) {
   topStrip.setBrightness(BRIGHTNESS);
-  
+
+  /*
   topStrip.setPixelColor(enabledPatternHead, 0, 0, 255); // 'On' pixel at head
   topStrip.setPixelColor(enabledPatternTail, 0);     // 'Off' pixel at tail
+  */
 
-  topStrip.setPixelColor(enabledPatternHead + 20, 0, 0, 255); // 'On' pixel at head
-  topStrip.setPixelColor(enabledPatternTail + 20, 0);     // 'Off' pixel at tail
+  for (int b = 0; b <= TOP_STRIP_NUMPIXELS; b++) {
+    for (int i = 0; i < theLength; i++) {
+      topStrip.setPixelColor(b + i, 0, 0, 255);
+      topStrip.setPixelColor(b - 1, 0, 0, 0);
+      topStrip.show();                                   
+      delay(0);
+    }
+  }
   
-  topStrip.show();                                   // Refresh topStrip
-  delay(1);                                         // Pause 10 milliseconds (~25 FPS)
+                                           // Pause 10 milliseconds (~25 FPS)
 
   if (++enabledPatternHead >= TOP_STRIP_NUMPIXELS) {         // Increment head index.  Off end of topStrip?
     enabledPatternHead = 0;                                 //  Yes, reset head index to start
@@ -122,27 +128,29 @@ void enabledPattern() {
 
 void disabledPattern() {
   topStrip.setBrightness(BRIGHTNESS);
-  for (int b = 0; b < 6; b++) {
-    for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) { 
-      if (i % 6 == 0) {
-        topStrip.setPixelColor(i+b, 0, 255, 0 );
-      } else if (i % 5 == 0) {
-        topStrip.setPixelColor(i+b, 128, 255, 0 );
-      } else if (i % 4 == 0) {
-        topStrip.setPixelColor(i+b, 255, 255, 0 );
-      } else if (i % 3 == 0) {
-        topStrip.setPixelColor(i+b, 255, 0, 0 );
-      } else if (i % 2 == 0) {
-        topStrip.setPixelColor(i+b, 0, 0, 255);
-      } else if (i % 1 == 0) {
-        topStrip.setPixelColor(i+b, 0, 128, 255);
-      }
+
+  uint16_t i, j;
+  for(j = 0; j < 256 * 5; j++) { // 5 cycles of all colors on wheel
+    for(i = 0; i < topStrip.numPixels(); i++) {
+      topStrip.setPixelColor(i, Wheel(((i * 256 / topStrip.numPixels()) + j) & 255));
     }
     topStrip.show();
-    delay(50); 
+    delay(0);
   }
 }
 
+uint32_t Wheel(byte WheelPos) {
+  WheelPos = 255 - WheelPos;
+  if(WheelPos < 85) {
+    return topStrip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+  }
+  if(WheelPos < 170) {
+    WheelPos -= 85;
+    return topStrip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+  }
+  WheelPos -= 170;
+  return topStrip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+}
 //-- Pattern for Blinking Green (Dominick E.) --\\
 
 void inTakePattern() {
