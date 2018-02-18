@@ -18,10 +18,10 @@ public class Robot extends TimedRobot {
 	Joystick _joy = new Joystick(0);
 	Compressor comp = new Compressor(0);
 	StringBuilder _sb = new StringBuilder();
-	double kF = 1.3, kP = 0.6, kI = 0.001, kD = 4, targetPos = 0, returnPos = 0, softLimF = 8000, softLimR = 0;
+	double kF = 1.1, kP = 1.6, kI = 0, kD = 0, targetPos = 0, returnPos = 0, softLimF = 7500, softLimR = 0;
 	int velocity = 900, accel = 900;
 	boolean positionBool = false;
-	double highPosition = 7700, lowPosition = 10, multiplier = -0.5;
+	double highPosition = 7500, lowPosition = 10, multiplier = -0.2;
 	
 	int count = 0;
 	boolean aPressed = false, bPressed = false;
@@ -139,28 +139,8 @@ public class Robot extends TimedRobot {
 			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
 			_sb.append("\ttrg:");
 			System.out.println(_talon.getMotorOutputVoltage());
-		} else {	
-			if(Math.abs(_joy.getRawAxis(1)) > 0.1 )
-			_talon.set(ControlMode.PercentOutput, _joy.getRawAxis(1) * multiplier);
-			/*_sb.append("\terr:");
-			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
-			_sb.append("\ttrg:");*/
-			
-			
-			/*
-			if(Math.abs(_joy.getRawAxis(1)) > 0.15){
-				returnPos += (_joy.getRawAxis(1) * -400);
-			}
-			
-			// Keep target position within a select range
-			if(returnPos > softLimF) {
-				returnPos = softLimF;
-			} else if (returnPos < softLimR) {
-				returnPos = softLimR;
-			}
-			
-			_talon.set(ControlMode.MotionMagic, returnPos);
-			*/
+		} else if(Math.abs(_joy.getRawAxis(5)) > 0.15 ){	
+			_talon.set(ControlMode.PercentOutput, _joy.getRawAxis(5) * multiplier);
 		}
 		// instrumentation
 		Instrum1.Process(_talon, _sb);
