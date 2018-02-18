@@ -158,6 +158,10 @@ public class TeleopHandler {
 			Elevator.loopState = false;
 		}
 		
+		if(Elevator.loopState) {
+			Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
+		}
+		
 		
 		
 		if(SmartDashboard.getBoolean("Toggle Camera", false) && !toggledTwice) {
