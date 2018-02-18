@@ -82,7 +82,7 @@ public class TeleopHandler {
 			Intake.run(IntakeStates.INTAKE_DONE);
 		}
 		
-		if (stick2.getRawButton(Constants.A) && (!buttonCheckA)) {
+		/*if (stick2.getRawButton(Constants.A) && (!buttonCheckA)) {
 			buttonCheckA = true;
 			if(!lifterToggle){
 				Intake.run(IntakeStates.LIFTER_DOWN);
@@ -95,7 +95,12 @@ public class TeleopHandler {
 		}
 		else if ((!stick2.getRawButton(Constants.A)) && buttonCheckA) {
 			buttonCheckA = false;
-		}
+		}*/
+		
+		if(stick2.getRawButton(Constants.A))
+			Intake.run(IntakeStates.LIFTER_UP);
+		else if(stick2.getRawButton(Constants.Y))
+			Intake.run(IntakeStates.LIFTER_DOWN);
 		
 		
 		//Elevator

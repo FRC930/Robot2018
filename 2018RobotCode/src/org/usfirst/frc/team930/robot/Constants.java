@@ -40,9 +40,9 @@ public class Constants {
 	// In take Constants
 	public static final int rightIntakeWheelVictorID  = 9;
 	public static final int leftIntakeWheelVictorID = 10;
-	public static final int lifterForwardSolenoidID = 4;
-	public static final int lifterReverseSolenoidID = 5;
-	public static final int gripperSolenoidID = 6;
+	public static final int lifterForwardSolenoidID = 0;
+	//public static final int lifterReverseSolenoidID = 5;
+	public static final int gripperSolenoidID = 1;
 	public static final double currentThreshhold = 22.0;				
 	public static final double intakeMotorSpeed = 0.75;		
 	public static final int PDPcounterLimit = 2;			
@@ -64,10 +64,10 @@ public class Constants {
 	public static final int counterLimit = 3;
 	
 	//Ramp Constants
-	public static final int rampLSolenoidID = 0;
-	public static final int rampRSolenoidID = 1;
-	public static final int raiseLSolenoidID = 2;
-	public static final int raiseRSolenoidID = 3;
+	public static final int rampLSolenoidID = 4;
+	public static final int rampRSolenoidID = 5;
+	public static final int raiseLSolenoidID = 6;
+	public static final int raiseRSolenoidID = 7;
 	
 	//PDP Ports
 	public static final int pdpIntakePort = 11;
