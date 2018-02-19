@@ -108,6 +108,10 @@ public class Elevator {
 	// Set motor's target position based on joystick value
 	public static void run(double axisValue) {
 		// If joystick moves, change target position based on the joystick's value
+		
+		//getSelectedSensorPosition should return a value from 0 - 8000.
+		LEDHandler.updateElevator(lift1.getSelectedSensorPosition(0));
+				
 		if(Math.abs(axisValue) > Constants.deadBand){
 			targetPosition += (axisValue * Constants.targetMultiplier);
 			positionBool = false;
@@ -129,7 +133,7 @@ public class Elevator {
 			return true;
 		} else {
 			return false;
-		}
+		} 
 	}
 	
 	// Returns the actual position of the elevator

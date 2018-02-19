@@ -28,6 +28,15 @@ public class LEDHandler {
 		sendData = 0;
 	}
 	
+	// Update Elevator (called in Elevator.java)
+	
+	public static void updateElevator(int elevatorPosition) {
+		wire.write(Constants.arduinoAddress, -elevatorPosition);
+		//We send a negative number to make sure we do NOT activate other LED patterns.
+		//All LED pattern IDs are > 0, so by sending a negative number, only elevator positions
+		//will be sent. We will have to re-negate the number in the arduino (make it positive).
+	}
+	
 	// Main Loop (called in Robot.java) 
 
 	public static void run(Enum state) {
@@ -54,5 +63,5 @@ public class LEDHandler {
 		}
 		
 		wire.write(Constants.arduinoAddress, sendData);	
-	}
+	}	
 }
