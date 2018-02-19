@@ -196,13 +196,13 @@ public class TeleopHandler {
 		if(stick2.getRawButton(Constants.Y))
 			Ramp.run(RampStates.LEFT_RAMP_UP);*/
 		
-		if(stick3.getRawButton(7))
+		if(stick3.getRawButton(1))
 			Ramp.run(RampStates.RIGHT_RAMP_DOWN);
 		if(stick2.getRawButton(2))
 			Ramp.run(RampStates.LEFT_RAMP_DOWN);
-		if(stick3.getRawButton(12))
+		if(stick3.getRawButton(3))
 			Ramp.run(RampStates.RIGHT_RAMP_UP);
-		if(stick3.getRawButton(1))
+		if(stick3.getRawButton(4))
 			Ramp.run(RampStates.LEFT_RAMP_UP);
 		
 	}
