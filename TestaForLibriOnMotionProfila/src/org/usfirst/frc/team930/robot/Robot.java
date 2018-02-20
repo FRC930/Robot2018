@@ -32,8 +32,8 @@ public class Robot extends IterativeRobot {
 	
 	Waypoint[] points = new Waypoint[] {
 			new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-		    new Waypoint(2,0,0),
-		    new Waypoint(5,-2,Pathfinder.d2r(270)),
+		    new Waypoint(3,0,0),
+//		    new Waypoint(5,-2,Pathfinder.d2r(270)),
 //		    new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
 //		    new Waypoint(3,0,0),
 //		    new Waypoint(5,-2,Pathfinder.d2r(270)),
@@ -81,25 +81,25 @@ public class Robot extends IterativeRobot {
 	Trajectory tra = Pathfinder.generate(points, config);
 	
 	
-	 TankModifier modifier = new TankModifier(tra).modify(0.768);
+	 TankModifier modifier = new TankModifier(tra).modify(0.622);
 
      // Do something with the new Trajectories...
      Trajectory left = modifier.getLeftTrajectory();
      Trajectory right = modifier.getRightTrajectory();
 	private EncoderFollower enc = new EncoderFollower(right);
 	private EncoderFollower enc2 = new EncoderFollower(left);
-	WPI_TalonSRX rightMain = new WPI_TalonSRX(4);  //Declarations for talons
-	WPI_TalonSRX leftMain = new WPI_TalonSRX(1); 
+	WPI_TalonSRX rightMain = new WPI_TalonSRX(1);  //Declarations for talons
+	WPI_TalonSRX leftMain = new WPI_TalonSRX(4); 
 	
-	WPI_TalonSRX rightFollow = new WPI_TalonSRX(5);     //Declarations for victors that are
+	/*WPI_TalonSRX rightFollow = new WPI_TalonSRX(5);     //Declarations for victors that are
 	WPI_TalonSRX leftFollow = new WPI_TalonSRX(2);   //followers to the talons
 	WPI_TalonSRX rightFollow2 = new WPI_TalonSRX(6);     //Declarations for victors that are
-	WPI_TalonSRX leftFollow2 = new WPI_TalonSRX(3);
+	WPI_TalonSRX leftFollow2 = new WPI_TalonSRX(3);*/
 	//These will be the main motor controllers
-	//VictorSPX rightFollow = new VictorSPX(2);     //Declarations for victors that are
-	//VictorSPX leftFollow = new VictorSPX(3);   //followers to the talons
-	//VictorSPX rightFollow2 = new VictorSPX(4);     //Declarations for victors that are
-	//VictorSPX leftFollow2 = new VictorSPX(5);
+	VictorSPX rightFollow = new VictorSPX(2);     //Declarations for victors that are
+	VictorSPX leftFollow = new VictorSPX(5);   //followers to the talons
+	VictorSPX rightFollow2 = new VictorSPX(3);     //Declarations for victors that are
+	VictorSPX leftFollow2 = new VictorSPX(6);
 	
 	AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 	
@@ -107,19 +107,23 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		
-		/*rightFollow.follow(rightMain);   //Sets the victors to follow their 
-		leftFollow.follow(leftMain);   //respective talons
-		rightFollow2.follow(rightMain);   //Sets the victors to follow their 
-		leftFollow2.follow(leftMain); */
 		gyro.reset();
 		
-		enc.configurePIDVA(0.9, 0, 0, 0.3, 0.08); //Ka = 0.3
-		enc2.configurePIDVA(0.9, 0, 0, 0.3, 0.08);
+		rightMain.setInverted(false);
+		leftMain.setInverted(false);
+		leftFollow.setInverted(false);
+		leftFollow2.setInverted(false);
+		
+		rightMain.setSensorPhase(false);
+		leftMain.setSensorPhase(false);
+		
 		rightFollow2.follow(rightMain);
 		rightFollow.follow(rightMain);
 		leftFollow2.follow(leftMain);
 		leftFollow.follow(leftMain);
-		//gyro.reset();
+		
+		enc.configurePIDVA(0.8, 0, 0, 0, 0); //Ka = 0.3
+		enc2.configurePIDVA(0.8, 0, 0, 0, 0);
 		
 	}
 
@@ -132,8 +136,6 @@ public class Robot extends IterativeRobot {
 
 		gyro.reset();
 		time.start();
-		
-
 		
 	}
 
@@ -193,10 +195,8 @@ public class Robot extends IterativeRobot {
 		/*gyro.setAngleAdjustment(180);*/
 		System.out.println(gyro.getAngle()%360);
 		
-		
-		
-		double xStick = -stick.getRawAxis(4);
-		double yStick = stick.getRawAxis(1);
+		double xStick = stick.getRawAxis(4);
+		double yStick = -stick.getRawAxis(1);
 		if(Math.abs(xStick) < 0.15)
 			xStick = 0;
 		if(Math.abs(yStick) <0.15)
