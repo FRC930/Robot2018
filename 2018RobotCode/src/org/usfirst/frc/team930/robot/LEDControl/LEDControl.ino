@@ -1,12 +1,12 @@
 //Team 930!!
 
 /* State         Pattern        ID       topStrip
- *  Disabled      Red Solid      1        toptopStrip 
+ *  Disabled      Rainbow        1        toptopStrip 
  *  Enabled       Tail blue      2        toptopStrip
  *  In take       Blink green    3        toptopStrip
  *  Elevator      Height based   4        sidetopStrips
  *  Out take      Yellow Solid   5        toptopStrip
- *  Test Mode     Rainbow        6        toptopStrip
+ *  Test Mode     Red Solid      6        toptopStrip
  *  Ramp down     Tail red       7        toptopStrip and sidetopStrip
  *  Ramp up       Tail green     8        toptopStrip and sidetopStrip
  *  Autonomous    Blue Solie     9        toptopStrip
@@ -19,14 +19,16 @@
 #include <Wire.h>
 #include <Adafruit_DotStar.h>
 #include <SPI.h>
+#include <math.h>
 
 //-- Type and Constant Definitions --\\
 
 #define TOP_STRIP_NUMPIXELS 100
 #define TOP_STRIP_CLOCKPIN 11
 #define TOP_STRIP_DATAPIN 10 
-#define BRIGHTNESS 20  
+#define BRIGHTNESS 200  
 #define WAITTIME 50 
+#define ELEVATOR_MAX 8500
 
 //-- Object Declarations --\\
 
@@ -35,8 +37,14 @@ Adafruit_DotStar topStrip = Adafruit_DotStar(TOP_STRIP_NUMPIXELS, TOP_STRIP_DATA
 // -- Variable Declarations --\\
 
 int patternID = 0;
-int enabledPatternHead = 0;
-int enabledPatternTail = -10; // Index of first 'on' and 'off' pixels
+int counter = 0;
+double green = 0,
+red = 0,
+blue = 0;
+double smoothness = 0.06;
+double changingBrightness = BRIGHTNESS;
+double lowestBrightness = 2;
+int maxMount = 100;
 
 //-- Initializing Variables and Objects --\\
 
@@ -57,17 +65,23 @@ void setup() {
 //-- Main Loop --\\
 
 void loop() {
-  if (patternID == 1) {
-    disabledPattern();
-  } else if (patternID == 2) {
-    enabledPattern();
-  } else if (patternID == 3) {
-    inTakePattern();
-  } else if (patternID == 5) {
-    outTakePattern();
-  } else if (patternID == 6) {
-    testPattern();
-  }
+  if (1 < Wire.available()) {
+    if (patternID < 1) {
+      elevatorPattern(-patternID, TOP_STRIP_NUMPIXELS, TOP_STRIP_NUMPIXELS);
+    } else if (patternID == 1) {
+      disabledPattern();
+    } else if (patternID == 2) {
+      enabledPattern(5, 10);
+    } else if (patternID == 3) {
+      inTakePattern();
+    } else if (patternID == 5) {
+      outTakePattern();
+    } else if (patternID == 6) {
+      testPattern();
+    } 
+  } else {
+    defaultPattern();
+  } 
 }
 
 //---------------------------------------- FUNCTION IMPLEMENTATIONS ----------------------------------------\\
@@ -85,7 +99,6 @@ void receiveEvent(int howMany) {
 //-- Pattern for Red Solide (Mark Menning)--\\
 
 void testPattern() {
-
   topStrip.setBrightness(BRIGHTNESS);
   for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) { 
     topStrip.setPixelColor(i, 0, 255, 0 );
@@ -96,35 +109,34 @@ void testPattern() {
 
 //-- Pattern for Blue Tail (Dominick E.)--\\
 
-void enabledPattern(int theLength) {
+void enabledPattern(int theLength, int timeDelay) {
   topStrip.setBrightness(BRIGHTNESS);
 
-  /*
-  topStrip.setPixelColor(enabledPatternHead, 0, 0, 255); // 'On' pixel at head
-  topStrip.setPixelColor(enabledPatternTail, 0);     // 'Off' pixel at tail
-  */
+  counter++;
 
-  for (int b = 0; b <= TOP_STRIP_NUMPIXELS; b++) {
+  for (int b = 0; b < (TOP_STRIP_NUMPIXELS * theLength); b += (theLength * 2)) {
     for (int i = 0; i < theLength; i++) {
-      topStrip.setPixelColor(b + i, 0, 0, 255);
-      topStrip.setPixelColor(b - 1, 0, 0, 0);
-      topStrip.show();                                   
-      delay(0);
-    }
+      topStrip.setPixelColor(counter + i + b, 0, 0, 255);
+      topStrip.setPixelColor(counter - 1 + b, 0, 0, 0);                            
+    } 
+    for (int i = 0; i < theLength; i++) {
+      topStrip.setPixelColor(counter + i - b, 0, 0, 255);
+      topStrip.setPixelColor(counter - 1 - b, 0, 0, 0);                            
+    } 
   }
-  
-                                           // Pause 10 milliseconds (~25 FPS)
 
-  if (++enabledPatternHead >= TOP_STRIP_NUMPIXELS) {         // Increment head index.  Off end of topStrip?
-    enabledPatternHead = 0;                                 //  Yes, reset head index to start
-  }
   
-  if (++enabledPatternTail >= TOP_STRIP_NUMPIXELS) {
-    enabledPatternTail = 0; // Increment, reset tail index
+  topStrip.show(); 
+  delay(timeDelay);
+
+  if (counter > (theLength * 10)) {
+    counter = 0;
   }
 }
 
-//-- Pattern for Rainbow (Trenton B.) --\\
+
+
+//-- Pattern for Rainbow (Devin M.) --\\
 
 void disabledPattern() {
   topStrip.setBrightness(BRIGHTNESS);
@@ -151,6 +163,7 @@ uint32_t Wheel(byte WheelPos) {
   WheelPos -= 170;
   return topStrip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
 }
+
 //-- Pattern for Blinking Green (Dominick E.) --\\
 
 void inTakePattern() {
@@ -173,10 +186,99 @@ void inTakePattern() {
 
 void outTakePattern() {
   topStrip.setBrightness(BRIGHTNESS);
-  
+
   for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) { 
     topStrip.setPixelColor(i, 255, 255, 0);
   }
+
+  
   topStrip.show();
 }
+
+//-- Pattern for Elevator (Kyle S.) --\\
+
+void elevatorPattern(int elevatorPos, int strip1Pixels, int strip2Pixels) {
+  topStrip.setBrightness(BRIGHTNESS);
+  double stripRatio;
+  int pixelHeight1,
+  pixelHeight2;
+  
+  stripRatio = elevatorPos / ELEVATOR_MAX;
+  
+  pixelHeight1 = round(stripRatio * strip1Pixels);
+  pixelHeight2 = round(stripRatio * strip1Pixels);
+
+  for (int i = 0; i < pixelHeight1; i++) {
+    topStrip.setPixelColor(i, 0, 0, 255);
+  }
+  topStrip.show();
+}
+
+//-- Pattern for Default Mode (Kyle S.) --\\
+
+void v3Lerp(double &green, double &red, double &blue, double greenGoal, double redGoal, double blueGoal, double t) {
+  green = green * (1 - t) + (greenGoal * t);
+  red = red * (1 - t) + (redGoal * t);
+  blue = blue * (1 - t) + (blueGoal * t);
+}
+
+double lerp(double a, double b, double t) {
+  return a * (1 - t) + (b * t);
+}
+
+void defaultPattern() {
+  //topStrip.setBrightness(BRIGHTNESS);
+  
+  for (int i = 0; i < maxMount; i++) {
+    v3Lerp(green, red, blue, 0, 255, 0, smoothness);
+    for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) {
+      topStrip.setPixelColor(i, green, red, blue);
+    }
+
+    if (i < 50) {
+      changingBrightness = lerp(changingBrightness, BRIGHTNESS, 0.12);
+    } else {
+      changingBrightness = lerp(changingBrightness, lowestBrightness, 0.12);
+    }
+    topStrip.setBrightness(changingBrightness);
+    
+    topStrip.show();
+    delay(1);
+  }
+
+  for (int i = 0; i < maxMount; i++) {
+    v3Lerp(green, red, blue, 255, 0, 0, smoothness);
+    for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) {
+      topStrip.setPixelColor(i, green, red, blue);
+    }
+
+    if (i < 50) {
+      changingBrightness = lerp(changingBrightness, BRIGHTNESS, 0.12);
+    } else {
+      changingBrightness = lerp(changingBrightness, lowestBrightness, 0.12);
+    }
+    topStrip.setBrightness(changingBrightness);
+    
+    topStrip.show();
+    delay(1);
+  }
+
+  for (int i = 0; i < maxMount; i++) {
+    v3Lerp(green, red, blue, 0, 0, 255, smoothness);
+    for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) {
+      topStrip.setPixelColor(i, green, red, blue);
+    }
+
+    if (i < 50) {
+      changingBrightness = lerp(changingBrightness, BRIGHTNESS, 0.12);
+    } else {
+      changingBrightness = lerp(changingBrightness, lowestBrightness, 0.12);
+    }
+    topStrip.setBrightness(changingBrightness);
+    
+    topStrip.show();
+    delay(1);
+  }
+}
+
 
