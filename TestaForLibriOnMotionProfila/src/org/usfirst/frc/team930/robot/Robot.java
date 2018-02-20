@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
 	
 	Waypoint[] points = new Waypoint[] {
 			new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-		    new Waypoint(3,0,0),
+		    new Waypoint(2,0,0),
 //		    new Waypoint(5,-2,Pathfinder.d2r(270)),
 //		    new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
 //		    new Waypoint(3,0,0),
@@ -122,8 +122,8 @@ public class Robot extends IterativeRobot {
 		leftFollow2.follow(leftMain);
 		leftFollow.follow(leftMain);
 		
-		enc.configurePIDVA(0.8, 0, 0, 0, 0); //Ka = 0.3
-		enc2.configurePIDVA(0.8, 0, 0, 0, 0);
+		enc.configurePIDVA(0.19, 0, 0, 0.03, 0.09); //Ka = 0.3
+		enc2.configurePIDVA(0.19, 0, 0, 0.03, 0.09);
 		
 	}
 
