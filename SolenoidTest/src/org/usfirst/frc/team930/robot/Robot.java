@@ -25,8 +25,8 @@ public class Robot extends IterativeRobot {
 	
 	Solenoid sole1 = new Solenoid(0);
 	Solenoid sole2 = new Solenoid(1);
-	Solenoid sole3 = new Solenoid(2);
-	Solenoid sole4 = new Solenoid(3);
+	Solenoid sole3 = new Solenoid(2); // Left ramp pistons
+	Solenoid sole4 = new Solenoid(3); // Right ramp pistons
 	Solenoid sole5 = new Solenoid(4);
 	Solenoid sole6 = new Solenoid(5);
 	Solenoid sole7 = new Solenoid(6);
@@ -87,12 +87,12 @@ public class Robot extends IterativeRobot {
 		else
 			sole2.set(false);
 		
-		if(stick.getRawButton(3))
+		if(stick.getRawButton(3))		// Left ramp pistons
 			sole3.set(true);
 		else
 			sole3.set(false);
 		
-		if(stick.getRawButton(4))
+		if(stick.getRawButton(4))		// Right ramp pistons
 			sole4.set(true);
 		else
 			sole4.set(false);

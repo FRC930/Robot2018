@@ -198,7 +198,7 @@ public class TeleopHandler {
 		
 		if(stick3.getRawButton(1))
 			Ramp.run(RampStates.RIGHT_RAMP_DOWN);
-		if(stick2.getRawButton(2))
+		if(stick3.getRawButton(2))
 			Ramp.run(RampStates.LEFT_RAMP_DOWN);
 		if(stick3.getRawButton(3))
 			Ramp.run(RampStates.RIGHT_RAMP_UP);
