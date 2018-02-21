@@ -143,7 +143,7 @@ public class Elevator {
 	
 	//Check if encoder is returning information
 	public static boolean checkSensor() {
-		//checks if motor is moving and encoder does not return any velocity
+		
 		if(lift1.getMotorOutputPercent() != 0 && lift1.getSelectedSensorVelocity(0) == 0) {
 			counter++;
 			if(counter >= Constants.counterLimit) {
