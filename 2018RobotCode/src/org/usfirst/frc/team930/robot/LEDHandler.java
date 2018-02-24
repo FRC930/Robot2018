@@ -46,6 +46,15 @@ public class LEDHandler {
 		//-- State Checking --\\
 		
 		switch (robotStateEnum) {
+			case AUTONOMOUS:
+				sendData = 9;
+				break;
+			case RAMPS_DOWN:
+				sendData = 7;
+				break;
+			case RAMPS_UP:
+				sendData = 8;
+				break;
 			case INTAKING:
 				sendData = 3;
 				break;

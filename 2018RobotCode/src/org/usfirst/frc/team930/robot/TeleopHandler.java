@@ -37,7 +37,10 @@ public class TeleopHandler {
 		DISABLED,
 		INTAKING,
 		INTAKE_DONE,
-		OUTTAKING
+		OUTTAKING,
+		RAMPS_DOWN,
+		RAMPS_UP,
+		AUTONOMOUS
 	}
 	
 	enum IntakeStates{
@@ -192,14 +195,22 @@ public class TeleopHandler {
 		if(stick2.getRawButton(Constants.Y))
 			Ramp.run(RampStates.LEFT_RAMP_UP);*/
 		
-		if(stick3.getRawButton(1))
+		if(stick3.getRawButton(1)) {
 			Ramp.run(RampStates.RIGHT_RAMP_DOWN);
-		if(stick3.getRawButton(2))
+			LEDHandler.run(RobotStates.RAMPS_DOWN);
+		}
+		if(stick3.getRawButton(2)) {
 			Ramp.run(RampStates.LEFT_RAMP_DOWN);
-		if(stick3.getRawButton(3))
+			LEDHandler.run(RobotStates.RAMPS_DOWN);
+		}
+		if(stick3.getRawButton(3)) {
 			Ramp.run(RampStates.RIGHT_RAMP_UP);
-		if(stick3.getRawButton(4))
+			LEDHandler.run(RobotStates.RAMPS_UP);
+		}
+		if(stick3.getRawButton(4)) {
 			Ramp.run(RampStates.LEFT_RAMP_UP);
+			LEDHandler.run(RobotStates.RAMPS_UP);
+		}
 		
 	}
 	public static void setRumble(int controller, double intensity){

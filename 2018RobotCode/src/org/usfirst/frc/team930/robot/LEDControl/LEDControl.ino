@@ -13,6 +13,7 @@
  * 
  * "I regret not checking Slack..." -Mark Menning
  */ 
+ //Blue Wire = Datapin, Black Wire = Clockpin
 
 //-- Preprocessor Directives --\\
 
@@ -23,9 +24,9 @@
 
 //-- Type and Constant Definitions --\\
 
-#define TOP_STRIP_NUMPIXELS 100
+#define TOP_STRIP_NUMPIXELS 172
 #define TOP_STRIP_CLOCKPIN 11
-#define TOP_STRIP_DATAPIN 10 
+#define TOP_STRIP_DATAPIN 10
 #define BRIGHTNESS 30  
 #define WAITTIME 50 
 #define ELEVATOR_MAX 8500
@@ -350,44 +351,7 @@ void  autonomousPattern() {
   
 }
 
-/* CODE HOARDING (get rekt devin)
- *  
- *  for (int i = 0; i < (TOP_STRIP_NUMPIXELS / 2 + 1); i++) {
-      topStrip.setPixelColor(i, 255, 255, 0); 
-      topStrip.setPixelColor(TOP_STRIP_NUMPIXELS - i, 255, 255, 0); 
-      topStrip.show();
-      delay(daSpeed);
-  }
-  for (int i = 0; i < (TOP_STRIP_NUMPIXELS / 2); i++) {
-    topStrip.setPixelColor(i, 0, 255, 255); 
-    topStrip.setPixelColor(TOP_STRIP_NUMPIXELS - i, 0, 255, 255); 
-    topStrip.show();
-    delay(daSpeed);
-  }
 
-  for (int counter = 0; counter < 100; counter++) {
-    for (int b = 0; b < (TOP_STRIP_NUMPIXELS * 5); b += (10)) {
-      for (int i = 0; i < 5; i++) {
-        topStrip.setPixelColor(counter + i + b, 255, 0, 0);
-        topStrip.setPixelColor(counter - 1 + b, 0, 0, 0);                            
-      } 
-      for (int i = 0; i < 5; i++) {
-        topStrip.setPixelColor(counter + i - b, 255, 0, 0);
-        topStrip.setPixelColor(counter - 1 - b, 0, 0, 0);                            
-      } 
-    }
-
-    topStrip.show(); 
-    delay(daSpeed);
-  }
-
-  for (int counter = 100; counter > 0; counter--) {
-    topStrip.setPixelColor(counter, 50, 255, 0);                           
-    topStrip.show(); 
-    delay(daSpeed);
-  }
-
-*/
  
 
 
