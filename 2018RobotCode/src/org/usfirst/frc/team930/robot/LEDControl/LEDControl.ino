@@ -24,7 +24,7 @@
 
 //-- Type and Constant Definitions --\\
 
-#define TOP_STRIP_NUMPIXELS 172
+#define TOP_STRIP_NUMPIXELS 50
 #define TOP_STRIP_CLOCKPIN 11
 #define TOP_STRIP_DATAPIN 10
 #define BRIGHTNESS 30  
@@ -81,11 +81,12 @@ void loop() {
       outTakePattern();
     } else if (patternID == 6) {
       testPattern();
-    } 
+    } else if (patternID == 7) {
+      rampDownPattern(5, 15);
+    } else if (patternID == 8) {
+      rampUpPattern(5, 15);
+    }
   } else {
-    //disabledPattern();
-    //enabledPattern(5, 15, 20);
-    //autonomousPattern();
     defaultPattern();
   } 
 }
@@ -348,9 +349,51 @@ void  autonomousPattern() {
     topStrip.show();
     delay(daSpeed);
   }
-  
 }
 
+//-- Pattern for Ramps Up --\\
+
+void rampUpPattern(int theLength, int timeDelay) {
+  topStrip.setBrightness(BRIGHTNESS);
+  counter--;
+  for (int b = 0; b < (TOP_STRIP_NUMPIXELS * theLength); b += (theLength * 2)) {
+    for (int i = 0; i < theLength; i++) {
+      topStrip.setPixelColor(counter - i + b, 255, 0, 0);
+      topStrip.setPixelColor(counter + 1 + b, 0, 0, 0);                            
+    }     
+    for (int i = 0; i < theLength; i++) {
+      topStrip.setPixelColor(counter - i - b, 255, 0, 0);
+      topStrip.setPixelColor(counter + 1 - b, 0, 0, 0);                            
+    } 
+  }
+  topStrip.show(); 
+  delay(timeDelay);
+  if (counter < 0) {
+    counter = TOP_STRIP_NUMPIXELS;
+  }
+}
+
+//-- Pattern for Ramps Down --\\
+
+void rampDownPattern(int theLength, int timeDelay) {
+  topStrip.setBrightness(BRIGHTNESS);
+  counter++;
+  for (int b = 0; b < (TOP_STRIP_NUMPIXELS * theLength); b += (theLength * 2)) {
+    for (int i = 0; i < theLength; i++) {
+      topStrip.setPixelColor(counter + i + b, 0, 255, 0);
+      topStrip.setPixelColor(counter - 1 + b, 0, 0, 0);                            
+    }     
+    for (int i = 0; i < theLength; i++) {
+      topStrip.setPixelColor(counter + i - b, 0, 255, 0);
+      topStrip.setPixelColor(counter - 1 - b, 0, 0, 0);                            
+    } 
+  }
+  topStrip.show(); 
+  delay(timeDelay);
+  if (counter >= (theLength * 4)) {
+    counter = 0;
+  }
+}
 
  
 
