@@ -9,7 +9,7 @@
  *  Test Mode     Red Solid      6        toptopStrip
  *  Ramp down     Tail red       7        toptopStrip and sidetopStrip
  *  Ramp up       Tail green     8        toptopStrip and sidetopStrip
- *  Autonomous    Blue Solie     9        toptopStrip
+ *  Autonomous    Blue Solid     9        toptopStrip
  * 
  * "I regret not checking Slack..." -Mark Menning
  */ 
@@ -26,7 +26,7 @@
 #define TOP_STRIP_NUMPIXELS 100
 #define TOP_STRIP_CLOCKPIN 11
 #define TOP_STRIP_DATAPIN 10 
-#define BRIGHTNESS 200  
+#define BRIGHTNESS 30  
 #define WAITTIME 50 
 #define ELEVATOR_MAX 8500
 
@@ -64,22 +64,27 @@ void setup() {
 
 //-- Main Loop --\\
 
-void loop() {
+void loop() {  
   if (1 < Wire.available()) {
     if (patternID < 1) {
       elevatorPattern(-patternID, TOP_STRIP_NUMPIXELS, TOP_STRIP_NUMPIXELS);
     } else if (patternID == 1) {
       disabledPattern();
     } else if (patternID == 2) {
-      enabledPattern(5, 10);
+      enabledPattern(5, 15, 20);
     } else if (patternID == 3) {
       inTakePattern();
+    } else if (patternID == 9) {
+      autonomousPattern();
     } else if (patternID == 5) {
       outTakePattern();
     } else if (patternID == 6) {
       testPattern();
     } 
   } else {
+    //disabledPattern();
+    //enabledPattern(5, 15, 20);
+    //autonomousPattern();
     defaultPattern();
   } 
 }
@@ -96,7 +101,19 @@ void receiveEvent(int howMany) {
   patternID = x;
 }
 
-//-- Pattern for Red Solide (Mark Menning)--\\
+//-- Lerp Functions, for Smooth Lights (Kyle S.) --\\
+
+void v3Lerp(double &green, double &red, double &blue, double greenGoal, double redGoal, double blueGoal, double t) {
+  green = green * (1 - t) + (greenGoal * t);
+  red = red * (1 - t) + (redGoal * t);
+  blue = blue * (1 - t) + (blueGoal * t);
+}
+
+double lerp(double a, double b, double t) {
+  return a * (1 - t) + (b * t);
+}
+
+//-- Pattern for Red Solid (Mark Menning)--\\
 
 void testPattern() {
   topStrip.setBrightness(BRIGHTNESS);
@@ -109,32 +126,39 @@ void testPattern() {
 
 //-- Pattern for Blue Tail (Dominick E.)--\\
 
-void enabledPattern(int theLength, int timeDelay) {
+void enabledPattern(int theLength, int theGap, int timeDelay) {
   topStrip.setBrightness(BRIGHTNESS);
 
   counter++;
 
-  for (int b = 0; b < (TOP_STRIP_NUMPIXELS * theLength); b += (theLength * 2)) {
+  for (int b = 0; b < (TOP_STRIP_NUMPIXELS * theLength); b += (theLength * 4)) {
+    
     for (int i = 0; i < theLength; i++) {
       topStrip.setPixelColor(counter + i + b, 0, 0, 255);
       topStrip.setPixelColor(counter - 1 + b, 0, 0, 0);                            
-    } 
+    }     
     for (int i = 0; i < theLength; i++) {
       topStrip.setPixelColor(counter + i - b, 0, 0, 255);
       topStrip.setPixelColor(counter - 1 - b, 0, 0, 0);                            
     } 
+
+    for (int i = 0; i < theLength; i++) {
+      topStrip.setPixelColor(counter + i + b + 10, 100, 255, 0);
+      topStrip.setPixelColor(counter - 1 + b + 10, 0, 0, 0);                            
+    } 
+    for (int i = 0; i < theLength; i++) {
+      topStrip.setPixelColor(counter + i - b + 10, 100, 255, 0);
+      topStrip.setPixelColor(counter - 1 - b + 10, 0, 0, 0);                            
+    }
   }
 
-  
   topStrip.show(); 
   delay(timeDelay);
 
-  if (counter > (theLength * 10)) {
+  if (counter >= (theLength * 4)) {
     counter = 0;
   }
 }
-
-
 
 //-- Pattern for Rainbow (Devin M.) --\\
 
@@ -168,18 +192,23 @@ uint32_t Wheel(byte WheelPos) {
 
 void inTakePattern() {
   topStrip.setBrightness(BRIGHTNESS);
-  
-  for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) { 
-    topStrip.setPixelColor(i,255,0,0);
+
+  for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) {
+    topStrip.setPixelColor(i, 255, 0, 0);
   }
-  topStrip.show();
-  delay(100);
-  
-  for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) { 
-    topStrip.setPixelColor(i,0,0,0);
+    
+  counter++;
+  if (counter < 50) {
+    changingBrightness = lerp(changingBrightness, BRIGHTNESS, 0.12);
+  } else if (counter >= 50 && counter < 100) {
+    changingBrightness = lerp(changingBrightness, 0, 0.15);
+  } else {
+    counter = 0;
   }
+  
+  topStrip.setBrightness(changingBrightness);
   topStrip.show();
-  delay(100);
+  delay(1); 
 }
 
 //-- Pattern for Solid Yellow (Mark Menning) --\\
@@ -190,7 +219,6 @@ void outTakePattern() {
   for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) { 
     topStrip.setPixelColor(i, 255, 255, 0);
   }
-
   
   topStrip.show();
 }
@@ -203,28 +231,23 @@ void elevatorPattern(int elevatorPos, int strip1Pixels, int strip2Pixels) {
   int pixelHeight1,
   pixelHeight2;
   
-  stripRatio = elevatorPos / ELEVATOR_MAX;
+  stripRatio = double(elevatorPos) / double(ELEVATOR_MAX);
   
   pixelHeight1 = round(stripRatio * strip1Pixels);
-  pixelHeight2 = round(stripRatio * strip1Pixels);
-
-  for (int i = 0; i < pixelHeight1; i++) {
+  pixelHeight2 = round(stripRatio * strip2Pixels);
+  
+  for (int i = 0; i < strip1Pixels; i++) {
     topStrip.setPixelColor(i, 0, 0, 255);
   }
+  
+  for (int i = 0; i < 5; i++) {
+    topStrip.setPixelColor(pixelHeight1 + i, 50, 255, 0);
+  }
+  
   topStrip.show();
 }
 
 //-- Pattern for Default Mode (Kyle S.) --\\
-
-void v3Lerp(double &green, double &red, double &blue, double greenGoal, double redGoal, double blueGoal, double t) {
-  green = green * (1 - t) + (greenGoal * t);
-  red = red * (1 - t) + (redGoal * t);
-  blue = blue * (1 - t) + (blueGoal * t);
-}
-
-double lerp(double a, double b, double t) {
-  return a * (1 - t) + (b * t);
-}
 
 void defaultPattern() {
   //topStrip.setBrightness(BRIGHTNESS);
@@ -280,5 +303,91 @@ void defaultPattern() {
     delay(1);
   }
 }
+
+//-- Pattern for Autonomous (Kyle S.) --\\
+
+void  autonomousPattern() {
+  topStrip.setBrightness(10);
+
+  int whiteness = 0;
+  int daSpeed = 1;
+  
+  for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) {
+    topStrip.setPixelColor(i, whiteness, whiteness, whiteness);
+  } 
+  for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) {
+    for (int z = 0; z < 15; z++) {
+      topStrip.setPixelColor(i + z, 100, 255, 0); 
+      topStrip.setPixelColor(TOP_STRIP_NUMPIXELS - i - z, 0, 0, 255); 
+  
+      if ((i + z) == (TOP_STRIP_NUMPIXELS - i - z)) {
+        topStrip.setPixelColor(TOP_STRIP_NUMPIXELS - i - z, 0, 0, 0); 
+      }
+    }
+    topStrip.setPixelColor(i - 1, whiteness, whiteness, whiteness);
+    topStrip.setPixelColor(TOP_STRIP_NUMPIXELS - i + 1, whiteness, whiteness, whiteness);
+    topStrip.show();
+    delay(daSpeed);
+  }
+
+  for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) {
+    topStrip.setPixelColor(i, whiteness, whiteness, whiteness);
+  } 
+  for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) {
+    for (int z = 0; z < 15; z++) {
+      topStrip.setPixelColor(i + z, 0, 0, 255); 
+      topStrip.setPixelColor(TOP_STRIP_NUMPIXELS - i - z, 100, 255, 0); 
+  
+      if ((i + z) == (TOP_STRIP_NUMPIXELS - i - z)) {
+        topStrip.setPixelColor(TOP_STRIP_NUMPIXELS - i - z, 0, 0, 0); 
+      }
+    }
+    topStrip.setPixelColor(i - 1, whiteness, whiteness, whiteness);
+    topStrip.setPixelColor(TOP_STRIP_NUMPIXELS - i + 1, whiteness, whiteness, whiteness);
+    topStrip.show();
+    delay(daSpeed);
+  }
+  
+}
+
+/* CODE HOARDING (get rekt devin)
+ *  
+ *  for (int i = 0; i < (TOP_STRIP_NUMPIXELS / 2 + 1); i++) {
+      topStrip.setPixelColor(i, 255, 255, 0); 
+      topStrip.setPixelColor(TOP_STRIP_NUMPIXELS - i, 255, 255, 0); 
+      topStrip.show();
+      delay(daSpeed);
+  }
+  for (int i = 0; i < (TOP_STRIP_NUMPIXELS / 2); i++) {
+    topStrip.setPixelColor(i, 0, 255, 255); 
+    topStrip.setPixelColor(TOP_STRIP_NUMPIXELS - i, 0, 255, 255); 
+    topStrip.show();
+    delay(daSpeed);
+  }
+
+  for (int counter = 0; counter < 100; counter++) {
+    for (int b = 0; b < (TOP_STRIP_NUMPIXELS * 5); b += (10)) {
+      for (int i = 0; i < 5; i++) {
+        topStrip.setPixelColor(counter + i + b, 255, 0, 0);
+        topStrip.setPixelColor(counter - 1 + b, 0, 0, 0);                            
+      } 
+      for (int i = 0; i < 5; i++) {
+        topStrip.setPixelColor(counter + i - b, 255, 0, 0);
+        topStrip.setPixelColor(counter - 1 - b, 0, 0, 0);                            
+      } 
+    }
+
+    topStrip.show(); 
+    delay(daSpeed);
+  }
+
+  for (int counter = 100; counter > 0; counter--) {
+    topStrip.setPixelColor(counter, 50, 255, 0);                           
+    topStrip.show(); 
+    delay(daSpeed);
+  }
+
+*/
+ 
 
 

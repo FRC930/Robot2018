@@ -166,16 +166,12 @@ public class TeleopHandler {
 		
 		//stop elevator if encoder is not returning information
 		if(Elevator.checkSensor()) {
-			Elevator.loopState = true;
-		} else {
-			Elevator.loopState = false;
+			if(Math.abs(stick2.getRawAxis(Constants.rightYaxis)) > 0.15) {
+				Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
+			} else {
+				Elevator.runManualControl(0);
+			}
 		}
-		
-		if(Elevator.loopState) {
-			Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
-		}
-		
-		
 		
 		if(SmartDashboard.getBoolean("Toggle Camera", false) && !toggledTwice) {
 			CameraServer.getInstance().removeCamera("Camera");
@@ -198,7 +194,7 @@ public class TeleopHandler {
 		
 		if(stick3.getRawButton(1))
 			Ramp.run(RampStates.RIGHT_RAMP_DOWN);
-		if(stick2.getRawButton(2))
+		if(stick3.getRawButton(2))
 			Ramp.run(RampStates.LEFT_RAMP_DOWN);
 		if(stick3.getRawButton(3))
 			Ramp.run(RampStates.RIGHT_RAMP_UP);
