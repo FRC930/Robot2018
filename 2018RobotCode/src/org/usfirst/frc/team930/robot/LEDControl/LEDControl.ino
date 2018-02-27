@@ -1,15 +1,15 @@
 //Team 930!!
 
-/* State         Pattern        ID       topStrip
- *  Disabled      Rainbow        1        toptopStrip 
- *  Enabled       Tail blue      2        toptopStrip
- *  In take       Blink green    3        toptopStrip
- *  Elevator      Height based   4        sidetopStrips
- *  Out take      Yellow Solid   5        toptopStrip
- *  Test Mode     Red Solid      6        toptopStrip
- *  Ramp down     Tail red       7        toptopStrip and sidetopStrip
- *  Ramp up       Tail green     8        toptopStrip and sidetopStrip
- *  Autonomous    Blue Solid     9        toptopStrip
+/* State         Pattern                  ID       Strip
+ *  Disabled      Rainbow                 1        All strips
+ *  Enabled       Tail blue               2        topStrip
+ *  In take       Blink green             3        topStrip
+ *  Elevator      Height based            4        sideStrips
+ *  Out take      Yellow Solid            5        topStrip
+ *  Test Mode     Red Solid               6        All Strips (not really going to use test mode)
+ *  Ramp down     Tail red                7        All strips
+ *  Ramp up       Tail green              8        All strips
+ *  Autonomous    Some weird pattern      9        topStrip
  * 
  * "I regret not checking Slack..." -Mark Menning
  */ 
@@ -24,9 +24,18 @@
 
 //-- Type and Constant Definitions --\\
 
-#define TOP_STRIP_NUMPIXELS 50
-#define TOP_STRIP_CLOCKPIN 11
-#define TOP_STRIP_DATAPIN 10
+#define TOP_STRIP_NUMPIXELS 72
+#define TOP_STRIP_CLOCKPIN 9
+#define TOP_STRIP_DATAPIN 8
+
+#define RIGHT_STRIP_NUMPIXELS 50
+#define RIGHT_STRIP_CLOCKPIN 7
+#define RIGHT_STRIP_DATAPIN 6
+
+#define LEFT_STRIP_NUMPIXELS 49
+#define LEFT_STRIP_CLOCKPIN 5
+#define LEFT_STRIP_DATAPIN 4
+
 #define BRIGHTNESS 30  
 #define WAITTIME 50 
 #define ELEVATOR_MAX 8500
@@ -34,18 +43,22 @@
 //-- Object Declarations --\\
 
 Adafruit_DotStar topStrip = Adafruit_DotStar(TOP_STRIP_NUMPIXELS, TOP_STRIP_DATAPIN, TOP_STRIP_CLOCKPIN, DOTSTAR_BRG);
+Adafruit_DotStar rightStrip = Adafruit_DotStar(RIGHT_STRIP_NUMPIXELS, RIGHT_STRIP_DATAPIN, RIGHT_STRIP_CLOCKPIN, DOTSTAR_BRG);
+Adafruit_DotStar leftStrip = Adafruit_DotStar(LEFT_STRIP_NUMPIXELS, LEFT_STRIP_DATAPIN, LEFT_STRIP_CLOCKPIN, DOTSTAR_BRG);
 
 // -- Variable Declarations --\\
 
 int patternID = 0;
 int counter = 0;
+int maxMount = 100;
+
 double green = 0,
 red = 0,
 blue = 0;
+
 double smoothness = 0.06;
 double changingBrightness = BRIGHTNESS;
 double lowestBrightness = 2;
-int maxMount = 100;
 
 //-- Initializing Variables and Objects --\\
 
