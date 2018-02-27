@@ -2,6 +2,7 @@ package org.usfirst.frc.team930.robot;
 
 import org.usfirst.frc.team930.robot.AutoHandler.Goal;
 import org.usfirst.frc.team930.robot.AutoHandler.StartPositions;
+import org.usfirst.frc.team930.robot.TeleopHandler.RobotStates;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -271,7 +272,7 @@ public class AutoHandler {
 	}
 	
 	public static void run() {
-		
+		LEDHandler.autoRun();
 		//if(!Drive.checkSensors()) {
 			//Drive.resetSensorCheck();
 			auto.run();
