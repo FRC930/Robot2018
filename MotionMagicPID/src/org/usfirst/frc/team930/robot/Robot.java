@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,10 +19,11 @@ public class Robot extends TimedRobot {
 	Joystick _joy = new Joystick(0);
 	Compressor comp = new Compressor(0);
 	StringBuilder _sb = new StringBuilder();
-	double kF = 1.1, kP = 1.6, kI = 0, kD = 0, targetPos = 0, returnPos = 0, softLimF = 7500, softLimR = 0;
-	int velocity = 900, accel = 900;
+	Solenoid gripper = new Solenoid(1);
+	double kF = 0.5, kP = 2.0, kI = 0.004, kD = 7.0, targetPos = 0, returnPos = 0, softLimF = 7500, softLimR = 0;
+	int velocity = 1200, accel = 1500;
 	boolean positionBool = false;
-	double highPosition = 7500, lowPosition = 10, multiplier = -0.2;
+	double highPosition = 5000, lowPosition = 22, multiplier = -0.2;
 	
 	int count = 0;
 	boolean aPressed = false, bPressed = false;
@@ -82,6 +84,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putBoolean("Update Values", false);
 		
 		comp.setClosedLoopControl(true);
+		gripper.set(true);
 	}
 
 	
@@ -139,6 +142,8 @@ public class Robot extends TimedRobot {
 			_sb.append(_talon.getClosedLoopError(Constants2.kPIDLoopIdx));
 			_sb.append("\ttrg:");
 			System.out.println(_talon.getMotorOutputVoltage());
+		} else if(_talon.getSelectedSensorPosition(Constants2.kPIDLoopIdx) < (lowPosition + 5)) {
+			_talon.set(ControlMode.PercentOutput, 0);
 		} else if(Math.abs(_joy.getRawAxis(5)) > 0.15 ){	
 			_talon.set(ControlMode.PercentOutput, _joy.getRawAxis(5) * multiplier);
 		}
