@@ -1,5 +1,7 @@
 package org.usfirst.frc.team930.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -15,7 +17,11 @@ public class TeleopHandler {
 	private static boolean buttonCheckRB = false;
 	private static boolean buttonCheckLB = false;
 	private static boolean buttonCheckA = false;
+	private static boolean buttonCheckB = false;
 	private static boolean buttonCheckY = false;
+	private static boolean buttonCheckX = false;
+	private static boolean buttonCheckLeftJoyButton = false;
+	private static boolean buttonCheckRightJoyButton = false;
 	private static int elevatorCounter = 0;
 	private static boolean switchBool = false;
 	private static double timeAmount = 0;
@@ -47,11 +53,13 @@ public class TeleopHandler {
 		INTAKING,
 		INTAKE_DONE,
 		OUTTAKING,
+		SLOW_OUTTAKING,
 		LIFTER_UP,
 		LIFTER_DOWN
 	}
 	enum ElevatorStates{
 		INTAKE_POSITION,
+		EXCHANGE_POSITION,
 		SWITCH_POSITION,
 		SCALE_POSITION_L,
 		SCALE_POSITION_M,
@@ -74,14 +82,18 @@ public class TeleopHandler {
 		// Drive
 		Drive.run(stick1.getRawAxis(Constants.rightXaxis), stick1.getRawAxis(Constants.leftYaxis));
 		
-		// In take
+		// Intake
 		if(stick2.getRawAxis(Constants.rightTriggerAxis) > 0.7)	{
 			Intake.run(IntakeStates.INTAKING);
 			LEDHandler.run(RobotStates.INTAKING);
-		} else if(stick2.getRawAxis(Constants.leftTriggerAxis) > 0.7) {															
+		} 
+		else if(stick2.getRawAxis(Constants.leftTriggerAxis) > 0.7) {															
 			Intake.run(IntakeStates.OUTTAKING);
 			LEDHandler.run(RobotStates.OUTTAKING);
-		} else {
+		} 
+		else if(stick2.getRawButton(Constants.LB))
+			Intake.run(IntakeStates.SLOW_OUTTAKING);
+		else {
 			Intake.run(IntakeStates.INTAKE_DONE);
 		}
 		
@@ -100,16 +112,66 @@ public class TeleopHandler {
 			buttonCheckA = false;
 		}*/
 		
-		if(stick2.getRawButton(Constants.A))
+		/*if(stick2.getRawButton(Constants.A))
 			Intake.run(IntakeStates.LIFTER_UP);
 		else if(stick2.getRawButton(Constants.Y))
-			Intake.run(IntakeStates.LIFTER_DOWN);
+			Intake.run(IntakeStates.LIFTER_DOWN);*/
 		
 		
 		//Elevator
 		Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
 		
-		if (stick2.getRawButton(Constants.RB) && (!buttonCheckRB)) {
+		if (stick2.getRawButton(Constants.A) && (!buttonCheckA)) {
+			buttonCheckA = true;
+			Elevator.run(ElevatorStates.SCALE_POSITION_L);
+		}
+		else if ((!stick2.getRawButton(Constants.A)) && buttonCheckA) {
+			buttonCheckA = false;
+		}
+		
+		if (stick2.getRawButton(Constants.B) && (!buttonCheckB)) {
+			buttonCheckB = true;
+			Elevator.run(ElevatorStates.SCALE_POSITION_M);
+		}
+		else if ((!stick2.getRawButton(Constants.B)) && buttonCheckB) {
+			buttonCheckB = false;
+		}
+		
+		if (stick2.getRawButton(Constants.X) && (!buttonCheckX)) {
+			buttonCheckX = true;
+			Elevator.run(ElevatorStates.SWITCH_POSITION);
+		}
+		else if ((!stick2.getRawButton(Constants.X)) && buttonCheckX) {
+			buttonCheckX = false;
+		}
+		
+		if (stick2.getRawButton(Constants.Y) && (!buttonCheckY)) {
+			buttonCheckY = true;
+			Elevator.run(ElevatorStates.SCALE_POSITION_H);
+		}
+		else if ((!stick2.getRawButton(Constants.Y)) && buttonCheckY) {
+			buttonCheckY = false;
+		}
+		
+		if (stick2.getRawButton(Constants.rightJoyButton) && (!buttonCheckRightJoyButton)) {
+			buttonCheckRightJoyButton = true;
+			Elevator.run(ElevatorStates.INTAKE_POSITION);
+		}
+		else if ((!stick2.getRawButton(Constants.rightJoyButton)) && buttonCheckRightJoyButton) {
+			buttonCheckRightJoyButton = false;
+		}
+		
+		if (stick2.getRawButton(Constants.leftJoyButton) && (!buttonCheckLeftJoyButton)) {
+			buttonCheckLeftJoyButton = true;
+			Elevator.run(ElevatorStates.EXCHANGE_POSITION);
+		}
+		else if ((!stick2.getRawButton(Constants.leftJoyButton)) && buttonCheckLeftJoyButton) {
+			buttonCheckLeftJoyButton = false;
+		}
+		
+		//Elevator.switchToPercentOutput();
+		
+		/*if (stick2.getRawButton(Constants.RB) && (!buttonCheckRB)) {
 			buttonCheckRB = true;
 			switchBool = true;
 			if(elevatorCounter < 4 && elevatorCounter >= 0){
@@ -156,16 +218,16 @@ public class TeleopHandler {
 				switchBool = false;
 				break;
 			}
-		}
+		}*/
 		
-		if(elevatorTimer.get() > 0.001 && elevatorTimer.get() < timeAmount){
+		/*if(elevatorTimer.get() > 0.001 && elevatorTimer.get() < timeAmount){
 			setRumble(2, 1.0);
 		} else if(elevatorTimer.get() > timeAmount){
 			elevatorTimer.stop();
 			elevatorTimer.reset();
 		} else {
 			setRumble(2, 0);
-		}
+		}*/
 		
 		//stop elevator if encoder is not returning information
 		if(Elevator.checkSensor()) {

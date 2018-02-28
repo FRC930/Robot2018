@@ -50,15 +50,15 @@ public class Elevator {
 
 		// Set closed loop gains in slot 0
 		lift1.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
-		lift1.config_kF(0, 1.1, Constants.kTimeoutMs);
-		lift1.config_kP(0, 1.6, Constants.kTimeoutMs);
-		lift1.config_kI(0, 0, Constants.kTimeoutMs);
-		lift1.config_kD(0, 0, Constants.kTimeoutMs);
+		lift1.config_kF(0, 0.5, Constants.kTimeoutMs);
+		lift1.config_kP(0, 2.0, Constants.kTimeoutMs);
+		lift1.config_kI(0, 0.004, Constants.kTimeoutMs);
+		lift1.config_kD(0, 7.0, Constants.kTimeoutMs);
 
 		
 		// Set acceleration and cruise velocity
-		lift1.configMotionCruiseVelocity(800, Constants.kTimeoutMs);
-		lift1.configMotionAcceleration(800, Constants.kTimeoutMs);
+		lift1.configMotionCruiseVelocity(1200, Constants.kTimeoutMs);
+		lift1.configMotionAcceleration(1500, Constants.kTimeoutMs);
 		
 		// Zero the sensor
 		lift1.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
@@ -84,6 +84,10 @@ public class Elevator {
 		switch(stateEnum) {
 		case INTAKE_POSITION:
 			targetPosition = Constants.intakePosition;
+			positionBool = true;
+			break;
+		case EXCHANGE_POSITION:
+			targetPosition = Constants.exchangePosition;
 			positionBool = true;
 			break;
 		case SWITCH_POSITION:
@@ -161,6 +165,11 @@ public class Elevator {
 	// set the elevator motor to manual percent output mode
 	public static void runManualControl(double axisValue) {
 		lift1.set(ControlMode.PercentOutput, axisValue);
+	}
+	
+	public static void switchToPercentOutput() {
+		if((stateEnum.equals(TeleopHandler.ElevatorStates.INTAKE_POSITION)) && (lift1.getSelectedSensorPosition(0) < (Constants.intakePosition + 25)))
+			lift1.set(ControlMode.PercentOutput, 0);
 	}
 	
 	public static void updateDashboard(){

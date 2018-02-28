@@ -20,8 +20,8 @@ public class Constants {
 	public static final int RB = 6;
 	public static final int backButton = 7;
 	public static final int startButton = 8;
-	public static final int rightJoyButton = 9;
-	public static final int leftJoyButton = 10;
+	public static final int leftJoyButton = 9;
+	public static final int rightJoyButton = 10;
 	//---Button Board
 	public static final int btnRightRampUp = 12;
 	public static final int btnRightRampDown = 2;
@@ -35,17 +35,18 @@ public class Constants {
 	public static final int leftMainTalonID = 4;  
 	public static final int leftFollowVictorID = 5;
 	public static final int leftFollow2Victor = 6;
-	public static final double deadBand = 0.05;
+	public static final double deadBand = 0.005;
 	
-	// In take Constants
+	// Intake Constants
 	public static final int rightIntakeWheelVictorID  = 9;
 	public static final int leftIntakeWheelVictorID = 10;
 	public static final int lifterForwardSolenoidID = 0;
 	//public static final int lifterReverseSolenoidID = 5;
 	public static final int gripperSolenoidID = 1;
-	public static final double currentThreshhold = 22.0;				
-	public static final double intakeMotorSpeed = 0.75;		
-	public static final int PDPcounterLimit = 2;			
+	public static final double currentThreshhold = 30.0;				
+	public static final double intakeMotorSpeed = 0.75;	
+	public static final double slowIntakeMotorSpeed = 0.35;		
+	public static final int PDPcounterLimit = 5;	
 	
 	// Elevator Constants
 	public static final int liftTalonID = 7;
@@ -55,10 +56,12 @@ public class Constants {
 	public static final int kTimeoutMs = 10;
 
 	public static final double intakePosition = 0;
-	public static final double switchPosition = 3000;
-	public static final double scalePositionLow = 6750;
-	public static final double scalePositionMid = 7750;
-	public static final double scalePositionHigh = 8500;
+	public static final double switchPosition = 2800;
+	public static final double scalePositionLow = 6800;
+	public static final double scalePositionMid = 7600;
+	public static final double scalePositionHigh = 8200;
+	public static final double exchangePosition = 250;
+	public static final double intakePortalPosition = 2500;
 
 	public static final int targetMultiplier = -400;
 	public static final int counterLimit = 3;

@@ -36,7 +36,7 @@ public class Utilities {
 	}
 	
 	public static void startCapture() {
-		CameraServer.getInstance().startAutomaticCapture("Robot Camera", Constants.cameraDeviceID);
+		CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(Constants.cameraResWidth, Constants.cameraResHeight);
 		camera.setFPS(30);
 		cvSink = CameraServer.getInstance().getVideo();

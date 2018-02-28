@@ -33,11 +33,11 @@ public class Robot extends IterativeRobot {
 	Timer time = new Timer();
 	
 	Waypoint[] points = new Waypoint[] {
-			new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-		    new Waypoint(3,0, Pathfinder.d2r(0))
-//		    new Waypoint(5,-2,Pathfinder.d2r(270)),
-//		    new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-//		    new Waypoint(3,0,0),
+			new Waypoint(0.7, 4.0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
+		    new Waypoint(2.7, 2.1, Pathfinder.d2r(310)),
+		    new Waypoint(5.1, 1.1,Pathfinder.d2r(346)),
+		    new Waypoint(5.45, 1.02, Pathfinder.d2r(350)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
+		    new Waypoint(7.2, 1.45, Pathfinder.d2r(350)),
 //		    new Waypoint(5,-2,Pathfinder.d2r(270)),
 //		    new Waypoint(7,-4,Pathfinder.d2r(0)),
 //		    new Waypoint(9,-2, Pathfinder.d2r(90)),
@@ -78,7 +78,7 @@ public class Robot extends IterativeRobot {
 		   // new Waypoint(2,6,Pathfinder.d2r(180)),
 		   // new Waypoint(5.5,5,Pathfinder.d2r(180))// Waypoint @ x=-2, y=-2, exit angle=0 radians
 		};
-	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.01, 2.7, 4.0, 50.0);
+	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.05, 2.7, 4.0, 50.0);
 
 	Trajectory tra = Pathfinder.generate(points, config);
 	
@@ -213,8 +213,8 @@ public class Robot extends IterativeRobot {
 			xStick = 0;
 		if(Math.abs(yStick) <0.005)
 			yStick = 0;
-		rightMain.set((xStick-yStick));
-		leftMain.set((xStick+yStick)*-1);
+		rightMain.set((xStick-yStick) * -1.0);
+		leftMain.set((xStick+yStick));
 		SmartDashboard.putNumber("Encoder", leftMain.getSelectedSensorVelocity(0));
 	}
 

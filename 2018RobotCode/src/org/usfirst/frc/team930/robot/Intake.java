@@ -60,8 +60,8 @@ public class Intake {
 			setIntakeGrip(true);
 			TeleopHandler.setRumble(2,0.5);
 		} else {
-			rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);	// Turn on motors
-			leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);
+			rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);	// Turn on motors // Positive
+			leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);						  // Negative
 			updatePDPcounter();
 			setIntakeGrip(false);
 		}
@@ -74,16 +74,25 @@ public class Intake {
 		leftIntakeWheel.set(ControlMode.PercentOutput, 0);
 		PDPcounter = 0;
 		setIntakeGrip(true);
+		TeleopHandler.setRumble(2, 0);
 	}
 	
 	//------------------------------------------------------------------------------------------- 
 	
 	private static void outTaking() {		//method runs when out taking cube
-		rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); // Turn right motor
-		leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn left motor
+		rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn right motor // Negative
+		leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); // Turn left motor // Positive
 		PDPcounter = 0; // Reset counter.
 		setIntakeGrip(true);
-	}	
+	}
+	
+	private static void slowOutTaking() {		//method runs when out taking cube
+		setIntakeGrip(false);
+		rightIntakeWheel.set(ControlMode.PercentOutput, Constants.slowIntakeMotorSpeed); // Turn right motor // Negative
+		leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.slowIntakeMotorSpeed); // Turn left motor // Positive
+		PDPcounter = 0; // Reset counter.
+		setIntakeGrip(true);
+	}
 	
 	//------------------------------------------------------------------------------------------- 
 	
@@ -130,6 +139,9 @@ public class Intake {
 				break;
 			case OUTTAKING:		//If the left trigger is down
 				outTaking();
+				break;
+			case SLOW_OUTTAKING:
+				slowOutTaking();
 				break;
 			case LIFTER_UP:
 				setIntakeLifter(false);
