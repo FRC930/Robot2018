@@ -81,7 +81,7 @@ void setup() {
 void loop() {  
   if (1 < Wire.available()) {
     if (patternID < 1) {
-      elevatorPattern(-patternID, TOP_STRIP_NUMPIXELS, TOP_STRIP_NUMPIXELS);
+      elevatorPattern(-patternID, RIGHT_STRIP_NUMPIXELS, LEFT_STRIP_NUMPIXELS);
     } else if (patternID == 1) {
       disabledPattern();
     } else if (patternID == 2) {
@@ -183,24 +183,33 @@ void disabledPattern() {
   uint16_t i, j;
   for(j = 0; j < 256 * 5; j++) { // 5 cycles of all colors on wheel
     for(i = 0; i < topStrip.numPixels(); i++) {
-      topStrip.setPixelColor(i, Wheel(((i * 256 / topStrip.numPixels()) + j) & 255));
+      topStrip.setPixelColor(i, Wheel(((i * 256 / topStrip.numPixels()) + j) & 255, topStrip));
+    }
+    for(i = 0; i < rightStrip.numPixels(); i++) {
+      rightStrip.setPixelColor(i, Wheel(((i * 256 / rightStrip.numPixels()) + j) & 255, rightStrip));
+    }
+    for(i = 0; i < leftStrip.numPixels(); i++) {
+      leftStrip.setPixelColor(i, Wheel(((i * 256 / leftStrip.numPixels()) + j) & 255, leftStrip));
     }
     topStrip.show();
+    rightStrip.show();
+    leftStrip.show();
     delay(0);
   }
+
 }
 
-uint32_t Wheel(byte WheelPos) {
+uint32_t Wheel(byte WheelPos, Adafruit_DotStar myStrip) {
   WheelPos = 255 - WheelPos;
   if(WheelPos < 85) {
-    return topStrip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+    return myStrip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
   }
   if(WheelPos < 170) {
     WheelPos -= 85;
-    return topStrip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+    return myStrip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
   }
   WheelPos -= 170;
-  return topStrip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+  return myStrip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
 }
 
 //-- Pattern for Blinking Green (Dominick E.) --\\
@@ -240,26 +249,35 @@ void outTakePattern() {
 
 //-- Pattern for Elevator (Kyle S.) --\\
 
-void elevatorPattern(int elevatorPos, int strip1Pixels, int strip2Pixels) {
-  topStrip.setBrightness(BRIGHTNESS);
+void elevatorPattern(int elevatorPos, int stripRightPixels, int stripLeftPixels) {
+  rightStrip.setBrightness(BRIGHTNESS);
+  leftStrip.setBrightness(BRIGHTNESS);
+  
   double stripRatio;
   int pixelHeight1,
   pixelHeight2;
   
   stripRatio = double(elevatorPos) / double(ELEVATOR_MAX);
   
-  pixelHeight1 = round(stripRatio * strip1Pixels);
-  pixelHeight2 = round(stripRatio * strip2Pixels);
+  pixelHeight1 = round(stripRatio * stripRightPixels);
+  pixelHeight2 = round(stripRatio * stripLeftPixels);
   
-  for (int i = 0; i < strip1Pixels; i++) {
-    topStrip.setPixelColor(i, 0, 0, 255);
+  for (int i = 0; i < stripRightPixels; i++) {
+    rightStrip.setPixelColor(i, 0, 0, 255);
   }
-  
   for (int i = 0; i < 5; i++) {
-    topStrip.setPixelColor(pixelHeight1 + i, 50, 255, 0);
+    rightStrip.setPixelColor(pixelHeight1 + i, 50, 255, 0);
+  }
+
+  for (int i = 0; i < stripLeftPixels; i++) {
+    leftStrip.setPixelColor(i, 0, 0, 255);
+  }
+  for (int i = 0; i < 5; i++) {
+    leftStrip.setPixelColor(pixelHeight2 + i, 50, 255, 0);
   }
   
-  topStrip.show();
+  rightStrip.show();
+  leftStrip.show();
 }
 
 //-- Pattern for Default Mode (Kyle S.) --\\
@@ -271,6 +289,8 @@ void defaultPattern() {
     v3Lerp(green, red, blue, 0, 255, 0, smoothness);
     for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) {
       topStrip.setPixelColor(i, green, red, blue);
+      rightStrip.setPixelColor(i, green, red, blue);
+      leftStrip.setPixelColor(i, green, red, blue);
     }
 
     if (i < 50) {
@@ -279,8 +299,12 @@ void defaultPattern() {
       changingBrightness = lerp(changingBrightness, lowestBrightness, 0.12);
     }
     topStrip.setBrightness(changingBrightness);
+    rightStrip.setBrightness(changingBrightness);
+    leftStrip.setBrightness(changingBrightness);
     
     topStrip.show();
+    rightStrip.show();
+    leftStrip.show();
     delay(1);
   }
 
@@ -288,6 +312,8 @@ void defaultPattern() {
     v3Lerp(green, red, blue, 255, 0, 0, smoothness);
     for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) {
       topStrip.setPixelColor(i, green, red, blue);
+      rightStrip.setPixelColor(i, green, red, blue);
+      leftStrip.setPixelColor(i, green, red, blue);
     }
 
     if (i < 50) {
@@ -296,8 +322,12 @@ void defaultPattern() {
       changingBrightness = lerp(changingBrightness, lowestBrightness, 0.12);
     }
     topStrip.setBrightness(changingBrightness);
+    rightStrip.setBrightness(changingBrightness);
+    leftStrip.setBrightness(changingBrightness);
     
     topStrip.show();
+    rightStrip.show();
+    leftStrip.show();
     delay(1);
   }
 
@@ -305,6 +335,8 @@ void defaultPattern() {
     v3Lerp(green, red, blue, 0, 0, 255, smoothness);
     for (int i = 0; i < TOP_STRIP_NUMPIXELS; i++) {
       topStrip.setPixelColor(i, green, red, blue);
+      rightStrip.setPixelColor(i, green, red, blue);
+      leftStrip.setPixelColor(i, green, red, blue);
     }
 
     if (i < 50) {
@@ -313,15 +345,19 @@ void defaultPattern() {
       changingBrightness = lerp(changingBrightness, lowestBrightness, 0.12);
     }
     topStrip.setBrightness(changingBrightness);
+    rightStrip.setBrightness(changingBrightness);
+    leftStrip.setBrightness(changingBrightness);
     
     topStrip.show();
+    rightStrip.show();
+    leftStrip.show();
     delay(1);
   }
 }
 
 //-- Pattern for Autonomous (Kyle S.) --\\
 
-void  autonomousPattern() {
+void autonomousPattern() {
   topStrip.setBrightness(10);
 
   int whiteness = 0;
@@ -379,7 +415,33 @@ void rampUpPattern(int theLength, int timeDelay) {
       topStrip.setPixelColor(counter + 1 - b, 0, 0, 0);                            
     } 
   }
+
+  for (int b = 0; b < (RIGHT_STRIP_NUMPIXELS * theLength); b += (theLength * 2)) {
+    for (int i = 0; i < theLength; i++) {
+      rightStrip.setPixelColor(counter - i + b, 255, 0, 0);
+      rightStrip.setPixelColor(counter + 1 + b, 0, 0, 0);                            
+    }     
+    for (int i = 0; i < theLength; i++) {
+      rightStrip.setPixelColor(counter - i - b, 255, 0, 0);
+      rightStrip.setPixelColor(counter + 1 - b, 0, 0, 0);                            
+    } 
+  }
+
+  for (int b = 0; b < (LEFT_STRIP_NUMPIXELS * theLength); b += (theLength * 2)) {
+    for (int i = 0; i < theLength; i++) {
+      leftStrip.setPixelColor(counter - i + b, 255, 0, 0);
+      leftStrip.setPixelColor(counter + 1 + b, 0, 0, 0);                            
+    }     
+    for (int i = 0; i < theLength; i++) {
+      leftStrip.setPixelColor(counter - i - b, 255, 0, 0);
+      leftStrip.setPixelColor(counter + 1 - b, 0, 0, 0);                            
+    } 
+  }
+  
   topStrip.show(); 
+  rightStrip.show();
+  leftStrip.show();
+  
   delay(timeDelay);
   if (counter < 0) {
     counter = TOP_STRIP_NUMPIXELS;
@@ -401,7 +463,33 @@ void rampDownPattern(int theLength, int timeDelay) {
       topStrip.setPixelColor(counter - 1 - b, 0, 0, 0);                            
     } 
   }
+
+  for (int b = 0; b < (RIGHT_STRIP_NUMPIXELS * theLength); b += (theLength * 2)) {
+    for (int i = 0; i < theLength; i++) {
+      rightStrip.setPixelColor(counter + i + b, 0, 255, 0);
+      rightStrip.setPixelColor(counter - 1 + b, 0, 0, 0);                            
+    }     
+    for (int i = 0; i < theLength; i++) {
+      rightStrip.setPixelColor(counter + i - b, 0, 255, 0);
+      rightStrip.setPixelColor(counter - 1 - b, 0, 0, 0);                            
+    } 
+  }
+
+  for (int b = 0; b < (LEFT_STRIP_NUMPIXELS * theLength); b += (theLength * 2)) {
+    for (int i = 0; i < theLength; i++) {
+      leftStrip.setPixelColor(counter + i + b, 0, 255, 0);
+      leftStrip.setPixelColor(counter - 1 + b, 0, 0, 0);                            
+    }     
+    for (int i = 0; i < theLength; i++) {
+      leftStrip.setPixelColor(counter + i - b, 0, 255, 0);
+      leftStrip.setPixelColor(counter - 1 - b, 0, 0, 0);                            
+    } 
+  }
+  
   topStrip.show(); 
+  rightStrip.show();
+  leftStrip.show();
+  
   delay(timeDelay);
   if (counter >= (theLength * 4)) {
     counter = 0;
