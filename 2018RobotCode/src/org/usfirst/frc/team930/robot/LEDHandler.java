@@ -2,7 +2,6 @@
 //-- Preprocessor Directives --\\
 package org.usfirst.frc.team930.robot;
 
-import org.usfirst.frc.team930.robot.TeleopHandler.IntakeStates;
 import org.usfirst.frc.team930.robot.TeleopHandler.RobotStates;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -16,9 +15,6 @@ public class LEDHandler {
 	// -- Variable Declarations --\\
 	private static int sendData;
 	private static RobotStates robotStateEnum;	//States for the entire robot
-	
-	//-- Function Declarations and Implementations --\\
-
 	
 	//-- Initializing Variables and Objects --\\
 
@@ -37,7 +33,13 @@ public class LEDHandler {
 		//will be sent. We will have to re-negate the number in the arduino (make it positive).
 	}
 	
-	// Main Loop (called in Robot.java) 
+	// Autonomous Loop (called in AutoHandler.java)
+	
+	public static void autoRun() {
+		wire.write(Constants.arduinoAddress, 9);	//9 is the ID for autonomous
+	}
+	
+	// Main Loop (called in TeleopHandler.java) 
 
 	public static void run(Enum state) {
 		
@@ -46,9 +48,6 @@ public class LEDHandler {
 		//-- State Checking --\\
 		
 		switch (robotStateEnum) {
-			case AUTONOMOUS:
-				sendData = 9;
-				break;
 			case RAMPS_DOWN:
 				sendData = 7;
 				break;

@@ -22,6 +22,7 @@ public class Robot extends TimedRobot {
 	
 	private static final int address = 84;
 	private int sendData;
+	private boolean aPressed;
 
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
@@ -34,7 +35,8 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
 		wire = new I2C(Port.kOnboard, address);
-		sendData = 0;
+		sendData = 1;
+		aPressed = false;
 	}
 
 	
@@ -63,12 +65,14 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		if (controller.getRawButton(1)) {
-			System.out.println("NO STINKY ROBOTS");
-			sendData = 50;
-			//registerAddress, data
-		} else {
-			sendData = 120;
+		if (controller.getRawButton(1) && !aPressed) {
+			aPressed = true;
+			sendData = sendData + 1;
+		} else if (!controller.getRawButton(1)) {
+			aPressed = false;
+		}
+		if (sendData > 8) {
+			sendData = 1;
 		}
 		wire.write(address, sendData);	
 	}

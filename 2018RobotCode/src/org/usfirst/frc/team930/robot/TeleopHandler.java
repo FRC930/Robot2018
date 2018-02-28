@@ -45,8 +45,7 @@ public class TeleopHandler {
 		INTAKE_DONE,
 		OUTTAKING,
 		RAMPS_DOWN,
-		RAMPS_UP,
-		AUTONOMOUS
+		RAMPS_UP
 	}
 	
 	enum IntakeStates{
