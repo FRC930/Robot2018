@@ -45,9 +45,9 @@ public class Drive {
 		yStick = Math.pow(yStick,3);
 		xStick = Math.pow(xStick, 3);
 		updateDashboard();
-		if(Math.abs(xStick) < Constants.deadBand)
+		if(Math.abs(xStick) < Constants.driveDeadBand)
 			xStick = 0;
-		if(Math.abs(yStick) < Constants.deadBand)
+		if(Math.abs(yStick) < Constants.driveDeadBand)
 			yStick = 0;
 		yStick *= -1;
 		

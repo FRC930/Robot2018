@@ -33,52 +33,17 @@ public class Robot extends IterativeRobot {
 	Timer time = new Timer();
 	
 	Waypoint[] points = new Waypoint[] {
-			new Waypoint(0.7, 4.0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
+			new Waypoint(0, 0, Pathfinder.d2r(0)),
+			new Waypoint(7, 0, Pathfinder.d2r(0)),
+			
+			// Right Scale
+			/*new Waypoint(0.7, 4.0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
 		    new Waypoint(2.7, 2.1, Pathfinder.d2r(310)),
 		    new Waypoint(5.1, 1.1,Pathfinder.d2r(346)),
 		    new Waypoint(5.45, 1.02, Pathfinder.d2r(350)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-		    new Waypoint(7.2, 1.45, Pathfinder.d2r(350)),
-//		    new Waypoint(5,-2,Pathfinder.d2r(270)),
-//		    new Waypoint(7,-4,Pathfinder.d2r(0)),
-//		    new Waypoint(9,-2, Pathfinder.d2r(90)),
-//		    new Waypoint(7,0,Pathfinder.d2r(180)),
-//		    new Waypoint(5,-2,Pathfinder.d2r(270)),
-//		    new Waypoint(3,-4,Pathfinder.d2r(180)),
-//		    new Waypoint(1,-2, Pathfinder.d2r(90)),
-//		    new Waypoint(3,0,0)
-			/*new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-		    new Waypoint(4,0,0),
-		    new Waypoint(6,-2,Pathfinder.d2r(270)),
-		    new Waypoint(4,-4,Pathfinder.d2r(180)),
-		    new Waypoint(2,-2, Pathfinder.d2r(90)),
-		    new Waypoint(4,0,0),
-		    new Waypoint(6,-2,Pathfinder.d2r(270)),
-		    new Waypoint(4,-4,Pathfinder.d2r(180)),
-		    new Waypoint(2,-2, Pathfinder.d2r(90)),
-		    new Waypoint(4,0,0),
-		    new Waypoint(6,-2,Pathfinder.d2r(270)),
-		    new Waypoint(4,-4,Pathfinder.d2r(180)),
-		    new Waypoint(2,-2, Pathfinder.d2r(90)),
-		    new Waypoint(4,0,0),
-		    new Waypoint(6,-2,Pathfinder.d2r(270)),
-		    new Waypoint(4,-4,Pathfinder.d2r(180)),
-		    new Waypoint(2,-2, Pathfinder.d2r(90)),
-		    new Waypoint(4,0,0),*/
-			 /*new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-			    new Waypoint(3,0,0),
-			    new Waypoint(4,-1,Pathfinder.d2r(315)),
-			    new Waypoint(5,-2,Pathfinder.d2r(0)),
-			    new Waypoint(6,-1, Pathfinder.d2r(90)),
-			    new Waypoint(5,0,Pathfinder.d2r(180)),
-			    new Waypoint(4,-1,Pathfinder.d2r(225)),
-			    new Waypoint(3,-2,Pathfinder.d2r(180)),
-			    new Waypoint(2,-1, Pathfinder.d2r(90)),
-			    new Waypoint(3,0,0)*/
-		    
-		   // new Waypoint(2,6,Pathfinder.d2r(180)),
-		   // new Waypoint(5.5,5,Pathfinder.d2r(180))// Waypoint @ x=-2, y=-2, exit angle=0 radians
+		    new Waypoint(7.2, 1.45, Pathfinder.d2r(45)),*/
 		};
-	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.05, 2.7, 4.0, 50.0);
+	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.01, 6.0, 6.0, 50.0);
 
 	Trajectory tra = Pathfinder.generate(points, config);
 	
@@ -128,8 +93,8 @@ public class Robot extends IterativeRobot {
 		
 	/*	enc.configurePIDVA(0.01, 0, 0, 0.24, 0.0); //Kv = 0.24 //Ka = 0.05
 		enc2.configurePIDVA(0.01, 0, 0, 0.24, 0.0);*/
-		enc.configurePIDVA(0.9, 0, 0, 0.285, 0.02); //Kv = 0.24 //Ka = 0.05
-		enc2.configurePIDVA(0.9, 0, 0, 0.285, 0.02);
+		enc.configurePIDVA(0.9, 0, 0, 0.285, 0.05); //Kv = 0.24 //Ka = 0.05
+		enc2.configurePIDVA(0.9, 0, 0, 0.285, 0.05);
 		
 	}
 
@@ -163,26 +128,28 @@ public class Robot extends IterativeRobot {
 			error = error-360;
 		else if(error < -180)
 			error = error+360;
-		double kG = -0.049;//0.8 * (-1.0/80.0);
+		double kG = -0.038;//0.8 * (-1.0/80.0);
 
 		double turn = kG * error;
-		/*System.out.println("GYRO YAW value:   " +  gyro.getYaw());
-		System.out.println("HEading we are shooting for:  " + Math.toDegrees(enc.getHeading()));
-		System.out.println("Turn Value: " + turn);*/
+		//System.out.println("GYRO YAW value:   " +  gyro.getYaw());
+		//System.out.println("Heading we are shooting for:  " + Math.toDegrees(enc.getHeading()));
+		//System.out.println("Turn Value: " + turn);
 		
-		System.out.printf("Turn: %.2f Heading: %.2f Gyro: %.2f", turn, enc.getHeading(), gyro.getYaw()); 
+		//System.out.printf("Turn: %.2f Heading: %.2f Gyro: %.2f\n", turn, enc.getHeading(), gyro.getYaw()); 
 	
 		double calc = (enc.calculate(rightMain.getSelectedSensorPosition(0)));
 		double calc2 = (enc2.calculate(leftMain.getSelectedSensorPosition(0)));
 		rightMain.set(ControlMode.PercentOutput, (calc -turn));
 		leftMain.set(ControlMode.PercentOutput, (calc2 +turn));
-		System.out.println("Right: " + calc);
-		System.out.println("Left Side: " + leftMain.getSelectedSensorVelocity(0) + "Left: " + -calc2);
+		//System.out.println("Right: " + calc);
+		//System.out.println("Left Side: " + leftMain.getSelectedSensorVelocity(0) + "Left: " + -calc2);
 		//System.out.println("Pos: " + enc.getSegment().position);
 		SmartDashboard.putNumber("Left", calc2);
 		//SmartDashboard.putNumber("Left Pos", enc2.getSegment().position);
 		SmartDashboard.putNumber("Encoder", leftMain.getSelectedSensorVelocity(0));
 		SmartDashboard.putNumber("encoder2",(rightMain.getSelectedSensorVelocity(0)));
+		
+		System.out.printf("%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t\n", enc.getSegment().x, enc.getSegment().y, enc.getSegment().heading, enc.getSegment().velocity, ((rightMain.getSelectedSensorVelocity(0) * 10 * 4 * Math.PI * 0.305) / (1024.0 * 12.0)), gyro.getYaw());
 		
 		/*if(enc.isFinished() && enc2.isFinished()){}
 		else{

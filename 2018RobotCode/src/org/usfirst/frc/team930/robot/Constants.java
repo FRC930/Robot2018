@@ -35,7 +35,8 @@ public class Constants {
 	public static final int leftMainTalonID = 4;  
 	public static final int leftFollowVictorID = 5;
 	public static final int leftFollow2Victor = 6;
-	public static final double deadBand = 0.005;
+	public static final double driveDeadBand = 0.005;
+	public static final double elevatorDeadBand = 0.15;
 	
 	// Intake Constants
 	public static final int rightIntakeWheelVictorID  = 9;
@@ -46,7 +47,7 @@ public class Constants {
 	public static final double currentThreshhold = 30.0;				
 	public static final double intakeMotorSpeed = 0.75;	
 	public static final double slowIntakeMotorSpeed = 0.35;		
-	public static final int PDPcounterLimit = 5;	
+	public static final int PDPcounterLimit = 5;
 	
 	// Elevator Constants
 	public static final int liftTalonID = 7;
@@ -61,7 +62,7 @@ public class Constants {
 	public static final double scalePositionMid = 7600;
 	public static final double scalePositionHigh = 8200;
 	public static final double exchangePosition = 250;
-	public static final double intakePortalPosition = 2500;
+	public static final double portalPosition = 2500;
 
 	public static final int targetMultiplier = -400;
 	public static final int counterLimit = 3;

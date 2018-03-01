@@ -59,6 +59,7 @@ public class TeleopHandler {
 	enum ElevatorStates{
 		INTAKE_POSITION,
 		EXCHANGE_POSITION,
+		PORTAL_POSITION,
 		SWITCH_POSITION,
 		SCALE_POSITION_L,
 		SCALE_POSITION_M,
@@ -111,10 +112,10 @@ public class TeleopHandler {
 			buttonCheckA = false;
 		}*/
 		
-		/*if(stick2.getRawButton(Constants.A))
+		if(stick1.getRawButton(Constants.A))
 			Intake.run(IntakeStates.LIFTER_UP);
-		else if(stick2.getRawButton(Constants.Y))
-			Intake.run(IntakeStates.LIFTER_DOWN);*/
+		else if(stick1.getRawButton(Constants.Y))
+			Intake.run(IntakeStates.LIFTER_DOWN);
 		
 		
 		//Elevator
@@ -167,6 +168,14 @@ public class TeleopHandler {
 		else if ((!stick2.getRawButton(Constants.leftJoyButton)) && buttonCheckLeftJoyButton) {
 			buttonCheckLeftJoyButton = false;
 		}
+		
+		/*if (stick2.getRawButton(Constants.leftJoyButton) && (!buttonCheckLeftJoyButton)) {
+			buttonCheckLeftJoyButton = true;
+			Elevator.run(ElevatorStates.PORTAL_POSITION);
+		}
+		else if ((!stick2.getRawButton(Constants.leftJoyButton)) && buttonCheckLeftJoyButton) {
+			buttonCheckLeftJoyButton = false;
+		}*/
 		
 		//Elevator.switchToPercentOutput();
 		

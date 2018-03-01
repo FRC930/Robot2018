@@ -90,6 +90,10 @@ public class Elevator {
 			targetPosition = Constants.exchangePosition;
 			positionBool = true;
 			break;
+		case PORTAL_POSITION:
+			targetPosition = Constants.portalPosition;
+			positionBool = true;
+			break;
 		case SWITCH_POSITION:
 			targetPosition = Constants.switchPosition;
 			positionBool = true;
@@ -116,7 +120,7 @@ public class Elevator {
 		//getSelectedSensorPosition should return a value from 0 - 8000.
 		LEDHandler.updateElevator(lift1.getSelectedSensorPosition(0));
 				
-		if(Math.abs(axisValue) > Constants.deadBand){
+		if(Math.abs(axisValue) > Constants.elevatorDeadBand){
 			targetPosition += (axisValue * Constants.targetMultiplier);
 			positionBool = false;
 		}
@@ -168,7 +172,7 @@ public class Elevator {
 	}
 	
 	public static void switchToPercentOutput() {
-		if((stateEnum.equals(TeleopHandler.ElevatorStates.INTAKE_POSITION)) && (lift1.getSelectedSensorPosition(0) < (Constants.intakePosition + 25)))
+		if((stateEnum == TeleopHandler.ElevatorStates.INTAKE_POSITION) && (lift1.getSelectedSensorPosition(0) < (Constants.intakePosition + 25)))
 			lift1.set(ControlMode.PercentOutput, 0);
 	}
 	
