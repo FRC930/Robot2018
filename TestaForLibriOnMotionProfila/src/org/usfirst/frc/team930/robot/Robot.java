@@ -93,9 +93,10 @@ public class Robot extends IterativeRobot {
 		
 	/*	enc.configurePIDVA(0.01, 0, 0, 0.24, 0.0); //Kv = 0.24 //Ka = 0.05
 		enc2.configurePIDVA(0.01, 0, 0, 0.24, 0.0);*/
-		enc.configurePIDVA(0.9, 0, 0, 0.285, 0.05); //Kv = 0.24 //Ka = 0.05
-		enc2.configurePIDVA(0.9, 0, 0, 0.285, 0.05);
-		
+		// Right
+		enc.configurePIDVA(0.9, 0, 0, 0.285, 0.05); //P = 0.9 // Kv = 0.285 //Ka = 0.05
+		// Left
+		enc2.configurePIDVA(0.9, 0, 0, 0.285, 0.05);//P = 0.9 // Kv = 0.285 //Ka = 0.05
 	}
 
 

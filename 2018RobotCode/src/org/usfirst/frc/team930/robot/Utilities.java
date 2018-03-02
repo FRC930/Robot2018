@@ -36,11 +36,19 @@ public class Utilities {
 	}
 	
 	public static void startCapture() {
-		CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(Constants.cameraResWidth, Constants.cameraResHeight);
-		camera.setFPS(30);
-		cvSink = CameraServer.getInstance().getVideo();
-		outputStream = CameraServer.getInstance().putVideo("Video", Constants.cameraResWidth, Constants.cameraResHeight);
+		new Thread(() -> {
+			camera = CameraServer.getInstance().startAutomaticCapture();
+			camera.setResolution(Constants.cameraResWidth, Constants.cameraResHeight);
+			camera.setFPS(30);
+			cvSink = CameraServer.getInstance().getVideo();
+			outputStream = CameraServer.getInstance().putVideo("Video", Constants.cameraResWidth, Constants.cameraResHeight);
+			Mat source = new Mat();
+		
+			while(!Thread.interrupted()) {
+				cvSink.grabFrame(source);
+				outputStream.putFrame(source);
+			}
+		}).start();
 	}
 
 }
