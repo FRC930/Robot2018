@@ -39,6 +39,7 @@ public class TeleopHandler {
 		Elevator.run(ElevatorStates.INTAKE_POSITION);
 		Elevator.run(0);
 		LEDHandler.run(RobotStates.DISABLED);
+		Utilities.updateDashboard();
 	}
 	
 	enum RobotStates {

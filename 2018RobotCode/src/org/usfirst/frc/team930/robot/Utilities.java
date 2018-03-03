@@ -14,8 +14,8 @@ public class Utilities {
 	public static Compressor comp = new Compressor(0);
 	public static PowerDistributionPanel pdp = new PowerDistributionPanel(0);
 	//public static UsbCamera camera = new UsbCamera("Camera", Constants.cameraDeviceID);
-	public static CvSink cvSink;
-	public static CvSource outputStream;
+	//public static CvSink cvSink;
+	//public static CvSource outputStream;
 	public static Mat source = new Mat();
 	public static Mat output = new Mat();
 	
@@ -36,19 +36,9 @@ public class Utilities {
 	}
 	
 	public static void startCapture() {
-		/*new Thread(() -> {
-			camera = CameraServer.getInstance().startAutomaticCapture();
+			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 			camera.setResolution(Constants.cameraResWidth, Constants.cameraResHeight);
-			camera.setFPS(30);
-			cvSink = CameraServer.getInstance().getVideo();
-			outputStream = CameraServer.getInstance().putVideo("Video", Constants.cameraResWidth, Constants.cameraResHeight);
-			Mat source = new Mat();
-		
-			while(!Thread.interrupted()) {
-				cvSink.grabFrame(source);
-				outputStream.putFrame(source);
-			}
-		}).start();*/
+			camera.setFPS(Constants.cameraFPS);
 	}
 
 }

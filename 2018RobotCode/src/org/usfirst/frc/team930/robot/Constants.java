@@ -80,7 +80,8 @@ public class Constants {
 	public static final int arduinoAddress = 84;
 	
 	// Camera Constants
-	public static final int cameraResWidth = 640;
-	public static final int cameraResHeight = 480;
+	public static final int cameraResWidth = 320;
+	public static final int cameraResHeight = 240;
+	public static final int cameraFPS = 20;
 	public static final int cameraDeviceID = 0;
 }
