@@ -43,8 +43,9 @@ public class Robot extends IterativeRobot {
 		    new Waypoint(5.45, 1.02, Pathfinder.d2r(350)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
 		    new Waypoint(7.2, 1.45, Pathfinder.d2r(45)),*/
 		};
-	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.01, 6.0, 6.0, 50.0);
-
+	Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.01, 3.85, 4.8, 50.0);
+	// 4.3
+	// 8.75
 	Trajectory tra = Pathfinder.generate(points, config);
 	
 	
@@ -94,9 +95,9 @@ public class Robot extends IterativeRobot {
 	/*	enc.configurePIDVA(0.01, 0, 0, 0.24, 0.0); //Kv = 0.24 //Ka = 0.05
 		enc2.configurePIDVA(0.01, 0, 0, 0.24, 0.0);*/
 		// Right
-		enc.configurePIDVA(0.9, 0, 0, 0.285, 0.05); //P = 0.9 // Kv = 0.285 //Ka = 0.05
+		enc.configurePIDVA(0.9, 0, 0, 0.289, 0.05); //P = 0.9 // Kv = 0.285 //Ka = 0.05
 		// Left
-		enc2.configurePIDVA(0.9, 0, 0, 0.285, 0.05);//P = 0.9 // Kv = 0.285 //Ka = 0.05
+		enc2.configurePIDVA(0.9, 0, 0, 0.289, 0.05);//P = 0.9 // Kv = 0.285 //Ka = 0.05
 	}
 
 
@@ -150,7 +151,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Encoder", leftMain.getSelectedSensorVelocity(0));
 		SmartDashboard.putNumber("encoder2",(rightMain.getSelectedSensorVelocity(0)));
 		
-		System.out.printf("%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t\n", enc.getSegment().x, enc.getSegment().y, enc.getSegment().heading, enc.getSegment().velocity, ((rightMain.getSelectedSensorVelocity(0) * 10 * 4 * Math.PI * 0.305) / (1024.0 * 12.0)), gyro.getYaw());
+		//System.out.printf("%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t\n", enc.getSegment().x, enc.getSegment().y, enc.getSegment().heading, enc.getSegment().velocity, ((rightMain.getSelectedSensorVelocity(0) * 10 * 4 * Math.PI * 0.305) / (1024.0 * 12.0)), gyro.getYaw());
 		
 		/*if(enc.isFinished() && enc2.isFinished()){}
 		else{

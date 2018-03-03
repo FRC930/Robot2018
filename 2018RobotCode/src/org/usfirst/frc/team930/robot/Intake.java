@@ -112,7 +112,6 @@ public class Intake {
 		//-- In take Variable Initializations --\\
 
 		PDPcounter = 0;
-		//Utilities.turnOnCompressor();	//Sets the compressor on
 		setIntakeGrip(false);
 		setIntakeLifter(false);
 	}
@@ -124,7 +123,6 @@ public class Intake {
 		
 		//-- Debug Messages --\\
 
-		System.out.println(Utilities.getPDPCurrent());
 		SmartDashboard.putNumber("PDP Intake Port Reading", Utilities.getPDPCurrent());
 		SmartDashboard.putData("PDP Intake Port Graph", Utilities.pdp);
 		

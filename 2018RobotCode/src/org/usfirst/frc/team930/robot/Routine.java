@@ -21,7 +21,7 @@ public abstract class Routine {
 	
 	public void run() {
 		
-		initDelay.execute(time.get());
+		//initDelay.execute(time.get());
 		this.variation();
 		
 	}

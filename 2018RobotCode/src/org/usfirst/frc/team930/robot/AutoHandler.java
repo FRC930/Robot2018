@@ -16,10 +16,7 @@ public class AutoHandler {
 	public static SendableChooser<StartPositions> posChooser = new SendableChooser<StartPositions>();
 	public static SendableChooser<Goal> goalChooser = new SendableChooser<Goal>();
 	
-	static Waypoint[] points = new Waypoint[] {
-			new Waypoint(0, 0, Pathfinder.d2r(0)),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
-		    new Waypoint(0, 0, Pathfinder.d2r(0))
-	};
+	static Waypoint[] points;
 	
 	public static Routine auto;
 	
@@ -65,6 +62,8 @@ public class AutoHandler {
 	
 	public static void autoInit() {
 		
+		Utilities.setCompressor(false);
+		
 		Enum startPositions = (Enum) posChooser.getSelected();
 		Enum goal = (Enum) goalChooser.getSelected();
 		String variation = DriverStation.getInstance().getGameSpecificMessage();
@@ -89,9 +88,30 @@ public class AutoHandler {
 				case "LRL":
 				case "RRR":
 					auto= new LeftRightScale(variation, delay);
+					points = new Waypoint[] {
+							new Waypoint(0, 7, Pathfinder.d2r(0)),
+							new Waypoint(4, 7.5, Pathfinder.d2r(345)),
+							new Waypoint(6, 5, Pathfinder.d2r(270)),
+							new Waypoint(6, 3.9, Pathfinder.d2r(270)),
+							new Waypoint(7.5, 2.2, Pathfinder.d2r(10)),
+					};
 					break;
 				case "RLR":
 				case "LLL":
+					System.out.println("Running LEFT LEFT SCALE");
+					points = new Waypoint[] {
+							new Waypoint(0, 7, Pathfinder.d2r(0)),
+							new Waypoint(4.0, 7.5, Pathfinder.d2r(345)),
+							new Waypoint(5.5, 5, Pathfinder.d2r(270)),
+							new Waypoint(5.5, 3.9, Pathfinder.d2r(270)),
+							//new Waypoint(6.5, 2.2, Pathfinder.d2r(10)),
+							
+							/*new Waypoint(0, 7, Pathfinder.d2r(0)),
+							new Waypoint(3.75, 7.5, Pathfinder.d2r(345)),
+							new Waypoint(5.25, 5, Pathfinder.d2r(270)),
+							new Waypoint(5.25, 3.9, Pathfinder.d2r(270)),
+							//new Waypoint(6.5, 2.2, Pathfinder.d2r(10)),*/
+					};
 					auto= new LeftLeftScale(variation, delay);
 					break;
 				
@@ -272,7 +292,7 @@ public class AutoHandler {
 	}
 	
 	public static void run() {
-		LEDHandler.autoRun();
+		////////LEDHandler.autoRun();
 		//if(!Drive.checkSensors()) {
 			//Drive.resetSensorCheck();
 			auto.run();

@@ -31,7 +31,7 @@ public class Drive {
 		leftFollow2.setInverted(true);
 		
 		rightMain.setSensorPhase(true);
-		leftMain.setSensorPhase(true);
+		leftMain.setSensorPhase(false);
 		
 		rightFollow2.follow(rightMain);
 		rightFollow.follow(rightMain);

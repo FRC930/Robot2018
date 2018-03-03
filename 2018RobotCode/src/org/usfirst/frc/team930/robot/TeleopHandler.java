@@ -30,11 +30,14 @@ public class TeleopHandler {
 	
 	public static void init() {
 		Utilities.startCapture();
+		Utilities.setCompressor(true);
 	}
 	
 	public static void disabled() {
 		Drive.updateDashboard();
 		Elevator.updateDashboard();
+		Elevator.run(ElevatorStates.INTAKE_POSITION);
+		Elevator.run(0);
 		LEDHandler.run(RobotStates.DISABLED);
 	}
 	

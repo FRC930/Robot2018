@@ -18,7 +18,7 @@ public class RightLeftSwitch extends Routine {
 				}
 				break;
 			case 2:
-				if(actList.act1()) {
+				if(actList.switchPosition()) {
 					this.autoStep = 3;
 					System.out.println("Action 1 Done");
 				}

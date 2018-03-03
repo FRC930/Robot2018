@@ -10,30 +10,27 @@ public class Segments {
 		boolean isFinished = false;
 		switch (this.path) {
 		case 1:
-			System.out.println("Running Segment 1 Case 1");
-			System.out.println("Count: " + point);
+			//System.out.println("Running Segment 1 Case 1");
+			//System.out.println("Count: " + point);
 			
-			if(point == 10/*MotionProfile.isLastPoint()*/) {
-				this.point = 0;
-				this.path = 2;
+			MotionProfile.run();
+			
+			if(MotionProfile.isLastPoint()) {
+				this.path = 1;
+				isFinished = true;
 			}
 			
-			this.point++;
-			
 			break;
-		case 2:
+		/*case 2:
 			System.out.println("Running Segment 1 Case 2");
 			System.out.println("Count: " + point);
 			
-			if(point == 10/*MotionProfile.isLastPoint()*/) {
-				this.point = 0;
+			if(MotionProfile.isLastPoint()) {
 				this.path = 2;
 				isFinished = true;
 			}
 			
-			this.point++;
-			
-			break;
+			break;*/
 		}
 		
 		return isFinished;
