@@ -36,6 +36,7 @@ public class TeleopHandler {
 		Drive.updateDashboard();
 		Elevator.updateDashboard();
 		LEDHandler.run(RobotStates.DISABLED);
+		Utilities.updateDashboard();
 	}
 	
 	enum RobotStates {
