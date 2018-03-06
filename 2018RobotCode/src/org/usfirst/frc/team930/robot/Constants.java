@@ -46,7 +46,8 @@ public class Constants {
 	public static final int gripperSolenoidID = 1;
 	public static final double currentThreshhold = 100.0; //30				
 	public static final double intakeMotorSpeed = 0.75;	
-	public static final double slowIntakeMotorSpeed = 0.35;		
+	public static final double slowIntakeMotorSpeed = 0.35;
+	//public static final double autoIntakeMotorSpeed = 0.2;
 	public static final int PDPcounterLimit = 5;
 	
 	// Elevator Constants

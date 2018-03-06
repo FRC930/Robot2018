@@ -5,26 +5,35 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
-public class MotionProfile {
+public class MotionProfile implements Runnable {
 
 	private static EncoderFollower enc;
 	private static EncoderFollower enc2;
+	public static double first;
 
 	public static void init() {
 		
-		Drive.gyro.reset();
+		first = Timer.getFPGATimestamp();
+		SmartDashboard.putNumber("Auto Time Difference", 0);
 		
-		Waypoint[] points = AutoHandler.points;
+		//Drive.gyro.reset();
+		
+		//Waypoint[] points = AutoHandler.points;
+		Waypoint[] leftRightScale = AutoHandler.leftRightScale;
+		Waypoint[] leftLeftScale = AutoHandler.leftLeftScale;
 		
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 4.8, 50.0);
 		
-		Trajectory tra = Pathfinder.generate(points, config);
+		//Trajectory tra = Pathfinder.generate(points, config);
+		Trajectory tra = Pathfinder.generate(leftRightScale, config);
+		//Trajectory tra = Pathfinder.generate(leftLeftScale, config);
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.628);
 
@@ -41,7 +50,7 @@ public class MotionProfile {
 		
 	}
 	
-	public static void run() {
+	public void run() {
 		
 			double heading = Math.toDegrees(enc.getHeading());
 			
@@ -59,11 +68,14 @@ public class MotionProfile {
 
 			double turn = kG * error;
 			
-			//System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading,-yaw,turn); 
+			System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading,-yaw,turn); 
 			double calc = (enc.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
 			double calc2 = (enc2.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
 			Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
 			Drive.leftMain.set(ControlMode.PercentOutput, (calc2 + turn));
+			
+			SmartDashboard.putNumber("Auto Time Difference", Timer.getFPGATimestamp() - first);
+			first = Timer.getFPGATimestamp();
 			
 		}
 	

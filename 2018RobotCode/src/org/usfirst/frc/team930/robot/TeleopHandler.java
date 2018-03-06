@@ -29,7 +29,7 @@ public class TeleopHandler {
 	private static boolean lifterToggle = false;
 	
 	public static void init() {
-		Utilities.startCapture();
+		//Utilities.startCapture();
 		Utilities.setCompressor(true);
 	}
 	

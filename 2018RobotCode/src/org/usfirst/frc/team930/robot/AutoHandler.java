@@ -16,7 +16,27 @@ public class AutoHandler {
 	public static SendableChooser<StartPositions> posChooser = new SendableChooser<StartPositions>();
 	public static SendableChooser<Goal> goalChooser = new SendableChooser<Goal>();
 	
-	static Waypoint[] points;
+	static Waypoint[] leftRightScale = new Waypoint[] {
+			new Waypoint(0, 7, Pathfinder.d2r(0)),
+			new Waypoint(3.6, 7.5, Pathfinder.d2r(345)),
+			new Waypoint(5.25, 5, Pathfinder.d2r(270)),
+			new Waypoint(5.25, 3.35, Pathfinder.d2r(270)),
+			new Waypoint(6.9, 1.7, Pathfinder.d2r(0)),
+			
+			//new Waypoint(0, 7, Pathfinder.d2r(0)),
+			//new Waypoint(3.75, 7.5, Pathfinder.d2r(345)),
+			//new Waypoint(5.25, 5, Pathfinder.d2r(270)),
+			//new Waypoint(5.25, 3.9, Pathfinder.d2r(270)),
+			//new Waypoint(6.5, 2.2, Pathfinder.d2r(10)),
+	};
+	
+	static Waypoint[] leftLeftScale = new Waypoint[] {
+			new Waypoint(0, 7, Pathfinder.d2r(0)),
+			new Waypoint(4, 7.5, Pathfinder.d2r(345)),
+			new Waypoint(6, 5, Pathfinder.d2r(270)),
+			new Waypoint(6, 3.9, Pathfinder.d2r(270)),
+			new Waypoint(7.5, 2.2, Pathfinder.d2r(10)),
+	};
 	
 	public static Routine auto;
 	
@@ -57,10 +77,14 @@ public class AutoHandler {
         SmartDashboard.putData("Goals", goalChooser);
         
         SmartDashboard.putNumber("Time Delay", 0);
+        
+        MotionProfile.init();
 		
 	}
 	
 	public static void autoInit() {
+		
+		MotionProfile.first = Timer.getFPGATimestamp();
 		
 		Utilities.setCompressor(false);
 		
@@ -87,31 +111,11 @@ public class AutoHandler {
 
 				case "LRL":
 				case "RRR":
+					System.out.println("Running LEFT RIGHT SCALE");
 					auto= new LeftRightScale(variation, delay);
-					points = new Waypoint[] {
-							new Waypoint(0, 7, Pathfinder.d2r(0)),
-							new Waypoint(4, 7.5, Pathfinder.d2r(345)),
-							new Waypoint(6, 5, Pathfinder.d2r(270)),
-							new Waypoint(6, 3.9, Pathfinder.d2r(270)),
-							new Waypoint(7.5, 2.2, Pathfinder.d2r(10)),
-					};
 					break;
 				case "RLR":
 				case "LLL":
-					System.out.println("Running LEFT LEFT SCALE");
-					points = new Waypoint[] {
-							new Waypoint(0, 7, Pathfinder.d2r(0)),
-							new Waypoint(4.0, 7.5, Pathfinder.d2r(345)),
-							new Waypoint(5.5, 5, Pathfinder.d2r(270)),
-							new Waypoint(5.5, 3.9, Pathfinder.d2r(270)),
-							//new Waypoint(6.5, 2.2, Pathfinder.d2r(10)),
-							
-							/*new Waypoint(0, 7, Pathfinder.d2r(0)),
-							new Waypoint(3.75, 7.5, Pathfinder.d2r(345)),
-							new Waypoint(5.25, 5, Pathfinder.d2r(270)),
-							new Waypoint(5.25, 3.9, Pathfinder.d2r(270)),
-							//new Waypoint(6.5, 2.2, Pathfinder.d2r(10)),*/
-					};
 					auto= new LeftLeftScale(variation, delay);
 					break;
 				
@@ -287,7 +291,7 @@ public class AutoHandler {
 			break;
 		}
 		
-		MotionProfile.init();
+		//MotionProfile.init();
 		
 	}
 	
@@ -295,11 +299,18 @@ public class AutoHandler {
 		////////LEDHandler.autoRun();
 		//if(!Drive.checkSensors()) {
 			//Drive.resetSensorCheck();
-			auto.run();
+		auto.run();
 			//MotionProfile.run();
 		//}
 		//else
 			//Drive.runAt(0, 0);
+		
+	}
+	
+	public static void disabled() {
+		
+		if(Routine.n != null)
+			Routine.n.stop();
 		
 	}
 

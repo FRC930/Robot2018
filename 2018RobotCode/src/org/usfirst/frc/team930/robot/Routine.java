@@ -1,5 +1,6 @@
 package org.usfirst.frc.team930.robot;
 
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 
 public abstract class Routine {
@@ -9,12 +10,16 @@ public abstract class Routine {
 	protected Segments segList = new Segments();
 	protected Actions actList = new Actions();
 	protected Timer time = new Timer();
-	protected TimeDelay initDelay; 
+	protected TimeDelay initDelay;
+	static Notifier n;
+	protected MotionProfile myMP;
 	
 	public Routine(String v, double delay) {
 		
 		initDelay = new TimeDelay(delay);
 		variation = v;
+		myMP = new MotionProfile();
+		n = new Notifier (myMP);
 		reset();
 		
 	}

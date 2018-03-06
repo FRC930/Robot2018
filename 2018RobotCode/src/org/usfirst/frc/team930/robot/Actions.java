@@ -67,12 +67,12 @@ public class Actions {
 		
 	}
 	
-	public boolean outtake() {
+	public boolean slowOuttake() {
 		
 		boolean isFinished = false;
 		switch (this.path) {
 		case 1:
-			Intake.run(TeleopHandler.IntakeStates.OUTTAKING);
+			Intake.run(TeleopHandler.IntakeStates.SLOW_OUTTAKING);
 			
 			isFinished = true;
 			

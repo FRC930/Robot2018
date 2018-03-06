@@ -15,6 +15,7 @@ public class LeftLeftScale extends Routine {
 		delayIntake.set(2);
 		time.start();
 		
+		
 	}
 	
 	public void variation() {
@@ -29,7 +30,8 @@ public class LeftLeftScale extends Routine {
 			case 1:
 				System.out.println("Running case 1");
 				actList.wristUp();
-				segList.seg1();
+				//segList.seg1();
+				super.n.startPeriodic(0.02);
 				if(delayElev.execute(time.get()))	{
 					this.autoStep = 2;
 					actList.scaleMPosition();
@@ -38,10 +40,10 @@ public class LeftLeftScale extends Routine {
 				break;
 			case 2:
 				System.out.println("Running case 2");
-				segList.seg1();
+				//segList.seg1();
 				if(delayIntake.execute(time.get())) {
 					this.autoStep = 3;
-					actList.outtake();
+					actList.slowOuttake();
 					System.out.println("*****Transition to Case 3");
 				}
 				break;
@@ -50,7 +52,8 @@ public class LeftLeftScale extends Routine {
 				if(segList.seg1()) {
 					this.autoStep = 4;
 					actList.stopIntake();
-					System.out.println("*****Transition to Case 2");
+					super.n.stop();
+					System.out.println("*****Transition to Case 4");
 				}
 				break;
 			case 4:

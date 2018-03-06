@@ -28,6 +28,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		
 		System.out.println("Init Start");
+		System.out.println("Gyro: " + Drive.gyro.isConnected());
 		AutoHandler.autoInit();
 		System.out.println("Init End");
 		
@@ -37,6 +38,12 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		
 		AutoHandler.run();
+		
+	}
+	
+	public void teleopInit() {
+		
+		TeleopHandler.init();
 		
 	}
 
@@ -51,6 +58,7 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		
 		TeleopHandler.disabled();
+		AutoHandler.disabled();
 		
 	}
 
