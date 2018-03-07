@@ -28,12 +28,14 @@ public class MotionProfile implements Runnable {
 		//Waypoint[] points = AutoHandler.points;
 		Waypoint[] leftRightScale = AutoHandler.leftRightScale;
 		Waypoint[] leftLeftScale = AutoHandler.leftLeftScale;
+		Waypoint[] leftLeftSwitch = AutoHandler.leftLeftSwitch;
 		
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 4.8, 50.0);
+		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 2.3, 50.0);
 		
 		//Trajectory tra = Pathfinder.generate(points, config);
-		Trajectory tra = Pathfinder.generate(leftRightScale, config);
+		//Trajectory tra = Pathfinder.generate(leftRightScale, config);
 		//Trajectory tra = Pathfinder.generate(leftLeftScale, config);
+		Trajectory tra = Pathfinder.generate(leftLeftSwitch, config);
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.628);
 
@@ -43,8 +45,8 @@ public class MotionProfile implements Runnable {
 	    
 		enc = new EncoderFollower(right);
 		enc2 = new EncoderFollower(left);
-		enc.configurePIDVA(0.9, 0, 0, 0.289, 0.05); 
-		enc2.configurePIDVA(0.9, 0, 0, 0.289, 0.05);
+		enc.configurePIDVA(0.9, 0, 0, 0.289, 0.06); //0.05 //0.289
+		enc2.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
 		enc.configureEncoder(Drive.rightMain.getSelectedSensorPosition(0), 1024, .102);
 		enc2.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
 		

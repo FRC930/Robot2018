@@ -18,16 +18,10 @@ public class AutoHandler {
 	
 	static Waypoint[] leftRightScale = new Waypoint[] {
 			new Waypoint(0, 7, Pathfinder.d2r(0)),
-			new Waypoint(3.6, 7.5, Pathfinder.d2r(345)),
-			new Waypoint(5.25, 5, Pathfinder.d2r(270)),
-			new Waypoint(5.25, 3.35, Pathfinder.d2r(270)),
-			new Waypoint(6.9, 1.7, Pathfinder.d2r(0)),
-			
-			//new Waypoint(0, 7, Pathfinder.d2r(0)),
-			//new Waypoint(3.75, 7.5, Pathfinder.d2r(345)),
-			//new Waypoint(5.25, 5, Pathfinder.d2r(270)),
-			//new Waypoint(5.25, 3.9, Pathfinder.d2r(270)),
-			//new Waypoint(6.5, 2.2, Pathfinder.d2r(10)),
+			new Waypoint(4.5, 7.5, Pathfinder.d2r(345)),
+			new Waypoint(5.75, 5, Pathfinder.d2r(270)),
+			new Waypoint(5.75, 3.15, Pathfinder.d2r(270)),
+			new Waypoint(6.9, 1.75, Pathfinder.d2r(0)),
 	};
 	
 	static Waypoint[] leftLeftScale = new Waypoint[] {
@@ -36,6 +30,12 @@ public class AutoHandler {
 			new Waypoint(6, 5, Pathfinder.d2r(270)),
 			new Waypoint(6, 3.9, Pathfinder.d2r(270)),
 			new Waypoint(7.5, 2.2, Pathfinder.d2r(10)),
+	};
+	
+	static Waypoint[] leftLeftSwitch = new Waypoint[] {
+			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
+			new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
+			new Waypoint(5.5, 2, Pathfinder.d2r(270)),
 	};
 	
 	public static Routine auto;

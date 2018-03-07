@@ -12,7 +12,7 @@ public class LeftRightScale extends Routine {
 	public LeftRightScale(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(4.5);
+		delayElev.set(3.0);
 		delayIntake.set(1.75);
 		delayStopIntake.set(1);
 		time.start();
@@ -24,10 +24,9 @@ public class LeftRightScale extends Routine {
 		
 		switch (this.autoStep) {
 			/*case 1:
-				if(segList.seg1()) {
-					this.autoStep = 4;
+				super.n.startPeriodic(0.02);
+					this.autoStep = 3;
 					System.out.println("DONE");
-				}
 				break;*/
 			case 1:
 				System.out.println("Running case 1");
