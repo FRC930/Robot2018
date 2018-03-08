@@ -1,9 +1,5 @@
 package org.usfirst.frc.team930.robot;
 
-import org.usfirst.frc.team930.robot.AutoHandler.Goal;
-import org.usfirst.frc.team930.robot.AutoHandler.StartPositions;
-import org.usfirst.frc.team930.robot.TeleopHandler.RobotStates;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -16,24 +12,10 @@ public class AutoHandler {
 	public static SendableChooser<StartPositions> posChooser = new SendableChooser<StartPositions>();
 	public static SendableChooser<Goal> goalChooser = new SendableChooser<Goal>();
 	
-	static Waypoint[] leftRightScale = new Waypoint[] {
-			new Waypoint(0, 7, Pathfinder.d2r(0)),
-			new Waypoint(4.5, 7.5, Pathfinder.d2r(345)),
-			new Waypoint(5.75, 5, Pathfinder.d2r(270)),
-			new Waypoint(5.75, 3.15, Pathfinder.d2r(270)),
-			new Waypoint(6.9, 1.75, Pathfinder.d2r(0)),
-	};
-	
 	static Waypoint[] leftLeftScale = new Waypoint[] {
 			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
 			new Waypoint(7.1, 4.0, Pathfinder.d2r(0)),
 			new Waypoint(8.0, 3.3, Pathfinder.d2r(270)),
-			/*new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
-			new Waypoint(5.45, 3.4, Pathfinder.d2r(20)),
-			new Waypoint(7.44, 3.2, Pathfinder.d2r(310)),
-			new Waypoint(7.6, 2.75, Pathfinder.d2r(270)),
-			new Waypoint(7.2, 1.75, Pathfinder.d2r(230)),
-			new Waypoint(6.5, 1.1, Pathfinder.d2r(200)),*/
 	};
 	
 	static Waypoint[] leftLeftSwitch = new Waypoint[] {
@@ -50,6 +32,14 @@ public class AutoHandler {
 			new Waypoint(6.3, 6.0, Pathfinder.d2r(90)),
 	};
 	
+	static Waypoint[] leftRightScale = new Waypoint[] {
+			new Waypoint(0, 7, Pathfinder.d2r(0)),
+			new Waypoint(4.5, 7.5, Pathfinder.d2r(345)),
+			new Waypoint(5.75, 5, Pathfinder.d2r(270)),
+			new Waypoint(5.75, 3.15, Pathfinder.d2r(270)),
+			new Waypoint(6.9, 1.75, Pathfinder.d2r(0)),
+	};
+	
 	static Waypoint[] middleLeftSwitch = new Waypoint[] {
 			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
 			new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
@@ -57,6 +47,24 @@ public class AutoHandler {
 	};
 	
 	static Waypoint[] middleRightSwitch = new Waypoint[] {
+			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
+			new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
+			new Waypoint(5.5, 2, Pathfinder.d2r(270)),
+	};
+	
+	static Waypoint[] rightRightScale = new Waypoint[] {
+			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
+			new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
+			new Waypoint(5.5, 2, Pathfinder.d2r(270)),
+	};
+	
+	static Waypoint[] rightRightSwitch = new Waypoint[] {
+			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
+			new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
+			new Waypoint(5.5, 2, Pathfinder.d2r(270)),
+	};
+	
+	static Waypoint[] rightLeftScale = new Waypoint[] {
 			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
 			new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
 			new Waypoint(5.5, 2, Pathfinder.d2r(270)),
@@ -102,13 +110,18 @@ public class AutoHandler {
         
         SmartDashboard.putNumber("Time Delay", 0);
         
-        MotionProfile.init();
+        MotionProfile1A.init();
+        MotionProfile2A.init();
+        MotionProfile2B.init();
+        MotionProfile3A.init();
+        MotionProfile6A.init();
+        MotionProfile4A.init();
 		
 	}
 	
 	public static void autoInit() {
 		
-		MotionProfile.first = Timer.getFPGATimestamp();
+		MotionProfile1A.first = Timer.getFPGATimestamp();
 		
 		Utilities.setCompressor(false);
 		Intake.setIntakeGrip(true);
@@ -136,7 +149,6 @@ public class AutoHandler {
 
 				case "LRL":
 				case "RRR":
-					System.out.println("Running LEFT RIGHT SCALE");
 					auto= new LeftRightScale(variation, delay);
 					break;
 				case "RLR":
@@ -316,15 +328,13 @@ public class AutoHandler {
 			break;
 		}
 		
-		//MotionProfile.init();
-		
 	}
 	
 	public static void run() {
 		////////LEDHandler.autoRun();
 		//if(!Drive.checkSensors()) {
 			//Drive.resetSensorCheck();
-		auto.run();
+			auto.run();
 			//MotionProfile.run();
 		//}
 		//else

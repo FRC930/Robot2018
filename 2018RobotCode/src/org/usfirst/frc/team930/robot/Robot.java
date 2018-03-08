@@ -44,6 +44,7 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		
 		TeleopHandler.init();
+		Drive.changeSensorPhase(false, true);
 		
 	}
 

@@ -1,20 +1,27 @@
 package org.usfirst.frc.team930.robot;
 
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 
 public class LeftLeftScale extends Routine {
 	
 	private Timer time = new Timer();
 	private TimeDelay delayElev = new TimeDelay();
-	private TimeDelay delayIntake = new TimeDelay();
+	private TimeDelay delayOuttake = new TimeDelay();
 	private TimeDelay delayStopIntake = new TimeDelay();
+	private static Notifier n;
+	private MotionProfile1A myMP;
 	
 	public LeftLeftScale(String v, double d) {
 		
 		super(v, d);
 		delayElev.set(0);
-		delayIntake.set(3.5);
+		delayOuttake.set(3.5);
 		delayStopIntake.set(1);
+
+		myMP = new MotionProfile1A();
+		n = new Notifier (myMP);
+		
 		time.start();
 		
 		
@@ -31,7 +38,7 @@ public class LeftLeftScale extends Routine {
 		case 1:
 			System.out.println("Running case 1");
 			actList.wristUp();
-			super.n.startPeriodic(0.02);
+			n.startPeriodic(0.02);
 			this.autoStep = 2;
 			break;
 		case 2:
@@ -44,7 +51,7 @@ public class LeftLeftScale extends Routine {
 			break;
 		case 3:
 			System.out.println("Running case 2");
-			if(delayIntake.execute(time.get()))	{
+			if(delayOuttake.execute(time.get()))	{
 				this.autoStep = 4;
 				actList.slowOuttake();
 				System.out.println("*****Transition to Case 2");
@@ -54,7 +61,7 @@ public class LeftLeftScale extends Routine {
 			System.out.println("Running case 3");
 			if(segList.seg1()) {
 				this.autoStep = 5;
-				super.n.stop();
+				n.stop();
 				System.out.println("*****Transition to Case 4");
 			}
 			break;

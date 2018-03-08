@@ -1,20 +1,29 @@
 package org.usfirst.frc.team930.robot;
 
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 
 public class LeftLeftSwitch extends Routine {
 	
 	private Timer time = new Timer();
 	private TimeDelay delayElev = new TimeDelay();
-	private TimeDelay delayIntake = new TimeDelay();
+	private TimeDelay delayOuttake = new TimeDelay();
 	private TimeDelay delayStopIntake = new TimeDelay();
+	private static Notifier n;
+	private MotionProfile2A myMP1;
+	private MotionProfile2B myMP2;
 	
 	public LeftLeftSwitch(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(3.0);
-		delayIntake.set(0.25);
+		delayElev.set(0);
+		delayOuttake.set(3.5);
 		delayStopIntake.set(1);
+
+		myMP1 = new MotionProfile2A();
+		myMP2 = new MotionProfile2B();
+		n = new Notifier (myMP1);
+		
 		time.start();
 		
 		
@@ -24,14 +33,14 @@ public class LeftLeftSwitch extends Routine {
 		
 		switch (this.autoStep) {
 			case 1:
-				super.n.startPeriodic(0.02);
+				n.startPeriodic(0.02);
 					this.autoStep = 3;
 					System.out.println("DONE");
 				break;
 			/*case 1:
 				System.out.println("Running case 1");
 				actList.wristUp();
-				super.n.startPeriodic(0.02);
+				n.startPeriodic(0.02);
 				this.autoStep = 2;
 				break;*/
 			case 2:
@@ -46,11 +55,36 @@ public class LeftLeftSwitch extends Routine {
 				System.out.println("Running case 3");
 				if(segList.seg1()) {
 					this.autoStep = 4;
-					super.n.stop();
+					n.stop();
+					//n = new Notifier (myMP2);
 					//actList.slowOuttake();
 					System.out.println("*****Transition to Case 4");
 				}
 				break;
+			/*case 4:
+				System.out.println("Running case 4");
+				actList.wristUp();
+				n.startPeriodic(0.02);
+				this.autoStep = 5;
+				break;
+			case 5:
+				System.out.println("Running case 5");
+				if(delayElev.execute(time.get()))	{
+					this.autoStep = 6;
+					actList.switchPosition();
+					System.out.println("*****Transition to Case 6");
+				}
+				break;
+			case 6:
+				System.out.println("Running case 6");
+				if(segList.seg1()) {
+					this.autoStep = 7;
+					n.stop();
+					n = new Notifier (myMP2);
+					//actList.slowOuttake();
+					System.out.println("*****Transition to Case 7");
+				}
+				break;*/
 			case 4:
 				if(delayStopIntake.execute(time.get()))
 					actList.stopIntake();

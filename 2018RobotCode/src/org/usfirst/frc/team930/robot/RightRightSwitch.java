@@ -1,30 +1,67 @@
 package org.usfirst.frc.team930.robot;
 
+import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.Timer;
+
 public class RightRightSwitch extends Routine {
+	
+	private Timer time = new Timer();
+	private TimeDelay delayElev = new TimeDelay();
+	private TimeDelay delayOuttake = new TimeDelay();
+	private TimeDelay delayStopIntake = new TimeDelay();
+	private static Notifier n;
+	private MotionProfile7A myMP;
 	
 	public RightRightSwitch(String v, double d) {
 		
 		super(v, d);
+		delayElev.set(0);
+		delayOuttake.set(3.5);
+		delayStopIntake.set(1);
+
+		myMP = new MotionProfile7A();
+		n = new Notifier (myMP);
+		
+		time.start();
+		
 		
 	}
-
+	
 	public void variation() {
 		
 		switch (this.autoStep) {
+			/*case 1:
+				super.n.startPeriodic(0.02);
+					this.autoStep = 3;
+					System.out.println("DONE");
+				break;*/
 			case 1:
-				if(segList.seg1())	{
-					this.autoStep = 2;
-					System.out.println("Segment 1 Done");
-				}
+				System.out.println("Running case 1");
+				actList.wristUp();
+				n.startPeriodic(0.02);
+				this.autoStep = 2;
 				break;
 			case 2:
-				if(actList.switchPosition()) {
+				System.out.println("Running case 2");
+				if(delayElev.execute(time.get()))	{
 					this.autoStep = 3;
-					System.out.println("Action 1 Done");
+					actList.scaleMPosition();
+					System.out.println("*****Transition to Case 2");
 				}
 				break;
 			case 3:
-				System.out.println("DONE");
+				System.out.println("Running case 3");
+				if(segList.seg1()) {
+					this.autoStep = 4;
+					n.stop();
+					actList.slowOuttake();
+					System.out.println("*****Transition to Case 4");
+				}
+				break;
+			case 4:
+				if(delayStopIntake.execute(time.get()))
+					actList.stopIntake();
+				Drive.runAt(0, 0);
 				break;
 		}
 		
