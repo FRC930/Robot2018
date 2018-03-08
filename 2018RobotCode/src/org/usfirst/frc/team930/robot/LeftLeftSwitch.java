@@ -13,7 +13,7 @@ public class LeftLeftSwitch extends Routine {
 		
 		super(v, d);
 		delayElev.set(3.0);
-		delayIntake.set(1.75);
+		delayIntake.set(0.25);
 		delayStopIntake.set(1);
 		time.start();
 		
@@ -23,23 +23,23 @@ public class LeftLeftSwitch extends Routine {
 	public void variation() {
 		
 		switch (this.autoStep) {
-			/*case 1:
+			case 1:
 				super.n.startPeriodic(0.02);
 					this.autoStep = 3;
 					System.out.println("DONE");
-				break;*/
-			case 1:
+				break;
+			/*case 1:
 				System.out.println("Running case 1");
 				actList.wristUp();
 				super.n.startPeriodic(0.02);
 				this.autoStep = 2;
-				break;
+				break;*/
 			case 2:
 				System.out.println("Running case 2");
 				if(delayElev.execute(time.get()))	{
 					this.autoStep = 3;
 					actList.switchPosition();
-					System.out.println("*****Transition to Case 2");
+					System.out.println("*****Transition to Case 3");
 				}
 				break;
 			case 3:
@@ -47,7 +47,7 @@ public class LeftLeftSwitch extends Routine {
 				if(segList.seg1()) {
 					this.autoStep = 4;
 					super.n.stop();
-					actList.slowOuttake();
+					//actList.slowOuttake();
 					System.out.println("*****Transition to Case 4");
 				}
 				break;

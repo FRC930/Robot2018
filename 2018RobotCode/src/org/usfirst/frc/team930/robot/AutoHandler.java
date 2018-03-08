@@ -25,14 +25,38 @@ public class AutoHandler {
 	};
 	
 	static Waypoint[] leftLeftScale = new Waypoint[] {
-			new Waypoint(0, 7, Pathfinder.d2r(0)),
-			new Waypoint(4, 7.5, Pathfinder.d2r(345)),
-			new Waypoint(6, 5, Pathfinder.d2r(270)),
-			new Waypoint(6, 3.9, Pathfinder.d2r(270)),
-			new Waypoint(7.5, 2.2, Pathfinder.d2r(10)),
+			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
+			new Waypoint(7.1, 4.0, Pathfinder.d2r(0)),
+			new Waypoint(8.0, 3.3, Pathfinder.d2r(270)),
+			/*new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
+			new Waypoint(5.45, 3.4, Pathfinder.d2r(20)),
+			new Waypoint(7.44, 3.2, Pathfinder.d2r(310)),
+			new Waypoint(7.6, 2.75, Pathfinder.d2r(270)),
+			new Waypoint(7.2, 1.75, Pathfinder.d2r(230)),
+			new Waypoint(6.5, 1.1, Pathfinder.d2r(200)),*/
 	};
 	
 	static Waypoint[] leftLeftSwitch = new Waypoint[] {
+			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
+			new Waypoint(3.2, 3.1, Pathfinder.d2r(0)),
+			new Waypoint(4.0, 2.5, Pathfinder.d2r(270)),
+	};
+	
+	static Waypoint[] leftLeftSwitch2 = new Waypoint[] {
+			new Waypoint(4.0, 6.0, Pathfinder.d2r(270)),
+			new Waypoint(4.5, 6.93, Pathfinder.d2r(330)),
+			new Waypoint(5.15, 7.1, Pathfinder.d2r(0)),
+			new Waypoint(5.8, 6.94, Pathfinder.d2r(30)),
+			new Waypoint(6.3, 6.0, Pathfinder.d2r(90)),
+	};
+	
+	static Waypoint[] middleLeftSwitch = new Waypoint[] {
+			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
+			new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
+			new Waypoint(5.5, 2, Pathfinder.d2r(270)),
+	};
+	
+	static Waypoint[] middleRightSwitch = new Waypoint[] {
 			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
 			new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
 			new Waypoint(5.5, 2, Pathfinder.d2r(270)),
@@ -87,6 +111,7 @@ public class AutoHandler {
 		MotionProfile.first = Timer.getFPGATimestamp();
 		
 		Utilities.setCompressor(false);
+		Intake.setIntakeGrip(true);
 		
 		Enum startPositions = (Enum) posChooser.getSelected();
 		Enum goal = (Enum) goalChooser.getSelected();

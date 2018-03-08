@@ -96,7 +96,7 @@ public class Intake {
 	
 	//------------------------------------------------------------------------------------------- 
 	
-	private static void setIntakeGrip(boolean grip) {	//method to set the compressors
+	public static void setIntakeGrip(boolean grip) {	//method to set the compressors
 		gripper.set(grip);
 	}
 	

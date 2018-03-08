@@ -7,12 +7,14 @@ public class LeftLeftScale extends Routine {
 	private Timer time = new Timer();
 	private TimeDelay delayElev = new TimeDelay();
 	private TimeDelay delayIntake = new TimeDelay();
+	private TimeDelay delayStopIntake = new TimeDelay();
 	
 	public LeftLeftScale(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(4.5);
-		delayIntake.set(2);
+		delayElev.set(0);
+		delayIntake.set(3.5);
+		delayStopIntake.set(1);
 		time.start();
 		
 		
@@ -21,44 +23,46 @@ public class LeftLeftScale extends Routine {
 	public void variation() {
 		
 		switch (this.autoStep) {
-			/*case 1:
-				if(segList.seg1()) {
-					this.autoStep = 4;
-					System.out.println("DONE");
-				}
-				break;*/
-			case 1:
-				System.out.println("Running case 1");
-				actList.wristUp();
-				//segList.seg1();
-				super.n.startPeriodic(0.02);
-				if(delayElev.execute(time.get()))	{
-					this.autoStep = 2;
-					actList.scaleMPosition();
-					System.out.println("*****Transition to Case 2");
-				}
-				break;
-			case 2:
-				System.out.println("Running case 2");
-				//segList.seg1();
-				if(delayIntake.execute(time.get())) {
-					this.autoStep = 3;
-					actList.slowOuttake();
-					System.out.println("*****Transition to Case 3");
-				}
-				break;
-			case 3:
-				System.out.println("Running case 3");
-				if(segList.seg1()) {
-					this.autoStep = 4;
-					actList.stopIntake();
-					super.n.stop();
-					System.out.println("*****Transition to Case 4");
-				}
-				break;
-			case 4:
-				Drive.runAt(0, 0);
-				break;
+		/*case 1:
+			super.n.startPeriodic(0.02);
+				this.autoStep = 3;
+				System.out.println("DONE");
+			break;*/
+		case 1:
+			System.out.println("Running case 1");
+			actList.wristUp();
+			super.n.startPeriodic(0.02);
+			this.autoStep = 2;
+			break;
+		case 2:
+			System.out.println("Running case 2");
+			if(delayElev.execute(time.get()))	{
+				this.autoStep = 3;
+				actList.scaleMPosition();
+				System.out.println("*****Transition to Case 2");
+			}
+			break;
+		case 3:
+			System.out.println("Running case 2");
+			if(delayIntake.execute(time.get()))	{
+				this.autoStep = 4;
+				actList.slowOuttake();
+				System.out.println("*****Transition to Case 2");
+			}
+			break;
+		case 4:
+			System.out.println("Running case 3");
+			if(segList.seg1()) {
+				this.autoStep = 5;
+				super.n.stop();
+				System.out.println("*****Transition to Case 4");
+			}
+			break;
+		case 5:
+			if(delayStopIntake.execute(time.get()))
+				actList.stopIntake();
+			Drive.runAt(0, 0);
+			break;
 		}
 		
 	}

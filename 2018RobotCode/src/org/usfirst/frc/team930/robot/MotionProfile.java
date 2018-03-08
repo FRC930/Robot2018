@@ -26,16 +26,22 @@ public class MotionProfile implements Runnable {
 		//Drive.gyro.reset();
 		
 		//Waypoint[] points = AutoHandler.points;
-		Waypoint[] leftRightScale = AutoHandler.leftRightScale;
-		Waypoint[] leftLeftScale = AutoHandler.leftLeftScale;
-		Waypoint[] leftLeftSwitch = AutoHandler.leftLeftSwitch;
+		Waypoint[] leftRightScale = AutoHandler.leftRightScale; // Vel: 3.0
+		Waypoint[] leftLeftScale = AutoHandler.leftLeftScale; // Vel: 4.0
+		Waypoint[] leftLeftSwitch = AutoHandler.leftLeftSwitch; // Vel: 3.0
+		Waypoint[] leftLeftSwitch2 = AutoHandler.leftLeftSwitch2; // Vel: 2.5
+		Waypoint[] middleLeftSwitch = AutoHandler.middleLeftSwitch;
+		Waypoint[] middleRightSwitch = AutoHandler.middleRightSwitch;
 		
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 2.3, 50.0);
+		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 2.5, 2.3, 50.0);
 		
 		//Trajectory tra = Pathfinder.generate(points, config);
 		//Trajectory tra = Pathfinder.generate(leftRightScale, config);
 		//Trajectory tra = Pathfinder.generate(leftLeftScale, config);
-		Trajectory tra = Pathfinder.generate(leftLeftSwitch, config);
+		//Trajectory tra = Pathfinder.generate(leftLeftSwitch, config);
+		Trajectory tra = Pathfinder.generate(leftLeftSwitch2, config);
+		//Trajectory tra = Pathfinder.generate(middleLeftSwitch, config);
+		//Trajectory tra = Pathfinder.generate(middleRightSwitch, config);
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.628);
 
@@ -45,7 +51,7 @@ public class MotionProfile implements Runnable {
 	    
 		enc = new EncoderFollower(right);
 		enc2 = new EncoderFollower(left);
-		enc.configurePIDVA(0.9, 0, 0, 0.289, 0.06); //0.05 //0.289
+		enc.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
 		enc2.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
 		enc.configureEncoder(Drive.rightMain.getSelectedSensorPosition(0), 1024, .102);
 		enc2.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
@@ -73,8 +79,13 @@ public class MotionProfile implements Runnable {
 			System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading,-yaw,turn); 
 			double calc = (enc.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
 			double calc2 = (enc2.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
+			/* Driving forward
 			Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
-			Drive.leftMain.set(ControlMode.PercentOutput, (calc2 + turn));
+			Drive.leftMain.set(ControlMode.PercentOutput, (calc2 + turn));*/
+			
+			// Driving backward
+			Drive.rightMain.set(ControlMode.PercentOutput, -(calc + turn));
+			Drive.leftMain.set(ControlMode.PercentOutput, -(calc2 - turn));
 			
 			SmartDashboard.putNumber("Auto Time Difference", Timer.getFPGATimestamp() - first);
 			first = Timer.getFPGATimestamp();

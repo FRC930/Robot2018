@@ -30,8 +30,13 @@ public class Drive {
 		leftFollow.setInverted(true);
 		leftFollow2.setInverted(true);
 		
+		/* Teleop + Auto drive forward
 		rightMain.setSensorPhase(true);
-		leftMain.setSensorPhase(false);
+		leftMain.setSensorPhase(false);*/
+		
+		// Auto drive backward
+		rightMain.setSensorPhase(false);
+		leftMain.setSensorPhase(true);
 		
 		rightFollow2.follow(rightMain);
 		rightFollow.follow(rightMain);
