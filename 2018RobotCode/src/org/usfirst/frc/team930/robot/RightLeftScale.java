@@ -10,7 +10,6 @@ public class RightLeftScale extends Routine {
 	private TimeDelay delayOuttake = new TimeDelay();
 	private TimeDelay delayStopIntake = new TimeDelay();
 	public static Notifier n;
-	private MotionProfile8A myMP;
 	
 	public RightLeftScale(String v, double d) {
 		
@@ -19,8 +18,8 @@ public class RightLeftScale extends Routine {
 		delayOuttake.set(3.5);
 		delayStopIntake.set(1);
 
-		myMP = new MotionProfile8A();
-		n = new Notifier (myMP);
+		n = new Notifier (AutoHandler.myMP8A);
+		AutoHandler.myMP8A.startPath();
 		
 		time.start();
 		
@@ -51,7 +50,7 @@ public class RightLeftScale extends Routine {
 				break;
 			case 3:
 				System.out.println("Running case 3");
-				if(segList.seg1()) {
+				if(segList.seg8A()) {
 					this.autoStep = 4;
 					n.stop();
 					actList.slowOuttake();

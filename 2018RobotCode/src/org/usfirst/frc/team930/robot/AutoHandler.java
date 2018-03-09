@@ -12,74 +12,17 @@ public class AutoHandler {
 	public static SendableChooser<StartPositions> posChooser = new SendableChooser<StartPositions>();
 	public static SendableChooser<Goal> goalChooser = new SendableChooser<Goal>();
 	
-	static Waypoint[] leftLeftScale = new Waypoint[] {
-			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
-			new Waypoint(7.1, 4.0, Pathfinder.d2r(0)),
-			new Waypoint(8.0, 3.3, Pathfinder.d2r(270)),
-	};
-	
-	static Waypoint[] leftLeftSwitch = new Waypoint[] {
-			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
-			new Waypoint(3.2, 3.1, Pathfinder.d2r(0)),
-			new Waypoint(4.0, 2.5, Pathfinder.d2r(270)),
-	};
-	
-	static Waypoint[] leftLeftSwitch2 = new Waypoint[] {
-			new Waypoint(0, 0, Pathfinder.d2r(0)),
-			new Waypoint(3.0, -3.0, Pathfinder.d2r(90)),
-			
-			/*new Waypoint(4.0, 6.0, Pathfinder.d2r(0)),
-			new Waypoint(4.5, 6.93, Pathfinder.d2r(60)),
-			new Waypoint(5.15, 7.1, Pathfinder.d2r(90)),
-			new Waypoint(5.8, 6.94, Pathfinder.d2r(120)),
-			new Waypoint(6.3, 6.0, Pathfinder.d2r(180)),*/
-			
-			/*new Waypoint(4.0, 6.0, Pathfinder.d2r(270)),
-			new Waypoint(4.5, 6.93, Pathfinder.d2r(330)),
-			new Waypoint(5.15, 7.1, Pathfinder.d2r(0)),
-			new Waypoint(5.8, 6.94, Pathfinder.d2r(30)),
-			new Waypoint(6.3, 6.0, Pathfinder.d2r(90)),*/
-	};
-	
-	static Waypoint[] leftRightScale = new Waypoint[] {
-			new Waypoint(0, 7, Pathfinder.d2r(0)),
-			new Waypoint(4.5, 7.5, Pathfinder.d2r(345)),
-			new Waypoint(5.75, 5, Pathfinder.d2r(270)),
-			new Waypoint(5.75, 3.15, Pathfinder.d2r(270)),
-			new Waypoint(6.9, 1.75, Pathfinder.d2r(0)),
-	};
-	
-	static Waypoint[] middleLeftSwitch = new Waypoint[] {
-			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
-			new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
-			new Waypoint(5.5, 2, Pathfinder.d2r(270)),
-	};
-	
-	static Waypoint[] middleRightSwitch = new Waypoint[] {
-			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
-			new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
-			new Waypoint(5.5, 2, Pathfinder.d2r(270)),
-	};
-	
-	static Waypoint[] rightRightScale = new Waypoint[] {
-			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
-			new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
-			new Waypoint(5.5, 2, Pathfinder.d2r(270)),
-	};
-	
-	static Waypoint[] rightRightSwitch = new Waypoint[] {
-			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
-			new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
-			new Waypoint(5.5, 2, Pathfinder.d2r(270)),
-	};
-	
-	static Waypoint[] rightLeftScale = new Waypoint[] {
-			new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
-			new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
-			new Waypoint(5.5, 2, Pathfinder.d2r(270)),
-	};
-	
 	public static Routine auto;
+	
+	public static MotionProfile1A myMP1A;
+	public static MotionProfile2A myMP2A;
+	public static MotionProfile2B myMP2B;
+	public static MotionProfile3A myMP3A;
+	public static MotionProfile4A myMP4A;
+	public static MotionProfile5A myMP5A;
+	public static MotionProfile6A myMP6A;
+	public static MotionProfile7A myMP7A;
+	public static MotionProfile8A myMP8A;
 	
 	enum StartPositions {
 		
@@ -119,12 +62,15 @@ public class AutoHandler {
         
         SmartDashboard.putNumber("Time Delay", 0);
         
-        MotionProfile1A.init();
-        MotionProfile2A.init();
-        MotionProfile2B.init();
-        MotionProfile3A.init();
-        MotionProfile6A.init();
-        MotionProfile4A.init();
+        myMP1A = new MotionProfile1A();
+        myMP2A = new MotionProfile2A();
+        myMP2B = new MotionProfile2B();
+        myMP3A = new MotionProfile3A();
+        myMP4A = new MotionProfile4A();
+        myMP5A = new MotionProfile5A();
+        myMP6A = new MotionProfile6A();
+        myMP7A = new MotionProfile7A();
+        myMP8A = new MotionProfile8A();
 		
 	}
 	

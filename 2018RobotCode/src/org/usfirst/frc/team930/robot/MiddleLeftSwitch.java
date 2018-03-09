@@ -10,7 +10,6 @@ public class MiddleLeftSwitch extends Routine {
 	private TimeDelay delayOuttake = new TimeDelay();
 	private TimeDelay delayStopIntake = new TimeDelay();
 	public static Notifier n;
-	private MotionProfile4A myMP;
 	
 	public MiddleLeftSwitch(String v, double d) {
 		
@@ -19,8 +18,8 @@ public class MiddleLeftSwitch extends Routine {
 		delayOuttake.set(3.5);
 		delayStopIntake.set(1);
 
-		myMP = new MotionProfile4A();
-		n = new Notifier (myMP);
+		n = new Notifier (AutoHandler.myMP4A);
+		AutoHandler.myMP4A.startPath();
 		
 		time.start();
 		
@@ -59,7 +58,7 @@ public class MiddleLeftSwitch extends Routine {
 			break;
 		case 4:
 			System.out.println("Running case 3");
-			if(segList.seg1()) {
+			if(segList.seg4A()) {
 				this.autoStep = 5;
 				n.stop();
 				System.out.println("*****Transition to Case 4");

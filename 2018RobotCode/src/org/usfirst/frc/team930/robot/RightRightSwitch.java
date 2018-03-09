@@ -10,7 +10,6 @@ public class RightRightSwitch extends Routine {
 	private TimeDelay delayOuttake = new TimeDelay();
 	private TimeDelay delayStopIntake = new TimeDelay();
 	public static Notifier n;
-	private MotionProfile7A myMP;
 	
 	public RightRightSwitch(String v, double d) {
 		
@@ -19,8 +18,8 @@ public class RightRightSwitch extends Routine {
 		delayOuttake.set(3.5);
 		delayStopIntake.set(1);
 
-		myMP = new MotionProfile7A();
-		n = new Notifier (myMP);
+		n = new Notifier (AutoHandler.myMP7A);
+		AutoHandler.myMP7A.startPath();
 		
 		time.start();
 		
@@ -51,7 +50,7 @@ public class RightRightSwitch extends Routine {
 				break;
 			case 3:
 				System.out.println("Running case 3");
-				if(segList.seg1()) {
+				if(segList.seg7A()) {
 					this.autoStep = 4;
 					n.stop();
 					actList.slowOuttake();

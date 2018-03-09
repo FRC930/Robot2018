@@ -10,7 +10,6 @@ public class LeftLeftScale extends Routine {
 	private TimeDelay delayOuttake = new TimeDelay();
 	private TimeDelay delayStopIntake = new TimeDelay();
 	public static Notifier n;
-	private MotionProfile1A myMP;
 	
 	public LeftLeftScale(String v, double d) {
 		
@@ -19,8 +18,8 @@ public class LeftLeftScale extends Routine {
 		delayOuttake.set(3.5);
 		delayStopIntake.set(1);
 
-		myMP = new MotionProfile1A();
-		n = new Notifier (myMP);
+		n = new Notifier (AutoHandler.myMP1A);
+		AutoHandler.myMP1A.startPath();
 		
 		time.start();
 		
@@ -59,7 +58,7 @@ public class LeftLeftScale extends Routine {
 			break;
 		case 4:
 			System.out.println("Running case 3");
-			if(segList.seg1()) {
+			if(segList.seg1A()) {
 				this.autoStep = 5;
 				n.stop();
 				System.out.println("*****Transition to Case 4");

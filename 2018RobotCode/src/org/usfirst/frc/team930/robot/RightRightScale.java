@@ -10,7 +10,6 @@ public class RightRightScale extends Routine {
 	private TimeDelay delayOuttake = new TimeDelay();
 	private TimeDelay delayStopIntake = new TimeDelay();
 	public static Notifier n;
-	private MotionProfile6A myMP;
 	
 	public RightRightScale(String v, double d) {
 		
@@ -19,8 +18,8 @@ public class RightRightScale extends Routine {
 		delayOuttake.set(3.5);
 		delayStopIntake.set(1);
 
-		myMP = new MotionProfile6A();
-		n = new Notifier (myMP);
+		n = new Notifier (AutoHandler.myMP6A);
+		AutoHandler.myMP6A.startPath();
 		
 		time.start();
 		
@@ -51,7 +50,7 @@ public class RightRightScale extends Routine {
 				break;
 			case 3:
 				System.out.println("Running case 3");
-				if(segList.seg1()) {
+				if(segList.seg6A()) {
 					this.autoStep = 4;
 					n.stop();
 					actList.slowOuttake();

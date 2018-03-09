@@ -10,8 +10,6 @@ public class LeftLeftSwitch extends Routine {
 	private TimeDelay delayOuttake = new TimeDelay();
 	private TimeDelay delayStopIntake = new TimeDelay();
 	public static Notifier n;
-	private MotionProfile2A myMP1;
-	private MotionProfile2B myMP2;
 	
 	public LeftLeftSwitch(String v, double d) {
 		
@@ -20,10 +18,10 @@ public class LeftLeftSwitch extends Routine {
 		delayOuttake.set(3.5);
 		delayStopIntake.set(1);
 
-		myMP1 = new MotionProfile2A();
-		myMP2 = new MotionProfile2B();
-		n = new Notifier (myMP2);
-		MotionProfile2B.startPath();
+		//n = new Notifier (AutoHandler.myMP2A);
+		//AutoHandler.myMP2A.startPath();
+		n = new Notifier (AutoHandler.myMP2B);
+		AutoHandler.myMP2B.startPath();
 		
 		time.start();
 		
@@ -54,10 +52,10 @@ public class LeftLeftSwitch extends Routine {
 				break;
 			case 3:
 				//System.out.println("Running case 3");
-				if(segList.seg1()) {
+				if(segList.seg2B()/*segList.seg2A*/) {
 					this.autoStep = 4;
 					n.stop();
-					//n = new Notifier (myMP2);
+					//n = new Notifier (AutoHandler.myMP2B);
 					//actList.slowOuttake();
 					//System.out.println("*****Transition to Case 4");
 				}
@@ -78,7 +76,7 @@ public class LeftLeftSwitch extends Routine {
 				break;
 			case 6:
 				System.out.println("Running case 6");
-				if(segList.seg1()) {
+				if(segList.seg2B()) {
 					this.autoStep = 7;
 					n.stop();
 					n = new Notifier (myMP2);

@@ -13,16 +13,18 @@ import jaci.pathfinder.modifiers.TankModifier;
 // Middle Right Switch 1
 public class MotionProfile5A implements Runnable {
 	
-	private static EncoderFollower enc;
-	private static EncoderFollower enc2;
+	private static EncoderFollower rightFollower;
+	private static EncoderFollower leftFollower;
 
-	public static void init() {
+	public MotionProfile5A() {
 		
 		//Drive.gyro.reset();
 		
-		Drive.changeSensorPhase(false, true);
-		
-		Waypoint[] middleRightSwitch = AutoHandler.middleRightSwitch; // Vel:
+		Waypoint[] middleRightSwitch = new Waypoint[] {
+				new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
+				new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
+				new Waypoint(5.5, 2, Pathfinder.d2r(270)),
+		}; // Vel:
 		
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 2.3, 50.0);
 		
@@ -34,18 +36,16 @@ public class MotionProfile5A implements Runnable {
 	    
 	    Trajectory right = modifier.getRightTrajectory();
 	    
-		enc = new EncoderFollower(right);
-		enc2 = new EncoderFollower(left);
-		enc.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
-		enc2.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
-		enc.configureEncoder(Drive.rightMain.getSelectedSensorPosition(0), 1024, .102);
-		enc2.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
+		rightFollower = new EncoderFollower(right);
+		leftFollower = new EncoderFollower(left);
+		rightFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
+		leftFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
 		
 	}
 	
 	public void run() {
 		
-		double heading = Math.toDegrees(enc.getHeading());
+		double heading = Math.toDegrees(rightFollower.getHeading());
 			
 		if(heading >180)
 			heading = heading%180-180;
@@ -62,17 +62,26 @@ public class MotionProfile5A implements Runnable {
 		double turn = kG * error;
 			
 		System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading,-yaw,turn); 
-		double calc = (enc.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
-		double calc2 = (enc2.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
+		double calc = (rightFollower.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
+		double calc2 = (leftFollower.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
 		// Driving forward
 		Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
 		Drive.leftMain.set(ControlMode.PercentOutput, (calc2 + turn));
 			
 	}
 	
-	public static boolean isLastPoint(){
+	public boolean isLastPoint(){
 		
-		return (enc.isFinished()&&enc2.isFinished());
+		return (rightFollower.isFinished()&&leftFollower.isFinished());
+		
+	}
+
+	public void startPath() {
+
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~ START AUTO~~~~~~~~~~~~~");
+		Drive.changeSensorPhase(false, true);
+		rightFollower.configureEncoder(Drive.rightMain.getSelectedSensorPosition(0), 1024, .102);
+		leftFollower.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
 		
 	}
 
