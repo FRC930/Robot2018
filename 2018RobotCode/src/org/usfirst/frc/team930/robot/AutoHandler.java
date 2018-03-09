@@ -25,11 +25,20 @@ public class AutoHandler {
 	};
 	
 	static Waypoint[] leftLeftSwitch2 = new Waypoint[] {
-			new Waypoint(4.0, 6.0, Pathfinder.d2r(270)),
+			new Waypoint(0, 0, Pathfinder.d2r(0)),
+			new Waypoint(3.0, -3.0, Pathfinder.d2r(90)),
+			
+			/*new Waypoint(4.0, 6.0, Pathfinder.d2r(0)),
+			new Waypoint(4.5, 6.93, Pathfinder.d2r(60)),
+			new Waypoint(5.15, 7.1, Pathfinder.d2r(90)),
+			new Waypoint(5.8, 6.94, Pathfinder.d2r(120)),
+			new Waypoint(6.3, 6.0, Pathfinder.d2r(180)),*/
+			
+			/*new Waypoint(4.0, 6.0, Pathfinder.d2r(270)),
 			new Waypoint(4.5, 6.93, Pathfinder.d2r(330)),
 			new Waypoint(5.15, 7.1, Pathfinder.d2r(0)),
 			new Waypoint(5.8, 6.94, Pathfinder.d2r(30)),
-			new Waypoint(6.3, 6.0, Pathfinder.d2r(90)),
+			new Waypoint(6.3, 6.0, Pathfinder.d2r(90)),*/
 	};
 	
 	static Waypoint[] leftRightScale = new Waypoint[] {
@@ -167,7 +176,7 @@ public class AutoHandler {
 					break;
 				case "RLR":
 				case "RRR":
-					auto= new LeftRightSwitch(variation, delay);
+					//auto= new LeftRightSwitch(variation, delay);
 					break;
 
 				}
@@ -268,7 +277,7 @@ public class AutoHandler {
 
 				case "LRL":
 				case "LLL":
-					auto= new RightLeftSwitch(variation, delay);
+					//auto= new RightLeftSwitch(variation, delay);
 					break;
 				case "RLR":
 				case "RRR":
@@ -344,8 +353,29 @@ public class AutoHandler {
 	
 	public static void disabled() {
 		
-		if(Routine.n != null)
-			Routine.n.stop();
+		if(LeftLeftScale.n != null)
+			LeftLeftScale.n.stop();
+		
+		else if(LeftLeftSwitch.n != null)
+			LeftLeftSwitch.n.stop();
+		
+		else if(LeftRightScale.n != null)
+			LeftRightScale.n.stop();
+		
+		else if(MiddleLeftSwitch.n != null)
+			MiddleLeftSwitch.n.stop();
+		
+		else if(MiddleRightSwitch.n != null)
+			MiddleRightSwitch.n.stop();
+		
+		else if(RightRightScale.n != null)
+			RightRightScale.n.stop();
+		
+		else if(RightRightSwitch.n != null)
+			RightRightSwitch.n.stop();
+		
+		else if(RightLeftScale.n != null)
+			RightLeftScale.n.stop();
 		
 	}
 

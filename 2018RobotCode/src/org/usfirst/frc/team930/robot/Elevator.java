@@ -132,7 +132,6 @@ public class Elevator {
 			targetPosition = Constants.intakePosition;
 		}
 		
-		System.out.println("Elevator Position: " + targetPosition);
 		goToPosition(targetPosition);
 	}
 	

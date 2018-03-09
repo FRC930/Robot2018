@@ -9,7 +9,7 @@ public class RightRightScale extends Routine {
 	private TimeDelay delayElev = new TimeDelay();
 	private TimeDelay delayOuttake = new TimeDelay();
 	private TimeDelay delayStopIntake = new TimeDelay();
-	private static Notifier n;
+	public static Notifier n;
 	private MotionProfile6A myMP;
 	
 	public RightRightScale(String v, double d) {
@@ -64,7 +64,7 @@ public class RightRightScale extends Routine {
 				Drive.runAt(0, 0);
 				break;
 		}
-		
+
 	}
 
 }

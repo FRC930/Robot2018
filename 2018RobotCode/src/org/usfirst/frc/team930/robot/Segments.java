@@ -6,7 +6,7 @@ public class Segments {
 		
 		boolean isFinished = false;
 		
-		if(MotionProfile1A.isLastPoint()) {
+		if(MotionProfile2B.isLastPoint()) {
 			isFinished = true;
 		}
 		

@@ -9,7 +9,7 @@ public class RightRightSwitch extends Routine {
 	private TimeDelay delayElev = new TimeDelay();
 	private TimeDelay delayOuttake = new TimeDelay();
 	private TimeDelay delayStopIntake = new TimeDelay();
-	private static Notifier n;
+	public static Notifier n;
 	private MotionProfile7A myMP;
 	
 	public RightRightSwitch(String v, double d) {

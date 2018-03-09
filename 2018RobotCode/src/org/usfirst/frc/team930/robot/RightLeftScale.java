@@ -9,7 +9,7 @@ public class RightLeftScale extends Routine {
 	private TimeDelay delayElev = new TimeDelay();
 	private TimeDelay delayOuttake = new TimeDelay();
 	private TimeDelay delayStopIntake = new TimeDelay();
-	private static Notifier n;
+	public static Notifier n;
 	private MotionProfile8A myMP;
 	
 	public RightLeftScale(String v, double d) {
@@ -66,5 +66,6 @@ public class RightLeftScale extends Routine {
 		}
 		
 	}
+	
 
 }
