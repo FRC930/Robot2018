@@ -4,27 +4,17 @@ import org.usfirst.frc.team930.robot.TeleopHandler.ElevatorStates;
 
 public class Actions {
 	
-	public boolean switchPosition() {
-		
-		boolean isFinished = false;
+	public void switchPosition() {
 			
-		Elevator.run(ElevatorStates.SWITCH_POSITION);
+		Elevator.setTargetPos(ElevatorStates.SWITCH_POSITION);
 		Elevator.run(0);
-		isFinished = true;
-		
-		return isFinished;
 		
 	}
 	
-	public boolean scaleMPosition() {
+	public void scaleMPosition() {
 		
-		boolean isFinished = false;
-		
-		Elevator.run(ElevatorStates.SCALE_POSITION_M);
+		Elevator.setTargetPos(ElevatorStates.SCALE_POSITION_M);
 		Elevator.run(0);
-		isFinished = true;
-		
-		return isFinished;
 		
 	}
 	
@@ -35,6 +25,12 @@ public class Actions {
 	}
 	
 	public void wristUp() {
+		
+		Intake.run(TeleopHandler.IntakeStates.LIFTER_UP);
+		
+	}
+	
+	public void wristDown() {
 		
 		Intake.run(TeleopHandler.IntakeStates.LIFTER_DOWN);
 		

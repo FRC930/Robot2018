@@ -1,7 +1,5 @@
 package org.usfirst.frc.team930.robot;
 
-import edu.wpi.first.wpilibj.Timer;
-
 public class TimeDelay {
 	
 	private double delay = 0;

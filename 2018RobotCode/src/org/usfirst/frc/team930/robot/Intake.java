@@ -7,12 +7,6 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import org.usfirst.frc.team930.robot.TeleopHandler.IntakeStates;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -142,10 +136,10 @@ public class Intake {
 				slowOutTaking();
 				break;
 			case LIFTER_UP:
-				setIntakeLifter(false);
+				setIntakeLifter(true);
 				break;
 			case LIFTER_DOWN:
-				setIntakeLifter(true);
+				setIntakeLifter(false);
 				break;
 			default:			//If all fail, do this
 				break;

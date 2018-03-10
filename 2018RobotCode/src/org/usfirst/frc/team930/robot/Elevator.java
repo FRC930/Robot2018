@@ -77,7 +77,7 @@ public class Elevator {
 	}
 
 	// Set motor's target position based on enum passed through
-	public static void run(Enum pos1) {
+	public static void setTargetPos(Enum pos1) {
 		updateDashboard();
 		stateEnum = (ElevatorStates) pos1;
 		
@@ -151,7 +151,6 @@ public class Elevator {
 	
 	//Check if encoder is returning information
 	public static boolean checkSensor() {
-		
 		if(lift1.getMotorOutputPercent() != 0 && lift1.getSelectedSensorVelocity(0) == 0) {
 			counter++;
 			if(counter >= Constants.counterLimit) {
@@ -171,9 +170,15 @@ public class Elevator {
 		lift1.set(ControlMode.PercentOutput, axisValue);
 	}
 	
-	public static void switchToPercentOutput() {
+	public static boolean atIntakePosition() {
 		if((stateEnum == TeleopHandler.ElevatorStates.INTAKE_POSITION) && (lift1.getSelectedSensorPosition(0) < (Constants.intakePosition + 25)))
-			lift1.set(ControlMode.PercentOutput, 0);
+			return true;
+		
+		return false;
+	}
+	
+	public static void switchToPercentOutput() {
+		lift1.set(ControlMode.PercentOutput, 0);
 	}
 	
 	public static void updateDashboard(){

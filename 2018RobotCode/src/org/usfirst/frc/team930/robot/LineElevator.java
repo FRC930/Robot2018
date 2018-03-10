@@ -18,7 +18,8 @@ public class LineElevator extends Routine{
 		
 		System.out.println("Line");
 		System.out.println("Elevator Up");
-		Elevator.run(TeleopHandler.ElevatorStates.SWITCH_POSITION);
+		Elevator.setTargetPos(TeleopHandler.ElevatorStates.SWITCH_POSITION);
+		Elevator.run(0);
 		if(time.get() <= 5)
 			Drive.runAt(0.25, 0.25);
 		else {
