@@ -154,7 +154,6 @@ public class Elevator {
 		if(lift1.getMotorOutputPercent() != 0 && lift1.getSelectedSensorVelocity(0) == 0) {
 			counter++;
 			if(counter >= Constants.counterLimit) {
-				counter = 0;
 				check = true;
 			} 
 		} else {

@@ -154,9 +154,11 @@ public class TeleopHandler {
 		// Stop elevator if encoder is not returning information
 		else if(Elevator.checkSensor()) {
 			if(Math.abs(stick2.getRawAxis(Constants.rightYaxis)) > Constants.elevatorDeadBand) {
-				Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
+				//Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
+				Elevator.switchToPercentOutput();
 			} else {
-				Elevator.runManualControl(0);
+				//Elevator.runManualControl(0);
+				Elevator.switchToPercentOutput();
 			}
 		}
 		// Run Motion Magic using button positions
