@@ -19,7 +19,7 @@ public class TeleopHandler {
 	private static boolean toggledTwice = false;
 	
 	public static void init() {
-		//Utilities.startCapture();
+		Utilities.startCapture();
 		Utilities.setCompressor(true);
 	}
 	
@@ -164,16 +164,6 @@ public class TeleopHandler {
 			Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
 		}
 		
-		// Camera Toggle
-		if(SmartDashboard.getBoolean("Toggle Camera", false) && !toggledTwice) {
-			CameraServer.getInstance().removeCamera("Camera");
-			toggledTwice = true;
-			SmartDashboard.putBoolean("Toggle Camera", false);
-		} else if(SmartDashboard.getBoolean("Toggle Camera", false) && toggledTwice) {
-			Utilities.startCapture();
-			toggledTwice = false;
-			SmartDashboard.putBoolean("Toggle Camera", false);
-		}
 		
 		// Ramps
 		if(stick3.getRawButton(1)) {
