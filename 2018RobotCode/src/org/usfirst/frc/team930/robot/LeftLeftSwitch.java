@@ -20,8 +20,10 @@ public class LeftLeftSwitch extends Routine {
 
 		//n = new Notifier (AutoHandler.myMP2A);
 		//AutoHandler.myMP2A.startPath();
-		n = new Notifier (AutoHandler.myMP2B);
-		AutoHandler.myMP2B.startPath();
+		//n = new Notifier (AutoHandler.myMP2B);
+		//AutoHandler.myMP2B.startPath();
+		n = new Notifier (AutoHandler.myAutoGT);
+		AutoHandler.myAutoGT.startPath();
 		
 		time.start();
 		
@@ -52,7 +54,7 @@ public class LeftLeftSwitch extends Routine {
 				break;
 			case 3:
 				//System.out.println("Running case 3");
-				if(segList.seg2B()/*segList.seg2A*/) {
+				if(segList.segGyroTurn()/*segList.seg2B*//*segList.seg2A*/) {
 					this.autoStep = 4;
 					n.stop();
 					//n = new Notifier (AutoHandler.myMP2B);

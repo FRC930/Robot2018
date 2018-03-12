@@ -22,7 +22,7 @@ public class MotionProfile2B implements Runnable {
 		
 		Waypoint[] leftLeftSwitch2 = new Waypoint[] {
 				new Waypoint(0, 0, Pathfinder.d2r(0)),
-				new Waypoint(3.0, -3.0, Pathfinder.d2r(90)),
+				new Waypoint(1.5, -1.5, Pathfinder.d2r(90)),
 				
 				/*new Waypoint(4.0, 6.0, Pathfinder.d2r(0)),
 				new Waypoint(4.5, 6.93, Pathfinder.d2r(60)),
@@ -37,7 +37,7 @@ public class MotionProfile2B implements Runnable {
 				new Waypoint(6.3, 6.0, Pathfinder.d2r(90)),*/
 		}; // Vel: 2.5
 		
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 2.5, 2.3, 50.0);   //2.5, 2.3
+		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 1.5, 2.3, 50.0);   //2.5, 2.3
 		
 		Trajectory tra = Pathfinder.generate(leftLeftSwitch2, config);
 		
@@ -56,7 +56,7 @@ public class MotionProfile2B implements Runnable {
 	
 	public void run() {
 		
-		double heading = Math.toDegrees(rightFollower.getHeading());
+		double heading = 45;//Math.toDegrees(rightFollower.getHeading());
 			
 		if(heading >180)
 			heading = heading%180-180;
@@ -73,11 +73,11 @@ public class MotionProfile2B implements Runnable {
 		double turn = kG * error;
 			
 		System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f  LPos: %.4f  LEnc: %.4f  RPos: %.4f  REnc: %.4f \n", heading, -yaw, turn, rightFollower.getSegment().position, ((Drive.leftMain.getSelectedSensorPosition(0) - encPos) / 1024.0) * .102, leftFollower.getSegment().position, ((Drive.rightMain.getSelectedSensorVelocity(0) - enc2Pos) / 1024.0) * .102); 
-		double calc = (rightFollower.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
-		double calc2 = (leftFollower.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
+		//double calc = (rightFollower.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
+		//double calc2 = (leftFollower.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
 		// Driving backward
-		Drive.rightMain.set(ControlMode.PercentOutput, -(calc2 + turn));
-		Drive.leftMain.set(ControlMode.PercentOutput, -(calc - turn));
+		Drive.rightMain.set(ControlMode.PercentOutput, -/*(calc2 +*/ turn);
+		Drive.leftMain.set(ControlMode.PercentOutput, /*-(calc -*/ turn);
 			
 	}
 	

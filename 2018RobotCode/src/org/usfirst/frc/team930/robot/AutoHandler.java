@@ -22,6 +22,8 @@ public class AutoHandler {
 	public static MotionProfile7A myMP7A;
 	public static MotionProfile8A myMP8A;
 	
+	public static GyroTurn myAutoGT;
+	
 	enum StartPositions {
 		
 		 RIGHT,
@@ -69,6 +71,7 @@ public class AutoHandler {
         myMP6A = new MotionProfile6A();
         myMP7A = new MotionProfile7A();
         myMP8A = new MotionProfile8A();
+        myAutoGT = new GyroTurn();
 		
 	}
 	

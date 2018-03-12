@@ -109,5 +109,17 @@ public class Segments {
 		return isFinished;
 		
 	}
+	
+	public boolean segGyroTurn() {
+		
+		boolean isFinished = false;
+		
+		if(AutoHandler.myAutoGT.isFinished()) {
+			isFinished = true;
+		}
+		
+		return isFinished;
+		
+	}
 
 }
