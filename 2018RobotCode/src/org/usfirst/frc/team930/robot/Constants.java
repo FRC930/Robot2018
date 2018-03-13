@@ -44,11 +44,11 @@ public class Constants {
 	public static final int lifterForwardSolenoidID = 0;
 	//public static final int lifterReverseSolenoidID = 5;
 	public static final int gripperSolenoidID = 1;
-	public static final double currentThreshhold = 100.0; //30				
-	public static final double intakeMotorSpeed = 0.75;	
+	public static final double currentThreshhold = 30.0; //30
+	public static final double intakeMotorSpeed = 0.75;
 	public static final double slowIntakeMotorSpeed = 0.35;
 	//public static final double autoIntakeMotorSpeed = 0.2;
-	public static final int PDPcounterLimit = 5;
+	public static final int PDPcounterLimit = 10;
 	
 	// Elevator Constants
 	public static final int liftTalonID = 7;
@@ -59,8 +59,8 @@ public class Constants {
 
 	public static final double intakePosition = 0;
 	public static final double switchPosition = 2800;
-	public static final double scalePositionLow = 6800;
-	public static final double scalePositionMid = 7600;
+	public static final double scalePositionLow = 5000;
+	public static final double scalePositionMid = 6800;//7600
 	public static final double scalePositionHigh = 8200;
 	public static final double exchangePosition = 250;
 	public static final double portalPosition = 2500;
@@ -81,8 +81,8 @@ public class Constants {
 	public static final int arduinoAddress = 84;
 	
 	// Camera Constants
-	public static final int cameraResWidth = 640;
-	public static final int cameraResHeight = 480;
-	public static final int cameraFPS = 30;
+	public static final int cameraResWidth = 320;
+	public static final int cameraResHeight = 240;
+	public static final int cameraFPS = 10;
 	public static final int cameraDeviceID = 0;
 }

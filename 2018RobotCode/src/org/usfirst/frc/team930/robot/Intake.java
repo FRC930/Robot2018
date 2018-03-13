@@ -54,6 +54,7 @@ public class Intake {
 			setIntakeGrip(true);
 			TeleopHandler.setRumble(2,0.5);
 		} else {
+			setIntakeLifter(false);
 			rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);	// Turn on motors // Positive
 			leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);						  // Negative
 			updatePDPcounter();
@@ -64,6 +65,7 @@ public class Intake {
 	//------------------------------------------------------------------------------------------- 
 	
 	private static void inTakeDone() {		//method runs when no inputs are done
+		setIntakeLifter(true);
 		rightIntakeWheel.set(ControlMode.PercentOutput, 0);	// Stop motors
 		leftIntakeWheel.set(ControlMode.PercentOutput, 0);
 		PDPcounter = 0;

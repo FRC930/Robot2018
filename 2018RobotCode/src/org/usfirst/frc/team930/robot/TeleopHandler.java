@@ -19,7 +19,6 @@ public class TeleopHandler {
 	private static boolean toggledTwice = false;
 	
 	public static void init() {
-		Utilities.startCapture();
 		Utilities.setCompressor(true);
 	}
 	
@@ -85,16 +84,15 @@ public class TeleopHandler {
 			Intake.run(IntakeStates.OUTTAKING);
 			LEDHandler.run(RobotStates.OUTTAKING);
 		} 
-		else if(stick2.getRawButton(Constants.LB))
+		else if(stick2.getRawButton(Constants.LB)) {
 			Intake.run(IntakeStates.SLOW_OUTTAKING);
+		}
+		else if(stick2.getRawButton(Constants.RB)) {
+			Intake.run(IntakeStates.LIFTER_DOWN);
+		}
 		else {
 			Intake.run(IntakeStates.INTAKE_DONE);
 		}
-		
-		if(stick1.getRawButton(Constants.A))
-			Intake.run(IntakeStates.LIFTER_DOWN);
-		else if(stick1.getRawButton(Constants.Y))
-			Intake.run(IntakeStates.LIFTER_UP);
 		
 		
 		// Elevator
@@ -154,12 +152,16 @@ public class TeleopHandler {
 		// Stop elevator if encoder is not returning information
 		else if(Elevator.checkSensor()) {
 			if(Math.abs(stick2.getRawAxis(Constants.rightYaxis)) > Constants.elevatorDeadBand) {
-				//Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
-				Elevator.switchToPercentOutput();
+				Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
+				//Elevator.switchToPercentOutput();
 			} else {
 				//Elevator.runManualControl(0);
 				Elevator.switchToPercentOutput();
 			}
+		}
+		// Manual control with Motion Magic
+		else if(Math.abs(stick2.getRawAxis(Constants.rightYaxis)) > Constants.elevatorDeadBand) {
+			Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
 		}
 		// Run Motion Magic using button positions
 		else {

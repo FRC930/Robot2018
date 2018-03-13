@@ -21,6 +21,7 @@ public class Robot extends IterativeRobot {
 		AutoHandler.robotInit();
 		TeleopHandler.init();
 		LEDHandler.init();
+		Utilities.startCapture();
 		
 	}
 
