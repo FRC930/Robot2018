@@ -18,12 +18,13 @@ public class LeftLeftSwitch extends Routine {
 		delayOuttake.set(3.5);
 		delayStopIntake.set(1);
 
-		//n = new Notifier (AutoHandler.myMP2A);
-		//AutoHandler.myMP2A.startPath();
+		n = new Notifier (AutoHandler.myMP2A);
+		AutoHandler.myMP2A.startPath();
+		System.out.println("IN LEFT LEFT SWITCH CONSTRUCTOR");
 		//n = new Notifier (AutoHandler.myMP2B);
 		//AutoHandler.myMP2B.startPath();
-		n = new Notifier (AutoHandler.myAutoGT);
-		AutoHandler.myAutoGT.startPath();
+		//n = new Notifier (AutoHandler.myAutoGT);
+		//AutoHandler.myAutoGT.startPath();
 		
 		time.start();
 		
@@ -54,10 +55,10 @@ public class LeftLeftSwitch extends Routine {
 				break;
 			case 3:
 				//System.out.println("Running case 3");
-				if(segList.segGyroTurn()/*segList.seg2B*//*segList.seg2A*/) {
+				if(/*segList.segGyroTurn()*//*segList.seg2B()*/segList.seg2A()) {
 					this.autoStep = 4;
 					n.stop();
-					//n = new Notifier (AutoHandler.myMP2B);
+					n = new Notifier (AutoHandler.myAutoGT);
 					//actList.slowOuttake();
 					//System.out.println("*****Transition to Case 4");
 				}
@@ -87,6 +88,31 @@ public class LeftLeftSwitch extends Routine {
 				}
 				break;*/
 			case 4:
+				System.out.println("Running case 4");
+				n.startPeriodic(0.02);
+				this.autoStep = 5;
+				break;
+			case 5:
+				System.out.println("Running case 4");
+				if(segList.segGyroTurn()) {
+					this.autoStep = 6;
+					n.stop();
+					n = new Notifier (AutoHandler.myMP2A);
+				}
+				break;
+			case 6:
+				System.out.println("Running case 4");
+				n.startPeriodic(0.02);
+				this.autoStep = 7;
+				break;
+			case 7:
+				System.out.println("Running case 4");
+				if(segList.seg2A()) {
+					this.autoStep = 8;
+					n.stop();
+				}
+				break;
+			case 8:
 				if(delayStopIntake.execute(time.get()))
 					actList.stopIntake();
 				Drive.runAt(0, 0);

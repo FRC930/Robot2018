@@ -6,7 +6,7 @@ public class Line extends Routine{
 	
 	Timer time = new Timer();
 	
-public Line(String v, double d) {
+	public Line(String v, double d) {
 		
 		super(v, d);
 		time.reset();

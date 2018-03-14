@@ -2,6 +2,7 @@ package org.usfirst.frc.team930.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
@@ -47,8 +48,8 @@ public class MotionProfile2B implements Runnable {
 	    
 	    Trajectory right = modifier.getRightTrajectory();
 	    
-		rightFollower = new EncoderFollower(right);
-		leftFollower = new EncoderFollower(left);
+		rightFollower = new EncoderFollower(left);
+		leftFollower = new EncoderFollower(right);
 		rightFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
 		leftFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
 		
@@ -56,7 +57,7 @@ public class MotionProfile2B implements Runnable {
 	
 	public void run() {
 		
-		double heading = 45;//Math.toDegrees(rightFollower.getHeading());
+		double heading = 0;//Math.toDegrees(rightFollower.getHeading());
 			
 		if(heading >180)
 			heading = heading%180-180;
@@ -70,14 +71,17 @@ public class MotionProfile2B implements Runnable {
 			
 		double kG = -0.038;//0.8 * (-1.0/80.0);
 
-		double turn = kG * error;
+		double turn = 0;//kG * error;
 			
 		System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f  LPos: %.4f  LEnc: %.4f  RPos: %.4f  REnc: %.4f \n", heading, -yaw, turn, rightFollower.getSegment().position, ((Drive.leftMain.getSelectedSensorPosition(0) - encPos) / 1024.0) * .102, leftFollower.getSegment().position, ((Drive.rightMain.getSelectedSensorVelocity(0) - enc2Pos) / 1024.0) * .102); 
-		//double calc = (rightFollower.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
-		//double calc2 = (leftFollower.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
+		SmartDashboard.putNumber("Left Encoder", Drive.leftMain.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Right Encoder", Drive.rightMain.getSelectedSensorPosition(0));
+		
+		double calc = (rightFollower.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
+		double calc2 = (leftFollower.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
 		// Driving backward
-		Drive.rightMain.set(ControlMode.PercentOutput, -/*(calc2 +*/ turn);
-		Drive.leftMain.set(ControlMode.PercentOutput, /*-(calc -*/ turn);
+		Drive.rightMain.set(ControlMode.PercentOutput, (calc + turn));
+		Drive.leftMain.set(ControlMode.PercentOutput, (calc2 - turn));
 			
 	}
 	
@@ -90,12 +94,15 @@ public class MotionProfile2B implements Runnable {
 	public void startPath() {
 		
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~ START AUTO~~~~~~~~~~~~~");
-		Drive.changeSensorPhase(true, false);
-		//Drive.changeSensorPhase(false, true);
+		//Drive.changeSensorPhase(true, false);
+		Drive.invertMotorsBackwards();
+		Drive.changeSensorPhase(false, true);
 		encPos = Drive.leftMain.getSelectedSensorPosition(0);
 		enc2Pos = Drive.rightMain.getSelectedSensorPosition(0);
-		rightFollower.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
-		leftFollower.configureEncoder(Drive.rightMain.getSelectedSensorPosition(0), 1024, .102);
+		rightFollower.configureEncoder(Drive.rightMain.getSelectedSensorPosition(0), 1024, .102);
+		leftFollower.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
+		SmartDashboard.putNumber("Left Encoder", Drive.leftMain.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Right Encoder", Drive.rightMain.getSelectedSensorPosition(0));
 		
 	}
 

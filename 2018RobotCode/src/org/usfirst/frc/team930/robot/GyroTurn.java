@@ -33,7 +33,7 @@ public class GyroTurn implements Runnable {
 		double turn = kG * error;
 			
 		//System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f  LPos: %.4f  LEnc: %.4f  RPos: %.4f  REnc: %.4f \n", heading, -yaw, turn, rightFollower.getSegment().position, ((Drive.leftMain.getSelectedSensorPosition(0) - encPos) / 1024.0) * .102, leftFollower.getSegment().position, ((Drive.rightMain.getSelectedSensorVelocity(0) - enc2Pos) / 1024.0) * .102); 
-		System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading, -yaw, turn);
+		//System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading, -yaw, turn);
 		// Gyro turn in place
 		Drive.rightMain.set(ControlMode.PercentOutput, -turn);
 		Drive.leftMain.set(ControlMode.PercentOutput, turn);

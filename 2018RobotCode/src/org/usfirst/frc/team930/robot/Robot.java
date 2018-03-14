@@ -21,7 +21,7 @@ public class Robot extends IterativeRobot {
 		AutoHandler.robotInit();
 		TeleopHandler.init();
 		LEDHandler.init();
-		Utilities.startCapture();
+		//Utilities.startCapture();
 		
 	}
 
@@ -46,6 +46,7 @@ public class Robot extends IterativeRobot {
 		
 		TeleopHandler.init();
 		Drive.changeSensorPhase(false, true);
+		Drive.invertMotorsForwards();
 		
 	}
 

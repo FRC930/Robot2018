@@ -33,6 +33,8 @@ public class Drive {
 		rightMain.setSensorPhase(true);			// false
 		leftMain.setSensorPhase(false);			// true
 		
+		invertMotorsForwards();
+		
 		rightFollow2.follow(rightMain);
 		rightFollow.follow(rightMain);
 		leftFollow2.follow(leftMain);
@@ -96,6 +98,28 @@ public class Drive {
 		
 		rightMain.setSensorPhase(right);
 		leftMain.setSensorPhase(left);
+		
+	}
+	
+	public static void invertMotorsBackwards() {
+		
+		rightMain.setInverted(true);
+		rightFollow.setInverted(true);
+		rightFollow2.setInverted(true);
+		leftMain.setInverted(false);
+		leftFollow.setInverted(false);
+		leftFollow2.setInverted(false);
+		
+	}
+	
+	public static void invertMotorsForwards() {
+		
+		rightMain.setInverted(false);
+		rightFollow.setInverted(false);
+		rightFollow2.setInverted(false);
+		leftMain.setInverted(true);
+		leftFollow.setInverted(true);
+		leftFollow2.setInverted(true);
 		
 	}
 }

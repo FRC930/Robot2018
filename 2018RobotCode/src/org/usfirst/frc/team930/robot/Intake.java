@@ -7,6 +7,8 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import org.usfirst.frc.team930.robot.TeleopHandler.IntakeStates;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -29,7 +31,7 @@ public class Intake {
 	
 	private static void updatePDPcounter() {	//updates the pdp counter
 		if (Utilities.getPDPCurrent() > Constants.currentThreshhold) { 						
-			PDPcounter++; 																
+			PDPcounter++;												
 		} else { 																	
 			PDPcounter = 0; 															
 		}
@@ -48,9 +50,10 @@ public class Intake {
 	//------------------------------------------------------------------------------------------- 
 
 	private static void inTaking() {		//method used for when the wheels in take
-		if (returnCubeInside()) { 																									
+		/*if (returnCubeInside()) { 
 			rightIntakeWheel.set(ControlMode.PercentOutput, 0);	// Stops motors
 			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
+			setIntakeLifter(true);
 			setIntakeGrip(true);
 			TeleopHandler.setRumble(2,0.5);
 		} else {
@@ -59,7 +62,12 @@ public class Intake {
 			leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);						  // Negative
 			updatePDPcounter();
 			setIntakeGrip(false);
-		}
+		}*/
+		
+		setIntakeLifter(false);
+		rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);	// Turn on motors // Positive
+		leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);						  // Negative
+		setIntakeGrip(false);
 	}
 	
 	//------------------------------------------------------------------------------------------- 
@@ -87,7 +95,6 @@ public class Intake {
 		rightIntakeWheel.set(ControlMode.PercentOutput, Constants.slowIntakeMotorSpeed); // Turn right motor // Negative
 		leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.slowIntakeMotorSpeed); // Turn left motor // Positive
 		PDPcounter = 0; // Reset counter.
-		setIntakeGrip(true);
 	}
 	
 	//------------------------------------------------------------------------------------------- 
@@ -110,6 +117,9 @@ public class Intake {
 		PDPcounter = 0;
 		setIntakeGrip(false);
 		setIntakeLifter(false);
+		
+		rightIntakeWheel.setNeutralMode(NeutralMode.Brake);
+		leftIntakeWheel.setNeutralMode(NeutralMode.Brake);
 	}
 	
 	//-- Main Loop (called in Robot.java) --\\
