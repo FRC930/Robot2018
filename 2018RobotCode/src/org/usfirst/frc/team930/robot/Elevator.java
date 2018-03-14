@@ -176,8 +176,11 @@ public class Elevator {
 		return false;
 	}
 	
-	public static void switchToPercentOutput() {
-		lift1.set(ControlMode.PercentOutput, 0);
+	public static void switchToPercentOutput(double axisValue) {
+		if(Math.abs(axisValue) > Constants.elevatorDeadBand)
+			run(axisValue);
+		else
+			lift1.set(ControlMode.PercentOutput, 0);
 	}
 	
 	public static void updateDashboard(){

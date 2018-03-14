@@ -147,7 +147,7 @@ public class TeleopHandler {
 		
 		// Turn off Motion Magic at intake position
 		if(Elevator.atIntakePosition()) {
-			Elevator.switchToPercentOutput();
+			Elevator.switchToPercentOutput(stick2.getRawAxis(Constants.rightYaxis));
 		}
 		// Stop elevator if encoder is not returning information
 		else if(Elevator.checkSensor()) {
@@ -155,8 +155,8 @@ public class TeleopHandler {
 				Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
 				//Elevator.switchToPercentOutput();
 			} else {
-				//Elevator.runManualControl(0);
-				Elevator.switchToPercentOutput();
+				Elevator.runManualControl(0);
+				//Elevator.switchToPercentOutput();
 			}
 		}
 		// Manual control with Motion Magic
