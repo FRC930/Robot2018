@@ -37,7 +37,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
-		
+		LEDHandler.autoRun();
 		AutoHandler.run();
 		
 	}
