@@ -15,6 +15,7 @@ public class AutoHandler {
 	public static MotionProfile1A myMP1A;
 	public static MotionProfile2A myMP2A;
 	public static MotionProfile2B myMP2B;
+	public static MotionProfile2C myMP2C;
 	public static MotionProfile3A myMP3A;
 	public static MotionProfile4A myMP4A;
 	public static MotionProfile5A myMP5A;
@@ -65,6 +66,7 @@ public class AutoHandler {
         myMP1A = new MotionProfile1A();
         myMP2A = new MotionProfile2A();
         myMP2B = new MotionProfile2B();
+        myMP2C = new MotionProfile2C();
         myMP3A = new MotionProfile3A();
         myMP4A = new MotionProfile4A();
         myMP5A = new MotionProfile5A();

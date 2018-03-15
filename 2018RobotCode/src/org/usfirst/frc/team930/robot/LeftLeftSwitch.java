@@ -9,6 +9,7 @@ public class LeftLeftSwitch extends Routine {
 	private TimeDelay delayElev = new TimeDelay();
 	private TimeDelay delayOuttake = new TimeDelay();
 	private TimeDelay delayStopIntake = new TimeDelay();
+	private TimeDelay delayAfterGyro = new TimeDelay();
 	public static Notifier n;
 	
 	public LeftLeftSwitch(String v, double d) {
@@ -17,12 +18,15 @@ public class LeftLeftSwitch extends Routine {
 		delayElev.set(0);
 		delayOuttake.set(3.5);
 		delayStopIntake.set(1);
+		delayStopIntake.set(0.25);
 
 		n = new Notifier (AutoHandler.myMP2A);
 		AutoHandler.myMP2A.startPath();
 		System.out.println("IN LEFT LEFT SWITCH CONSTRUCTOR");
 		//n = new Notifier (AutoHandler.myMP2B);
 		//AutoHandler.myMP2B.startPath();
+		//n = new Notifier (AutoHandler.myMP2C);
+		//AutoHandler.myMP2C.startPath();
 		//n = new Notifier (AutoHandler.myAutoGT);
 		//AutoHandler.myAutoGT.startPath();
 		
@@ -35,9 +39,10 @@ public class LeftLeftSwitch extends Routine {
 		
 		switch (this.autoStep) {
 			case 1:
+				System.out.println("Running case 1");
 				n.startPeriodic(0.02);
-					this.autoStep = 3;
-					//System.out.println("DONE");
+				this.autoStep = 3;
+				//System.out.println("DONE");
 				break;
 			/*case 1:
 				System.out.println("Running case 1");
@@ -54,65 +59,70 @@ public class LeftLeftSwitch extends Routine {
 				}
 				break;
 			case 3:
-				//System.out.println("Running case 3");
-				if(/*segList.segGyroTurn()*//*segList.seg2B()*/segList.seg2A()) {
+				System.out.println("Running case 3");
+				if(segList.seg2A()) {
 					this.autoStep = 4;
 					n.stop();
 					n = new Notifier (AutoHandler.myAutoGT);
+					AutoHandler.myAutoGT.startPath();
 					//actList.slowOuttake();
-					//System.out.println("*****Transition to Case 4");
 				}
 				break;
-			/*case 4:
+			case 4:
 				System.out.println("Running case 4");
-				actList.wristUp();
 				n.startPeriodic(0.02);
-				this.autoStep = 5;
+				this.autoStep = 10;
 				break;
 			case 5:
 				System.out.println("Running case 5");
-				if(delayElev.execute(time.get()))	{
+				if(segList.segGyroTurn()) {
 					this.autoStep = 6;
-					actList.switchPosition();
-					System.out.println("*****Transition to Case 6");
+					n.stop();
+					n = new Notifier (AutoHandler.myMP2B);
+					AutoHandler.myMP2B.startPath();
 				}
 				break;
 			case 6:
 				System.out.println("Running case 6");
-				if(segList.seg2B()) {
-					this.autoStep = 7;
-					n.stop();
-					n = new Notifier (myMP2);
-					//actList.slowOuttake();
-					System.out.println("*****Transition to Case 7");
-				}
-				break;*/
-			case 4:
-				System.out.println("Running case 4");
-				n.startPeriodic(0.02);
-				this.autoStep = 5;
-				break;
-			case 5:
-				System.out.println("Running case 4");
-				if(segList.segGyroTurn()) {
-					this.autoStep = 6;
-					n.stop();
-					n = new Notifier (AutoHandler.myMP2A);
-				}
-				break;
-			case 6:
-				System.out.println("Running case 4");
 				n.startPeriodic(0.02);
 				this.autoStep = 7;
 				break;
 			case 7:
-				System.out.println("Running case 4");
-				if(segList.seg2A()) {
-					this.autoStep = 8;
+				System.out.println("Running case 7");
+				if(segList.seg2B()) {
+					this.autoStep = 13;
+					n.stop();
+					//n = new Notifier (AutoHandler.myAutoGT);
+					//AutoHandler.myAutoGT.startPath();
+				}
+				break;
+			case 9:
+				System.out.println("Running case 9");
+				n.startPeriodic(0.02);
+				this.autoStep = 10;
+				break;
+			case 10:
+				if(segList.segGyroTurn()) {
+					this.autoStep = 11;
+					n.stop();
+					n = new Notifier (AutoHandler.myMP2C);
+					AutoHandler.myMP2C.startPath();
+				}
+				break;
+			case 11:
+				System.out.println("Running case 11");
+				n.startPeriodic(0.02);
+				this.autoStep = 12;
+				break;
+			case 12:
+				System.out.println("Running case 12");
+				if(segList.seg2C()) {
+					this.autoStep = 13;
 					n.stop();
 				}
 				break;
-			case 8:
+			case 13:
+				System.out.println("Running case 13");
 				if(delayStopIntake.execute(time.get()))
 					actList.stopIntake();
 				Drive.runAt(0, 0);

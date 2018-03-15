@@ -38,6 +38,18 @@ public class Segments {
 	
 	}
 	
+	public boolean seg2C() {
+		
+		boolean isFinished = false;
+		
+		if(AutoHandler.myMP2C.isLastPoint()) {
+			isFinished = true;
+		}
+	
+		return isFinished;
+	
+	}
+	
 	public boolean seg3A() {
 		
 		boolean isFinished = false;
