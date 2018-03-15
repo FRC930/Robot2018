@@ -36,12 +36,11 @@ public class AutoHandler {
 	
 	enum Goal {
 		
-		ALWAYS_SWITCH,
-		ALWAYS_SCALE,
-		PERFERRED_SWITCH,
-		PERFERRED_SCALE,
 		LINE,
-		LINE_SCORE
+		LINE_SCORE,
+		DOUBLE_SCALE,
+		DOUBLE_SWITCH,
+		SCALE_SWITCH
 		
 	}
 	
@@ -53,10 +52,9 @@ public class AutoHandler {
         posChooser.addObject("Do Nothing", StartPositions.NOTHING);
         SmartDashboard.putData("Positions", posChooser);
         
-        goalChooser.addObject("Always Switch", Goal.ALWAYS_SWITCH);
-        goalChooser.addObject("Always Scale", Goal.ALWAYS_SCALE);
-        goalChooser.addObject("Perferred Switch", Goal.PERFERRED_SWITCH);
-        goalChooser.addObject("Perferred Scale", Goal.PERFERRED_SCALE);
+        goalChooser.addObject("Double Scale", Goal.DOUBLE_SCALE);
+        goalChooser.addObject("Double Switch", Goal.DOUBLE_SWITCH);
+        goalChooser.addObject("Scale and Switch", Goal.SCALE_SWITCH);
         goalChooser.addObject("Just Line", Goal.LINE);
         goalChooser.addObject("Line & Score", Goal.LINE_SCORE);
         SmartDashboard.putData("Goals", goalChooser);
@@ -102,7 +100,7 @@ public class AutoHandler {
 		case LEFT:
 			switch (goalEnum) {
 
-			case ALWAYS_SCALE:
+			case DOUBLE_SCALE:
 				switch (variation) {
 
 				case "LRL":
@@ -116,7 +114,7 @@ public class AutoHandler {
 				
 				}
 				break;
-			case ALWAYS_SWITCH:
+			case DOUBLE_SWITCH:
 				switch (variation) {
 
 				case "LRL":	
@@ -130,7 +128,7 @@ public class AutoHandler {
 
 				}
 				break;
-			case PERFERRED_SCALE:
+			case SCALE_SWITCH:
 				switch (variation) {
 
 				case "LRL":
@@ -138,22 +136,6 @@ public class AutoHandler {
 					break;
 				case "RLR":
 				case "LLL":
-					auto= new LeftLeftScale(variation, delay);
-					break;
-				case "RRR":
-					auto= new LineElevator(variation, delay);
-					break;
-
-				}
-				break;
-			case PERFERRED_SWITCH:
-				switch (variation) {
-
-				case "LRL":
-				case "LLL":
-					auto= new LeftLeftSwitch(variation, delay);
-					break;
-				case "RLR":
 					auto= new LeftLeftScale(variation, delay);
 					break;
 				case "RRR":
@@ -182,7 +164,7 @@ public class AutoHandler {
 		case MIDDLE:
 			switch (goalEnum) {
 
-			case ALWAYS_SWITCH:
+			case DOUBLE_SWITCH:
 				switch (variation) {
 
 				case "LRL":
@@ -207,7 +189,7 @@ public class AutoHandler {
 		case RIGHT:
 			switch (goalEnum) {
 
-			case ALWAYS_SCALE:
+			case DOUBLE_SCALE:
 				switch (variation) {
 
 				case "LRL":
@@ -221,7 +203,7 @@ public class AutoHandler {
 				
 				}
 				break;
-			case ALWAYS_SWITCH:
+			case DOUBLE_SWITCH:
 				switch (variation) {
 
 				case "LRL":
@@ -235,7 +217,7 @@ public class AutoHandler {
 
 				}
 				break;
-			case PERFERRED_SCALE:
+			case SCALE_SWITCH:
 				switch (variation) {
 
 				case "LRL":
@@ -249,22 +231,6 @@ public class AutoHandler {
 					auto= new LineElevator(variation, delay);
 					break;
 			
-				}
-				break;
-			case PERFERRED_SWITCH:
-				switch (variation) {
-
-				case "LRL":
-					auto= new RightRightScale(variation, delay);
-					break;
-				case "RLR":
-				case "RRR":
-					auto= new RightRightSwitch(variation, delay);
-					break;
-				case "LLL":
-					auto= new LineElevator(variation, delay);
-					break;
-				
 				}
 				break;
 			case LINE:
