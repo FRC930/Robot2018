@@ -3,7 +3,8 @@ package motionProfile;
 import org.usfirst.frc.team930.robot.Drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
@@ -12,22 +13,27 @@ import jaci.pathfinder.modifiers.TankModifier;
 
 // Start L Double Scale L 1
 public class MotionProfile11A implements Runnable {
-	
+
 	private static EncoderFollower rightFollower;
 	private static EncoderFollower leftFollower;
+	public static double first;
 
 	public MotionProfile11A() {
 		
+		first = Timer.getFPGATimestamp();
+		SmartDashboard.putNumber("Auto Time Difference", 0);
+		
 		//Drive.gyro.reset();
 		
-		Waypoint[] rightLeftScale = new Waypoint[] {
-				new Waypoint(0, 0, Pathfinder.d2r(0)),
-				new Waypoint(2, 0, Pathfinder.d2r(0)),
-		}; // Vel: 3.0
+		Waypoint[] leftLeftScale = new Waypoint[] {
+				new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
+				new Waypoint(5.0, 3.1, Pathfinder.d2r(0)),
+				new Waypoint(7.0, 2.1, Pathfinder.d2r(0)),
+		}; // Vel: 4.0
 		
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 2.3, 50.0);
+		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.0, 2.3, 50.0);
 		
-		Trajectory tra = Pathfinder.generate(rightLeftScale, config);
+		Trajectory tra = Pathfinder.generate(leftLeftScale, config);
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.628);
 
@@ -67,6 +73,9 @@ public class MotionProfile11A implements Runnable {
 		Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
 		Drive.leftMain.set(ControlMode.PercentOutput, (calc2 + turn));
 			
+		SmartDashboard.putNumber("Auto Time Difference", Timer.getFPGATimestamp() - first);
+		first = Timer.getFPGATimestamp();
+			
 	}
 	
 	public boolean isLastPoint(){
@@ -83,5 +92,8 @@ public class MotionProfile11A implements Runnable {
 		leftFollower.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
 		
 	}
-
+	
 }
+	
+	
+
