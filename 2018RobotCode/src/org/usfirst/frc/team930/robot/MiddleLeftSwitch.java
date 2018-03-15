@@ -18,8 +18,8 @@ public class MiddleLeftSwitch extends Routine {
 		delayOuttake.set(3.5);
 		delayStopIntake.set(1);
 
-		n = new Notifier (AutoHandler.myMP4A);
-		AutoHandler.myMP4A.startPath();
+		n = new Notifier (AutoHandler.myMP5A);
+		AutoHandler.myMP5A.startPath();
 		
 		time.start();
 		

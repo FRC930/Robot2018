@@ -1,4 +1,6 @@
-package org.usfirst.frc.team930.robot;
+package motionProfile;
+
+import org.usfirst.frc.team930.robot.Drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -9,7 +11,7 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
-// Left Left Switch 2
+//Start L Scale L Switch R 3
 public class MotionProfile2C implements Runnable {
 	
 	private static EncoderFollower rightFollower;

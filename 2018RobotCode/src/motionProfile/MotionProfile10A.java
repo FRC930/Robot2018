@@ -1,4 +1,6 @@
-package org.usfirst.frc.team930.robot;
+package motionProfile;
+
+import org.usfirst.frc.team930.robot.Drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -8,27 +10,24 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
-// Left Right Scale 1
-public class MotionProfile3A implements Runnable {
+// Start R Scale R Switch L 1
+public class MotionProfile10A implements Runnable {
 	
 	private static EncoderFollower rightFollower;
 	private static EncoderFollower leftFollower;
 
-	public MotionProfile3A() {
+	public MotionProfile10A() {
 		
 		//Drive.gyro.reset();
 		
-		Waypoint[] leftRightScale = new Waypoint[] {
-				new Waypoint(0, 7, Pathfinder.d2r(0)),
-				new Waypoint(4.5, 7.5, Pathfinder.d2r(345)),
-				new Waypoint(5.75, 5, Pathfinder.d2r(270)),
-				new Waypoint(5.75, 3.15, Pathfinder.d2r(270)),
-				new Waypoint(6.9, 1.75, Pathfinder.d2r(0)),
+		Waypoint[] rightLeftScale = new Waypoint[] {
+				new Waypoint(0, 0, Pathfinder.d2r(0)),
+				new Waypoint(2, 0, Pathfinder.d2r(0)),
 		}; // Vel: 3.0
 		
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 2.3, 50.0);
 		
-		Trajectory tra = Pathfinder.generate(leftRightScale, config);
+		Trajectory tra = Pathfinder.generate(rightLeftScale, config);
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.628);
 
@@ -64,7 +63,7 @@ public class MotionProfile3A implements Runnable {
 		System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading,-yaw,turn); 
 		double calc = (rightFollower.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
 		double calc2 = (leftFollower.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
-		// Driving foreward
+		// Driving forward
 		Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
 		Drive.leftMain.set(ControlMode.PercentOutput, (calc2 + turn));
 			

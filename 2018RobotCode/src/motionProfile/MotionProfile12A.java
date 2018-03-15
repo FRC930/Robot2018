@@ -1,4 +1,6 @@
-package org.usfirst.frc.team930.robot;
+package motionProfile;
+
+import org.usfirst.frc.team930.robot.Drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -8,25 +10,24 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
-// Right Right Switch 1
-public class MotionProfile7A implements Runnable {
+// Start L Double Scale R 1
+public class MotionProfile12A implements Runnable {
 	
 	private static EncoderFollower rightFollower;
 	private static EncoderFollower leftFollower;
 
-	public MotionProfile7A() {
+	public MotionProfile12A() {
 		
 		//Drive.gyro.reset();
 		
-		Waypoint[] rightRightSwitch = new Waypoint[] {
-				new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
-				new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
-				new Waypoint(5.5, 2, Pathfinder.d2r(270)),
-		}; // Vel: 4.0
+		Waypoint[] rightLeftScale = new Waypoint[] {
+				new Waypoint(0, 0, Pathfinder.d2r(0)),
+				new Waypoint(2, 0, Pathfinder.d2r(0)),
+		}; // Vel: 3.0
 		
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.0, 2.3, 50.0);
+		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 2.3, 50.0);
 		
-		Trajectory tra = Pathfinder.generate(rightRightSwitch, config);
+		Trajectory tra = Pathfinder.generate(rightLeftScale, config);
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.628);
 

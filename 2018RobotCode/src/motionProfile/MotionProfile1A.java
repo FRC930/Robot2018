@@ -1,31 +1,39 @@
-package org.usfirst.frc.team930.robot;
+package motionProfile;
+
+import org.usfirst.frc.team930.robot.Drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
-// Left Left Switch 3
-public class MotionProfile2B implements Runnable {
-	
+// Start L Scale L Switch L 1
+public class MotionProfile1A implements Runnable {
+
 	private static EncoderFollower rightFollower;
 	private static EncoderFollower leftFollower;
+	public static double first;
 
-	public MotionProfile2B() {
+	public MotionProfile1A() {
+		
+		first = Timer.getFPGATimestamp();
+		SmartDashboard.putNumber("Auto Time Difference", 0);
 		
 		//Drive.gyro.reset();
 		
-		Waypoint[] leftLeftSwitch = new Waypoint[] {
-				new Waypoint(0, 0, Pathfinder.d2r(90)),
-				new Waypoint(0, 2, Pathfinder.d2r(90)),
-		}; // Vel: 3.0
+		Waypoint[] leftLeftScale = new Waypoint[] {
+				new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
+				new Waypoint(7.1, 4.0, Pathfinder.d2r(0)),
+				new Waypoint(8.0, 3.3, Pathfinder.d2r(270)),
+		}; // Vel: 4.0
 		
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 2.3, 50.0);
+		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.0, 2.3, 50.0);
 		
-		Trajectory tra = Pathfinder.generate(leftLeftSwitch, config);
+		Trajectory tra = Pathfinder.generate(leftLeftScale, config);
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.628);
 
@@ -65,6 +73,9 @@ public class MotionProfile2B implements Runnable {
 		Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
 		Drive.leftMain.set(ControlMode.PercentOutput, (calc2 + turn));
 			
+		SmartDashboard.putNumber("Auto Time Difference", Timer.getFPGATimestamp() - first);
+		first = Timer.getFPGATimestamp();
+			
 	}
 	
 	public boolean isLastPoint(){
@@ -75,11 +86,14 @@ public class MotionProfile2B implements Runnable {
 
 	public void startPath() {
 
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~ START AUTO MP 2C~~~~~~~~~~~~~");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~ START AUTO~~~~~~~~~~~~~");
 		Drive.changeSensorPhase(false, true);
 		rightFollower.configureEncoder(Drive.rightMain.getSelectedSensorPosition(0), 1024, .102);
 		leftFollower.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
 		
 	}
-
+	
 }
+	
+	
+

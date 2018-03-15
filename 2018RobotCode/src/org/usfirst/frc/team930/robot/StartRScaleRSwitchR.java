@@ -3,7 +3,7 @@ package org.usfirst.frc.team930.robot;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 
-public class RightRightScale extends Routine {
+public class StartRScaleRSwitchR extends Routine {
 	
 	private Timer time = new Timer();
 	private TimeDelay delayElev = new TimeDelay();
@@ -11,15 +11,15 @@ public class RightRightScale extends Routine {
 	private TimeDelay delayStopIntake = new TimeDelay();
 	public static Notifier n;
 	
-	public RightRightScale(String v, double d) {
+	public StartRScaleRSwitchR(String v, double d) {
 		
 		super(v, d);
 		delayElev.set(0);
 		delayOuttake.set(3.5);
 		delayStopIntake.set(1);
 
-		n = new Notifier (AutoHandler.myMP6A);
-		AutoHandler.myMP6A.startPath();
+		n = new Notifier (AutoHandler.myMP9A);
+		AutoHandler.myMP9A.startPath();
 		
 		time.start();
 		

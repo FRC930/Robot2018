@@ -4,6 +4,22 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import motionProfile.MotionProfile10A;
+import motionProfile.MotionProfile11A;
+import motionProfile.MotionProfile12A;
+import motionProfile.MotionProfile13A;
+import motionProfile.MotionProfile14A;
+import motionProfile.MotionProfile1A;
+import motionProfile.MotionProfile2A;
+import motionProfile.MotionProfile2B;
+import motionProfile.MotionProfile2C;
+import motionProfile.MotionProfile3A;
+import motionProfile.MotionProfile4A;
+import motionProfile.MotionProfile5A;
+import motionProfile.MotionProfile6A;
+import motionProfile.MotionProfile7A;
+import motionProfile.MotionProfile8A;
+import motionProfile.MotionProfile9A;
 
 public class AutoHandler {
 	
@@ -22,6 +38,12 @@ public class AutoHandler {
 	public static MotionProfile6A myMP6A;
 	public static MotionProfile7A myMP7A;
 	public static MotionProfile8A myMP8A;
+	public static MotionProfile9A myMP9A;
+	public static MotionProfile10A myMP10A;
+	public static MotionProfile11A myMP11A;
+	public static MotionProfile12A myMP12A;
+	public static MotionProfile13A myMP13A;
+	public static MotionProfile14A myMP14A;
 	
 	public static GyroTurn myAutoGT;
 	
@@ -71,6 +93,12 @@ public class AutoHandler {
         myMP6A = new MotionProfile6A();
         myMP7A = new MotionProfile7A();
         myMP8A = new MotionProfile8A();
+        myMP9A = new MotionProfile9A();
+        myMP10A = new MotionProfile10A();
+        myMP11A = new MotionProfile11A();
+        myMP12A = new MotionProfile12A();
+        myMP13A = new MotionProfile13A();
+        myMP14A = new MotionProfile14A();
         myAutoGT = new GyroTurn();
 		
 	}
@@ -105,41 +133,29 @@ public class AutoHandler {
 
 				case "LRL":
 				case "RRR":
-					auto= new LeftRightScale(variation, delay);
+					auto= new StartLDoubleScaleR(variation, delay);
 					break;
 				case "RLR":
 				case "LLL":
-					auto= new LeftLeftScale(variation, delay);
+					auto= new StartLDoubleScaleL(variation, delay);
 					break;
 				
-				}
-				break;
-			case DOUBLE_SWITCH:
-				switch (variation) {
-
-				case "LRL":	
-				case "LLL":
-					auto= new LeftLeftSwitch(variation, delay);
-					break;
-				case "RLR":
-				case "RRR":
-					//auto= new LeftRightSwitch(variation, delay);
-					break;
-
 				}
 				break;
 			case SCALE_SWITCH:
 				switch (variation) {
 
 				case "LRL":
-					auto= new LeftLeftSwitch(variation, delay);
+					auto= new StartLSwitchLScaleR(variation, delay);
 					break;
 				case "RLR":
+					auto= new StartLScaleLSwitchR(variation, delay);
+					break;
 				case "LLL":
-					auto= new LeftLeftScale(variation, delay);
+					auto= new StartLScaleLSwitchL(variation, delay);
 					break;
 				case "RRR":
-					auto= new LineElevator(variation, delay);
+					auto= new StartLScaleRSwitchR(variation, delay);
 					break;
 
 				}
@@ -194,41 +210,29 @@ public class AutoHandler {
 
 				case "LRL":
 				case "RRR":
-					auto= new RightRightScale(variation, delay);
+					auto= new StartRDoubleScaleR(variation, delay);
 					break;
 				case "RLR":
 				case "LLL":
-					auto= new RightLeftScale(variation, delay);
+					auto= new StartRDoubleScaleL(variation, delay);
 					break;
 				
-				}
-				break;
-			case DOUBLE_SWITCH:
-				switch (variation) {
-
-				case "LRL":
-				case "LLL":
-					//auto= new RightLeftSwitch(variation, delay);
-					break;
-				case "RLR":
-				case "RRR":
-					auto= new RightRightSwitch(variation, delay);
-					break;
-
 				}
 				break;
 			case SCALE_SWITCH:
 				switch (variation) {
 
 				case "LRL":
+					auto= new StartRScaleRSwitchL(variation, delay);
+					break;
 				case "RRR":
-					auto= new RightRightScale(variation, delay);
+					auto= new StartRScaleRSwitchR(variation, delay);
 					break;
 				case "RLR":
-					auto= new RightRightSwitch(variation, delay);
+					auto= new StartRSwitchRScaleL(variation, delay);
 					break;
 				case "LLL":
-					auto= new LineElevator(variation, delay);
+					auto= new StartRScaleLSwitchL(variation, delay);
 					break;
 			
 				}
@@ -268,14 +272,17 @@ public class AutoHandler {
 	
 	public static void disabled() {
 		
-		if(LeftLeftScale.n != null)
-			LeftLeftScale.n.stop();
+		if(StartLScaleLSwitchL.n != null)
+			StartLScaleLSwitchL.n.stop();
 		
-		else if(LeftLeftSwitch.n != null)
-			LeftLeftSwitch.n.stop();
+		else if(StartLScaleLSwitchR.n != null)
+			StartLScaleLSwitchR.n.stop();
 		
-		else if(LeftRightScale.n != null)
-			LeftRightScale.n.stop();
+		else if(StartLScaleRSwitchR.n != null)
+			StartLScaleRSwitchR.n.stop();
+		
+		else if(StartLSwitchLScaleR.n != null)
+			StartLSwitchLScaleR.n.stop();
 		
 		else if(MiddleLeftSwitch.n != null)
 			MiddleLeftSwitch.n.stop();
@@ -283,14 +290,32 @@ public class AutoHandler {
 		else if(MiddleRightSwitch.n != null)
 			MiddleRightSwitch.n.stop();
 		
-		else if(RightRightScale.n != null)
-			RightRightScale.n.stop();
+		else if(StartRScaleRSwitchR.n != null)
+			StartRScaleRSwitchR.n.stop();
 		
-		else if(RightRightSwitch.n != null)
-			RightRightSwitch.n.stop();
+		else if(StartRScaleRSwitchL.n != null)
+			StartRScaleRSwitchL.n.stop();
 		
-		else if(RightLeftScale.n != null)
-			RightLeftScale.n.stop();
+		else if(StartRScaleLSwitchL.n != null)
+			StartRScaleLSwitchL.n.stop();
+		
+		else if(StartRSwitchRScaleL.n != null)
+			StartRSwitchRScaleL.n.stop();
+		
+		else if(StartLDoubleScaleL.n != null)
+			StartLDoubleScaleL.n.stop();
+		
+		else if(StartLDoubleScaleR.n != null)
+			StartLDoubleScaleR.n.stop();
+		
+		else if(StartRDoubleScaleR.n != null)
+			StartRDoubleScaleR.n.stop();
+		
+		else if(StartRDoubleScaleL.n != null)
+			StartRDoubleScaleL.n.stop();
+		
+		else if(LeftLeftSwitch.n != null)
+			LeftLeftSwitch.n.stop();
 		
 	}
 

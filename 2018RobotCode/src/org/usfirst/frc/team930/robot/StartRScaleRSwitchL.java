@@ -3,7 +3,7 @@ package org.usfirst.frc.team930.robot;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 
-public class MiddleRightSwitch extends Routine {
+public class StartRScaleRSwitchL extends Routine {
 	
 	private Timer time = new Timer();
 	private TimeDelay delayElev = new TimeDelay();
@@ -11,15 +11,15 @@ public class MiddleRightSwitch extends Routine {
 	private TimeDelay delayStopIntake = new TimeDelay();
 	public static Notifier n;
 	
-	public MiddleRightSwitch(String v, double d) {
+	public StartRScaleRSwitchL(String v, double d) {
 		
 		super(v, d);
 		delayElev.set(0);
 		delayOuttake.set(3.5);
 		delayStopIntake.set(1);
 
-		n = new Notifier (AutoHandler.myMP6A);
-		AutoHandler.myMP6A.startPath();
+		n = new Notifier (AutoHandler.myMP10A);
+		AutoHandler.myMP10A.startPath();
 		
 		time.start();
 		
@@ -58,7 +58,7 @@ public class MiddleRightSwitch extends Routine {
 			break;
 		case 4:
 			System.out.println("Running case 3");
-			if(segList.seg5A()) {
+			if(segList.seg1A()) {
 				this.autoStep = 5;
 				n.stop();
 				System.out.println("*****Transition to Case 4");

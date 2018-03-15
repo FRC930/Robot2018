@@ -3,7 +3,7 @@ package org.usfirst.frc.team930.robot;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 
-public class LeftLeftScale extends Routine {
+public class StartRSwitchRScaleL extends Routine {
 	
 	private Timer time = new Timer();
 	private TimeDelay delayElev = new TimeDelay();
@@ -11,15 +11,15 @@ public class LeftLeftScale extends Routine {
 	private TimeDelay delayStopIntake = new TimeDelay();
 	public static Notifier n;
 	
-	public LeftLeftScale(String v, double d) {
+	public StartRSwitchRScaleL(String v, double d) {
 		
 		super(v, d);
 		delayElev.set(0);
 		delayOuttake.set(3.5);
 		delayStopIntake.set(1);
 
-		n = new Notifier (AutoHandler.myMP1A);
-		AutoHandler.myMP1A.startPath();
+		n = new Notifier (AutoHandler.myMP8A);
+		AutoHandler.myMP8A.startPath();
 		
 		time.start();
 		
@@ -29,17 +29,17 @@ public class LeftLeftScale extends Routine {
 	public void variation() {
 		
 		switch (this.autoStep) {
-		/*case 1:
-			super.n.startPeriodic(0.02);
-				this.autoStep = 3;
-				System.out.println("DONE");
-			break;*/
 		case 1:
+			n.startPeriodic(0.02);
+			this.autoStep = 4;
+			System.out.println("DONE");
+			break;
+		/*case 1:
 			System.out.println("Running case 1");
 			actList.wristUp();
 			n.startPeriodic(0.02);
 			this.autoStep = 2;
-			break;
+			break;*/
 		case 2:
 			System.out.println("Running case 2");
 			if(delayElev.execute(time.get()))	{
@@ -58,7 +58,7 @@ public class LeftLeftScale extends Routine {
 			break;
 		case 4:
 			System.out.println("Running case 3");
-			if(segList.seg1A()) {
+			if(segList.seg8A()) {
 				this.autoStep = 5;
 				n.stop();
 				System.out.println("*****Transition to Case 4");
