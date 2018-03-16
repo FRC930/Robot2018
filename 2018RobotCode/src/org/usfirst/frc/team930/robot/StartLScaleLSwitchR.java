@@ -30,8 +30,8 @@ public class StartLScaleLSwitchR extends Routine {
 		
 		switch (this.autoStep) {
 		/*case 1:
-			super.n.startPeriodic(0.02);
-				this.autoStep = 3;
+			n.startPeriodic(0.02);
+				this.autoStep = 4;
 				System.out.println("DONE");
 			break;*/
 		case 1:

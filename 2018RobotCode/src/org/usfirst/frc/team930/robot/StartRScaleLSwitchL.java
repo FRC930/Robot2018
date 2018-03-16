@@ -51,13 +51,26 @@ public class StartRScaleLSwitchL extends Routine {
 			case 3:
 				System.out.println("Running case 3");
 				if(segList.seg7A()) {
-					this.autoStep = 4;
+					this.autoStep = 6;
 					n.stop();
-					actList.slowOuttake();
+					//n = new Notifier(AutoHandler.myAutoGT);
+					//AutoHandler.myAutoGT.startPath();
+					//actList.slowOuttake();
 					System.out.println("*****Transition to Case 4");
 				}
 				break;
 			case 4:
+				n.startPeriodic(0.02);
+				this.autoStep = 5;
+				System.out.println("DONE");
+				break;
+			case 5:
+				if(segList.segGyroTurn()) {
+					this.autoStep = 6;
+					n.stop();
+				}
+				break;
+			case 6:
 				if(delayStopIntake.execute(time.get()))
 					actList.stopIntake();
 				Drive.runAt(0, 0);

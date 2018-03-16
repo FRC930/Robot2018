@@ -27,8 +27,8 @@ public class MotionProfile1A implements Runnable {
 		
 		Waypoint[] leftLeftScale = new Waypoint[] {
 				new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
-				new Waypoint(7.1, 4.0, Pathfinder.d2r(0)),
-				new Waypoint(8.0, 3.3, Pathfinder.d2r(270)),
+				new Waypoint(5.0, 3.1, Pathfinder.d2r(0)),
+				new Waypoint(7.3, 2.1, Pathfinder.d2r(0)),
 		}; // Vel: 4.0
 		
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.0, 2.3, 50.0);
@@ -70,9 +70,13 @@ public class MotionProfile1A implements Runnable {
 		double calc = (rightFollower.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
 		double calc2 = (leftFollower.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
 		// Driving forward
-		Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
-		Drive.leftMain.set(ControlMode.PercentOutput, (calc2 + turn));
-			
+		if(!isLastPoint()){
+			Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
+			Drive.leftMain.set(ControlMode.PercentOutput, (calc2 + turn));
+		} else {
+			Drive.runAt(0, 0);
+		}
+		
 		SmartDashboard.putNumber("Auto Time Difference", Timer.getFPGATimestamp() - first);
 		first = Timer.getFPGATimestamp();
 			

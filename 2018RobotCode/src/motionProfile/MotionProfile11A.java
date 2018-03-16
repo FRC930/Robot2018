@@ -28,7 +28,7 @@ public class MotionProfile11A implements Runnable {
 		Waypoint[] leftLeftScale = new Waypoint[] {
 				new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
 				new Waypoint(5.0, 3.1, Pathfinder.d2r(0)),
-				new Waypoint(7.0, 2.1, Pathfinder.d2r(0)),
+				new Waypoint(7.3, 2.1, Pathfinder.d2r(0)),
 		}; // Vel: 4.0
 		
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.0, 2.3, 50.0);

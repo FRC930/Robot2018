@@ -21,11 +21,14 @@ public class MotionProfile7A implements Runnable {
 		//Drive.gyro.reset();
 		
 		Waypoint[] rightRightSwitch = new Waypoint[] {
-				new Waypoint(0, 0, Pathfinder.d2r(0)),
-				new Waypoint(2, 0, Pathfinder.d2r(0)),
+				new Waypoint(0, 1.4, Pathfinder.d2r(0)),
+				new Waypoint(4.25, 0.9, Pathfinder.d2r(15)),
+				new Waypoint(5.5, 3.4, Pathfinder.d2r(90)),
+				new Waypoint(5.5, 6.5, Pathfinder.d2r(90)),
+				new Waypoint(6.5, 7.15, Pathfinder.d2r(45)),
 		}; // Vel: 4.0
 		
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.0, 2.3, 50.0);
+		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 2.3, 50.0);
 		
 		Trajectory tra = Pathfinder.generate(rightRightSwitch, config);
 		

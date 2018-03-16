@@ -14,8 +14,8 @@ public class StartLSwitchLScaleR extends Routine {
 	public StartLSwitchLScaleR(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(0);
-		delayOuttake.set(3.5);
+		delayElev.set(1);
+		delayOuttake.set(1.5);
 		delayStopIntake.set(1);
 
 		n = new Notifier (AutoHandler.myMP4A);
@@ -30,8 +30,8 @@ public class StartLSwitchLScaleR extends Routine {
 		
 		switch (this.autoStep) {
 		/*case 1:
-			super.n.startPeriodic(0.02);
-				this.autoStep = 3;
+			n.startPeriodic(0.02);
+				this.autoStep = 4;
 				System.out.println("DONE");
 			break;*/
 		case 1:
@@ -44,7 +44,7 @@ public class StartLSwitchLScaleR extends Routine {
 			System.out.println("Running case 2");
 			if(delayElev.execute(time.get()))	{
 				this.autoStep = 3;
-				actList.scaleMPosition();
+				actList.switchPosition();
 				System.out.println("*****Transition to Case 2");
 			}
 			break;

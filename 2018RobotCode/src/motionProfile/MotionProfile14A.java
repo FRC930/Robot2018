@@ -21,11 +21,12 @@ public class MotionProfile14A implements Runnable {
 		//Drive.gyro.reset();
 		
 		Waypoint[] rightLeftScale = new Waypoint[] {
-				new Waypoint(0, 0, Pathfinder.d2r(0)),
-				new Waypoint(2, 0, Pathfinder.d2r(0)),
+				new Waypoint(0.7, -3.1, Pathfinder.d2r(0)),
+				new Waypoint(5.0, -3.1, Pathfinder.d2r(0)),
+				new Waypoint(7.3, -2.1, Pathfinder.d2r(0)),
 		}; // Vel: 3.0
 		
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 2.3, 50.0);
+		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.0, 2.3, 50.0);
 		
 		Trajectory tra = Pathfinder.generate(rightLeftScale, config);
 		

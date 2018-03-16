@@ -14,9 +14,9 @@ public class StartLScaleLSwitchL extends Routine {
 	public StartLScaleLSwitchL(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(0);
-		delayOuttake.set(3.5);
-		delayStopIntake.set(1);
+		delayElev.set(2);
+		delayOuttake.set(1);
+		delayStopIntake.set(2);
 
 		n = new Notifier (AutoHandler.myMP1A);
 		AutoHandler.myMP1A.startPath();
@@ -30,8 +30,8 @@ public class StartLScaleLSwitchL extends Routine {
 		
 		switch (this.autoStep) {
 		/*case 1:
-			super.n.startPeriodic(0.02);
-				this.autoStep = 3;
+			n.startPeriodic(0.02);
+				this.autoStep = 4;
 				System.out.println("DONE");
 			break;*/
 		case 1:

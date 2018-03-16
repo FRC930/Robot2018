@@ -56,7 +56,7 @@ public class GyroTurn implements Runnable {
 	
 	public void startPath() {
 		
-		heading = 90;
+		heading = 345;
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~ START AUTO~~~~~~~~~~~~~");
 		Drive.changeSensorPhase(false, true);
 		encPos = Drive.leftMain.getSelectedSensorPosition(0);

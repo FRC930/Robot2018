@@ -134,6 +134,18 @@ public class Segments {
 		
 	}
 	
+	public boolean seg14A() {
+		
+		boolean isFinished = false;
+		
+		if(AutoHandler.myMP14A.isLastPoint()) {
+			isFinished = true;
+		}
+		
+		return isFinished;
+		
+	}
+	
 	public boolean segGyroTurn() {
 		
 		boolean isFinished = false;
