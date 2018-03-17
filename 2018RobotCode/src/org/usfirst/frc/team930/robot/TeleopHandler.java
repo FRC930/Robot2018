@@ -146,12 +146,14 @@ public class TeleopHandler {
 		}
 		
 		// Turn off Motion Magic at intake position
+		
 		if(Elevator.atIntakePosition()) {
 			Elevator.switchToPercentOutput(stick2.getRawAxis(Constants.rightYaxis));
 		}
 		// Stop elevator if encoder is not returning information
 		else if(Elevator.checkSensor()) {
 			if(Math.abs(stick2.getRawAxis(Constants.rightYaxis)) > Constants.elevatorDeadBand) {
+				System.out.println("Sending " + stick2.getRawAxis(Constants.rightYaxis));
 				Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
 				//Elevator.switchToPercentOutput();
 			} else {
@@ -162,11 +164,15 @@ public class TeleopHandler {
 		// Manual control with Motion Magic
 		else if(Math.abs(stick2.getRawAxis(Constants.rightYaxis)) > Constants.elevatorDeadBand) {
 			Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
+			System.out.println("Lift1: " + Elevator.lift1.getMotorOutputPercent() + " Lift2: " + Elevator.lift2.getMotorOutputPercent());
 		}
 		// Run Motion Magic using button positions
 		else {
 			Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
 		}
+		
+		
+
 		
 		
 		// Ramps

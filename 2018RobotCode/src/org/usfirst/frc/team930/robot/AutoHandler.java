@@ -5,20 +5,20 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import motionProfile.MotionProfile10A;
-import motionProfile.MotionProfile11A;
-import motionProfile.MotionProfile12A;
-import motionProfile.MotionProfile13A;
-import motionProfile.MotionProfile14A;
+import motionProfile.MPStartLScaleL;
+import motionProfile.MPStartLScaleR;
+import motionProfile.MPStartRScaleL;
+import motionProfile.MPStartRScaleR;
 import motionProfile.MotionProfile1A;
 import motionProfile.MotionProfile2A;
 import motionProfile.MotionProfile2B;
 import motionProfile.MotionProfile2C;
 import motionProfile.MotionProfile3A;
-import motionProfile.MotionProfile4A;
-import motionProfile.MotionProfile5A;
-import motionProfile.MotionProfile6A;
+import motionProfile.MPStartLSwitchL;
+import motionProfile.MPStartMSwitchL;
+import motionProfile.MPStartMSwitchR;
 import motionProfile.MotionProfile7A;
-import motionProfile.MotionProfile8A;
+import motionProfile.MPStartRSwitchR;
 import motionProfile.MotionProfile9A;
 
 public class AutoHandler {
@@ -33,17 +33,17 @@ public class AutoHandler {
 	public static MotionProfile2B myMP2B;
 	public static MotionProfile2C myMP2C;
 	public static MotionProfile3A myMP3A;
-	public static MotionProfile4A myMP4A;
-	public static MotionProfile5A myMP5A;
-	public static MotionProfile6A myMP6A;
+	public static MPStartLSwitchL mpStartLSwitchL;
+	public static MPStartMSwitchL mpStartMSwitchL;
+	public static MPStartMSwitchR mpStartMSwitchR;
 	public static MotionProfile7A myMP7A;
-	public static MotionProfile8A myMP8A;
+	public static MPStartRSwitchR mpStartRSwitchR;
 	public static MotionProfile9A myMP9A;
 	public static MotionProfile10A myMP10A;
-	public static MotionProfile11A myMP11A;
-	public static MotionProfile12A myMP12A;
-	public static MotionProfile13A myMP13A;
-	public static MotionProfile14A myMP14A;
+	public static MPStartLScaleL mpStartLScaleL;
+	public static MPStartLScaleR mpStartLScaleR;
+	public static MPStartRScaleL mpStartRScaleL;
+	public static MPStartRScaleR mpStartRScaleR;
 	
 	public static GyroTurn myAutoGT;
 	
@@ -82,23 +82,22 @@ public class AutoHandler {
         SmartDashboard.putData("Goals", goalChooser);
         
         SmartDashboard.putNumber("Time Delay", 0);
-        
         myMP1A = new MotionProfile1A();
         myMP2A = new MotionProfile2A();
         myMP2B = new MotionProfile2B();
         myMP2C = new MotionProfile2C();
         myMP3A = new MotionProfile3A();
-        myMP4A = new MotionProfile4A();
-        myMP5A = new MotionProfile5A();
-        myMP6A = new MotionProfile6A();
+        mpStartLSwitchL = new MPStartLSwitchL();
+        mpStartMSwitchL = new MPStartMSwitchL();
+        mpStartMSwitchR = new MPStartMSwitchR();
         myMP7A = new MotionProfile7A();
-        myMP8A = new MotionProfile8A();
+        mpStartRSwitchR = new MPStartRSwitchR();
         myMP9A = new MotionProfile9A();
         myMP10A = new MotionProfile10A();
-        myMP11A = new MotionProfile11A();
-        myMP12A = new MotionProfile12A();
-        myMP13A = new MotionProfile13A();
-        myMP14A = new MotionProfile14A();
+        mpStartLScaleL = new MPStartLScaleL();
+        mpStartLScaleR = new MPStartLScaleR();
+        mpStartRScaleL = new MPStartRScaleL();
+        mpStartRScaleR = new MPStartRScaleR();
         myAutoGT = new GyroTurn();
 		
 	}
@@ -131,13 +130,13 @@ public class AutoHandler {
 			case DOUBLE_SCALE:
 				switch (variation) {
 
+				case "LLL":
+				case "RLR":
+					auto = new StartLDoubleScaleL(variation, delay);
+					break;
 				case "LRL":
 				case "RRR":
-					auto= new StartLDoubleScaleR(variation, delay);
-					break;
-				case "RLR":
-				case "LLL":
-					auto= new StartLDoubleScaleL(variation, delay);
+					auto = new StartLDoubleScaleR(variation, delay);
 					break;
 				
 				}
@@ -145,60 +144,67 @@ public class AutoHandler {
 			case SCALE_SWITCH:
 				switch (variation) {
 
-				case "LRL":
-					auto= new StartLSwitchLScaleR(variation, delay);
+				case "LLL":
+					auto = new StartLScaleLSwitchL(variation, delay);
 					break;
 				case "RLR":
-					auto= new StartLScaleLSwitchR(variation, delay);
+					auto = new StartLScaleLSwitchR(variation, delay);
 					break;
-				case "LLL":
-					auto= new StartLScaleLSwitchL(variation, delay);
+				case "LRL":
+					auto = new StartLSwitchLScaleR(variation, delay);
 					break;
 				case "RRR":
-					auto= new StartLScaleRSwitchR(variation, delay);
+					auto = new StartLScaleRSwitchR(variation, delay);
 					break;
 
 				}
 				break;
 			case LINE:
-					auto= new LineElevator(variation, delay);
+					auto = new LineElevator(variation, delay);
 				break;
 			case LINE_SCORE:
 				switch(variation){
 					case "LRL":
 					case "LLL":
-						auto= new LineScore(variation, delay);
+						auto = new LineScore(variation, delay);
 						break;
 					case "RLR":
 					case "RRR":
-						auto= new LineElevator(variation, delay);
+						auto = new LineElevator(variation, delay);
 						break;
 				}
 				break;
+			default:
+				auto = new LineScore(variation, delay);
+				break;
 			}
 			break;
+			
 		case MIDDLE:
 			switch (goalEnum) {
 
 			case DOUBLE_SWITCH:
 				switch (variation) {
 
-				case "LRL":
 				case "LLL":
-					auto= new MiddleLeftSwitch(variation, delay);
+				case "LRL":
+					auto = new MiddleLeftSwitch(variation, delay);
 					break;
 				case "RLR":
 				case "RRR":
-					auto= new MiddleRightSwitch(variation, delay);
+					auto = new MiddleRightSwitch(variation, delay);
 					break;
 
 				}
 				break;
 			case LINE:
-				auto= new LineElevator(variation, delay);
+				auto = new LineElevator(variation, delay);
 				break;
 			case LINE_SCORE:
-				auto= new LineScore(variation,delay);
+				auto = new LineScore(variation,delay);
+				break;
+			default:
+				auto = new LineScore(variation, delay);
 				break;
 			}
 			break;
@@ -208,13 +214,13 @@ public class AutoHandler {
 			case DOUBLE_SCALE:
 				switch (variation) {
 
+				case "LLL":
+				case "RLR":
+					auto = new StartRDoubleScaleL(variation, delay);
+					break;
 				case "LRL":
 				case "RRR":
-					auto= new StartRDoubleScaleR(variation, delay);
-					break;
-				case "RLR":
-				case "LLL":
-					auto= new StartRDoubleScaleL(variation, delay);
+					auto = new StartRDoubleScaleR(variation, delay);
 					break;
 				
 				}
@@ -222,35 +228,38 @@ public class AutoHandler {
 			case SCALE_SWITCH:
 				switch (variation) {
 
-				case "LRL":
-					auto= new StartRScaleRSwitchL(variation, delay);
-					break;
-				case "RRR":
-					auto= new StartRScaleRSwitchR(variation, delay);
+				case "LLL":
+					auto = new StartRScaleLSwitchL(variation, delay);
 					break;
 				case "RLR":
-					auto= new StartRSwitchRScaleL(variation, delay);
+					auto = new StartRSwitchRScaleL(variation, delay);
 					break;
-				case "LLL":
-					auto= new StartRScaleLSwitchL(variation, delay);
+				case "LRL":
+					auto = new StartRScaleRSwitchL(variation, delay);
+					break;
+				case "RRR":
+					auto = new StartRScaleRSwitchR(variation, delay);
 					break;
 			
 				}
 				break;
 			case LINE:
-				auto= new LineElevator(variation, delay);
+				auto = new LineElevator(variation, delay);
 				break;
 			case LINE_SCORE:
 				switch(variation){
 					case "LRL":
 					case "LLL":
-						auto= new LineElevator(variation, delay);
+						auto = new LineElevator(variation, delay);
 						break;
 					case "RLR":
 					case "RRR":
-						auto= new LineScore(variation, delay);
+						auto = new LineScore(variation, delay);
 						break;
 				}
+				break;
+			default:
+				auto = new LineScore(variation, delay);
 				break;
 			}
 			break;

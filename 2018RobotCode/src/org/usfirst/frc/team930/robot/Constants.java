@@ -85,4 +85,24 @@ public class Constants {
 	public static final int cameraResHeight = 240;
 	public static final int cameraFPS = 10;
 	public static final int cameraDeviceID = 0;
+	
+	// ----- Auto Constants																																	lol
+	
+	// Elevator Delay Times
+	public static final double ETime1 = 1;
+	public static final double ETime2 = 2;
+	public static final double ETime3 = 3;
+	public static final double ETime4 = 4;
+	public static final double ETime5 = 5;
+	
+	// Intake Delay Times
+	public static final double ITime1 = 1;
+	public static final double ITime2 = 2;
+	public static final double ITime3 = 3;
+	public static final double ITime4 = 4;
+	public static final double ITime5 = 5;
+	
+	// Outtake Delay Times
+	public static final double OTime1 = 1;
+	public static final double OTime2 = 2;
 }

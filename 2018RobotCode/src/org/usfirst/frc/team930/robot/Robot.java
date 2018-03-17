@@ -62,6 +62,7 @@ public class Robot extends IterativeRobot {
 		
 		TeleopHandler.disabled();
 		AutoHandler.disabled();
+		System.out.println(Elevator.lift1.getSelectedSensorPosition(0));
 		
 	}
 

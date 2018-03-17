@@ -14,10 +14,10 @@ public class StartLScaleRSwitchR extends Routine {
 	public StartLScaleRSwitchR(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(0);
-		delayOuttake.set(3.5);
-		delayStopIntake.set(1);
-
+		delayElev.set(Constants.ETime4);
+		delayOuttake.set(Constants.ITime4);
+		delayStopIntake.set(Constants.OTime1);
+		
 		n = new Notifier (AutoHandler.myMP3A);
 		AutoHandler.myMP3A.startPath();
 		

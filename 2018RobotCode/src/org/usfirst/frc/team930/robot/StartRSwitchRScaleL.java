@@ -14,12 +14,12 @@ public class StartRSwitchRScaleL extends Routine {
 	public StartRSwitchRScaleL(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(0);
-		delayOuttake.set(3.5);
-		delayStopIntake.set(1);
+		delayElev.set(Constants.ETime1);
+		delayOuttake.set(Constants.ITime1);
+		delayStopIntake.set(Constants.OTime2);
 
-		n = new Notifier (AutoHandler.myMP8A);
-		AutoHandler.myMP8A.startPath();
+		n = new Notifier (AutoHandler.mpStartRSwitchR);
+		AutoHandler.mpStartRSwitchR.startPath();
 		
 		time.start();
 		

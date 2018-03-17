@@ -14,12 +14,12 @@ public class MiddleRightSwitch extends Routine {
 	public MiddleRightSwitch(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(0);
-		delayOuttake.set(3.5);
-		delayStopIntake.set(1);
+		delayElev.set(Constants.ETime5);
+		delayOuttake.set(Constants.ITime5);
+		delayStopIntake.set(Constants.OTime2);
 
-		n = new Notifier (AutoHandler.myMP6A);
-		AutoHandler.myMP6A.startPath();
+		n = new Notifier (AutoHandler.mpStartMSwitchR);
+		AutoHandler.mpStartMSwitchR.startPath();
 		
 		time.start();
 		

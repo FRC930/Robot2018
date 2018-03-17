@@ -14,9 +14,9 @@ public class StartLScaleLSwitchL extends Routine {
 	public StartLScaleLSwitchL(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(2);
-		delayOuttake.set(1);
-		delayStopIntake.set(2);
+		delayElev.set(Constants.ETime2);
+		delayOuttake.set(Constants.ITime2);
+		delayStopIntake.set(Constants.OTime1);
 
 		n = new Notifier (AutoHandler.myMP1A);
 		AutoHandler.myMP1A.startPath();

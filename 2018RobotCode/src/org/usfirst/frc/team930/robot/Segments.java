@@ -66,7 +66,7 @@ public class Segments {
 		
 		boolean isFinished = false;
 		
-		if(AutoHandler.myMP4A.isLastPoint()) {
+		if(AutoHandler.mpStartLSwitchL.isLastPoint()) {
 			isFinished = true;
 		}
 		
@@ -78,7 +78,7 @@ public class Segments {
 		
 		boolean isFinished = false;
 		
-		if(AutoHandler.myMP5A.isLastPoint()) {
+		if(AutoHandler.mpStartMSwitchL.isLastPoint()) {
 			isFinished = true;
 		}
 		
@@ -90,7 +90,7 @@ public class Segments {
 		
 		boolean isFinished = false;
 		
-		if(AutoHandler.myMP6A.isLastPoint()) {
+		if(AutoHandler.mpStartMSwitchR.isLastPoint()) {
 			isFinished = true;
 		}
 		
@@ -114,7 +114,7 @@ public class Segments {
 		
 		boolean isFinished = false;
 		
-		if(AutoHandler.myMP8A.isLastPoint()) {
+		if(AutoHandler.mpStartRSwitchR.isLastPoint()) {
 			isFinished = true;
 		}
 		
@@ -126,7 +126,7 @@ public class Segments {
 		
 		boolean isFinished = false;
 		
-		if(AutoHandler.myMP11A.isLastPoint()) {
+		if(AutoHandler.mpStartLScaleL.isLastPoint()) {
 			isFinished = true;
 		}
 		
@@ -138,7 +138,7 @@ public class Segments {
 		
 		boolean isFinished = false;
 		
-		if(AutoHandler.myMP14A.isLastPoint()) {
+		if(AutoHandler.mpStartRScaleR.isLastPoint()) {
 			isFinished = true;
 		}
 		

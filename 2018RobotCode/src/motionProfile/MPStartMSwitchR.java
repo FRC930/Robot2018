@@ -1,6 +1,9 @@
 package motionProfile;
 
+import java.io.File;
+
 import org.usfirst.frc.team930.robot.Drive;
+import org.usfirst.frc.team930.robot.Utilities;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -10,25 +13,25 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
-// Start R Switch R Scale L 1
-public class MotionProfile8A implements Runnable {
+// Middle Right Switch 1
+public class MPStartMSwitchR implements Runnable {
 	
 	private static EncoderFollower rightFollower;
 	private static EncoderFollower leftFollower;
 
-	public MotionProfile8A() {
+	public MPStartMSwitchR() {
 		
 		//Drive.gyro.reset();
 		
-		Waypoint[] rightLeftScale = new Waypoint[] {
-				new Waypoint(0.7, -3.1, Pathfinder.d2r(0)),
-				new Waypoint(3.2, -3.1, Pathfinder.d2r(0)),
-				new Waypoint(4.0, -2.3, Pathfinder.d2r(90)),
+		Waypoint[] rightRightScale = new Waypoint[] {
+				new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
+				new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
+				new Waypoint(5.5, 2, Pathfinder.d2r(270)),
 		}; // Vel: 3.0
 		
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.0, 2.3, 50.0);
+		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 2.3, 50.0);
 		
-		Trajectory tra = Pathfinder.generate(rightLeftScale, config);
+		Trajectory tra = this.generate(rightRightScale, config);
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.628);
 
@@ -41,6 +44,21 @@ public class MotionProfile8A implements Runnable {
 		rightFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
 		leftFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
 		
+	}
+	
+	public Trajectory generate(Waypoint[] waypoints, Trajectory.Config config) {
+		String hash = Utilities.hash(waypoints, config);
+		File pathFile = new File(hash + ".traj");
+		Trajectory traj;
+		
+		if(pathFile.exists()) {
+			traj = Pathfinder.readFromFile(pathFile);
+		} else {
+			traj = Pathfinder.generate(waypoints, config);
+			Pathfinder.writeToFile(pathFile, traj);
+		}
+		
+		return traj;
 	}
 	
 	public void run() {

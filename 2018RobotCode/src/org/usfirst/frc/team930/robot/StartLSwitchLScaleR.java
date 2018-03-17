@@ -14,12 +14,12 @@ public class StartLSwitchLScaleR extends Routine {
 	public StartLSwitchLScaleR(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(1);
-		delayOuttake.set(1.5);
-		delayStopIntake.set(1);
+		delayElev.set(Constants.ETime1);
+		delayOuttake.set(Constants.ITime1);
+		delayStopIntake.set(Constants.OTime2);
 
-		n = new Notifier (AutoHandler.myMP4A);
-		AutoHandler.myMP4A.startPath();
+		n = new Notifier (AutoHandler.mpStartLSwitchL);
+		AutoHandler.mpStartLSwitchL.startPath();
 		
 		time.start();
 		

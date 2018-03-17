@@ -1,6 +1,9 @@
 package motionProfile;
 
+import java.io.File;
+
 import org.usfirst.frc.team930.robot.Drive;
+import org.usfirst.frc.team930.robot.Utilities;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -43,7 +46,7 @@ public class MotionProfile2C implements Runnable {
 		
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 1.5, 2.3, 50.0);   //2.5, 2.3
 		
-		Trajectory tra = Pathfinder.generate(leftLeftSwitch2, config);
+		Trajectory tra = this.generate(leftLeftSwitch2, config);
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.628);
 
@@ -57,6 +60,22 @@ public class MotionProfile2C implements Runnable {
 		leftFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
 		
 	}
+	
+	public Trajectory generate(Waypoint[] waypoints, Trajectory.Config config) {
+		String hash = Utilities.hash(waypoints, config);
+		File pathFile = new File(hash + ".traj");
+		Trajectory traj;
+		
+		if(pathFile.exists()) {
+			traj = Pathfinder.readFromFile(pathFile);
+		} else {
+			traj = Pathfinder.generate(waypoints, config);
+			Pathfinder.writeToFile(pathFile, traj);
+		}
+		
+		return traj;
+	}
+	
 	
 	public void run() {
 		

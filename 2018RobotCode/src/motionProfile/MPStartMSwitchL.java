@@ -1,6 +1,9 @@
 package motionProfile;
 
+import java.io.File;
+
 import org.usfirst.frc.team930.robot.Drive;
+import org.usfirst.frc.team930.robot.Utilities;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -11,12 +14,12 @@ import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
 // Middle Left Switch 1
-public class MotionProfile5A implements Runnable {
+public class MPStartMSwitchL implements Runnable {
 	
 	private static EncoderFollower rightFollower;
 	private static EncoderFollower leftFollower;
 
-	public MotionProfile5A() {
+	public MPStartMSwitchL() {
 		
 		//Drive.gyro.reset();
 		
@@ -28,7 +31,7 @@ public class MotionProfile5A implements Runnable {
 		
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 2.3, 50.0);
 		
-		Trajectory tra = Pathfinder.generate(middleRightSwitch, config);
+		Trajectory tra = this.generate(middleRightSwitch, config);
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.628);
 
@@ -41,6 +44,21 @@ public class MotionProfile5A implements Runnable {
 		rightFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
 		leftFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
 		
+	}
+	
+	public Trajectory generate(Waypoint[] waypoints, Trajectory.Config config) {
+		String hash = Utilities.hash(waypoints, config);
+		File pathFile = new File(hash + ".traj");
+		Trajectory traj;
+		
+		if(pathFile.exists()) {
+			traj = Pathfinder.readFromFile(pathFile);
+		} else {
+			traj = Pathfinder.generate(waypoints, config);
+			Pathfinder.writeToFile(pathFile, traj);
+		}
+		
+		return traj;
 	}
 	
 	public void run() {

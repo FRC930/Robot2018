@@ -1,39 +1,37 @@
 package motionProfile;
 
+import java.io.File;
+
 import org.usfirst.frc.team930.robot.Drive;
+import org.usfirst.frc.team930.robot.Utilities;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
-// Start L Double Scale L 1
-public class MotionProfile11A implements Runnable {
-
+// Start R Switch R Scale L 1
+public class MPStartRSwitchR implements Runnable {
+	
 	private static EncoderFollower rightFollower;
 	private static EncoderFollower leftFollower;
-	public static double first;
 
-	public MotionProfile11A() {
-		
-		first = Timer.getFPGATimestamp();
-		SmartDashboard.putNumber("Auto Time Difference", 0);
+	public MPStartRSwitchR() {
 		
 		//Drive.gyro.reset();
 		
-		Waypoint[] leftLeftScale = new Waypoint[] {
-				new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
-				new Waypoint(5.0, 3.1, Pathfinder.d2r(0)),
-				new Waypoint(7.3, 2.1, Pathfinder.d2r(0)),
-		}; // Vel: 4.0
+		Waypoint[] rightLeftScale = new Waypoint[] {
+				new Waypoint(0.7, -3.1, Pathfinder.d2r(0)),
+				new Waypoint(3.2, -3.1, Pathfinder.d2r(0)),
+				new Waypoint(4.0, -2.3, Pathfinder.d2r(90)),
+		}; // Vel: 3.0
 		
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.0, 2.3, 50.0);
 		
-		Trajectory tra = Pathfinder.generate(leftLeftScale, config);
+		Trajectory tra = this.generate(rightLeftScale, config);
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.628);
 
@@ -46,6 +44,21 @@ public class MotionProfile11A implements Runnable {
 		rightFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
 		leftFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
 		
+	}
+	
+	public Trajectory generate(Waypoint[] waypoints, Trajectory.Config config) {
+		String hash = Utilities.hash(waypoints, config);
+		File pathFile = new File(hash + ".traj");
+		Trajectory traj;
+		
+		if(pathFile.exists()) {
+			traj = Pathfinder.readFromFile(pathFile);
+		} else {
+			traj = Pathfinder.generate(waypoints, config);
+			Pathfinder.writeToFile(pathFile, traj);
+		}
+		
+		return traj;
 	}
 	
 	public void run() {
@@ -70,11 +83,12 @@ public class MotionProfile11A implements Runnable {
 		double calc = (rightFollower.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
 		double calc2 = (leftFollower.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
 		// Driving forward
-		Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
-		Drive.leftMain.set(ControlMode.PercentOutput, (calc2 + turn));
-			
-		SmartDashboard.putNumber("Auto Time Difference", Timer.getFPGATimestamp() - first);
-		first = Timer.getFPGATimestamp();
+		if(!isLastPoint()){
+			Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
+			Drive.leftMain.set(ControlMode.PercentOutput, (calc2 + turn));
+		} else {
+			Drive.runAt(0, 0);
+		}
 			
 	}
 	
@@ -92,8 +106,5 @@ public class MotionProfile11A implements Runnable {
 		leftFollower.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
 		
 	}
-	
-}
-	
-	
 
+}

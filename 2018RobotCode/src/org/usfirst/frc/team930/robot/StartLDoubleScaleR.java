@@ -14,12 +14,12 @@ public class StartLDoubleScaleR extends Routine {
 	public StartLDoubleScaleR(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(0);
-		delayOuttake.set(3.5);
-		delayStopIntake.set(1);
-
-		n = new Notifier (AutoHandler.myMP12A);
-		AutoHandler.myMP12A.startPath();
+		delayElev.set(Constants.ETime4);
+		delayOuttake.set(Constants.ITime4);
+		delayStopIntake.set(Constants.OTime1);
+		
+		n = new Notifier (AutoHandler.mpStartLScaleR);
+		AutoHandler.mpStartLScaleR.startPath();
 		
 		time.start();
 		
