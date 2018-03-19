@@ -124,7 +124,9 @@ public class Elevator {
 		
 		//getSelectedSensorPosition should return a value from 0 - 8000.
 		LEDHandler.updateElevator(lift1.getSelectedSensorPosition(0));
-				
+		
+		axisValue = Math.pow(axisValue, 3);
+		
 		if(Math.abs(axisValue) > Constants.elevatorDeadBand){
 			targetPosition += (axisValue * Constants.targetMultiplier);
 			positionBool = false;

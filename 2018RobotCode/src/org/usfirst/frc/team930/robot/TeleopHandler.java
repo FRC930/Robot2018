@@ -89,6 +89,7 @@ public class TeleopHandler {
 		}
 		else if(stick2.getRawButton(Constants.RB)) {
 			Intake.run(IntakeStates.LIFTER_DOWN);
+			Intake.stopMotors();
 		}
 		else {
 			Intake.run(IntakeStates.INTAKE_DONE);
@@ -176,19 +177,19 @@ public class TeleopHandler {
 		
 		
 		// Ramps
-		if(stick3.getRawButton(1)) {
+		if(stick3.getRawButton(Constants.btnRightRampDown)) {
 			Ramp.run(RampStates.RIGHT_RAMP_DOWN);
 			LEDHandler.run(RobotStates.RAMPS_DOWN);
 		}
-		if(stick3.getRawButton(2)) {
+		if(stick3.getRawButton(Constants.btnLeftRampDown)) {
 			Ramp.run(RampStates.LEFT_RAMP_DOWN);
 			LEDHandler.run(RobotStates.RAMPS_DOWN);
 		}
-		if(stick3.getRawButton(3)) {
+		if(stick3.getRawButton(Constants.btnRightRampUp)) {
 			Ramp.run(RampStates.RIGHT_RAMP_UP);
 			LEDHandler.run(RobotStates.RAMPS_UP);
 		}
-		if(stick3.getRawButton(4)) {
+		if(stick3.getRawButton(Constants.btnLeftRampUp)) {
 			Ramp.run(RampStates.LEFT_RAMP_UP);
 			LEDHandler.run(RobotStates.RAMPS_UP);
 		}

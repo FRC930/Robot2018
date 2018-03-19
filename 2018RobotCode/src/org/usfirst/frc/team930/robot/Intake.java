@@ -107,6 +107,16 @@ public class Intake {
 
 	private static void setIntakeLifter(boolean stage) {	//method used to set the intake's lifer mechanism
 		lifter.set(stage);
+		
+		if(stage) {
+			rightIntakeWheel.set(ControlMode.PercentOutput, 0);	// Stop motors
+			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
+		}
+	}
+	
+	public static void stopMotors() {
+		rightIntakeWheel.set(ControlMode.PercentOutput, 0);	// Stop motors
+		leftIntakeWheel.set(ControlMode.PercentOutput, 0);
 	}
 
 	//-- Initializing Variables and Objects --\\

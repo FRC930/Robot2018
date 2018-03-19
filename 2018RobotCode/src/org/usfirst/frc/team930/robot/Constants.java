@@ -23,10 +23,10 @@ public class Constants {
 	public static final int leftJoyButton = 9;
 	public static final int rightJoyButton = 10;
 	//---Button Board
-	public static final int btnRightRampUp = 12;
-	public static final int btnRightRampDown = 2;
-	public static final int btnLeftRampUp = 1;
-	public static final int btnLeftRampDown = 7; 
+	public static final int btnRightRampUp = 6;
+	public static final int btnRightRampDown = 3;
+	public static final int btnLeftRampUp = 4;
+	public static final int btnLeftRampDown = 1; 
 	
 	// Drive Constants
 	public static final int rightMainTalonID = 1; 
@@ -36,7 +36,7 @@ public class Constants {
 	public static final int leftFollowVictorID = 5;
 	public static final int leftFollow2Victor = 6;
 	public static final double driveDeadBand = 0.005;
-	public static final double elevatorDeadBand = 0.15;
+	public static final double elevatorDeadBand = 0.01;
 	
 	// Intake Constants
 	public static final int rightIntakeWheelVictorID  = 9;
