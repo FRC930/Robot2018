@@ -162,7 +162,7 @@ public class AutoHandler {
 				}
 				break;
 			case LINE:
-					auto = new LineElevator(variation, delay);
+					auto = new Line(variation, delay);
 				break;
 			case LINE_SCORE:
 				switch(variation){
@@ -200,7 +200,7 @@ public class AutoHandler {
 				}
 				break;
 			case LINE:
-				auto = new LineElevator(variation, delay);
+				auto = new Line(variation, delay);
 				break;
 			case LINE_SCORE:
 				auto = new LineScore(variation,delay);
@@ -246,7 +246,7 @@ public class AutoHandler {
 				}
 				break;
 			case LINE:
-				auto = new LineElevator(variation, delay);
+				auto = new Line(variation, delay);
 				break;
 			case LINE_SCORE:
 				switch(variation){
@@ -277,6 +277,49 @@ public class AutoHandler {
 		else {
 			if(StartLScaleLSwitchL.n != null)
 				StartLScaleLSwitchL.n.stop();
+			
+			else if(StartLScaleLSwitchR.n != null)
+				StartLScaleLSwitchR.n.stop();
+			
+			else if(StartLScaleRSwitchR.n != null)
+				StartLScaleRSwitchR.n.stop();
+			
+			else if(StartLSwitchLScaleR.n != null)
+				StartLSwitchLScaleR.n.stop();
+			
+			else if(MiddleLeftSwitch.n != null)
+				MiddleLeftSwitch.n.stop();
+			
+			else if(MiddleRightSwitch.n != null)
+				MiddleRightSwitch.n.stop();
+			
+			else if(StartRScaleRSwitchR.n != null)
+				StartRScaleRSwitchR.n.stop();
+			
+			else if(StartRScaleRSwitchL.n != null)
+				StartRScaleRSwitchL.n.stop();
+			
+			else if(StartRScaleLSwitchL.n != null)
+				StartRScaleLSwitchL.n.stop();
+			
+			else if(StartRSwitchRScaleL.n != null)
+				StartRSwitchRScaleL.n.stop();
+			
+			else if(StartLDoubleScaleL.n != null)
+				StartLDoubleScaleL.n.stop();
+			
+			else if(StartLDoubleScaleR.n != null)
+				StartLDoubleScaleR.n.stop();
+			
+			else if(StartRDoubleScaleR.n != null)
+				StartRDoubleScaleR.n.stop();
+			
+			else if(StartRDoubleScaleL.n != null)
+				StartRDoubleScaleL.n.stop();
+			
+			else if(LeftLeftSwitch.n != null)
+				LeftLeftSwitch.n.stop();
+			
 			Drive.runAt(0, 0);
 		}
 		

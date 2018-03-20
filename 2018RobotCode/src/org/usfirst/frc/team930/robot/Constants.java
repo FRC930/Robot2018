@@ -24,8 +24,8 @@ public class Constants {
 	public static final int rightJoyButton = 10;
 	//---Button Board
 	public static final int btnRightRampUp = 6;
-	public static final int btnRightRampDown = 3;
-	public static final int btnLeftRampUp = 4;
+	public static final int btnRightRampDown = 4;
+	public static final int btnLeftRampUp = 3;
 	public static final int btnLeftRampDown = 1; 
 	
 	// Drive Constants

@@ -67,37 +67,28 @@ public class Drive {
 	}
 	public static boolean checkSensors(){
 		
-		boolean check = false;
-		
-		System.out.println("Right Velocity: " + rightMain.getSelectedSensorVelocity(0));
-		System.out.println("Right Counter: " + rightMotorCounter);
-		System.out.println("Right Sent Value: " + rightMain.getMotorOutputPercent());
-		
-		System.out.println("Gyro: " + gyro.getYaw());
-		if(!gyro.isConnected()){
-			check = true;
-			System.out.println("AAA");
-		}
-		else if(Math.abs(leftMain.getMotorOutputPercent())> 0.1 && leftMain.getSelectedSensorVelocity(0) == 0){
-			System.out.println("BBB");
+		/*if(!gyro.isConnected()){
+			return true;
+		}*/
+		if(Math.abs(leftMain.getMotorOutputPercent())> 0.1 && leftMain.getSelectedSensorVelocity(0) == 0){
 			
 			leftMotorCounter++;
 			
 			if(leftMotorCounter >= 4){
-				check = true;
+				return true;
 			}
 			
 		}
 		
 		else if((Math.abs(rightMain.getMotorOutputPercent())>0.1) && (rightMain.getSelectedSensorVelocity(0) == 0)){
-			System.out.println("BAD NEWS");
+			
 			rightMotorCounter++;
+			
 			if(rightMotorCounter >= 4){
-				System.out.println("Right Side Not Working");
-				check = true;
+				return true;
 			}
 		}
-		return check;
+		return false;
 	}
 	
 	public static void resetSensorCheck() {
