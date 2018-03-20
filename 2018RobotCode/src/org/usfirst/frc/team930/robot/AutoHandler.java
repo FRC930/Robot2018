@@ -104,6 +104,8 @@ public class AutoHandler {
 	
 	public static void autoInit() {
 		
+		Drive.resetSensorCheck();
+		
 		MotionProfile1A.first = Timer.getFPGATimestamp();
 		
 		Utilities.setCompressor(false);
@@ -269,13 +271,14 @@ public class AutoHandler {
 	
 	public static void run() {
 		////////LEDHandler.autoRun();
-		//if(!Drive.checkSensors()) {
-			//Drive.resetSensorCheck();
+		if(!Drive.checkSensors()) {
 			auto.run();
-			//MotionProfile.run();
-		//}
-		//else
-			//Drive.runAt(0, 0);
+		}
+		else {
+			if(StartLScaleLSwitchL.n != null)
+				StartLScaleLSwitchL.n.stop();
+			Drive.runAt(0, 0);
+		}
 		
 	}
 	

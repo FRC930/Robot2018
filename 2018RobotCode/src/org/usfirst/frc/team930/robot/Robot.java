@@ -8,6 +8,7 @@
 package org.usfirst.frc.team930.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class Robot extends IterativeRobot {
 
@@ -22,6 +23,8 @@ public class Robot extends IterativeRobot {
 		TeleopHandler.init();
 		LEDHandler.init();
 		//Utilities.startCapture();
+		
+		LiveWindow.disableAllTelemetry();
 		
 	}
 
@@ -62,7 +65,7 @@ public class Robot extends IterativeRobot {
 		
 		TeleopHandler.disabled();
 		AutoHandler.disabled();
-		System.out.println(Elevator.lift1.getSelectedSensorPosition(0));
+		//System.out.println(Elevator.lift1.getSelectedSensorPosition(0));
 		
 	}
 

@@ -23,12 +23,12 @@ public class TeleopHandler {
 	}
 	
 	public static void disabled() {
-		Drive.updateDashboard();
-		Elevator.updateDashboard();
+		//Drive.updateDashboard();
+		//Elevator.updateDashboard();
 		Elevator.setTargetPos(ElevatorStates.INTAKE_POSITION);
 		Elevator.run(0);
 		LEDHandler.run(RobotStates.DISABLED);
-		Utilities.updateDashboard();
+		//Utilities.updateDashboard();
 	}
 	
 	enum RobotStates {

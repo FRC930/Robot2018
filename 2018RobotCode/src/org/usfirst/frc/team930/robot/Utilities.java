@@ -40,7 +40,7 @@ public class Utilities {
 	}
 	
 	public static void updateDashboard() {
-		SmartDashboard.putBoolean("Toggle Camera", false);
+		//SmartDashboard.putBoolean("Toggle Camera", false);
 	}
 	
 	public static void startCapture() {

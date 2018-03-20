@@ -141,8 +141,8 @@ public class Intake {
 		
 		//-- Debug Messages --\\
 
-		SmartDashboard.putNumber("PDP Intake Port Reading", Utilities.getPDPCurrent());
-		SmartDashboard.putData("PDP Intake Port Graph", Utilities.pdp);
+		//SmartDashboard.putNumber("PDP Intake Port Reading", Utilities.getPDPCurrent());
+		//SmartDashboard.putData("PDP Intake Port Graph", Utilities.pdp);
 		
 		//-- State Checking --\\
 

@@ -57,11 +57,11 @@ public class StartLDoubleScaleL extends Routine {
 			}
 			break;
 		case 4:
-			System.out.println("Running case 3");
+			//System.out.println("Running case 3");
 			if(segList.seg11A()) {
 				this.autoStep = 5;
 				n.stop();
-				System.out.println("*****Transition to Case 4");
+				//System.out.println("*****Transition to Case 4");
 			}
 			break;
 		case 5:

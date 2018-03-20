@@ -191,6 +191,6 @@ public class Elevator {
 	}
 	
 	public static void updateDashboard(){
-		SmartDashboard.putNumber("Elevator Encoder",lift1.getSelectedSensorPosition(0));
+		//SmartDashboard.putNumber("Elevator Encoder",lift1.getSelectedSensorPosition(0));
 	}
 }

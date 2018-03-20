@@ -12,14 +12,13 @@ public class Drive {
 	public static final WPI_TalonSRX rightMain = new WPI_TalonSRX(Constants.rightMainTalonID);  
 	public static final WPI_TalonSRX leftMain = new WPI_TalonSRX(Constants.leftMainTalonID); 
 	public static final VictorSPX rightFollow = new VictorSPX(Constants.rightFollowVictorID);    
-	public static final VictorSPX leftFollow = new VictorSPX(Constants.leftFollowVictorID);   
+	public static final VictorSPX leftFollow = new VictorSPX(Constants.leftFollowVictorID);  
 	public static final VictorSPX rightFollow2 = new VictorSPX(Constants.rightFollow2VictorID);     
 	public static final VictorSPX leftFollow2 = new VictorSPX(Constants.leftFollow2Victor);
 	public static final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 	
 	public static int leftMotorCounter = 0;
 	public static int rightMotorCounter = 0;
-	public static boolean check = false;
 	
 	public static void init(){
 		gyro.reset();
@@ -61,27 +60,41 @@ public class Drive {
 		leftMain.set(left);
 	}
 	public static void updateDashboard(){
-		SmartDashboard.putNumber("Gyro", gyro.getYaw());
-		SmartDashboard.putNumber("Left Encoder", leftMain.getSelectedSensorVelocity(0));
-		SmartDashboard.putNumber("Right Encoder", rightMain.getSelectedSensorVelocity(0));
+		//SmartDashboard.putNumber("Gyro", gyro.getYaw());
+		//SmartDashboard.putNumber("Left Encoder", leftMain.getSelectedSensorVelocity(0));
+		//SmartDashboard.putNumber("Right Encoder", rightMain.getSelectedSensorVelocity(0));
 
 	}
 	public static boolean checkSensors(){
 		
-		if(!gyro.isConnected())
-			check = true;
+		boolean check = false;
 		
-		else if(Math.abs(leftMain.get())> 0.1 && leftMain.getSelectedSensorVelocity(0) == 0){
+		System.out.println("Right Velocity: " + rightMain.getSelectedSensorVelocity(0));
+		System.out.println("Right Counter: " + rightMotorCounter);
+		System.out.println("Right Sent Value: " + rightMain.getMotorOutputPercent());
+		
+		System.out.println("Gyro: " + gyro.getYaw());
+		if(!gyro.isConnected()){
+			check = true;
+			System.out.println("AAA");
+		}
+		else if(Math.abs(leftMain.getMotorOutputPercent())> 0.1 && leftMain.getSelectedSensorVelocity(0) == 0){
+			System.out.println("BBB");
+			
 			leftMotorCounter++;
+			
 			if(leftMotorCounter >= 4){
-				check= true;
+				check = true;
 			}
+			
 		}
 		
-		else if(Math.abs(rightMain.get())>0.1 && rightMain.getSelectedSensorVelocity(0) == 0){
+		else if((Math.abs(rightMain.getMotorOutputPercent())>0.1) && (rightMain.getSelectedSensorVelocity(0) == 0)){
+			System.out.println("BAD NEWS");
 			rightMotorCounter++;
 			if(rightMotorCounter >= 4){
-				check= true;
+				System.out.println("Right Side Not Working");
+				check = true;
 			}
 		}
 		return check;
