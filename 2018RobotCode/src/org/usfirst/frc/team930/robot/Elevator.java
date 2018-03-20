@@ -50,7 +50,7 @@ public class Elevator {
 		lift1.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 		
 		// Set forward and reverse soft limits
-		lift1.configForwardSoftLimitThreshold(7500, Constants.kTimeoutMs);
+		lift1.configForwardSoftLimitThreshold(8300, Constants.kTimeoutMs);
 		lift1.configReverseSoftLimitThreshold(10, Constants.kTimeoutMs);
 
 		// Set closed loop gains in slot 0
