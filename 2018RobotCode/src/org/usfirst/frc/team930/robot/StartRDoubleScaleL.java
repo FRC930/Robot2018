@@ -14,8 +14,8 @@ public class StartRDoubleScaleL extends Routine {
 	public StartRDoubleScaleL(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(Constants.ETime4);
-		delayOuttake.set(Constants.ITime4);
+		delayElev.set(Constants.ETime3);
+		delayOuttake.set(Constants.ITime3);
 		delayStopIntake.set(Constants.OTime1);
 
 		n = new Notifier (AutoHandler.mpStartRScaleL);
@@ -58,7 +58,7 @@ public class StartRDoubleScaleL extends Routine {
 			break;
 		case 4:
 			System.out.println("Running case 3");
-			if(segList.seg1A()) {
+			if(segList.segStartRScaleL()) {
 				this.autoStep = 5;
 				n.stop();
 				System.out.println("*****Transition to Case 4");

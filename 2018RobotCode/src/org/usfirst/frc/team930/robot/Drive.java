@@ -67,9 +67,9 @@ public class Drive {
 	}
 	public static boolean checkSensors(){
 		
-		/*if(!gyro.isConnected()){
+		if(!gyro.isConnected()){
 			return true;
-		}*/
+		}
 		if(Math.abs(leftMain.getMotorOutputPercent())> 0.1 && leftMain.getSelectedSensorVelocity(0) == 0){
 			
 			leftMotorCounter++;

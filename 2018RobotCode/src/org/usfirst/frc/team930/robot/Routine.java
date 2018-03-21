@@ -17,12 +17,15 @@ public abstract class Routine {
 		variation = v;
 		reset();
 		
+		time.start();
+		
 	}
 	
 	public void run() {
 		
-		//initDelay.execute(time.get());
-		this.variation();
+		if(initDelay.execute(time.get())) {
+			this.variation();
+		}
 		
 	}
 	

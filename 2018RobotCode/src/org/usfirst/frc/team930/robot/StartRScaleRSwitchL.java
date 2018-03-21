@@ -15,11 +15,11 @@ public class StartRScaleRSwitchL extends Routine {
 		
 		super(v, d);
 		delayElev.set(Constants.ETime2);
-		delayOuttake.set(Constants.ITime2);
-		delayStopIntake.set(Constants.OTime1);
+		delayOuttake.set(Constants.OTime1);
+		delayStopIntake.set(Constants.STime2);
 
-		n = new Notifier (AutoHandler.myMP10A);
-		AutoHandler.myMP10A.startPath();
+		n = new Notifier (AutoHandler.mpStartRScaleR);
+		AutoHandler.mpStartRScaleR.startPath();
 		
 		time.start();
 		
@@ -58,7 +58,7 @@ public class StartRScaleRSwitchL extends Routine {
 			break;
 		case 4:
 			System.out.println("Running case 3");
-			if(segList.seg1A()) {
+			if(segList.segStartRScaleR()) {
 				this.autoStep = 5;
 				n.stop();
 				System.out.println("*****Transition to Case 4");

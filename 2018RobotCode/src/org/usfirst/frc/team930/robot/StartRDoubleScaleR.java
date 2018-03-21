@@ -15,8 +15,8 @@ public class StartRDoubleScaleR extends Routine {
 		
 		super(v, d);
 		delayElev.set(Constants.ETime2);
-		delayOuttake.set(Constants.ITime2);
-		delayStopIntake.set(Constants.OTime1);
+		delayOuttake.set(Constants.OTime1);
+		delayStopIntake.set(Constants.STime2);
 
 		n = new Notifier (AutoHandler.mpStartRScaleR);
 		AutoHandler.mpStartRScaleR.startPath();
@@ -29,17 +29,17 @@ public class StartRDoubleScaleR extends Routine {
 	public void variation() {
 		
 		switch (this.autoStep) {
-		case 1:
+		/*case 1:
 			n.startPeriodic(0.02);
 				this.autoStep = 4;
 				System.out.println("DONE");
-			break;
-		/*case 1:
+			break;*/
+		case 1:
 			System.out.println("Running case 1");
 			actList.wristUp();
 			n.startPeriodic(0.02);
 			this.autoStep = 2;
-			break;*/
+			break;
 		case 2:
 			System.out.println("Running case 2");
 			if(delayElev.execute(time.get()))	{
@@ -58,7 +58,7 @@ public class StartRDoubleScaleR extends Routine {
 			break;
 		case 4:
 			System.out.println("Running case 3");
-			if(segList.seg14A()) {
+			if(segList.segStartRScaleR()) {
 				this.autoStep = 5;
 				n.stop();
 				System.out.println("*****Transition to Case 4");

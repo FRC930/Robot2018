@@ -58,7 +58,7 @@ public class MiddleRightSwitch extends Routine {
 			break;
 		case 4:
 			System.out.println("Running case 3");
-			if(segList.seg5A()) {
+			if(segList.segStartMSwitchR()) {
 				this.autoStep = 5;
 				n.stop();
 				System.out.println("*****Transition to Case 4");

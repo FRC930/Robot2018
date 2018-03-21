@@ -15,8 +15,8 @@ public class StartRSwitchRScaleL extends Routine {
 		
 		super(v, d);
 		delayElev.set(Constants.ETime1);
-		delayOuttake.set(Constants.ITime1);
-		delayStopIntake.set(Constants.OTime2);
+		delayOuttake.set(Constants.OTime2);
+		delayStopIntake.set(Constants.STime1);
 
 		n = new Notifier (AutoHandler.mpStartRSwitchR);
 		AutoHandler.mpStartRSwitchR.startPath();
@@ -29,22 +29,22 @@ public class StartRSwitchRScaleL extends Routine {
 	public void variation() {
 		
 		switch (this.autoStep) {
-		case 1:
+		/*case 1:
 			n.startPeriodic(0.02);
 			this.autoStep = 4;
 			System.out.println("DONE");
-			break;
-		/*case 1:
+			break;*/
+		case 1:
 			System.out.println("Running case 1");
 			actList.wristUp();
 			n.startPeriodic(0.02);
 			this.autoStep = 2;
-			break;*/
+			break;
 		case 2:
 			System.out.println("Running case 2");
 			if(delayElev.execute(time.get()))	{
 				this.autoStep = 3;
-				actList.scaleMPosition();
+				actList.switchPosition();
 				System.out.println("*****Transition to Case 2");
 			}
 			break;
@@ -58,7 +58,7 @@ public class StartRSwitchRScaleL extends Routine {
 			break;
 		case 4:
 			System.out.println("Running case 3");
-			if(segList.seg8A()) {
+			if(segList.segStartRSwitchR()) {
 				this.autoStep = 5;
 				n.stop();
 				System.out.println("*****Transition to Case 4");

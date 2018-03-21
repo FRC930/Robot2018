@@ -58,10 +58,10 @@ public class Constants {
 	public static final int kTimeoutMs = 10;
 
 	public static final double intakePosition = 0;
-	public static final double switchPosition = 2800;
+	public static final double switchPosition = 1800;
 	public static final double scalePositionLow = 5000;
 	public static final double scalePositionMid = 6800;//7600
-	public static final double scalePositionHigh = 8200;
+	public static final double scalePositionHigh = 8000;
 	public static final double exchangePosition = 250;
 	public static final double portalPosition = 2500;
 
@@ -104,5 +104,11 @@ public class Constants {
 	
 	// Outtake Delay Times
 	public static final double OTime1 = 1;
-	public static final double OTime2 = 2;
+	public static final double OTime2 = 1.5;
+	public static final double OTime3 = 1.75;
+	public static final double OTime4 = 2;
+	
+	// Stop Outtake Delay Times
+	public static final double STime1 = 1;
+	public static final double STime2 = 2;
 }

@@ -317,9 +317,6 @@ public class AutoHandler {
 			else if(StartRDoubleScaleL.n != null)
 				StartRDoubleScaleL.n.stop();
 			
-			else if(LeftLeftSwitch.n != null)
-				LeftLeftSwitch.n.stop();
-			
 			Drive.runAt(0, 0);
 		}
 		
@@ -368,9 +365,6 @@ public class AutoHandler {
 		
 		else if(StartRDoubleScaleL.n != null)
 			StartRDoubleScaleL.n.stop();
-		
-		else if(LeftLeftSwitch.n != null)
-			LeftLeftSwitch.n.stop();
 		
 	}
 

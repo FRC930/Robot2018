@@ -2,127 +2,7 @@ package org.usfirst.frc.team930.robot;
 
 public class Segments {
 	
-	public boolean seg1A() {
-		
-		boolean isFinished = false;
-		
-		if(AutoHandler.myMP1A.isLastPoint()) {
-			isFinished = true;
-		}
-		
-		return isFinished;
-		
-	}
-	
-	public boolean seg2A() {
-		
-		boolean isFinished = false;
-		
-		if(AutoHandler.myMP2A.isLastPoint()) {
-			isFinished = true;
-		}
-		
-		return isFinished;
-		
-	}
-
-	public boolean seg2B() {
-	
-		boolean isFinished = false;
-		
-		if(AutoHandler.myMP2B.isLastPoint()) {
-			isFinished = true;
-		}
-	
-		return isFinished;
-	
-	}
-	
-	public boolean seg2C() {
-		
-		boolean isFinished = false;
-		
-		if(AutoHandler.myMP2C.isLastPoint()) {
-			isFinished = true;
-		}
-	
-		return isFinished;
-	
-	}
-	
-	public boolean seg3A() {
-		
-		boolean isFinished = false;
-		
-		if(AutoHandler.myMP3A.isLastPoint()) {
-			isFinished = true;
-		}
-		
-		return isFinished;
-		
-	}
-	
-	public boolean seg4A() {
-		
-		boolean isFinished = false;
-		
-		if(AutoHandler.mpStartLSwitchL.isLastPoint()) {
-			isFinished = true;
-		}
-		
-		return isFinished;
-		
-	}
-	
-	public boolean seg5A() {
-		
-		boolean isFinished = false;
-		
-		if(AutoHandler.mpStartMSwitchL.isLastPoint()) {
-			isFinished = true;
-		}
-		
-		return isFinished;
-		
-	}
-	
-	public boolean seg6A() {
-		
-		boolean isFinished = false;
-		
-		if(AutoHandler.mpStartMSwitchR.isLastPoint()) {
-			isFinished = true;
-		}
-		
-		return isFinished;
-		
-	}
-	
-	public boolean seg7A() {
-		
-		boolean isFinished = false;
-		
-		if(AutoHandler.myMP7A.isLastPoint()) {
-			isFinished = true;
-		}
-		
-		return isFinished;
-		
-	}
-	
-	public boolean seg8A() {
-		
-		boolean isFinished = false;
-		
-		if(AutoHandler.mpStartRSwitchR.isLastPoint()) {
-			isFinished = true;
-		}
-		
-		return isFinished;
-		
-	}
-	
-	public boolean seg11A() {
+	public boolean segStartLScaleL() {
 		
 		boolean isFinished = false;
 		
@@ -134,11 +14,83 @@ public class Segments {
 		
 	}
 	
-	public boolean seg14A() {
+	public boolean segStartLScaleR() {
+		
+		boolean isFinished = false;
+		
+		if(AutoHandler.myMP3A.isLastPoint()) {
+			isFinished = true;
+		}
+		
+		return isFinished;
+		
+	}
+	
+	public boolean segStartLSwitchL() {
+		
+		boolean isFinished = false;
+		
+		if(AutoHandler.mpStartLSwitchL.isLastPoint()) {
+			isFinished = true;
+		}
+		
+		return isFinished;
+		
+	}
+	
+	public boolean segStartMSwitchL() {
+		
+		boolean isFinished = false;
+		
+		if(AutoHandler.mpStartMSwitchL.isLastPoint()) {
+			isFinished = true;
+		}
+		
+		return isFinished;
+		
+	}
+	
+	public boolean segStartMSwitchR() {
+		
+		boolean isFinished = false;
+		
+		if(AutoHandler.mpStartMSwitchR.isLastPoint()) {
+			isFinished = true;
+		}
+		
+		return isFinished;
+		
+	}
+	
+	public boolean segStartRScaleL() {
+		
+		boolean isFinished = false;
+		
+		if(AutoHandler.myMP7A.isLastPoint()) {
+			isFinished = true;
+		}
+		
+		return isFinished;
+		
+	}
+	
+	public boolean segStartRScaleR() {
 		
 		boolean isFinished = false;
 		
 		if(AutoHandler.mpStartRScaleR.isLastPoint()) {
+			isFinished = true;
+		}
+		
+		return isFinished;
+		
+	}
+	
+	public boolean segStartRSwitchR() {
+		
+		boolean isFinished = false;
+		
+		if(AutoHandler.mpStartRSwitchR.isLastPoint()) {
 			isFinished = true;
 		}
 		
