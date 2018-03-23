@@ -48,7 +48,7 @@ public class MPStartRSwitchR implements Runnable {
 	
 	public Trajectory generate(Waypoint[] waypoints, Trajectory.Config config) {
 		String hash = Utilities.hash(waypoints, config);
-		File pathFile = new File(hash + ".traj");
+		File pathFile = new File("/home/lvuser/" + hash + ".traj");
 		Trajectory traj;
 		
 		if(pathFile.exists()) {

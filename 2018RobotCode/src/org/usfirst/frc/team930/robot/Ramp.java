@@ -62,8 +62,22 @@ public class Ramp {
 		
 	}
 
-	
-		
+	public static void resetLeftRelease() {
+		rampL.set(false);
 	}
+	
+	public static void resetRightRelease() {
+		rampR.set(false);
+	}
+	
+	public static void resetLeftLift() {
+		raiseL.set(false);
+	}
+	
+	public static void resetRightLift() {
+		raiseR.set(false);
+	}
+		
+}
 	
 

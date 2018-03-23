@@ -48,10 +48,21 @@ public class MPStartRScaleR implements Runnable {
 	
 	public Trajectory generate(Waypoint[] waypoints, Trajectory.Config config) {
 		String hash = Utilities.hash(waypoints, config);
-		File pathFile = new File(hash + ".traj");
+		File pathFile = new File("/home/lvuser/" + hash + ".traj");
+		//System.out.println("CAN WRITE TO FILE: " + pathFile.canWrite());
+		//System.out.println("CAN READ FROM FILE: " + pathFile.canRead());
+		//System.out.println("EXISTS: " + pathFile.exists());
+		//pathFile.setWritable(true);
+		//pathFile.setReadable(true);
+		//System.out.println("CAN WRITE TO FILE: " + pathFile.canWrite());
+		//System.out.println("CAN READ FROM FILE: " + pathFile.canRead());
+		//System.out.println("POOOOO~~~~~OOOOP: " + pathFile.exists());
 		Trajectory traj;
 		
+		//System.out.println("Trying to Reads");
+		
 		if(pathFile.exists()) {
+			//System.out.println("READING");
 			traj = Pathfinder.readFromFile(pathFile);
 		} else {
 			traj = Pathfinder.generate(waypoints, config);

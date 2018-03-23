@@ -31,13 +31,15 @@ public class Elevator {
 		
 		// Setup the sensor
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-		lift1.setSensorPhase(true);
-		lift1.setInverted(false);
 		
-		/*
+		// Practice robot
+		/*lift1.setSensorPhase(true);
+		lift1.setInverted(false);*/
+		
+		// Competition robot
 		lift1.setSensorPhase(false);
 		lift1.setInverted(true);
-		lift2.setInverted(true);*/
+		lift2.setInverted(true);
 		
 		// Set relevant frame periods to be at least as fast as periodic rate
 		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
@@ -174,6 +176,7 @@ public class Elevator {
 	// set the elevator motor to manual percent output mode
 	public static void runManualControl(double axisValue) {
 		lift1.set(ControlMode.PercentOutput, axisValue);
+		System.out.println("\t\t\t\tElevator Pos: " + lift1.getSelectedSensorPosition(0));
 	}
 	
 	public static boolean atIntakePosition() {
