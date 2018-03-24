@@ -47,8 +47,8 @@ public class MPStartRScaleR implements Runnable {
 	}
 	
 	public Trajectory generate(Waypoint[] waypoints, Trajectory.Config config) {
-		String hash = Utilities.hash(waypoints, config);
-		File pathFile = new File("/home/lvuser/" + hash + ".traj");
+		//String hash = Utilities.hash(waypoints, config);
+		//File pathFile = new File("/home/lvuser/" + hash + ".traj");
 		//System.out.println("CAN WRITE TO FILE: " + pathFile.canWrite());
 		//System.out.println("CAN READ FROM FILE: " + pathFile.canRead());
 		//System.out.println("EXISTS: " + pathFile.exists());
@@ -61,13 +61,13 @@ public class MPStartRScaleR implements Runnable {
 		
 		//System.out.println("Trying to Reads");
 		
-		if(pathFile.exists()) {
+		//if(pathFile.exists()) {
 			//System.out.println("READING");
-			traj = Pathfinder.readFromFile(pathFile);
-		} else {
+			//traj = Pathfinder.readFromFile(pathFile);
+		//} else {
 			traj = Pathfinder.generate(waypoints, config);
-			Pathfinder.writeToFile(pathFile, traj);
-		}
+			//Pathfinder.writeToFile(pathFile, traj);
+		//}
 		
 		return traj;
 	}
@@ -90,7 +90,7 @@ public class MPStartRScaleR implements Runnable {
 
 		double turn = kG * error;
 			
-		System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading,-yaw,turn); 
+		System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading,-yaw,turn);
 		double calc = (rightFollower.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
 		double calc2 = (leftFollower.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
 		// Driving forward
@@ -108,7 +108,6 @@ public class MPStartRScaleR implements Runnable {
 	public void startPath() {
 
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~ START AUTO~~~~~~~~~~~~~");
-		Drive.changeSensorPhase(false, true);
 		rightFollower.configureEncoder(Drive.rightMain.getSelectedSensorPosition(0), 1024, .102);
 		leftFollower.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
 		

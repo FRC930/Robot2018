@@ -18,7 +18,7 @@ public class Segments {
 		
 		boolean isFinished = false;
 		
-		if(AutoHandler.myMP3A.isLastPoint()) {
+		if(AutoHandler.mpStartLScaleR.isLastPoint()) {
 			isFinished = true;
 		}
 		
@@ -66,7 +66,7 @@ public class Segments {
 		
 		boolean isFinished = false;
 		
-		if(AutoHandler.myMP7A.isLastPoint()) {
+		if(AutoHandler.mpStartRScaleL.isLastPoint()) {
 			isFinished = true;
 		}
 		

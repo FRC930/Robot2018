@@ -97,7 +97,6 @@ public class MPStartMSwitchL implements Runnable {
 	public void startPath() {
 
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~ START AUTO~~~~~~~~~~~~~");
-		Drive.changeSensorPhase(false, true);
 		rightFollower.configureEncoder(Drive.rightMain.getSelectedSensorPosition(0), 1024, .102);
 		leftFollower.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
 		

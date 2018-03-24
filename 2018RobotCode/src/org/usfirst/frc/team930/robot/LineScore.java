@@ -18,14 +18,14 @@ public class LineScore extends Routine{
 		
 		System.out.println("Line & Score");
 		System.out.println("Elevator Up");
-		Elevator.setTargetPos(TeleopHandler.ElevatorStates.SWITCH_POSITION);
+		Elevator.setTargetPos(TeleopHandler.ElevatorStates.SCALE_POSITION_L);
 		Elevator.run(0);
 		if(time.get()<5)
 			Drive.runAt(0.25, 0.25);
 		else {
 			Drive.runAt(0, 0);
 			System.out.println("Outtaking Cube");
-			Intake.run(TeleopHandler.IntakeStates.OUTTAKING);
+			Intake.run(TeleopHandler.IntakeStates.SLOW_OUTTAKING);
 		}
 			
 	}

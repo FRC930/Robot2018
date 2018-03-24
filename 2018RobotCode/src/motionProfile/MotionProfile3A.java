@@ -84,7 +84,7 @@ public class MotionProfile3A implements Runnable {
 		System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading,-yaw,turn); 
 		double calc = (rightFollower.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
 		double calc2 = (leftFollower.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
-		// Driving foreward
+		// Driving forward
 		Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
 		Drive.leftMain.set(ControlMode.PercentOutput, (calc2 + turn));
 			

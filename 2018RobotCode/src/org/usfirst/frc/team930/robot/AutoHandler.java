@@ -138,6 +138,7 @@ public class AutoHandler {
 
 				case "LLL":
 				case "RLR":
+					System.out.println("I'm Here");
 					auto = new StartLDoubleScaleL(variation, delay);
 					break;
 				case "LRL":
@@ -183,6 +184,20 @@ public class AutoHandler {
 
 				}
 				break;
+			case DOUBLE_SWITCH:
+				switch (variation) {
+
+				case "LRL":
+				case "LLL":
+					auto = new StartLSwitchLScaleR(variation, delay);
+					break;
+				case "RLR":
+				case "RRR":
+					auto = new Line(variation, delay);
+					break;
+
+				}
+				break;
 			case LINE:
 					auto = new Line(variation, delay);
 				break;
@@ -194,7 +209,7 @@ public class AutoHandler {
 						break;
 					case "RLR":
 					case "RRR":
-						auto = new LineElevator(variation, delay);
+						auto = new Line(variation, delay);
 						break;
 				}
 				break;
@@ -285,6 +300,20 @@ public class AutoHandler {
 
 				}
 				break;
+			case DOUBLE_SWITCH:
+				switch (variation) {
+
+				case "LRL":
+				case "LLL":
+					auto = new Line(variation, delay);
+					break;
+				case "RLR":
+				case "RRR":
+					auto = new StartRSwitchRScaleL(variation, delay);
+					break;
+
+				}
+				break;
 			case LINE:
 				auto = new Line(variation, delay);
 				break;
@@ -292,7 +321,7 @@ public class AutoHandler {
 				switch(variation){
 					case "LRL":
 					case "LLL":
-						auto = new LineElevator(variation, delay);
+						auto = new Line(variation, delay);
 						break;
 					case "RLR":
 					case "RRR":

@@ -28,9 +28,13 @@ public class Drive {
 		leftFollow.setInverted(true);
 		leftFollow2.setInverted(true);
 		
-		// Teleop + Auto drive forward			// Auto drive backward
-		rightMain.setSensorPhase(true);			// false
-		leftMain.setSensorPhase(false);			// true
+		// Practice robot
+		/*rightMain.setSensorPhase(true);
+		leftMain.setSensorPhase(false);*/
+		
+		// Competition robot
+		rightMain.setSensorPhase(true);//true
+		leftMain.setSensorPhase(true);//true
 		
 		invertMotorsForwards();
 		
@@ -68,6 +72,7 @@ public class Drive {
 	public static boolean checkSensors(){
 		
 		if(!gyro.isConnected()){
+			System.out.println("Killing Gyro");
 			return true;
 		}
 		if(Math.abs(leftMain.getMotorOutputPercent())> 0.1 && leftMain.getSelectedSensorVelocity(0) == 0){
@@ -75,6 +80,7 @@ public class Drive {
 			leftMotorCounter++;
 			
 			if(leftMotorCounter >= 4){
+				System.out.println("Killing Left");
 				return true;
 			}
 			
@@ -85,6 +91,7 @@ public class Drive {
 			rightMotorCounter++;
 			
 			if(rightMotorCounter >= 4){
+				System.out.println("Killing Right");
 				return true;
 			}
 		}

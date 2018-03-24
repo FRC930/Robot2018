@@ -28,7 +28,7 @@ public class MPStartRScaleL implements Runnable {
 				new Waypoint(4.25, 0.9, Pathfinder.d2r(15)),
 				new Waypoint(5.5, 3.4, Pathfinder.d2r(90)),
 				new Waypoint(5.5, 6.5, Pathfinder.d2r(90)),
-				new Waypoint(6.5, 7.15, Pathfinder.d2r(45)),
+				new Waypoint(6.5, 7.15, Pathfinder.d2r(0)),
 		}; // Vel: 3.0
 		
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 2.3, 50.0);
@@ -99,7 +99,6 @@ public class MPStartRScaleL implements Runnable {
 	public void startPath() {
 
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~ START AUTO~~~~~~~~~~~~~");
-		Drive.changeSensorPhase(false, true);
 		rightFollower.configureEncoder(Drive.rightMain.getSelectedSensorPosition(0), 1024, .102);
 		leftFollower.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
 		

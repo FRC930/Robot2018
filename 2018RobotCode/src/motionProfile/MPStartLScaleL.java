@@ -69,6 +69,8 @@ public class MPStartLScaleL implements Runnable {
 	
 	public void run() {
 		
+		System.out.println("Running Notifier");
+		
 		double heading = Math.toDegrees(rightFollower.getHeading());
 			
 		if(heading >180)
@@ -89,6 +91,7 @@ public class MPStartLScaleL implements Runnable {
 		double calc = (rightFollower.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
 		double calc2 = (leftFollower.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
 		// Driving forward
+		System.out.println("Driving: " + (calc - turn));
 		Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
 		Drive.leftMain.set(ControlMode.PercentOutput, (calc2 + turn));
 			
@@ -99,6 +102,8 @@ public class MPStartLScaleL implements Runnable {
 	
 	public boolean isLastPoint(){
 		
+		System.out.println("Finished");
+		
 		return (rightFollower.isFinished()&&leftFollower.isFinished());
 		
 	}
@@ -106,7 +111,6 @@ public class MPStartLScaleL implements Runnable {
 	public void startPath() {
 
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~ START AUTO~~~~~~~~~~~~~");
-		Drive.changeSensorPhase(false, true);
 		rightFollower.configureEncoder(Drive.rightMain.getSelectedSensorPosition(0), 1024, .102);
 		leftFollower.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
 		
