@@ -60,6 +60,10 @@ public class Robot extends IterativeRobot {
 		
 	}
 	
+	public void disabledInit() {
+		AutoHandler.mpStartRScaleR.disabled();
+	}
+	
 	@Override
 	public void disabledPeriodic() {
 		
