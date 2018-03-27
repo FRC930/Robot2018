@@ -60,6 +60,7 @@ public class AutoHandler {
 		
 		LINE,
 		LINE_SCORE,
+		TIMED_SWITCH,
 		DOUBLE_SCALE,
 		DOUBLE_SWITCH,
 		SCALE_SWITCH,
@@ -81,6 +82,7 @@ public class AutoHandler {
         goalChooser.addObject("Same Side", Goal.SAME_SIDE);
         goalChooser.addObject("Just Line", Goal.LINE);
         goalChooser.addObject("Line & Score", Goal.LINE_SCORE);
+        goalChooser.addObject("Timed Switch", Goal.TIMED_SWITCH);
         SmartDashboard.putData("Goals", goalChooser);
         
         SmartDashboard.putNumber("Time Delay", 0);
@@ -242,10 +244,25 @@ public class AutoHandler {
 			case LINE_SCORE:
 				auto = new LineScore(variation,delay);
 				break;
+			case TIMED_SWITCH:
+				switch (variation) {
+
+				case "LRL":
+				case "LLL":
+					auto = new TimedMiddleLeft(variation, delay);
+					break;
+				case "RLR":
+				case "RRR":
+					auto = new TimedMiddleRight(variation, delay);
+					break;
+				
+				}
+				break;
 			default:
 				auto = new LineScore(variation, delay);
 				break;
 			}
+			
 			break;
 		case RIGHT:
 			switch (goalEnum) {
