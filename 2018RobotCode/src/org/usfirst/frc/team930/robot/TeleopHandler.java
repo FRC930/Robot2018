@@ -14,9 +14,12 @@ public class TeleopHandler {
 	private static boolean buttonCheckB = false;
 	private static boolean buttonCheckY = false;
 	private static boolean buttonCheckX = false;
+	private static boolean buttonCheckStart = false;
 	private static boolean buttonCheckLeftJoyButton = false;
 	private static boolean buttonCheckRightJoyButton = false;
 	private static boolean toggledTwice = false;
+	private static boolean trentonCheck = false;
+	
 	
 	public static void init() {
 		Utilities.setCompressor(true);
@@ -90,88 +93,103 @@ public class TeleopHandler {
 		else if(stick2.getRawButton(Constants.RB)) {
 			Intake.run(IntakeStates.LIFTER_DOWN);
 			Intake.stopMotors();
-		}
+		} 
 		else {
 			Intake.run(IntakeStates.INTAKE_DONE);
 		}
 		
 		
 		// Elevator
-		// Button Control
-		if (stick2.getRawButton(Constants.A) && (!buttonCheckA)) {
-			buttonCheckA = true;
-			Elevator.setTargetPos(ElevatorStates.SCALE_POSITION_L);
+		if (stick2.getRawButton(Constants.startButton) && (!buttonCheckStart)) {
+			buttonCheckStart = true;	
 		}
-		else if ((!stick2.getRawButton(Constants.A)) && buttonCheckA) {
-			buttonCheckA = false;
-		}
-		
-		if (stick2.getRawButton(Constants.B) && (!buttonCheckB)) {
-			buttonCheckB = true;
-			Elevator.setTargetPos(ElevatorStates.SCALE_POSITION_M);
-		}
-		else if ((!stick2.getRawButton(Constants.B)) && buttonCheckB) {
-			buttonCheckB = false;
-		}
-		
-		if (stick2.getRawButton(Constants.X) && (!buttonCheckX)) {
-			buttonCheckX = true;
-			Elevator.setTargetPos(ElevatorStates.SWITCH_POSITION);
-		}
-		else if ((!stick2.getRawButton(Constants.X)) && buttonCheckX) {
-			buttonCheckX = false;
-		}
-		
-		if (stick2.getRawButton(Constants.Y) && (!buttonCheckY)) {
-			buttonCheckY = true;
-			Elevator.setTargetPos(ElevatorStates.SCALE_POSITION_H);
-		}
-		else if ((!stick2.getRawButton(Constants.Y)) && buttonCheckY) {
-			buttonCheckY = false;
-		}
-		
-		if (stick2.getRawButton(Constants.rightJoyButton) && (!buttonCheckRightJoyButton)) {
-			buttonCheckRightJoyButton = true;
-			Elevator.setTargetPos(ElevatorStates.INTAKE_POSITION);
-		}
-		else if ((!stick2.getRawButton(Constants.rightJoyButton)) && buttonCheckRightJoyButton) {
-			buttonCheckRightJoyButton = false;
-		}
-		
-		if (stick2.getRawButton(Constants.leftJoyButton) && (!buttonCheckLeftJoyButton)) {
-			buttonCheckLeftJoyButton = true;
-			Elevator.setTargetPos(ElevatorStates.EXCHANGE_POSITION);
-		}
-		else if ((!stick2.getRawButton(Constants.leftJoyButton)) && buttonCheckLeftJoyButton) {
-			buttonCheckLeftJoyButton = false;
-		}
-		
-		
-		// Stop elevator if encoder is not returning information
-		if(Elevator.checkSensor()) {
-			if(Math.abs(stick2.getRawAxis(Constants.rightYaxis)) > Constants.elevatorDeadBand) {
-				System.out.println("Sending " + stick2.getRawAxis(Constants.rightYaxis));
-				Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
-				//Elevator.switchToPercentOutput();
-			} else {
-				Elevator.runManualControl(0);
-				//Elevator.switchToPercentOutput();
+		else if ((!stick2.getRawButton(Constants.startButton)) && buttonCheckStart) {
+			buttonCheckStart = false;
+			trentonCheck = !trentonCheck;
+			if(!trentonCheck){
+				Elevator.resetElevatorSensor();
 			}
 		}
-		// Turn off Motion Magic at intake position
-		else if(Elevator.atIntakePosition()) {
-			Elevator.switchToPercentOutput(stick2.getRawAxis(Constants.rightYaxis));
-		}
-		// Manual control with Motion Magic
-		else if(Math.abs(stick2.getRawAxis(Constants.rightYaxis)) > Constants.elevatorDeadBand) {
-			Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
-			System.out.println("Lift1: " + Elevator.lift1.getMotorOutputPercent() + " Lift2: " + Elevator.lift2.getMotorOutputPercent());
-		}
-		// Run Motion Magic using button positions
-		else {
-			Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
-		}
 		
+		if(trentonCheck){
+			Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
+		}
+		else{
+			// Button Control
+			if (stick2.getRawButton(Constants.A) && (!buttonCheckA)) {
+				buttonCheckA = true;
+				Elevator.setTargetPos(ElevatorStates.SCALE_POSITION_L);
+			}
+			else if ((!stick2.getRawButton(Constants.A)) && buttonCheckA) {
+				buttonCheckA = false;
+			}
+			
+			if (stick2.getRawButton(Constants.B) && (!buttonCheckB)) {
+				buttonCheckB = true;
+				Elevator.setTargetPos(ElevatorStates.SCALE_POSITION_M);
+			}
+			else if ((!stick2.getRawButton(Constants.B)) && buttonCheckB) {
+				buttonCheckB = false;
+			}
+			
+			if (stick2.getRawButton(Constants.X) && (!buttonCheckX)) {
+				buttonCheckX = true;
+				Elevator.setTargetPos(ElevatorStates.SWITCH_POSITION);
+			}
+			else if ((!stick2.getRawButton(Constants.X)) && buttonCheckX) {
+				buttonCheckX = false;
+			}
+			
+			if (stick2.getRawButton(Constants.Y) && (!buttonCheckY)) {
+				buttonCheckY = true;
+				Elevator.setTargetPos(ElevatorStates.SCALE_POSITION_H);
+			}
+			else if ((!stick2.getRawButton(Constants.Y)) && buttonCheckY) {
+				buttonCheckY = false;
+			}
+			
+			if (stick2.getRawButton(Constants.rightJoyButton) && (!buttonCheckRightJoyButton)) {
+				buttonCheckRightJoyButton = true;
+				Elevator.setTargetPos(ElevatorStates.INTAKE_POSITION);
+			}
+			else if ((!stick2.getRawButton(Constants.rightJoyButton)) && buttonCheckRightJoyButton) {
+				buttonCheckRightJoyButton = false;
+			}
+			
+			if (stick2.getRawButton(Constants.leftJoyButton) && (!buttonCheckLeftJoyButton)) {
+				buttonCheckLeftJoyButton = true;
+				Elevator.setTargetPos(ElevatorStates.EXCHANGE_POSITION);
+			}
+			else if ((!stick2.getRawButton(Constants.leftJoyButton)) && buttonCheckLeftJoyButton) {
+				buttonCheckLeftJoyButton = false;
+			}
+			
+			
+			// Stop elevator if encoder is not returning information
+			if(Elevator.checkSensor()) {
+				if(Math.abs(stick2.getRawAxis(Constants.rightYaxis)) > Constants.elevatorDeadBand) {
+					System.out.println("Sending " + stick2.getRawAxis(Constants.rightYaxis));
+					Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
+					//Elevator.switchToPercentOutput();
+				} else {
+					Elevator.runManualControl(0);
+					//Elevator.switchToPercentOutput();
+				}
+			}
+			// Turn off Motion Magic at intake position
+			else if(Elevator.atIntakePosition()) {
+				Elevator.switchToPercentOutput(stick2.getRawAxis(Constants.rightYaxis));
+			}
+			// Manual control with Motion Magic
+			else if(Math.abs(stick2.getRawAxis(Constants.rightYaxis)) > Constants.elevatorDeadBand) {
+				Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
+				System.out.println("Lift1: " + Elevator.lift1.getMotorOutputPercent() + " Lift2: " + Elevator.lift2.getMotorOutputPercent());
+			}
+			// Run Motion Magic using button positions
+			else {
+				Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
+			}
+		}
 		//Elevator.runManualControl(-1.0 * stick2.getRawAxis(Constants.rightYaxis));
 
 		

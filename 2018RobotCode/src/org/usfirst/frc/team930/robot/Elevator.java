@@ -68,7 +68,7 @@ public class Elevator {
 		lift1.configMotionAcceleration(1500, Constants.kTimeoutMs);
 		
 		// Zero the sensor
-		lift1.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+		resetElevatorSensor();
 		
 		// Set starting target position to intake position
 		targetPosition = Constants.intakePosition;
@@ -175,7 +175,9 @@ public class Elevator {
 	
 	// set the elevator motor to manual percent output mode
 	public static void runManualControl(double axisValue) {
-		lift1.set(ControlMode.PercentOutput, axisValue);
+		if(Math.abs(axisValue) > Constants.elevatorDeadBand){
+			lift1.set(ControlMode.PercentOutput, axisValue);
+		}
 		System.out.println("\t\t\t\tElevator Pos: " + lift1.getSelectedSensorPosition(0));
 	}
 	
@@ -195,5 +197,8 @@ public class Elevator {
 	
 	public static void updateDashboard(){
 		//SmartDashboard.putNumber("Elevator Encoder",lift1.getSelectedSensorPosition(0));
+	}
+	public static void resetElevatorSensor(){
+		lift1.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 	}
 }
