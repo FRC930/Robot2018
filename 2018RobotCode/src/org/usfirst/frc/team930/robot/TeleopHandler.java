@@ -111,10 +111,10 @@ public class TeleopHandler {
 			}
 		}
 		
-		if(trentonCheck){
-			Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
+		if (trentonCheck) {
+			Elevator.runManualControl(-1.0 * stick2.getRawAxis(Constants.rightYaxis));
 		}
-		else{
+		else {
 			// Button Control
 			if (stick2.getRawButton(Constants.A) && (!buttonCheckA)) {
 				buttonCheckA = true;
@@ -180,19 +180,14 @@ public class TeleopHandler {
 			else if(Elevator.atIntakePosition()) {
 				Elevator.switchToPercentOutput(stick2.getRawAxis(Constants.rightYaxis));
 			}
-			// Manual control with Motion Magic
-			else if(Math.abs(stick2.getRawAxis(Constants.rightYaxis)) > Constants.elevatorDeadBand) {
-				Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
-				System.out.println("Lift1: " + Elevator.lift1.getMotorOutputPercent() + " Lift2: " + Elevator.lift2.getMotorOutputPercent());
-			}
-			// Run Motion Magic using button positions
+			// Run Motion Magic using button positions or JoyStick
 			else {
 				Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
 			}
 		}
 		//Elevator.runManualControl(-1.0 * stick2.getRawAxis(Constants.rightYaxis));
 
-		
+	
 		
 		// Ramps
 		if(stick3.getRawButton(Constants.btnRightRampDown)) {
