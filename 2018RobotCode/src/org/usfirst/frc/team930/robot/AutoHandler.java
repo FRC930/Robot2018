@@ -61,6 +61,7 @@ public class AutoHandler {
 		LINE,
 		LINE_SCORE,
 		TIMED_SWITCH,
+		TIMED_SCALE,
 		DOUBLE_SCALE,
 		DOUBLE_SWITCH,
 		SCALE_SWITCH,
@@ -83,6 +84,7 @@ public class AutoHandler {
         goalChooser.addObject("Just Line", Goal.LINE);
         goalChooser.addObject("Line & Score", Goal.LINE_SCORE);
         goalChooser.addObject("Timed Switch", Goal.TIMED_SWITCH);
+        goalChooser.addObject("Timed Scale", Goal.TIMED_SCALE);
         SmartDashboard.putData("Goals", goalChooser);
         
         SmartDashboard.putNumber("Time Delay", 0);
@@ -210,6 +212,18 @@ public class AutoHandler {
 						auto = new LineScore(variation, delay);
 						break;
 					case "RLR":
+					case "RRR":
+						auto = new Line(variation, delay);
+						break;
+				}
+				break;
+			case TIMED_SCALE:
+				switch(variation){
+					case "RLR":
+					case "LLL":
+						auto = new TimedStartLScaleL(variation, delay);
+						break;
+					case "LRL":
 					case "RRR":
 						auto = new Line(variation, delay);
 						break;
@@ -343,6 +357,18 @@ public class AutoHandler {
 					case "RLR":
 					case "RRR":
 						auto = new LineScore(variation, delay);
+						break;
+				}
+				break;
+			case TIMED_SCALE:
+				switch(variation){
+					case "RLR":
+					case "LLL":
+						auto = new Line(variation, delay);
+						break;
+					case "LRL":
+					case "RRR":
+						auto = new TimedStartRScaleR(variation, delay);
 						break;
 				}
 				break;
