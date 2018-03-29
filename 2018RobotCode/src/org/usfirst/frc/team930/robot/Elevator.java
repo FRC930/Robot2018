@@ -33,13 +33,13 @@ public class Elevator {
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 		
 		// Practice robot
-		/*lift1.setSensorPhase(true);
-		lift1.setInverted(false);*/
+		lift1.setSensorPhase(true);
+		lift1.setInverted(false);
 		
 		// Competition robot
-		lift1.setSensorPhase(false);
+		/*lift1.setSensorPhase(false);
 		lift1.setInverted(true);
-		lift2.setInverted(true);
+		lift2.setInverted(true);*/
 		
 		// Set relevant frame periods to be at least as fast as periodic rate
 		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);

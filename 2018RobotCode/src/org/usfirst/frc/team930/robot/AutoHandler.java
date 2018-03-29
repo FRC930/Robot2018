@@ -23,6 +23,11 @@ import motionProfile.MotionProfile9A;
 
 public class AutoHandler {
 	
+	private static String variation;
+	private static double delay;
+	private static StartPositions posEnum;
+	private static Goal goalEnum;
+	
 	public static SendableChooser<StartPositions> posChooser = new SendableChooser<StartPositions>();
 	public static SendableChooser<Goal> goalChooser = new SendableChooser<Goal>();
 	
@@ -121,12 +126,12 @@ public class AutoHandler {
 		
 		Enum startPositions = (Enum) posChooser.getSelected();
 		Enum goal = (Enum) goalChooser.getSelected();
-		String variation = DriverStation.getInstance().getGameSpecificMessage();
+		variation = DriverStation.getInstance().getGameSpecificMessage();
 		
-		StartPositions posEnum = (StartPositions) startPositions;
-		Goal goalEnum = (Goal) goal;
+		posEnum = (StartPositions) startPositions;
+		goalEnum = (Goal) goal;
 	
-		double delay = SmartDashboard.getNumber("Time Delay", 0);
+		delay = SmartDashboard.getNumber("Time Delay", 0);
 		
 		switch (posEnum) {
 
@@ -383,53 +388,58 @@ public class AutoHandler {
 	
 	public static void run() {
 		////////LEDHandler.autoRun();
-		if(!Drive.checkSensors()) {
+		if((goalEnum == Goal.LINE) || (goalEnum == Goal.LINE_SCORE) || (goalEnum == Goal.TIMED_SCALE) || (goalEnum == Goal.TIMED_SWITCH)) {	
 			auto.run();
 		}
 		else {
-			if(StartLScaleLSwitchL.n != null)
-				StartLScaleLSwitchL.n.stop();
+			if(!Drive.checkSensors()) {
+				auto.run();
+			}
+			else {
+				if(StartLScaleLSwitchL.n != null)
+					StartLScaleLSwitchL.n.stop();
 			
-			else if(StartLScaleLSwitchR.n != null)
-				StartLScaleLSwitchR.n.stop();
+				else if(StartLScaleLSwitchR.n != null)
+					StartLScaleLSwitchR.n.stop();
 			
-			else if(StartLScaleRSwitchR.n != null)
-				StartLScaleRSwitchR.n.stop();
+				else if(StartLScaleRSwitchR.n != null)
+					StartLScaleRSwitchR.n.stop();
 			
-			else if(StartLSwitchLScaleR.n != null)
-				StartLSwitchLScaleR.n.stop();
+				else if(StartLSwitchLScaleR.n != null)
+					StartLSwitchLScaleR.n.stop();
 			
-			else if(MiddleLeftSwitch.n != null)
-				MiddleLeftSwitch.n.stop();
+				else if(MiddleLeftSwitch.n != null)
+					MiddleLeftSwitch.n.stop();
 			
-			else if(MiddleRightSwitch.n != null)
-				MiddleRightSwitch.n.stop();
+				else if(MiddleRightSwitch.n != null)
+					MiddleRightSwitch.n.stop();
 			
-			else if(StartRScaleRSwitchR.n != null)
-				StartRScaleRSwitchR.n.stop();
+				else if(StartRScaleRSwitchR.n != null)
+					StartRScaleRSwitchR.n.stop();
 			
-			else if(StartRScaleRSwitchL.n != null)
-				StartRScaleRSwitchL.n.stop();
+				else if(StartRScaleRSwitchL.n != null)
+					StartRScaleRSwitchL.n.stop();
 			
-			else if(StartRScaleLSwitchL.n != null)
-				StartRScaleLSwitchL.n.stop();
+				else if(StartRScaleLSwitchL.n != null)
+					StartRScaleLSwitchL.n.stop();
 			
-			else if(StartRSwitchRScaleL.n != null)
-				StartRSwitchRScaleL.n.stop();
+				else if(StartRSwitchRScaleL.n != null)
+					StartRSwitchRScaleL.n.stop();
 			
-			else if(StartLDoubleScaleL.n != null)
-				StartLDoubleScaleL.n.stop();
+				else if(StartLDoubleScaleL.n != null)
+					StartLDoubleScaleL.n.stop();
 			
-			else if(StartLDoubleScaleR.n != null)
-				StartLDoubleScaleR.n.stop();
+				else if(StartLDoubleScaleR.n != null)
+					StartLDoubleScaleR.n.stop();
 			
-			else if(StartRDoubleScaleR.n != null)
-				StartRDoubleScaleR.n.stop();
+				else if(StartRDoubleScaleR.n != null)
+					StartRDoubleScaleR.n.stop();
 			
-			else if(StartRDoubleScaleL.n != null)
-				StartRDoubleScaleL.n.stop();
+				else if(StartRDoubleScaleL.n != null)
+					StartRDoubleScaleL.n.stop();
 			
-			Drive.runAt(0, 0);
+				Drive.runAt(0, 0);
+			}
 		}
 		
 	}

@@ -65,8 +65,8 @@ public class Intake {
 		}*/
 		
 		setIntakeLifter(false);
-		rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);	// Turn on motors // Positive
-		leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);						  // Negative
+		rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);	// Turn on motors // Negative
+		leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);					  // Positive
 		setIntakeGrip(false);
 	}
 	
@@ -84,16 +84,16 @@ public class Intake {
 	//------------------------------------------------------------------------------------------- 
 	
 	private static void outTaking() {		//method runs when out taking cube
-		rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn right motor // Negative
-		leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed); // Turn left motor // Positive
+		rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn right motor // Positive
+		leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn left motor // Negative
 		PDPcounter = 0; // Reset counter.
 		setIntakeGrip(true);
 	}
 	
 	private static void slowOutTaking() {		//method runs when out taking cube
 		setIntakeGrip(false);
-		rightIntakeWheel.set(ControlMode.PercentOutput, Constants.slowIntakeMotorSpeed); // Turn right motor // Negative
-		leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.slowIntakeMotorSpeed); // Turn left motor // Positive
+		rightIntakeWheel.set(ControlMode.PercentOutput, Constants.slowIntakeMotorSpeed); // Turn right motor // Positive
+		leftIntakeWheel.set(ControlMode.PercentOutput, Constants.slowIntakeMotorSpeed); // Turn left motor // Negative
 		PDPcounter = 0; // Reset counter.
 	}
 	
