@@ -438,7 +438,9 @@ public class AutoHandler {
 				else if(StartRDoubleScaleL.n != null)
 					StartRDoubleScaleL.n.stop();
 			
-				Drive.runAt(0, 0);
+				auto = new Line(variation, delay);
+				auto.run();
+				//Drive.runAt(0, 0);
 			}
 		}
 		
