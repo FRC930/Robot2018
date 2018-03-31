@@ -5,10 +5,22 @@ import edu.wpi.first.wpilibj.Timer;
 public class TimedMiddleLeft extends Routine{
 	
 	Timer time = new Timer();
+	private TimeDelay drive1 = new TimeDelay();
+	private TimeDelay turn1 = new TimeDelay();
+	private TimeDelay drive2 = new TimeDelay();
+	private TimeDelay turn2 = new TimeDelay();
+	private TimeDelay drive3 = new TimeDelay();
+	private TimeDelay outtake = new TimeDelay();
 	
 	public TimedMiddleLeft(String v, double d) {
 		
 		super(v, d);
+		drive1.set(Constants.LMiddleDrive1);
+		turn1.set(Constants.LMiddleTurn1);
+		drive2.set(Constants.LMiddleDrive2);
+		turn2.set(Constants.LMiddleTurn2);
+		drive3.set(Constants.LMiddleDrive3);
+		outtake.set(Constants.LMiddleOuttake);
 		time.reset();
 		time.start();
 		
@@ -16,26 +28,29 @@ public class TimedMiddleLeft extends Routine{
 
 	public void variation() {
 		
-		if(time.get() <= 1.25) {
+		if(time.get() <= Constants.LMiddleDrive1) {
+			Intake.run(TeleopHandler.IntakeStates.INTAKE_DONE);
 			Drive.runAt(0.5, 0.5);
 		}
-		else if((time.get() > 1.25) && (time.get() <= 2.5)) {
+		else if((time.get() > Constants.LMiddleDrive1) && (time.get() <= Constants.LMiddleDrive1 + Constants.LMiddleTurn1)) {
 			Drive.runAt(-0.5, 0.5);
 		}
-		else if((time.get() > 2.5) && (time.get() <= 3.75)) {
+		else if((time.get() > Constants.LMiddleDrive1 + Constants.LMiddleTurn1) && (time.get() <= Constants.LMiddleDrive1 + Constants.LMiddleTurn1 + Constants.LMiddleDrive2)) {
 			Drive.runAt(0.5, 0.5);
 		}
-		else if((time.get() > 3.75) && (time.get() <= 5)) {
+		else if((time.get() > Constants.LMiddleDrive1 + Constants.LMiddleTurn1 + Constants.LMiddleDrive2) && (time.get() <= Constants.LMiddleDrive1 + Constants.LMiddleTurn1 + Constants.LMiddleDrive2 + Constants.LMiddleTurn2)) {
 			Drive.runAt(0.5, -0.5);
-		}
-		else if((time.get() > 5) && (time.get() <= 6.25)) {
-			Elevator.setTargetPos(TeleopHandler.ElevatorStates.SCALE_POSITION_L);
+			Elevator.setTargetPos(TeleopHandler.ElevatorStates.AUTO_SWITCH);
 			Elevator.run(0);
+		}
+		else if((time.get() > Constants.LMiddleDrive1 + Constants.LMiddleTurn1 + Constants.LMiddleDrive2 + Constants.LMiddleTurn2) && (time.get() <= Constants.LMiddleDrive1 + Constants.LMiddleTurn1 + Constants.LMiddleDrive2 + Constants.LMiddleTurn2 + Constants.LMiddleDrive3)) {
 			Drive.runAt(0.5, 0.5);
+		}
+		else if((time.get() > Constants.LMiddleDrive1 + Constants.LMiddleTurn1 + Constants.LMiddleDrive2 + Constants.LMiddleTurn2 + Constants.LMiddleDrive3) && (time.get() <= Constants.LMiddleDrive1 + Constants.LMiddleTurn1 + Constants.LMiddleDrive2 + Constants.LMiddleTurn2 + Constants.LMiddleDrive3 + Constants.LMiddleOuttake)){
+			Drive.runAt(0, 0);
 		}
 		else {
-			Intake.run(TeleopHandler.IntakeStates.OUTTAKING);
-			Drive.runAt(0, 0);
+			Intake.run(TeleopHandler.IntakeStates.SLOW_OUTTAKING);
 		}
 		
 	}

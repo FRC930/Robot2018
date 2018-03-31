@@ -1,25 +1,16 @@
 package org.usfirst.frc.team930.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import motionProfile.MotionProfile10A;
 import motionProfile.MPStartLScaleL;
 import motionProfile.MPStartLScaleR;
 import motionProfile.MPStartRScaleL;
 import motionProfile.MPStartRScaleR;
-import motionProfile.MotionProfile1A;
-import motionProfile.MotionProfile2A;
-import motionProfile.MotionProfile2B;
-import motionProfile.MotionProfile2C;
-import motionProfile.MotionProfile3A;
 import motionProfile.MPStartLSwitchL;
 import motionProfile.MPStartMSwitchL;
 import motionProfile.MPStartMSwitchR;
-import motionProfile.MotionProfile7A;
 import motionProfile.MPStartRSwitchR;
-import motionProfile.MotionProfile9A;
 
 public class AutoHandler {
 	
@@ -33,18 +24,10 @@ public class AutoHandler {
 	
 	public static Routine auto;
 	
-	public static MotionProfile1A myMP1A;
-	public static MotionProfile2A myMP2A;
-	public static MotionProfile2B myMP2B;
-	public static MotionProfile2C myMP2C;
-	public static MotionProfile3A myMP3A;
 	public static MPStartLSwitchL mpStartLSwitchL;
 	public static MPStartMSwitchL mpStartMSwitchL;
 	public static MPStartMSwitchR mpStartMSwitchR;
-	public static MotionProfile7A myMP7A;
 	public static MPStartRSwitchR mpStartRSwitchR;
-	public static MotionProfile9A myMP9A;
-	public static MotionProfile10A myMP10A;
 	public static MPStartLScaleL mpStartLScaleL;
 	public static MPStartLScaleR mpStartLScaleR;
 	public static MPStartRScaleL mpStartRScaleL;
@@ -118,8 +101,6 @@ public class AutoHandler {
 	public static void autoInit() {
 		
 		Drive.resetSensorCheck();
-		
-		MotionProfile1A.first = Timer.getFPGATimestamp();
 		
 		Utilities.setCompressor(false);
 		Intake.setIntakeGrip(true);

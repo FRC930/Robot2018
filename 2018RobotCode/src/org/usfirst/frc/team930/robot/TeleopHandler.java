@@ -59,7 +59,8 @@ public class TeleopHandler {
 		SWITCH_POSITION,
 		SCALE_POSITION_L,
 		SCALE_POSITION_M,
-		SCALE_POSITION_H
+		SCALE_POSITION_H,
+		AUTO_SWITCH
 	}
 	enum RampStates{
 		RIGHT_RAMP_DOWN,

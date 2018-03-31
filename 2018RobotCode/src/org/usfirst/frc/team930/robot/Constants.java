@@ -46,7 +46,7 @@ public class Constants {
 	public static final int gripperSolenoidID = 1;
 	public static final double currentThreshhold = 30.0; //30
 	public static final double intakeMotorSpeed = 0.75;
-	public static final double slowIntakeMotorSpeed = 0.4;
+	public static final double slowIntakeMotorSpeed = 0.3;
 	//public static final double autoIntakeMotorSpeed = 0.2;
 	public static final int PDPcounterLimit = 10;
 	
@@ -64,6 +64,7 @@ public class Constants {
 	public static final double scalePositionHigh = 8000;
 	public static final double exchangePosition = 250;
 	public static final double portalPosition = 2500;
+	public static final double autoSwitch = 3000;
 
 	public static final int targetMultiplier = -400;
 	public static final int counterLimit = 3;
@@ -111,4 +112,23 @@ public class Constants {
 	// Stop Outtake Delay Times
 	public static final double STime1 = 1;
 	public static final double STime2 = 2;
+	
+	// Timed Auto
+	public static final double LMiddleDrive1 = 0.525;
+	public static final double LMiddleTurn1 = 0.75;
+	public static final double LMiddleDrive2 = 1.5;
+	public static final double LMiddleTurn2 = 0.75;
+	public static final double LMiddleDrive3 = 1.075;
+	public static final double LMiddleOuttake = 0.7;
+	
+	public static final double RMiddleDrive1 = 0.525;
+	public static final double RMiddleTurn1 = 0.75;
+	public static final double RMiddleDrive2 = 1.2;
+	public static final double RMiddleTurn2 = 0.75;
+	public static final double RMiddleDrive3 = 1.075;
+	public static final double RMiddleOuttake = 0.7;
+	
+	public static final double ScaleDrive1 = 4;
+	public static final double ScaleOuttake = 1;
+	
 }

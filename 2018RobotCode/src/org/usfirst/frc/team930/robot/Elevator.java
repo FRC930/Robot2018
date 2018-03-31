@@ -117,6 +117,10 @@ public class Elevator {
 			targetPosition = Constants.scalePositionHigh;
 			positionBool = true;
 			break;
+		case AUTO_SWITCH:
+			targetPosition = Constants.autoSwitch;
+			positionBool = true;
+			break;
 		}
 	}
 

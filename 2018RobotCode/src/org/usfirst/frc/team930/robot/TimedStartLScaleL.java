@@ -9,7 +9,6 @@ public class TimedStartLScaleL extends Routine{
 	public TimedStartLScaleL(String v, double d) {
 		
 		super(v, d);
-		time.reset();
 		time.start();
 		
 	}
@@ -18,12 +17,14 @@ public class TimedStartLScaleL extends Routine{
 		
 		Elevator.setTargetPos(TeleopHandler.ElevatorStates.SCALE_POSITION_H);
 		Elevator.run(0);
-		if(time.get() <= 4) {
+		if(time.get() <= Constants.ScaleDrive1) {
 			Drive.runAt(0.5, 0.5);
 		}
-		else {
-			Intake.run(TeleopHandler.IntakeStates.OUTTAKING);
+		else if((time.get() > Constants.ScaleDrive1) && (time.get() <= Constants.ScaleOuttake)){
 			Drive.runAt(0, 0);
+		}
+		else {
+			Intake.run(TeleopHandler.IntakeStates.SLOW_OUTTAKING);
 		}
 		
 	}
