@@ -2,6 +2,7 @@ package motionProfile;
 
 import java.io.File;
 
+import org.usfirst.frc.team930.robot.Constants;
 import org.usfirst.frc.team930.robot.Drive;
 import org.usfirst.frc.team930.robot.Utilities;
 
@@ -43,8 +44,8 @@ public class MPStartRScaleL implements Runnable {
 	    
 		rightFollower = new EncoderFollower(right);
 		leftFollower = new EncoderFollower(left);
-		rightFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
-		leftFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
+		rightFollower.configurePIDVA(Constants.RightP, 0, 0, Constants.RightV, Constants.RightA);
+		leftFollower.configurePIDVA(Constants.LeftP, 0, 0, Constants.LeftV, Constants.LeftA);
 		
 	}
 	
@@ -77,7 +78,7 @@ public class MPStartRScaleL implements Runnable {
 		else if(error < -180)
 			error = error+360;
 			
-		double kG = -0.038;//0.8 * (-1.0/80.0);
+		double kG = Constants.gyroPID;//0.8 * (-1.0/80.0);
 
 		double turn = kG * error;
 			

@@ -21,7 +21,7 @@ public class Robot extends IterativeRobot {
 		Ramp.init();
 		AutoHandler.robotInit();
 		TeleopHandler.init();
-		LEDHandler.init();
+		//LEDHandler.init();
 		//Utilities.startCapture();
 		
 		LiveWindow.disableAllTelemetry();
@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
-		LEDHandler.autoRun();
+		//LEDHandler.autoRun();
 		AutoHandler.run();
 		
 	}

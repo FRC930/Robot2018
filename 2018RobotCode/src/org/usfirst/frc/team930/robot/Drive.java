@@ -29,12 +29,12 @@ public class Drive {
 		leftFollow2.setInverted(true);
 		
 		// Practice robot
-		rightMain.setSensorPhase(true);
-		leftMain.setSensorPhase(false);
+		/*rightMain.setSensorPhase(true);
+		leftMain.setSensorPhase(false);*/
 		
 		// Competition robot
-		/*rightMain.setSensorPhase(true);//true
-		leftMain.setSensorPhase(true);//true*/
+		rightMain.setSensorPhase(false);//true
+		leftMain.setSensorPhase(true);//true
 		
 		invertMotorsForwards();
 		

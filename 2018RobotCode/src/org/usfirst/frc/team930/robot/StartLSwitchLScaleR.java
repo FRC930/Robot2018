@@ -14,7 +14,7 @@ public class StartLSwitchLScaleR extends Routine {
 	public StartLSwitchLScaleR(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(Constants.ETime1);
+		delayElev.set(Constants.ETime6);
 		delayOuttake.set(Constants.OTime2);
 		delayStopIntake.set(Constants.STime1);
 

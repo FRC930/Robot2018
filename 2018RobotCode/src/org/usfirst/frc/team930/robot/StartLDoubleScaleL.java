@@ -35,6 +35,7 @@ public class StartLDoubleScaleL extends Routine {
 			System.out.println("DONE");
 			break;*/
 		case 1:
+			System.out.println("LEFT DOUBLE SCALE");
 			System.out.println("START");
 			actList.wristUp();
 			n.startPeriodic(0.02);
@@ -57,17 +58,19 @@ public class StartLDoubleScaleL extends Routine {
 			}
 			break;
 		case 4:
-			//System.out.println("Running case 4");
+			System.out.println("Running case 4");
 			if(segList.segStartLScaleL()) {
 				this.autoStep = 5;
 				n.stop();
-				//System.out.println("*****Transition to Case 5");
+				System.out.println("*****Transition to Case 5");
 			}
 			break;
 		case 5:
+			System.out.println("Running case 5");
 			if(delayStopIntake.execute(time.get()))
 				actList.stopIntake();
 			Drive.runAt(0, 0);
+			System.out.println("FINISHED PATH");
 			break;
 		}
 		

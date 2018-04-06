@@ -130,8 +130,9 @@ public class Intake {
 		
 		rightIntakeWheel.setNeutralMode(NeutralMode.Brake);
 		leftIntakeWheel.setNeutralMode(NeutralMode.Brake);
-		
-		leftIntakeWheel.setInverted(true);
+										   //Practice
+		leftIntakeWheel.setInverted(false);//true
+		rightIntakeWheel.setInverted(true);//false
 	}
 	
 	//-- Main Loop (called in Robot.java) --\\

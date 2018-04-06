@@ -128,7 +128,7 @@ public class AutoHandler {
 
 				case "LLL":
 				case "RLR":
-					System.out.println("I'm Here");
+					System.out.println("LEFT DOUBLE SCALE");
 					auto = new StartLDoubleScaleL(variation, delay);
 					break;
 				case "LRL":
@@ -470,6 +470,11 @@ public class AutoHandler {
 		
 		else if(StartRDoubleScaleL.n != null)
 			StartRDoubleScaleL.n.stop();
+		
+		mpStartLScaleL.disabled();
+		mpStartLSwitchL.disabled();
+		mpStartRSwitchR.disabled();
+		mpStartRScaleR.disabled();
 		
 	}
 

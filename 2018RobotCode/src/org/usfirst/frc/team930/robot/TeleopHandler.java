@@ -30,7 +30,7 @@ public class TeleopHandler {
 		//Elevator.updateDashboard();
 		//Elevator.setTargetPos(ElevatorStates.INTAKE_POSITION);
 		//Elevator.run(0);
-		LEDHandler.run(RobotStates.DISABLED);
+		//LEDHandler.run(RobotStates.DISABLED);
 		//Utilities.updateDashboard();
 	}
 	
@@ -73,7 +73,7 @@ public class TeleopHandler {
 		
 		// LEDs
 		if((stick2.getRawAxis(Constants.rightTriggerAxis) <= 0.7) && (stick2.getRawAxis(Constants.leftTriggerAxis) <= 0.7)) {
-			LEDHandler.run(RobotStates.ENABLED);
+			//LEDHandler.run(RobotStates.ENABLED);
 		}
 		
 		// Drive
@@ -82,11 +82,11 @@ public class TeleopHandler {
 		// Intake
 		if(stick2.getRawAxis(Constants.rightTriggerAxis) > 0.7)	{
 			Intake.run(IntakeStates.INTAKING);
-			LEDHandler.run(RobotStates.INTAKING);
+			//LEDHandler.run(RobotStates.INTAKING);
 		} 
 		else if(stick2.getRawAxis(Constants.leftTriggerAxis) > 0.7) {															
 			Intake.run(IntakeStates.OUTTAKING);
-			LEDHandler.run(RobotStates.OUTTAKING);
+			//LEDHandler.run(RobotStates.OUTTAKING);
 		} 
 		else if(stick2.getRawButton(Constants.LB)) {
 			Intake.run(IntakeStates.SLOW_OUTTAKING);
@@ -192,29 +192,36 @@ public class TeleopHandler {
 		
 		// Ramps
 		if(stick3.getRawButton(Constants.btnRightRampDown)) {
-			Ramp.run(RampStates.RIGHT_RAMP_DOWN);
-			LEDHandler.run(RobotStates.RAMPS_DOWN);
+			//Ramp.run(RampStates.RIGHT_RAMP_DOWN);
+			Ramp.rightRampDown();
+			//LEDHandler.run(RobotStates.RAMPS_DOWN);
 		}
 		else {
 			Ramp.resetRightRelease();
 		}
+		
 		if(stick3.getRawButton(Constants.btnLeftRampDown)) {
-			Ramp.run(RampStates.LEFT_RAMP_DOWN);
-			LEDHandler.run(RobotStates.RAMPS_DOWN);
+			//Ramp.run(RampStates.LEFT_RAMP_DOWN);
+			Ramp.leftRampDown();
+			//LEDHandler.run(RobotStates.RAMPS_DOWN);
 		}
 		else {
 			Ramp.resetLeftRelease();
 		}
+		
 		if(stick3.getRawButton(Constants.btnRightRampUp)) {
-			Ramp.run(RampStates.RIGHT_RAMP_UP);
-			LEDHandler.run(RobotStates.RAMPS_UP);
+			//Ramp.run(RampStates.RIGHT_RAMP_UP);
+			Ramp.rightRampUp();
+			//LEDHandler.run(RobotStates.RAMPS_UP);
 		}
 		else {
 			Ramp.resetRightLift();
 		}
+		
 		if(stick3.getRawButton(Constants.btnLeftRampUp)) {
-			Ramp.run(RampStates.LEFT_RAMP_UP);
-			LEDHandler.run(RobotStates.RAMPS_UP);
+			//Ramp.run(RampStates.LEFT_RAMP_UP);
+			Ramp.leftRampUP();
+			//LEDHandler.run(RobotStates.RAMPS_UP);
 		}
 		else {
 			Ramp.resetLeftLift();

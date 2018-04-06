@@ -95,6 +95,7 @@ public class Constants {
 	public static final double ETime3 = 3;
 	public static final double ETime4 = 4;
 	public static final double ETime5 = 5;
+	public static final double ETime6 = 0.75;
 	
 	// Intake Delay Times
 	public static final double ITime1 = 1;
@@ -114,11 +115,11 @@ public class Constants {
 	public static final double STime2 = 2;
 	
 	// Timed Auto
-	public static final double LMiddleDrive1 = 0.525;
+	public static final double LMiddleDrive1 = 1.25;
 	public static final double LMiddleTurn1 = 0.75;
-	public static final double LMiddleDrive2 = 1.5;
-	public static final double LMiddleTurn2 = 0.75;
-	public static final double LMiddleDrive3 = 1.075;
+	public static final double LMiddleDrive2 = 1.25;
+	public static final double LMiddleTurn2 = 1.0;
+	public static final double LMiddleDrive3 = 1.125;
 	public static final double LMiddleOuttake = 0.7;
 	
 	public static final double RMiddleDrive1 = 0.525;
@@ -130,5 +131,14 @@ public class Constants {
 	
 	public static final double ScaleDrive1 = 4;
 	public static final double ScaleOuttake = 1;
+	
+	// Auto PID Values
+	public static final double LeftP = 0.9;
+	public static final double RightP = 0.9;
+	public static final double LeftV = 0.289;
+	public static final double RightV = 0.289;
+	public static final double LeftA = 0.06;
+	public static final double RightA = 0.06;
+	public static final double gyroPID = -0.038;
 	
 }

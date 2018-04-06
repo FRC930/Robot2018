@@ -2,11 +2,13 @@ package motionProfile;
 
 import java.io.File;
 
+import org.usfirst.frc.team930.robot.Constants;
 import org.usfirst.frc.team930.robot.Drive;
 import org.usfirst.frc.team930.robot.Utilities;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
@@ -18,6 +20,7 @@ public class MPStartLSwitchL implements Runnable {
 	
 	private static EncoderFollower rightFollower;
 	private static EncoderFollower leftFollower;
+	public static double yaw;
 
 	public MPStartLSwitchL() {
 		
@@ -41,8 +44,8 @@ public class MPStartLSwitchL implements Runnable {
 	    
 		rightFollower = new EncoderFollower(right);
 		leftFollower = new EncoderFollower(left);
-		rightFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
-		leftFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
+		rightFollower.configurePIDVA(Constants.RightP, 0, 0, Constants.RightV, Constants.RightA);
+		leftFollower.configurePIDVA(Constants.LeftP, 0, 0, Constants.LeftV, Constants.LeftA);
 		
 	}
 	
@@ -67,7 +70,7 @@ public class MPStartLSwitchL implements Runnable {
 			
 		if(heading >180)
 			heading = heading%180-180;
-		double yaw = Drive.gyro.getYaw();
+		yaw = Drive.gyro.getYaw();
 		
 		double error = heading + yaw;
 		if(error>180)
@@ -75,16 +78,21 @@ public class MPStartLSwitchL implements Runnable {
 		else if(error < -180)
 			error = error+360;
 			
-		double kG = -0.038;//0.8 * (-1.0/80.0);
+		double kG = Constants.gyroPID;//0.8 * (-1.0/80.0);
 
 		double turn = kG * error;
 			
-		System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading,-yaw,turn); 
+		//System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading,-yaw,turn); 
 		double calc = (rightFollower.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
 		double calc2 = (leftFollower.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
 		// Driving forward
 		Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
 		Drive.leftMain.set(ControlMode.PercentOutput, (calc2 + turn));
+		
+		SmartDashboard.putNumber("Gyro", -yaw);
+
+		SmartDashboard.putNumber("Left Enc Vel", Drive.leftMain.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("Right Enc Vel", Drive.rightMain.getSelectedSensorVelocity(0));
 			
 	}
 	
@@ -99,6 +107,16 @@ public class MPStartLSwitchL implements Runnable {
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~ START AUTO~~~~~~~~~~~~~");
 		rightFollower.configureEncoder(Drive.rightMain.getSelectedSensorPosition(0), 1024, .102);
 		leftFollower.configureEncoder(Drive.leftMain.getSelectedSensorPosition(0), 1024, .102);
+		SmartDashboard.putNumber("Gyro", -yaw);
+		
+	}
+	
+	public void disabled() {
+		
+		SmartDashboard.putNumber("Gyro", -yaw);
+
+		SmartDashboard.putNumber("Left Enc Vel", Drive.leftMain.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("Right Enc Vel", Drive.rightMain.getSelectedSensorVelocity(0));
 		
 	}
 

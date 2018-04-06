@@ -2,6 +2,7 @@ package motionProfile;
 
 import java.io.File;
 
+import org.usfirst.frc.team930.robot.Constants;
 import org.usfirst.frc.team930.robot.Drive;
 import org.usfirst.frc.team930.robot.Utilities;
 
@@ -47,8 +48,8 @@ public class MPStartRScaleR implements Runnable {
 	    
 		rightFollower = new EncoderFollower(right);
 		leftFollower = new EncoderFollower(left);
-		rightFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
-		leftFollower.configurePIDVA(0.9, 0, 0, 0.289, 0.06);
+		rightFollower.configurePIDVA(Constants.RightP, 0, 0, Constants.RightV, Constants.RightA);
+		leftFollower.configurePIDVA(Constants.LeftP, 0, 0, Constants.LeftV, Constants.LeftA);
 		
 	}
 	
@@ -92,7 +93,7 @@ public class MPStartRScaleR implements Runnable {
 		else if(error < -180)
 			error = error+360;
 			
-		double kG = -0.038;//0.8 * (-1.0/80.0);
+		double kG = Constants.gyroPID;//0.8 * (-1.0/80.0);
 
 		turn = kG * error;
 			
@@ -100,14 +101,14 @@ public class MPStartRScaleR implements Runnable {
 		calc = (rightFollower.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
 		calc2 = (leftFollower.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
 		
-		SmartDashboard.putNumber("Right Motor Sent", (calc - turn));
-		SmartDashboard.putNumber("Left Motor Sent", (calc2 - turn));
-		SmartDashboard.putNumber("Left Enc Count", Drive.leftMain.getSelectedSensorVelocity(0));
-		SmartDashboard.putNumber("Right Enc Count", Drive.rightMain.getSelectedSensorVelocity(0));
-		SmartDashboard.putNumber("Left Seg Vel", leftFollower.getSegment().velocity);
+		/*SmartDashboard.putNumber("Right Motor Sent", (calc - turn));
+		SmartDashboard.putNumber("Left Motor Sent", (calc2 - turn));*/
+		SmartDashboard.putNumber("Left Enc Vel", Drive.leftMain.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("Right Enc Vel", Drive.rightMain.getSelectedSensorVelocity(0));
+		/*SmartDashboard.putNumber("Left Seg Vel", leftFollower.getSegment().velocity);
 		SmartDashboard.putNumber("Right Seg Vel", rightFollower.getSegment().velocity);
 		SmartDashboard.putNumber("Heading", heading);
-		SmartDashboard.putNumber("Gyro Received", -yaw);
+		SmartDashboard.putNumber("Gyro Received", -yaw);*/
 		
 		// Driving forward
 		Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
@@ -130,14 +131,14 @@ public class MPStartRScaleR implements Runnable {
 	}
 	
 	public void disabled() {
-		SmartDashboard.putNumber("Right Motor Sent", (calc - turn));
-		SmartDashboard.putNumber("Left Motor Sent", (calc2 - turn));
-		SmartDashboard.putNumber("Left Enc Count", Drive.leftMain.getSelectedSensorVelocity(0));
-		SmartDashboard.putNumber("Right Enc Count", Drive.rightMain.getSelectedSensorVelocity(0));
-		SmartDashboard.putNumber("Left Seg Vel", leftFollower.getSegment().velocity);
+		/*SmartDashboard.putNumber("Right Motor Sent", (calc - turn));
+		SmartDashboard.putNumber("Left Motor Sent", (calc2 - turn));*/
+		SmartDashboard.putNumber("Left Enc Vel", Drive.leftMain.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("Right Enc Vel", Drive.rightMain.getSelectedSensorVelocity(0));
+		/*SmartDashboard.putNumber("Left Seg Vel", leftFollower.getSegment().velocity);
 		SmartDashboard.putNumber("Right Seg Vel", rightFollower.getSegment().velocity);
 		SmartDashboard.putNumber("Heading", heading);
-		SmartDashboard.putNumber("Gyro Received", -yaw);
+		SmartDashboard.putNumber("Gyro Received", -yaw);*/
 	}
 
 }

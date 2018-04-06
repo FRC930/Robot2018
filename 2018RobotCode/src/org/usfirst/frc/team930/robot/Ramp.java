@@ -42,22 +42,22 @@ public class Ramp {
 		}
 		}
 
-	private static void leftRampUP() {
+	public static void leftRampUP() {
 		raiseL.set(true);
 		
 	}
 
-	private static void rightRampUp() {
+	public static void rightRampUp() {
 		raiseR.set(true);
 		
 	}
 
-	private static void leftRampDown() {
+	public static void leftRampDown() {
 		rampL.set(true);
 		
 	}
 
-	private static void rightRampDown() {
+	public static void rightRampDown() {
 		rampR.set(true);
 		
 	}

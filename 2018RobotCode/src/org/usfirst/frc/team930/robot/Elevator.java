@@ -33,13 +33,13 @@ public class Elevator {
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 		
 		// Practice robot
-		lift1.setSensorPhase(true);
-		lift1.setInverted(false);
+		/*lift1.setSensorPhase(true);
+		lift1.setInverted(false);*/
 		
 		// Competition robot
-		/*lift1.setSensorPhase(false);
+		lift1.setSensorPhase(false);
 		lift1.setInverted(true);
-		lift2.setInverted(true);*/
+		lift2.setInverted(true);
 		
 		// Set relevant frame periods to be at least as fast as periodic rate
 		lift1.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
@@ -129,7 +129,7 @@ public class Elevator {
 		// If joystick moves, change target position based on the joystick's value
 		
 		//getSelectedSensorPosition should return a value from 0 - 8000.
-		LEDHandler.updateElevator(lift1.getSelectedSensorPosition(0));
+		//LEDHandler.updateElevator(lift1.getSelectedSensorPosition(0));
 		
 		axisValue = Math.pow(axisValue, 3);
 		
