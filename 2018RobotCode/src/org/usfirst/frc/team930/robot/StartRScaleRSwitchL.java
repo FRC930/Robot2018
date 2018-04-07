@@ -14,8 +14,8 @@ public class StartRScaleRSwitchL extends Routine {
 	public StartRScaleRSwitchL(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(Constants.ETime2);
-		delayOuttake.set(Constants.OTime1);
+		delayElev.set(Constants.ETime7);
+		delayOuttake.set(Constants.OTime4);
 		delayStopIntake.set(Constants.STime2);
 
 		n = new Notifier (AutoHandler.mpStartRScaleR);
@@ -37,6 +37,7 @@ public class StartRScaleRSwitchL extends Routine {
 		case 1:
 			System.out.println("Running case 1");
 			actList.wristUp();
+			actList.intake();
 			n.startPeriodic(0.02);
 			this.autoStep = 2;
 			break;

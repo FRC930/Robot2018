@@ -28,8 +28,9 @@ public class TimedMiddleLeft extends Routine{
 
 	public void variation() {
 		
+		actList.intake();
+		
 		if(time.get() <= Constants.LMiddleDrive1) {
-			Intake.run(TeleopHandler.IntakeStates.INTAKE_DONE);
 			Drive.runAt(0.5, 0.5);
 		}
 		else if((time.get() > Constants.LMiddleDrive1) && (time.get() <= Constants.LMiddleDrive1 + Constants.LMiddleTurn1)) {

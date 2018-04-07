@@ -142,13 +142,11 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LLL":
-					auto = new StartLScaleLSwitchL(variation, delay);
+				case "LRL":
+					auto = new StartLSwitchLScaleR(variation, delay);
 					break;
 				case "RLR":
 					auto = new StartLScaleLSwitchR(variation, delay);
-					break;
-				case "LRL":
-					auto = new StartLSwitchLScaleR(variation, delay);
 					break;
 				case "RRR":
 					auto = new StartLScaleRSwitchR(variation, delay);
@@ -287,14 +285,12 @@ public class AutoHandler {
 				case "LLL":
 					auto = new StartRScaleLSwitchL(variation, delay);
 					break;
-				case "RLR":
-					auto = new StartRSwitchRScaleL(variation, delay);
-					break;
 				case "LRL":
 					auto = new StartRScaleRSwitchL(variation, delay);
 					break;
 				case "RRR":
-					auto = new StartRScaleRSwitchR(variation, delay);
+				case "RLR":
+					auto = new StartRSwitchRScaleL(variation, delay);
 					break;
 			
 				}

@@ -46,7 +46,9 @@ public class Constants {
 	public static final int gripperSolenoidID = 1;
 	public static final double currentThreshhold = 30.0; //30
 	public static final double intakeMotorSpeed = 0.75;
-	public static final double slowIntakeMotorSpeed = 0.3;
+	public static final double autoIntakeSpeed = 0.15;
+	public static final double slowIntakeSpeed = 0.1;
+	public static final double slowOuttakeSpeed = 0.3;
 	//public static final double autoIntakeMotorSpeed = 0.2;
 	public static final int PDPcounterLimit = 10;
 	
@@ -96,6 +98,7 @@ public class Constants {
 	public static final double ETime4 = 4;
 	public static final double ETime5 = 5;
 	public static final double ETime6 = 0.75;
+	public static final double ETime7 = 1.5;
 	
 	// Intake Delay Times
 	public static final double ITime1 = 1;
@@ -124,8 +127,8 @@ public class Constants {
 	
 	public static final double RMiddleDrive1 = 0.525;
 	public static final double RMiddleTurn1 = 0.75;
-	public static final double RMiddleDrive2 = 1.2;
-	public static final double RMiddleTurn2 = 0.75;
+	public static final double RMiddleDrive2 = 0.6;
+	public static final double RMiddleTurn2 = 1.0;
 	public static final double RMiddleDrive3 = 1.075;
 	public static final double RMiddleOuttake = 0.7;
 	

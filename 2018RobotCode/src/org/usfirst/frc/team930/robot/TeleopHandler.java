@@ -1,5 +1,7 @@
 package org.usfirst.frc.team930.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -93,7 +95,8 @@ public class TeleopHandler {
 		}
 		else if(stick2.getRawButton(Constants.RB)) {
 			Intake.run(IntakeStates.LIFTER_DOWN);
-			Intake.stopMotors();
+			Intake.rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.slowIntakeSpeed);
+			Intake.leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.slowIntakeSpeed);
 		} 
 		else {
 			Intake.run(IntakeStates.INTAKE_DONE);

@@ -28,11 +28,11 @@ public class MPStartLScaleR implements Runnable {
 				new Waypoint(0, 7, Pathfinder.d2r(0)),
 				new Waypoint(4.5, 7.5, Pathfinder.d2r(345)),
 				new Waypoint(5.75, 5, Pathfinder.d2r(270)),
-				new Waypoint(5.75, 3.15, Pathfinder.d2r(270)),
-				new Waypoint(6.9, 1.75, Pathfinder.d2r(0)),
+				new Waypoint(5.55, 2.85, Pathfinder.d2r(270)),
+				new Waypoint(6.4, 1.75, Pathfinder.d2r(0)),
 		}; // Vel: 3.0
 		
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 3.0, 2.3, 50.0);
+		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 2.0, 2.3, 50.0);
 		
 		Trajectory tra = this.generate(rightLeftScale, config);
 		

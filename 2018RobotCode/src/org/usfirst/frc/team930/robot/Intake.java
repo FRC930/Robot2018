@@ -17,8 +17,8 @@ public class Intake {
 	
 	//-- Object Declarations --\\
 
-	private static VictorSPX rightIntakeWheel = new VictorSPX(Constants.rightIntakeWheelVictorID);	//Victor of right in take wheel
-	private static VictorSPX leftIntakeWheel = new VictorSPX(Constants.leftIntakeWheelVictorID);	//Victor of left in take wheel
+	public static VictorSPX rightIntakeWheel = new VictorSPX(Constants.rightIntakeWheelVictorID);	//Victor of right in take wheel
+	public static VictorSPX leftIntakeWheel = new VictorSPX(Constants.leftIntakeWheelVictorID);	//Victor of left in take wheel
 	private static Solenoid lifter = new Solenoid(Constants.lifterForwardSolenoidID);
 	private static Solenoid gripper = new Solenoid(Constants.gripperSolenoidID);
 
@@ -74,8 +74,8 @@ public class Intake {
 	
 	private static void inTakeDone() {		//method runs when no inputs are done
 		setIntakeLifter(true);
-		rightIntakeWheel.set(ControlMode.PercentOutput, 0);	// Stop motors
-		leftIntakeWheel.set(ControlMode.PercentOutput, 0);
+		rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.slowIntakeSpeed);	// Stop motors
+		leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.slowIntakeSpeed);
 		PDPcounter = 0;
 		setIntakeGrip(true);
 		TeleopHandler.setRumble(2, 0);
@@ -92,8 +92,8 @@ public class Intake {
 	
 	private static void slowOutTaking() {		//method runs when out taking cube
 		setIntakeGrip(false);
-		rightIntakeWheel.set(ControlMode.PercentOutput, Constants.slowIntakeMotorSpeed); // Turn right motor // Positive
-		leftIntakeWheel.set(ControlMode.PercentOutput, Constants.slowIntakeMotorSpeed); // Turn left motor // Negative
+		rightIntakeWheel.set(ControlMode.PercentOutput, Constants.slowOuttakeSpeed); // Turn right motor // Positive
+		leftIntakeWheel.set(ControlMode.PercentOutput, Constants.slowOuttakeSpeed); // Turn left motor // Negative
 		PDPcounter = 0; // Reset counter.
 	}
 	

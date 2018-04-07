@@ -14,8 +14,8 @@ public class StartLDoubleScaleL extends Routine {
 	public StartLDoubleScaleL(String v, double d) {
 		
 		super(v, d);
-		delayElev.set(Constants.ETime2);
-		delayOuttake.set(Constants.OTime1);
+		delayElev.set(Constants.ETime7);
+		delayOuttake.set(Constants.OTime4);
 		delayStopIntake.set(Constants.STime2);
 		
 		n = new Notifier (AutoHandler.mpStartLScaleL);
@@ -38,6 +38,7 @@ public class StartLDoubleScaleL extends Routine {
 			System.out.println("LEFT DOUBLE SCALE");
 			System.out.println("START");
 			actList.wristUp();
+			actList.intake();
 			n.startPeriodic(0.02);
 			this.autoStep = 2;
 			break;

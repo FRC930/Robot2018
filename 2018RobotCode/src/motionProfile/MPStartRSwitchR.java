@@ -31,7 +31,7 @@ public class MPStartRSwitchR implements Runnable {
 				new Waypoint(4.0, -2.3, Pathfinder.d2r(90)),
 		}; // Vel: 3.0
 		
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.0, 2.3, 50.0);
+		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.01, 2.3, 50.0);
 		
 		Trajectory tra = this.generate(rightLeftScale, config);
 		

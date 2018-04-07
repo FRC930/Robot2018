@@ -22,6 +22,7 @@ public class MPStartLScaleL implements Runnable {
 	private static EncoderFollower leftFollower;
 	public static double first;
 	private static double yaw;
+	private static double heading;
 
 	public MPStartLScaleL() {
 		
@@ -35,10 +36,10 @@ public class MPStartLScaleL implements Runnable {
 				new Waypoint(3.5, 0, Pathfinder.d2r(0)),*/
 				new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
 				new Waypoint(5.0, 3.1, Pathfinder.d2r(0)),
-				new Waypoint(7.3, 2.1, Pathfinder.d2r(0)),
+				new Waypoint(7.1, 2.6, Pathfinder.d2r(10)),
 		}; // Vel: 4.0
 		
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.0, 2.3, 50.0);
+		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.01, 2.3, 50.0);
 		
 		Trajectory tra = this.generate(leftLeftScale, config);
 		
@@ -75,7 +76,7 @@ public class MPStartLScaleL implements Runnable {
 		
 		//System.out.println("Running Notifier");
 		
-		double heading = Math.toDegrees(rightFollower.getHeading());
+		heading = Math.toDegrees(rightFollower.getHeading());
 			
 		if(heading >180)
 			heading = heading%180-180;
@@ -109,6 +110,7 @@ public class MPStartLScaleL implements Runnable {
 
 		SmartDashboard.putNumber("Left Enc Vel", Drive.leftMain.getSelectedSensorVelocity(0));
 		SmartDashboard.putNumber("Right Enc Vel", Drive.rightMain.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("Heading", heading);
 		
 	}
 	
@@ -133,9 +135,10 @@ public class MPStartLScaleL implements Runnable {
 	public void disabled() {
 		
 		SmartDashboard.putNumber("Gyro", -yaw);
-
+		
 		//SmartDashboard.putNumber("Left Enc Vel", Drive.leftMain.getSelectedSensorVelocity(0));
 		//SmartDashboard.putNumber("Right Enc Vel", Drive.rightMain.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("Heading", heading);
 		
 	}
 	

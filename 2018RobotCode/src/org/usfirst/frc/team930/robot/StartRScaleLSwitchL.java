@@ -37,6 +37,7 @@ public class StartRScaleLSwitchL extends Routine {
 			case 1:
 				System.out.println("Running case 1");
 				actList.wristUp();
+				actList.intake();
 				n.startPeriodic(0.02);
 				this.autoStep = 2;
 				break;

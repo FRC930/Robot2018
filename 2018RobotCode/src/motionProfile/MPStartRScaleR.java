@@ -33,7 +33,7 @@ public class MPStartRScaleR implements Runnable {
 		Waypoint[] rightLeftScale = new Waypoint[] {
 				new Waypoint(0.7, -3.1, Pathfinder.d2r(0)),
 				new Waypoint(5.0, -3.1, Pathfinder.d2r(0)),
-				new Waypoint(7.3, -2.1, Pathfinder.d2r(0)),
+				new Waypoint(7.1, -2.6, Pathfinder.d2r(10)),
 		}; // Vel: 3.0
 		
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.0, 2.3, 50.0);
@@ -105,10 +105,10 @@ public class MPStartRScaleR implements Runnable {
 		SmartDashboard.putNumber("Left Motor Sent", (calc2 - turn));*/
 		SmartDashboard.putNumber("Left Enc Vel", Drive.leftMain.getSelectedSensorVelocity(0));
 		SmartDashboard.putNumber("Right Enc Vel", Drive.rightMain.getSelectedSensorVelocity(0));
-		/*SmartDashboard.putNumber("Left Seg Vel", leftFollower.getSegment().velocity);
-		SmartDashboard.putNumber("Right Seg Vel", rightFollower.getSegment().velocity);
+		//SmartDashboard.putNumber("Left Seg Vel", leftFollower.getSegment().velocity);
+		//SmartDashboard.putNumber("Right Seg Vel", rightFollower.getSegment().velocity);
 		SmartDashboard.putNumber("Heading", heading);
-		SmartDashboard.putNumber("Gyro Received", -yaw);*/
+		//SmartDashboard.putNumber("Gyro Received", -yaw);
 		
 		// Driving forward
 		Drive.rightMain.set(ControlMode.PercentOutput, (calc - turn));
@@ -135,10 +135,10 @@ public class MPStartRScaleR implements Runnable {
 		SmartDashboard.putNumber("Left Motor Sent", (calc2 - turn));*/
 		SmartDashboard.putNumber("Left Enc Vel", Drive.leftMain.getSelectedSensorVelocity(0));
 		SmartDashboard.putNumber("Right Enc Vel", Drive.rightMain.getSelectedSensorVelocity(0));
-		/*SmartDashboard.putNumber("Left Seg Vel", leftFollower.getSegment().velocity);
-		SmartDashboard.putNumber("Right Seg Vel", rightFollower.getSegment().velocity);
+		//SmartDashboard.putNumber("Left Seg Vel", leftFollower.getSegment().velocity);
+		//SmartDashboard.putNumber("Right Seg Vel", rightFollower.getSegment().velocity);
 		SmartDashboard.putNumber("Heading", heading);
-		SmartDashboard.putNumber("Gyro Received", -yaw);*/
+		//SmartDashboard.putNumber("Gyro Received", -yaw);
 	}
 
 }

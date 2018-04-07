@@ -2,6 +2,8 @@ package org.usfirst.frc.team930.robot;
 
 import org.usfirst.frc.team930.robot.TeleopHandler.ElevatorStates;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 public class Actions {
 	
 	public void switchPosition() {
@@ -39,6 +41,13 @@ public class Actions {
 	public void stopIntake() {
 		
 		Intake.run(TeleopHandler.IntakeStates.INTAKE_DONE);
+		
+	}
+	
+	public void intake() {
+		
+		Intake.rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.autoIntakeSpeed);
+		Intake.leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.autoIntakeSpeed);
 		
 	}
 
