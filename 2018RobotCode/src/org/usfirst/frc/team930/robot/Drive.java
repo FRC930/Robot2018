@@ -28,13 +28,9 @@ public class Drive {
 		leftFollow.setInverted(true);
 		leftFollow2.setInverted(true);
 		
-		// Practice robot
-		/*rightMain.setSensorPhase(true);
-		leftMain.setSensorPhase(false);*/
-		
 		// Competition robot
-		rightMain.setSensorPhase(false);//true
-		leftMain.setSensorPhase(true);//true
+		rightMain.setSensorPhase(false);
+		leftMain.setSensorPhase(true);
 		
 		invertMotorsForwards();
 		
@@ -49,7 +45,6 @@ public class Drive {
 		System.out.println("Gyro: " + gyro.getYaw() + "  Connected: " + gyro.isConnected());
 		yStick = Math.pow(yStick,3);
 		xStick = Math.pow(xStick, 3);
-		updateDashboard();
 		if(Math.abs(xStick) < Constants.driveDeadBand)
 			xStick = 0;
 		if(Math.abs(yStick) < Constants.driveDeadBand)
@@ -63,12 +58,7 @@ public class Drive {
 		rightMain.set(right);
 		leftMain.set(left);
 	}
-	public static void updateDashboard(){
-		//SmartDashboard.putNumber("Gyro", gyro.getYaw());
-		//SmartDashboard.putNumber("Left Encoder", leftMain.getSelectedSensorVelocity(0));
-		//SmartDashboard.putNumber("Right Encoder", rightMain.getSelectedSensorVelocity(0));
-
-	}
+	
 	public static boolean checkSensors(){
 		
 		if(!gyro.isConnected()){

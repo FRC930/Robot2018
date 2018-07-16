@@ -24,19 +24,13 @@ public class TeleopHandler {
 	
 	
 	public static void init() {
+		
 		Utilities.setCompressor(true);
-	}
-	
-	public static void disabled() {
-		//Drive.updateDashboard();
-		//Elevator.updateDashboard();
-		//Elevator.setTargetPos(ElevatorStates.INTAKE_POSITION);
-		//Elevator.run(0);
-		//LEDHandler.run(RobotStates.DISABLED);
-		//Utilities.updateDashboard();
+		
 	}
 	
 	enum RobotStates {
+		
 		ENABLED,
 		DISABLED,
 		INTAKING,
@@ -44,17 +38,22 @@ public class TeleopHandler {
 		OUTTAKING,
 		RAMPS_DOWN,
 		RAMPS_UP
+		
 	}
 	
-	enum IntakeStates{
+	enum IntakeStates {
+		
 		INTAKING,
 		INTAKE_DONE,
 		OUTTAKING,
 		SLOW_OUTTAKING,
 		LIFTER_UP,
 		LIFTER_DOWN
+		
 	}
-	enum ElevatorStates{
+	
+	enum ElevatorStates {
+		
 		INTAKE_POSITION,
 		EXCHANGE_POSITION,
 		PORTAL_POSITION,
@@ -63,12 +62,16 @@ public class TeleopHandler {
 		SCALE_POSITION_M,
 		SCALE_POSITION_H,
 		AUTO_SWITCH
+		
 	}
-	enum RampStates{
+	
+	enum RampStates {
+		
 		RIGHT_RAMP_DOWN,
 		LEFT_RAMP_DOWN,
 		RIGHT_RAMP_UP,
 		LEFT_RAMP_UP
+		
 	}
 	
 	public static void run() {
@@ -174,10 +177,8 @@ public class TeleopHandler {
 				if(Math.abs(stick2.getRawAxis(Constants.rightYaxis)) > Constants.elevatorDeadBand) {
 					System.out.println("Sending " + stick2.getRawAxis(Constants.rightYaxis));
 					Elevator.runManualControl(stick2.getRawAxis(Constants.rightYaxis));
-					//Elevator.switchToPercentOutput();
 				} else {
 					Elevator.runManualControl(0);
-					//Elevator.switchToPercentOutput();
 				}
 			}
 			// Turn off Motion Magic at intake position
@@ -189,13 +190,9 @@ public class TeleopHandler {
 				Elevator.run(stick2.getRawAxis(Constants.rightYaxis));
 			}
 		}
-		//Elevator.runManualControl(-1.0 * stick2.getRawAxis(Constants.rightYaxis));
 
-	
-		
 		// Ramps
 		if(stick3.getRawButton(Constants.btnRightRampDown)) {
-			//Ramp.run(RampStates.RIGHT_RAMP_DOWN);
 			Ramp.rightRampDown();
 			//LEDHandler.run(RobotStates.RAMPS_DOWN);
 		}
@@ -204,7 +201,6 @@ public class TeleopHandler {
 		}
 		
 		if(stick3.getRawButton(Constants.btnLeftRampDown)) {
-			//Ramp.run(RampStates.LEFT_RAMP_DOWN);
 			Ramp.leftRampDown();
 			//LEDHandler.run(RobotStates.RAMPS_DOWN);
 		}
@@ -213,7 +209,6 @@ public class TeleopHandler {
 		}
 		
 		if(stick3.getRawButton(Constants.btnRightRampUp)) {
-			//Ramp.run(RampStates.RIGHT_RAMP_UP);
 			Ramp.rightRampUp();
 			//LEDHandler.run(RobotStates.RAMPS_UP);
 		}
@@ -222,7 +217,6 @@ public class TeleopHandler {
 		}
 		
 		if(stick3.getRawButton(Constants.btnLeftRampUp)) {
-			//Ramp.run(RampStates.LEFT_RAMP_UP);
 			Ramp.leftRampUP();
 			//LEDHandler.run(RobotStates.RAMPS_UP);
 		}

@@ -22,7 +22,6 @@ public class Robot extends IterativeRobot {
 		AutoHandler.robotInit();
 		TeleopHandler.init();
 		//LEDHandler.init();
-		//Utilities.startCapture();
 		
 		LiveWindow.disableAllTelemetry();
 		
@@ -67,9 +66,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		
-		TeleopHandler.disabled();
 		AutoHandler.disabled();
-		//System.out.println(Elevator.lift1.getSelectedSensorPosition(0));
 		
 	}
 

@@ -29,11 +29,6 @@ public class StartRScaleLSwitchL extends Routine {
 	public void variation() {
 		
 		switch (this.autoStep) {
-			/*case 1:
-				n.startPeriodic(0.02);
-				this.autoStep = 3;
-				System.out.println("DONE");
-				break;*/
 			case 1:
 				System.out.println("Running case 1");
 				actList.wristUp();
@@ -54,8 +49,6 @@ public class StartRScaleLSwitchL extends Routine {
 				if(segList.segStartRScaleL()) {
 					this.autoStep = 6;
 					n.stop();
-					//n = new Notifier(AutoHandler.myAutoGT);
-					//AutoHandler.myAutoGT.startPath();
 					actList.slowOuttake();
 					System.out.println("*****Transition to Case 4");
 				}

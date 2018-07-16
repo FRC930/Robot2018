@@ -14,15 +14,18 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
-// Start L Double Scale R 1
+/* 
+ * Starting in left position going to right scale auto 
+ * */
 public class MPStartLScaleR implements Runnable {
 	
 	private static EncoderFollower rightFollower;
 	private static EncoderFollower leftFollower;
 
+	/* 
+	 * Defining points, generating the path, and setting PID 
+	 * */
 	public MPStartLScaleR() {
-		
-		//Drive.gyro.reset();
 		
 		Waypoint[] rightLeftScale = new Waypoint[] {
 				new Waypoint(0, 7, Pathfinder.d2r(0)),
@@ -30,18 +33,21 @@ public class MPStartLScaleR implements Runnable {
 				new Waypoint(5.75, 5, Pathfinder.d2r(270)),
 				new Waypoint(5.55, 2.85, Pathfinder.d2r(270)),
 				new Waypoint(6.4, 1.75, Pathfinder.d2r(0)),
-		}; // Vel: 3.0
+		}; 
 		
+		// Setting timestep, max velocity, max acceleration, max jerk
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 2.0, 2.3, 50.0);
 		
+		// Generating the trajectory
 		Trajectory tra = this.generate(rightLeftScale, config);
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.628);
-
+		
+		// Splitting the trajectory into left and right sides
 	    Trajectory left = modifier.getLeftTrajectory();
-	    
 	    Trajectory right = modifier.getRightTrajectory();
 	    
+	    // Setting PIDVA
 		rightFollower = new EncoderFollower(right);
 		leftFollower = new EncoderFollower(left);
 		rightFollower.configurePIDVA(Constants.RightP, 0, 0, Constants.RightV, Constants.RightA);
@@ -49,6 +55,10 @@ public class MPStartLScaleR implements Runnable {
 		
 	}
 	
+	/* 
+	 * Checking to see if path already exists, if not generates the new path.
+	 * If the path exists, a new path is not generated.
+	 */
 	public Trajectory generate(Waypoint[] waypoints, Trajectory.Config config) {
 		String hash = Utilities.hash(waypoints, config);
 		File pathFile = new File("/home/lvuser/" + hash + ".traj");
@@ -64,8 +74,12 @@ public class MPStartLScaleR implements Runnable {
 		return traj;
 	}
 	
+	/* 
+	 * Sending the points to the drivetrain 
+	 * */
 	public void run() {
 		
+		// Getting the heading and making adjustments with the gyro
 		double heading = Math.toDegrees(rightFollower.getHeading());
 			
 		if(heading >180)
@@ -78,7 +92,7 @@ public class MPStartLScaleR implements Runnable {
 		else if(error < -180)
 			error = error+360;
 			
-		double kG = Constants.gyroPID;//0.8 * (-1.0/80.0);
+		double kG = Constants.gyroPID;
 
 		double turn = kG * error;
 			
@@ -91,12 +105,18 @@ public class MPStartLScaleR implements Runnable {
 			
 	}
 	
+	/* 
+	 * Checking to see if path is done 
+	 * */
 	public boolean isLastPoint(){
 		
 		return (rightFollower.isFinished()&&leftFollower.isFinished());
 		
 	}
-
+	
+	/*
+	 * Gets called at the beginning of auto routine to configure encoders
+	 */
 	public void startPath() {
 
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~ START AUTO~~~~~~~~~~~~~");

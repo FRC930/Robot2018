@@ -42,14 +42,12 @@ public class Constants {
 	public static final int rightIntakeWheelVictorID  = 9;
 	public static final int leftIntakeWheelVictorID = 10;
 	public static final int lifterForwardSolenoidID = 0;
-	//public static final int lifterReverseSolenoidID = 5;
 	public static final int gripperSolenoidID = 1;
-	public static final double currentThreshhold = 30.0; //30
+	public static final double currentThreshhold = 30.0;
 	public static final double intakeMotorSpeed = 0.75;
 	public static final double autoIntakeSpeed = 0.15;
 	public static final double slowIntakeSpeed = 0.1;
 	public static final double slowOuttakeSpeed = 0.3;
-	//public static final double autoIntakeMotorSpeed = 0.2;
 	public static final int PDPcounterLimit = 10;
 	
 	// Elevator Constants
@@ -62,7 +60,7 @@ public class Constants {
 	public static final double intakePosition = 0;
 	public static final double switchPosition = 1800;
 	public static final double scalePositionLow = 5000;
-	public static final double scalePositionMid = 6800;//7600
+	public static final double scalePositionMid = 6800;
 	public static final double scalePositionHigh = 8000;
 	public static final double exchangePosition = 250;
 	public static final double portalPosition = 2500;

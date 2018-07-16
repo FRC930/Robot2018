@@ -23,8 +23,6 @@ public class MPStartRSwitchR implements Runnable {
 
 	public MPStartRSwitchR() {
 		
-		//Drive.gyro.reset();
-		
 		Waypoint[] rightLeftScale = new Waypoint[] {
 				new Waypoint(0.7, -3.1, Pathfinder.d2r(0)),
 				new Waypoint(3.2, -3.1, Pathfinder.d2r(0)),
@@ -77,11 +75,10 @@ public class MPStartRSwitchR implements Runnable {
 		else if(error < -180)
 			error = error+360;
 			
-		double kG = Constants.gyroPID;//0.8 * (-1.0/80.0);
+		double kG = Constants.gyroPID;
 
 		double turn = kG * error;
-			
-		//System.out.printf("Heading: %.2f  Gyro: %.2f  Turn:  %.2f \n", heading,-yaw,turn); 
+		
 		double calc = (rightFollower.calculate(Drive.rightMain.getSelectedSensorPosition(0)));
 		double calc2 = (leftFollower.calculate(Drive.leftMain.getSelectedSensorPosition(0)));
 		// Driving forward

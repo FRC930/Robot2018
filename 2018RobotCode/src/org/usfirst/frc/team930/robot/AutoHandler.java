@@ -76,20 +76,11 @@ public class AutoHandler {
         SmartDashboard.putData("Goals", goalChooser);
         
         SmartDashboard.putNumber("Time Delay", 0);
-//        myMP1A = new MotionProfile1A();
-//        myMP2A = new MotionProfile2A();
-//        myMP2B = new MotionProfile2B();
-//        myMP2C = new MotionProfile2C();
-//        myMP3A = new MotionProfile3A();
+        
         mpStartLSwitchL = new MPStartLSwitchL();
         mpStartMSwitchL = new MPStartMSwitchL();
-//        
-//        
         mpStartMSwitchR = new MPStartMSwitchR();
-//        //myMP7A = new MotionProfile7A();
         mpStartRSwitchR = new MPStartRSwitchR();
-//        //myMP9A = new MotionProfile9A();
-//        //myMP10A = new MotionProfile10A();
         mpStartLScaleL = new MPStartLScaleL();
         mpStartLScaleR = new MPStartLScaleR();
         mpStartRScaleL = new MPStartRScaleL();
@@ -417,7 +408,6 @@ public class AutoHandler {
 			
 				auto = new Line(variation, delay);
 				auto.run();
-				//Drive.runAt(0, 0);
 			}
 		}
 		

@@ -50,19 +50,6 @@ public class Intake {
 	//------------------------------------------------------------------------------------------- 
 
 	private static void inTaking() {		//method used for when the wheels in take
-		/*if (returnCubeInside()) { 
-			rightIntakeWheel.set(ControlMode.PercentOutput, 0);	// Stops motors
-			leftIntakeWheel.set(ControlMode.PercentOutput, 0);
-			setIntakeLifter(true);
-			setIntakeGrip(true);
-			TeleopHandler.setRumble(2,0.5);
-		} else {
-			setIntakeLifter(false);
-			rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);	// Turn on motors // Positive
-			leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed);						  // Negative
-			updatePDPcounter();
-			setIntakeGrip(false);
-		}*/
 		
 		setIntakeLifter(false);
 		rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);	// Turn on motors // Negative
@@ -139,11 +126,6 @@ public class Intake {
 
 	public static void run(Enum state) {
 		stateEnum = (IntakeStates) state;	//states used to record the state of the robot
-		
-		//-- Debug Messages --\\
-
-		//SmartDashboard.putNumber("PDP Intake Port Reading", Utilities.getPDPCurrent());
-		//SmartDashboard.putData("PDP Intake Port Graph", Utilities.pdp);
 		
 		//-- State Checking --\\
 

@@ -32,10 +32,6 @@ public class Elevator {
 		// Setup the sensor
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 		
-		// Practice robot
-		/*lift1.setSensorPhase(true);
-		lift1.setInverted(false);*/
-		
 		// Competition robot
 		lift1.setSensorPhase(false);
 		lift1.setInverted(true);
@@ -85,7 +81,6 @@ public class Elevator {
 
 	// Set motor's target position based on enum passed through
 	public static void setTargetPos(Enum pos1) {
-		updateDashboard();
 		stateEnum = (ElevatorStates) pos1;
 		
 		switch(stateEnum) {
@@ -199,9 +194,6 @@ public class Elevator {
 			lift1.set(ControlMode.PercentOutput, 0);
 	}
 	
-	public static void updateDashboard(){
-		//SmartDashboard.putNumber("Elevator Encoder",lift1.getSelectedSensorPosition(0));
-	}
 	public static void resetElevatorSensor(){
 		lift1.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 	}
