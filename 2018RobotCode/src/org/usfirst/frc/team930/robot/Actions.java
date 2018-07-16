@@ -20,6 +20,13 @@ public class Actions {
 		
 	}
 	
+	public void scaleHPosition() {
+		
+		Elevator.setTargetPos(ElevatorStates.SCALE_POSITION_H);
+		Elevator.run(0);
+		
+	}
+	
 	public void slowOuttake() {
 		
 		Intake.run(TeleopHandler.IntakeStates.SLOW_OUTTAKING);

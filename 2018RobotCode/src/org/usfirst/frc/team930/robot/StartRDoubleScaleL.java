@@ -15,7 +15,7 @@ public class StartRDoubleScaleL extends Routine {
 		
 		super(v, d);
 		delayElev.set(Constants.ETime3);
-		delayOuttake.set(Constants.ITime3);
+		delayOuttake.set(Constants.ITime4);
 		delayStopIntake.set(Constants.OTime1);
 
 		n = new Notifier (AutoHandler.mpStartRScaleL);
@@ -40,7 +40,7 @@ public class StartRDoubleScaleL extends Routine {
 			System.out.println("Running case 2");
 			if(delayElev.execute(time.get()))	{
 				this.autoStep = 3;
-				actList.scaleMPosition();
+				actList.scaleHPosition();
 				System.out.println("*****Transition to Case 2");
 			}
 			break;
