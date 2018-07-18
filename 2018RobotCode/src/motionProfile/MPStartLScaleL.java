@@ -120,7 +120,7 @@ public class MPStartLScaleL implements Runnable {
 	}
 	
 	/* 
-	 * Checking to see if path is done 
+	 * Returns true if path is done, false if there are still points left
 	 * */
 	public boolean isLastPoint(){
 		

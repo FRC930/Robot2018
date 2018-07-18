@@ -15,30 +15,38 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
-// Start R Switch R Scale L 1
+/* 
+ * Starting in right position going to right switch
+ * */
 public class MPStartRSwitchR implements Runnable {
 	
 	private static EncoderFollower rightFollower;
 	private static EncoderFollower leftFollower;
 
+	/* 
+	 * Defining points, generating the path, and setting PID 
+	 * */
 	public MPStartRSwitchR() {
 		
 		Waypoint[] rightLeftScale = new Waypoint[] {
 				new Waypoint(0.7, -3.1, Pathfinder.d2r(0)),
 				new Waypoint(3.2, -3.1, Pathfinder.d2r(0)),
 				new Waypoint(4.0, -2.3, Pathfinder.d2r(90)),
-		}; // Vel: 3.0
+		};
 		
+		// Setting timestep, max velocity, max acceleration, max jerk
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.02, 4.01, 2.3, 50.0);
 		
+		// Generating the trajectory
 		Trajectory tra = this.generate(rightLeftScale, config);
 		
 		TankModifier modifier = new TankModifier(tra).modify(0.628);
 
+		// Splitting the trajectory into left and right sides
 	    Trajectory left = modifier.getLeftTrajectory();
-	    
 	    Trajectory right = modifier.getRightTrajectory();
 	    
+	    // Setting PIDVA
 		rightFollower = new EncoderFollower(right);
 		leftFollower = new EncoderFollower(left);
 		rightFollower.configurePIDVA(Constants.RightP, 0, 0, Constants.RightV, Constants.RightA);
@@ -46,6 +54,10 @@ public class MPStartRSwitchR implements Runnable {
 		
 	}
 	
+	/* 
+	 * Checking to see if path already exists, if not generates the new path.
+	 * If the path exists, a new path is not generated.
+	 */
 	public Trajectory generate(Waypoint[] waypoints, Trajectory.Config config) {
 		String hash = Utilities.hash(waypoints, config);
 		File pathFile = new File("/home/lvuser/" + hash + ".traj");
@@ -61,8 +73,12 @@ public class MPStartRSwitchR implements Runnable {
 		return traj;
 	}
 	
+	/* 
+	 * Sending the points to the drivetrain 
+	 * */
 	public void run() {
 		
+		// Getting the heading and making adjustments with the gyro
 		double heading = Math.toDegrees(rightFollower.getHeading());
 			
 		if(heading >180)
@@ -94,12 +110,18 @@ public class MPStartRSwitchR implements Runnable {
 			
 	}
 	
+	/* 
+	 * Returns true if path is done, false if there are still points left
+	 * */
 	public boolean isLastPoint(){
 		
 		return (rightFollower.isFinished()&&leftFollower.isFinished());
 		
 	}
 
+	/*
+	 * Gets called at the beginning of auto routine to configure encoders
+	 */
 	public void startPath() {
 
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~ START AUTO~~~~~~~~~~~~~");
@@ -108,6 +130,9 @@ public class MPStartRSwitchR implements Runnable {
 		
 	}
 	
+	/*
+	 * Printing data to SmartDashboard
+	 */
 	public void disabled() {
 		
 		SmartDashboard.putNumber("Left Enc Vel", Drive.leftMain.getSelectedSensorVelocity(0));

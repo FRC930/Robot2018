@@ -7,6 +7,9 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/*
+ * Initializing drive motors and; controlling drive motors.
+ */
 public class Drive {
 	
 	public static final WPI_TalonSRX rightMain = new WPI_TalonSRX(Constants.rightMainTalonID);  
@@ -19,7 +22,9 @@ public class Drive {
 	
 	public static int leftMotorCounter = 0;
 	public static int rightMotorCounter = 0;
-	
+	/*
+	 * Inverts the motors if needed, sets sensorPhase and followers.
+	 */
 	public static void init(){
 		gyro.reset();
 		
@@ -39,13 +44,16 @@ public class Drive {
 		leftFollow2.follow(leftMain);
 		leftFollow.follow(leftMain);
 	}
-	
+	/*
+	 * Outputs line to screen and get the joy stick value and sends it to the  motors.
+	 */
 	public static void run(double xStick, double yStick){
 		
 		System.out.println("Gyro: " + gyro.getYaw() + "  Connected: " + gyro.isConnected());
 		yStick = Math.pow(yStick,3);
 		xStick = Math.pow(xStick, 3);
-		if(Math.abs(xStick) < Constants.driveDeadBand)
+		//Dead band makes it so if the stick is off set it does not affect movement of robot near 0.
+		if(Math.abs(xStick) < Constants.driveDeadBand) //Dead band same with next if.
 			xStick = 0;
 		if(Math.abs(yStick) < Constants.driveDeadBand)
 			yStick = 0;
@@ -54,11 +62,16 @@ public class Drive {
 		rightMain.set((yStick-xStick));
 		leftMain.set((yStick+xStick));
 	}
+	/*
+	 *Sets motors speed.
+	 */
 	public static void runAt(double left, double right){
 		rightMain.set(right);
 		leftMain.set(left);
 	}
-	
+	/*
+	 * Kill robot if gyro fails or encoder .
+	 */
 	public static boolean checkSensors(){
 		
 		if(!gyro.isConnected()){
@@ -87,21 +100,27 @@ public class Drive {
 		}
 		return false;
 	}
-	
+	/*
+	 * sets both motorcounters to 0.Motorcounter is a sensor check.
+	 */
 	public static void resetSensorCheck() {
 		
 		leftMotorCounter = 0;
 		rightMotorCounter = 0;
 		
 	}
-	
+	/*
+	 * changes direction of encoder
+	 */
 	public static void changeSensorPhase(boolean left, boolean right) {
 		
 		rightMain.setSensorPhase(right);
 		leftMain.setSensorPhase(left);
 		
 	}
-	
+	/*
+	 * Inverts motors backwards or does not 
+	 */
 	public static void invertMotorsBackwards() {
 		
 		rightMain.setInverted(true);
@@ -112,7 +131,9 @@ public class Drive {
 		leftFollow2.setInverted(false);
 		
 	}
-	
+	/*
+	 * Inverts motors forwards or does not 
+	 */
 	public static void invertMotorsForwards() {
 		
 		rightMain.setInverted(false);

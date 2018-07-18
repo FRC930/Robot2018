@@ -12,6 +12,9 @@ import motionProfile.MPStartMSwitchL;
 import motionProfile.MPStartMSwitchR;
 import motionProfile.MPStartRSwitchR;
 
+/*
+ * Choosing specific autonomous routine to run based on data from Shuffleboard and FMS
+ */
 public class AutoHandler {
 	
 	private static String variation;
@@ -35,6 +38,7 @@ public class AutoHandler {
 	
 	public static GyroTurn myAutoGT;
 	
+	// Start position choices
 	enum StartPositions {
 		
 		 RIGHT,
@@ -44,6 +48,7 @@ public class AutoHandler {
 		 
 	}
 	
+	// Auto goal choices
 	enum Goal {
 		
 		LINE,
@@ -57,6 +62,9 @@ public class AutoHandler {
 		
 	}
 	
+	/*
+	 * Sending auto chooser data to shuffleboard and initializing auto routines
+	 */
 	public static void robotInit() {
 		
 		posChooser.addObject("Left", StartPositions.LEFT);
@@ -89,6 +97,9 @@ public class AutoHandler {
 		
 	}
 	
+	/*
+	 * Gets auto chooser data and selects auto routine to run
+	 */
 	public static void autoInit() {
 		
 		Drive.resetSensorCheck();
@@ -96,6 +107,7 @@ public class AutoHandler {
 		Utilities.setCompressor(false);
 		Intake.setIntakeGrip(true);
 		
+		// Getting start position and goal from Shuffleboard chooser
 		Enum startPositions = (Enum) posChooser.getSelected();
 		Enum goal = (Enum) goalChooser.getSelected();
 		variation = DriverStation.getInstance().getGameSpecificMessage();
@@ -103,8 +115,12 @@ public class AutoHandler {
 		posEnum = (StartPositions) startPositions;
 		goalEnum = (Goal) goal;
 	
+		// Setting time delay before auto routine
 		delay = SmartDashboard.getNumber("Time Delay", 0);
 		
+		/*
+		 * Choosing autonomous routine based on start position, goal, and field variation
+		 */
 		switch (posEnum) {
 
 		case NOTHING:
@@ -119,12 +135,12 @@ public class AutoHandler {
 
 				case "LLL":
 				case "RLR":
-					System.out.println("LEFT DOUBLE SCALE");
+					System.out.println("LEFT DOUBLE SCALE");				// Starting in left position doing left scale auto
 					auto = new StartLDoubleScaleL(variation, delay);
 					break;
 				case "LRL":
 				case "RRR":
-					auto = new StartLDoubleScaleR(variation, delay);
+					auto = new StartLDoubleScaleR(variation, delay);		// Starting in left position doing right scale auto
 					break;
 				
 				}
@@ -134,13 +150,13 @@ public class AutoHandler {
 
 				case "LLL":
 				case "LRL":
-					auto = new StartLSwitchLScaleR(variation, delay);
+					auto = new StartLSwitchLScaleR(variation, delay);		// Starting in left position doing left switch auto
 					break;
 				case "RLR":
-					auto = new StartLScaleLSwitchR(variation, delay);
+					auto = new StartLScaleLSwitchR(variation, delay);		// Starting in left position doing left scale auto
 					break;
 				case "RRR":
-					auto = new StartLScaleRSwitchR(variation, delay);
+					auto = new StartLScaleRSwitchR(variation, delay);		// Starting in left position doing right scale auto
 					break;
 
 				}
@@ -149,16 +165,16 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LLL":
-					auto = new StartLScaleLSwitchL(variation, delay);
+					auto = new StartLScaleLSwitchL(variation, delay);		// Starting in left position doing left scale auto
 					break;
 				case "RLR":
-					auto = new StartLScaleLSwitchR(variation, delay);
+					auto = new StartLScaleLSwitchR(variation, delay);		// Starting in left position doing left scale auto
 					break;
 				case "LRL":
-					auto = new StartLSwitchLScaleR(variation, delay);
+					auto = new StartLSwitchLScaleR(variation, delay);		// Starting in left position doing left switch auto
 					break;
 				case "RRR":
-					auto = new Line(variation, delay);
+					auto = new Line(variation, delay);						// Starting in left position doing drive forward auto
 					break;
 
 				}
@@ -168,11 +184,11 @@ public class AutoHandler {
 
 				case "LRL":
 				case "LLL":
-					auto = new StartLSwitchLScaleR(variation, delay);
+					auto = new StartLSwitchLScaleR(variation, delay);		// Starting in left position doing left switch auto
 					break;
 				case "RLR":
 				case "RRR":
-					auto = new Line(variation, delay);
+					auto = new Line(variation, delay);						// Starting in left position doing drive forward auto
 					break;
 
 				}

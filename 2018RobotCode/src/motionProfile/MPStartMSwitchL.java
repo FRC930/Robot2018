@@ -22,11 +22,11 @@ public class MPStartMSwitchL implements Runnable {
 	private static EncoderFollower rightFollower;
 	private static EncoderFollower leftFollower;
 
+	/* 
+	 * Defining points, generating the path, and setting PID 
+	 * */
 	public MPStartMSwitchL() {
 		
-		/* 
-		 * Defining points, generating the path, and setting PID 
-		 * */
 		Waypoint[] middleRightSwitch = new Waypoint[] {
 				new Waypoint(0.7, 3.1, Pathfinder.d2r(0)),
 				new Waypoint(4.25, 3.1, Pathfinder.d2r(0)),
@@ -43,7 +43,6 @@ public class MPStartMSwitchL implements Runnable {
 		
 		// Splitting the trajectory into left and right sides
 	    Trajectory left = modifier.getLeftTrajectory();
-	    
 	    Trajectory right = modifier.getRightTrajectory();
 	    
 	    // Setting PIDVA
@@ -105,7 +104,7 @@ public class MPStartMSwitchL implements Runnable {
 	}
 	
 	/* 
-	 * Checking to see if path is done 
+	 * Returns true if path is done, false if there are still points left
 	 * */
 	public boolean isLastPoint(){
 		
