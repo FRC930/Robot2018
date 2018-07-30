@@ -12,23 +12,22 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-//-- Main Class Header --\\
+/*
+ * Initializing intake motors and controlling intake
+ */
 public class Intake {
 	
-	//-- Object Declarations --\\
-
+	// Object Declarations
 	public static VictorSPX rightIntakeWheel = new VictorSPX(Constants.rightIntakeWheelVictorID);	//Victor of right in take wheel
 	public static VictorSPX leftIntakeWheel = new VictorSPX(Constants.leftIntakeWheelVictorID);	//Victor of left in take wheel
 	private static Solenoid lifter = new Solenoid(Constants.lifterForwardSolenoidID);
 	private static Solenoid gripper = new Solenoid(Constants.gripperSolenoidID);
 
-	// -- Variable Declarations --\\
-
+	// Variable Declarations
 	private static int PDPcounter;		//Integer used to count up loops
 	private static IntakeStates stateEnum;	//States for saving states of in take
 	
-	//-- Function Declarations and Implementations --\\
-	
+	// Function Declarations and Implementations
 	private static void updatePDPcounter() {	//updates the pdp counter
 		if (Utilities.getPDPCurrent() > Constants.currentThreshhold) { 						
 			PDPcounter++;												
@@ -39,7 +38,10 @@ public class Intake {
 	
 	//------------------------------------------------------------------------------------------- 
 	
-	private static boolean returnCubeInside() {		//check to see if a cube is inside or not
+	/* 
+	 * Check to see if a cube is inside or not
+	 */
+	private static boolean returnCubeInside() {
 		boolean cubeInside = false;
 		if (PDPcounter >= Constants.PDPcounterLimit) {
 			cubeInside = true;
@@ -49,7 +51,10 @@ public class Intake {
 	
 	//------------------------------------------------------------------------------------------- 
 
-	private static void inTaking() {		//method used for when the wheels in take
+	/*
+	 * Method used for when the wheels intake.
+	 */
+	private static void inTaking() {
 		
 		setIntakeLifter(false);
 		rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.intakeMotorSpeed);	// Turn on motors // Negative
@@ -59,7 +64,10 @@ public class Intake {
 	
 	//------------------------------------------------------------------------------------------- 
 	
-	private static void inTakeDone() {		//method runs when no inputs are done
+	/*
+	 * Method runs when done intaking.
+	 */
+	private static void inTakeDone() {		
 		setIntakeLifter(true);
 		rightIntakeWheel.set(ControlMode.PercentOutput, -Constants.slowIntakeSpeed);	// Stop motors
 		leftIntakeWheel.set(ControlMode.PercentOutput, -Constants.slowIntakeSpeed);
@@ -70,14 +78,20 @@ public class Intake {
 	
 	//------------------------------------------------------------------------------------------- 
 	
-	private static void outTaking() {		//method runs when out taking cube
+	/*
+	 * //method runs when outtaking cube.
+	 */
+	private static void outTaking() {		
 		rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn right motor // Positive
 		leftIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn left motor // Negative
 		PDPcounter = 0; // Reset counter.
 		setIntakeGrip(true);
 	}
 	
-	private static void slowOutTaking() {		//method runs when out taking cube
+	/*
+	 * Method runs when outtaking cube
+	 */
+	private static void slowOutTaking() {		
 		setIntakeGrip(false);
 		rightIntakeWheel.set(ControlMode.PercentOutput, Constants.slowOuttakeSpeed); // Turn right motor // Positive
 		leftIntakeWheel.set(ControlMode.PercentOutput, Constants.slowOuttakeSpeed); // Turn left motor // Negative
@@ -86,13 +100,19 @@ public class Intake {
 	
 	//------------------------------------------------------------------------------------------- 
 	
-	public static void setIntakeGrip(boolean grip) {	//method to set the compressors
+	/*
+	 * Method to set the compressors.
+	 */
+	public static void setIntakeGrip(boolean grip) {	
 		gripper.set(grip);
 	}
 	
 	//------------------------------------------------------------------------------------------- 
-
-	private static void setIntakeLifter(boolean stage) {	//method used to set the intake's lifer mechanism
+	
+	/*
+	 * Method used to set the intake's lifter mechanism
+	 */
+	private static void setIntakeLifter(boolean stage) {	
 		lifter.set(stage);
 		
 		if(stage) {
@@ -101,16 +121,20 @@ public class Intake {
 		}
 	}
 	
+	/*
+	 * Stop motors
+	 */
 	public static void stopMotors() {
-		rightIntakeWheel.set(ControlMode.PercentOutput, 0);	// Stop motors
+		rightIntakeWheel.set(ControlMode.PercentOutput, 0);	
 		leftIntakeWheel.set(ControlMode.PercentOutput, 0);
 	}
 
-	//-- Initializing Variables and Objects --\\
-
-	public static void init() {	//runs in Robot.java, for initializing
-		//-- In take Variable Initializations --\\
-
+	/*
+	 * Runs in Robot.java, for initializing objects and variables
+	 */
+	public static void init() {	
+		
+		// Intake Variable Initializations
 		PDPcounter = 0;
 		setIntakeGrip(false);
 		setIntakeLifter(false);
@@ -122,13 +146,13 @@ public class Intake {
 		rightIntakeWheel.setInverted(true);//false
 	}
 	
-	//-- Main Loop (called in Robot.java) --\\
-
+	/*
+	 * Main loop called in Robot.java, states used to record the state of the robot
+	 */
 	public static void run(Enum state) {
-		stateEnum = (IntakeStates) state;	//states used to record the state of the robot
+		stateEnum = (IntakeStates) state;	
 		
-		//-- State Checking --\\
-
+		// State Checking
 		switch (stateEnum) {
 			case INTAKING:		//If the right trigger is down
 				inTaking();
@@ -137,7 +161,7 @@ public class Intake {
 				inTakeDone();
 				break;
 			case OUTTAKING:		//If the left trigger is down
-				outTaking();
+				outTaking() ;
 				break;
 			case SLOW_OUTTAKING:
 				slowOutTaking();

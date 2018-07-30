@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
- * Initializing drive motors and; controlling drive motors.
+ * Initializing drive motors and controlling driving
  */
 public class Drive {
 	
@@ -22,6 +22,7 @@ public class Drive {
 	
 	public static int leftMotorCounter = 0;
 	public static int rightMotorCounter = 0;
+	
 	/*
 	 * Inverts the motors if needed, sets sensorPhase and followers.
 	 */
@@ -44,8 +45,9 @@ public class Drive {
 		leftFollow2.follow(leftMain);
 		leftFollow.follow(leftMain);
 	}
+	
 	/*
-	 * Outputs line to screen and get the joy stick value and sends it to the  motors.
+	 * Gets the joystick values and sends it to the motors
 	 */
 	public static void run(double xStick, double yStick){
 		
@@ -62,15 +64,17 @@ public class Drive {
 		rightMain.set((yStick-xStick));
 		leftMain.set((yStick+xStick));
 	}
+	
 	/*
-	 *Sets motors speed.
+	 * Sets motors to a specific speed
 	 */
 	public static void runAt(double left, double right){
 		rightMain.set(right);
 		leftMain.set(left);
 	}
+	
 	/*
-	 * Kill robot if gyro fails or encoder .
+	 * Kills robot if gyro or encoder are not working
 	 */
 	public static boolean checkSensors(){
 		
@@ -100,8 +104,9 @@ public class Drive {
 		}
 		return false;
 	}
+	
 	/*
-	 * sets both motorcounters to 0.Motorcounter is a sensor check.
+	 * Sets both sensor check counters to 0
 	 */
 	public static void resetSensorCheck() {
 		
@@ -109,8 +114,9 @@ public class Drive {
 		rightMotorCounter = 0;
 		
 	}
+	
 	/*
-	 * changes direction of encoder
+	 * Changes sensor phase of encoder
 	 */
 	public static void changeSensorPhase(boolean left, boolean right) {
 		
@@ -118,6 +124,7 @@ public class Drive {
 		leftMain.setSensorPhase(left);
 		
 	}
+	
 	/*
 	 * Inverts motors backwards or does not 
 	 */
@@ -131,8 +138,9 @@ public class Drive {
 		leftFollow2.setInverted(false);
 		
 	}
+	
 	/*
-	 * Inverts motors forwards or does not 
+	 * Inverts motors forward
 	 */
 	public static void invertMotorsForwards() {
 		

@@ -2,10 +2,14 @@ package org.usfirst.frc.team930.robot;
 
 import edu.wpi.first.wpilibj.Timer;
 
+/*
+ * Timed auto routine to cross the auto line.
+ */
 public class Line extends Routine{
 	
 	Timer time = new Timer();
 	
+	// Initializes variation and time delay for auto routine
 	public Line(String v, double d) {
 		
 		super(v, d);
@@ -14,6 +18,7 @@ public class Line extends Routine{
 		
 	}
 
+	// Driving forward at 1/4 speed for 5 secands.
 	public void variation() {
 		
 		System.out.println("Just Line");
@@ -22,6 +27,7 @@ public class Line extends Routine{
 		else {
 			Drive.runAt(0, 0);
 		}
+		
 	}
 
 }

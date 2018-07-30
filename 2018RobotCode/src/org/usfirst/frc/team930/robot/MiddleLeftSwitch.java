@@ -3,6 +3,9 @@ package org.usfirst.frc.team930.robot;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 
+/*
+ * moves to the left side of the switch when you start in the middle start spot.
+ */
 public class MiddleLeftSwitch extends Routine {
 	
 	private Timer time = new Timer();
@@ -11,6 +14,9 @@ public class MiddleLeftSwitch extends Routine {
 	private TimeDelay delayStopIntake = new TimeDelay();
 	public static Notifier n;
 	
+	/*
+	 * Initializes MP path, Notifier, variation, and individual time delays for robot functions
+	 */
 	public MiddleLeftSwitch(String v, double d) {
 		
 		super(v, d);
@@ -26,24 +32,27 @@ public class MiddleLeftSwitch extends Routine {
 		
 	}
 	
+	/*
+	 * strings mp path and actions with it
+	 */
 	public void variation() {
 		
 		switch (this.autoStep) {
-		case 1:
+		case 1: //lifts wrist
 			System.out.println("Running case 1");
 			actList.wristUp();
 			n.startPeriodic(0.02);
 			this.autoStep = 2;
 			break;
-		case 2:
+		case 2: // lift elevator after time delay
 			System.out.println("Running case 2");
 			if(delayElev.execute(time.get()))	{
 				this.autoStep = 3;
 				actList.scaleMPosition();
 				System.out.println("*****Transition to Case 2");
 			}
-			break;
-		case 3:
+			break;// break
+		case 3:// 
 			System.out.println("Running case 2");
 			if(delayOuttake.execute(time.get()))	{
 				this.autoStep = 4;

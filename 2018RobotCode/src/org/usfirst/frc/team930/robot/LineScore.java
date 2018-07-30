@@ -1,11 +1,13 @@
 package org.usfirst.frc.team930.robot;
 
 import edu.wpi.first.wpilibj.Timer;
-
+/*
+ * Timed auto routine to cross the auto line and score on the switch.
+ */
 public class LineScore extends Routine{
 	
 	Timer time = new Timer();
-	
+	// Initializes variation and time delay for auto routine
 	public LineScore(String v, double d) {
 		
 		super(v, d);
@@ -13,7 +15,7 @@ public class LineScore extends Routine{
 		time.start();
 		
 	}
-
+	// Driving forward at 1/4 speed for 5 secands also lifting Elevator not arm to the switch  aswell as outtakes cube .
 	public void variation() {
 		
 		System.out.println("Line & Score");

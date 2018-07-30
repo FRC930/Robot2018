@@ -9,7 +9,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/*
+ * Initializing elevator motors and controls elevator.
+ */
 public class Elevator {
+	
 	// Object Declarations
 	public static TalonSRX lift1 = new TalonSRX(Constants.liftTalonID);
 	public static TalonSRX lift2 = new TalonSRX(Constants.lift2TalonID);
@@ -21,12 +25,17 @@ public class Elevator {
 	private static boolean check;
 	private static double counter;
 	
-	//true is open-loop, false is closed-loop
+	/*
+	 *  True is open-loop, false is closed-loop
+	 */
 	public static boolean loopState;
 	
+	/*
+	 * Initializes encoders and Motion Magic variables
+	 */
 	public static void init() {
 		
-		//Sets the 2nd Talon to follow the main
+		// Sets the 2nd Talon to follow the main
 		lift2.follow(lift1);
 		
 		// Setup the sensor
@@ -74,12 +83,16 @@ public class Elevator {
 		loopState = false;
 	}
 	
-	// Set motor's position to double value that is passed through using motion magic
+	/*
+	 *  Set motor's position to double value that is passed through using motion magic
+	 */
 	public static void goToPosition(double height) {
 		lift1.set(ControlMode.MotionMagic, height);
 	}
 
-	// Set motor's target position based on enum passed through
+	/*
+	 *  Set motor's target position based on enum passed through
+	 */
 	public static void setTargetPos(Enum pos1) {
 		stateEnum = (ElevatorStates) pos1;
 		
@@ -119,7 +132,9 @@ public class Elevator {
 		}
 	}
 
-	// Set motor's target position based on joystick value
+	/*
+	 *  Set motor's target position based on joystick value
+	 */
 	public static void run(double axisValue) {
 		// If joystick moves, change target position based on the joystick's value
 		
@@ -143,7 +158,9 @@ public class Elevator {
 		goToPosition(targetPosition);
 	}
 	
-	// Check to confirm the elevator has reached its target position
+	/*
+	 *  Check to confirm the elevator has reached its target position
+	 */
 	public static boolean atPosition() {
 		if ((lift1.getSelectedSensorPosition(0) > (targetPosition - 10) && lift1.getSelectedSensorPosition(0) < (targetPosition + 10)) && positionBool) {
 			return true;
@@ -152,12 +169,16 @@ public class Elevator {
 		} 
 	}
 	
-	// Returns the actual position of the elevator
+	/*
+	 *  Returns the actual position of the elevator
+	 */
 	public static double getPosition() {
 		return lift1.getSelectedSensorPosition(0);
 	}
 	
-	//Check if encoder is returning information
+	/*
+	 * Check if encoder is returning information
+	 */
 	public static boolean checkSensor() {
 		if(lift1.getMotorOutputPercent() != 0 && lift1.getSelectedSensorVelocity(0) == 0) {
 			counter++;
@@ -172,7 +193,9 @@ public class Elevator {
 		return check;
 	}
 	
-	// set the elevator motor to manual percent output mode
+	/*
+	 *  Set the elevator motor to manual percent output mode
+	 */
 	public static void runManualControl(double axisValue) {
 		if(Math.abs(axisValue) > Constants.elevatorDeadBand){
 			lift1.set(ControlMode.PercentOutput, axisValue);
@@ -180,6 +203,9 @@ public class Elevator {
 		System.out.println("\t\t\t\tElevator Pos: " + lift1.getSelectedSensorPosition(0));
 	}
 	
+	/*
+	 * Test if state enum equals intake position and lift1 sensor position is 0 and is less than the last thing it will return true.
+	 */
 	public static boolean atIntakePosition() {
 		if((stateEnum == TeleopHandler.ElevatorStates.INTAKE_POSITION) && (lift1.getSelectedSensorPosition(0) < (Constants.intakePosition + 25)))
 			return true;
@@ -187,6 +213,9 @@ public class Elevator {
 		return false;
 	}
 	
+	/*
+	 * If the right stick is moved out of deadband, run manual control.
+	 */
 	public static void switchToPercentOutput(double axisValue) {
 		if(Math.abs(axisValue) > Constants.elevatorDeadBand)
 			run(axisValue);
@@ -194,6 +223,9 @@ public class Elevator {
 			lift1.set(ControlMode.PercentOutput, 0);
 	}
 	
+	/*
+	 * Resets the elevator encoders to 0.
+	 */
 	public static void resetElevatorSensor(){
 		lift1.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 	}

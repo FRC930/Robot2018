@@ -194,17 +194,17 @@ public class AutoHandler {
 				}
 				break;
 			case LINE:
-					auto = new Line(variation, delay);
+					auto = new Line(variation, delay);						// Starting in left position doing drive forward auto
 				break;
 			case LINE_SCORE:
 				switch(variation){
 					case "LRL":
 					case "LLL":
-						auto = new LineScore(variation, delay);
+						auto = new LineScore(variation, delay);				// Starting in left position doing timed switch auto
 						break;
 					case "RLR":
 					case "RRR":
-						auto = new Line(variation, delay);
+						auto = new Line(variation, delay);					// Starting in left position doing drive forward auto
 						break;
 				}
 				break;
@@ -212,16 +212,16 @@ public class AutoHandler {
 				switch(variation){
 					case "RLR":
 					case "LLL":
-						auto = new TimedStartLScaleL(variation, delay);
+						auto = new TimedStartLScaleL(variation, delay);		// Starting in left position doing timed scale auto
 						break;
 					case "LRL":
 					case "RRR":
-						auto = new Line(variation, delay);
+						auto = new Line(variation, delay);					// Starting in left position doing drive forward auto
 						break;
 				}
 				break;
 			default:
-				auto = new LineScore(variation, delay);
+				auto = new LineScore(variation, delay);						// Starting in left position doing timed switch auto
 				break;
 			}
 			break;
@@ -234,37 +234,37 @@ public class AutoHandler {
 
 				case "LLL":
 				case "LRL":
-					auto = new MiddleLeftSwitch(variation, delay);
+					auto = new MiddleLeftSwitch(variation, delay);			// Starting in middle position doing left switch auto
 					break;
 				case "RLR":
 				case "RRR":
-					auto = new MiddleRightSwitch(variation, delay);
+					auto = new MiddleRightSwitch(variation, delay);			// Starting in middle position doing right switch auto
 					break;
 
 				}
 				break;
 			case LINE:
-				auto = new Line(variation, delay);
+				auto = new Line(variation, delay);							// Starting in middle position doing drive forward auto
 				break;
 			case LINE_SCORE:
-				auto = new LineScore(variation,delay);
+				auto = new LineScore(variation,delay);						// Starting in middle position doing timed switch auto
 				break;
 			case TIMED_SWITCH:
 				switch (variation) {
 
 				case "LRL":
 				case "LLL":
-					auto = new TimedMiddleLeft(variation, delay);
+					auto = new TimedMiddleLeft(variation, delay);			// Starting in middle position doing timed left switch auto
 					break;
 				case "RLR":
 				case "RRR":
-					auto = new TimedMiddleRight(variation, delay);
+					auto = new TimedMiddleRight(variation, delay);			// Starting in middle position doing timed right switch auto
 					break;
 				
 				}
 				break;
 			default:
-				auto = new LineScore(variation, delay);
+				auto = new LineScore(variation, delay);						// Starting in middle position doing timed switch auto
 				break;
 			}
 			
@@ -277,11 +277,11 @@ public class AutoHandler {
 
 				case "LLL":
 				case "RLR":
-					auto = new StartRDoubleScaleL(variation, delay);
+					auto = new StartRDoubleScaleL(variation, delay);		// Starting in right position doing left scale auto
 					break;
 				case "LRL":
 				case "RRR":
-					auto = new StartRDoubleScaleR(variation, delay);
+					auto = new StartRDoubleScaleR(variation, delay);		// Starting in right position doing right scale auto
 					break;
 				
 				}
@@ -290,14 +290,14 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LLL":
-					auto = new StartRScaleLSwitchL(variation, delay);
+					auto = new StartRScaleLSwitchL(variation, delay);		// Starting in right position doing left scale auto
 					break;
 				case "LRL":
-					auto = new StartRScaleRSwitchL(variation, delay);
+					auto = new StartRScaleRSwitchL(variation, delay);		// Starting in right position doing right scale auto
 					break;
 				case "RRR":
 				case "RLR":
-					auto = new StartRSwitchRScaleL(variation, delay);
+					auto = new StartRSwitchRScaleL(variation, delay);		// Starting in right position doing right switch auto
 					break;
 			
 				}
@@ -306,16 +306,16 @@ public class AutoHandler {
 				switch (variation) {
 
 				case "LLL":
-					auto = new Line(variation, delay);
+					auto = new Line(variation, delay);						// Starting in right position doing drive forward auto
 					break;
 				case "RLR":
-					auto = new StartRSwitchRScaleL(variation, delay);
+					auto = new StartRSwitchRScaleL(variation, delay);		// Starting in right position doing right switch auto
 					break;
 				case "LRL":
-					auto = new StartRScaleRSwitchL(variation, delay);
+					auto = new StartRScaleRSwitchL(variation, delay);		// Starting in right position doing right scale auto
 					break;
 				case "RRR":
-					auto = new StartRScaleRSwitchR(variation, delay);
+					auto = new StartRScaleRSwitchR(variation, delay);		// Starting in right position doing right scale auto
 					break;
 
 				}
@@ -325,27 +325,27 @@ public class AutoHandler {
 
 				case "LRL":
 				case "LLL":
-					auto = new Line(variation, delay);
+					auto = new Line(variation, delay);						// Starting in right position doing drive forward auto
 					break;
 				case "RLR":
 				case "RRR":
-					auto = new StartRSwitchRScaleL(variation, delay);
+					auto = new StartRSwitchRScaleL(variation, delay);		// Starting in right position doing right switch auto
 					break;
 
 				}
 				break;
 			case LINE:
-				auto = new Line(variation, delay);
+				auto = new Line(variation, delay);							// Starting in right position doing drive forward auto
 				break;
 			case LINE_SCORE:
 				switch(variation){
 					case "LRL":
 					case "LLL":
-						auto = new Line(variation, delay);
+						auto = new Line(variation, delay);					// Starting in right position doing drive forward auto
 						break;
 					case "RLR":
 					case "RRR":
-						auto = new LineScore(variation, delay);
+						auto = new LineScore(variation, delay);				// Starting in right position doing timed switch auto
 						break;
 				}
 				break;
@@ -353,16 +353,16 @@ public class AutoHandler {
 				switch(variation){
 					case "RLR":
 					case "LLL":
-						auto = new Line(variation, delay);
+						auto = new Line(variation, delay);					// Starting in right position doing drive forward auto
 						break;
 					case "LRL":
 					case "RRR":
-						auto = new TimedStartRScaleR(variation, delay);
+						auto = new TimedStartRScaleR(variation, delay);		// Starting in right position doing timed scale auto
 						break;
 				}
 				break;
 			default:
-				auto = new LineScore(variation, delay);
+				auto = new LineScore(variation, delay);						// Starting in right position doing timed switch auto
 				break;
 			}
 			break;
