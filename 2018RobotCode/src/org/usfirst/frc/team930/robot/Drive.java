@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
- * Initializing drive motors and controlling driving
+ * Initializing drive motors and sensors and controlling driving
  */
 public class Drive {
 	
@@ -24,7 +24,7 @@ public class Drive {
 	public static int rightMotorCounter = 0;
 	
 	/*
-	 * Inverts the motors if needed, sets sensorPhase and followers.
+	 * Inverts the motors if needed, sets sensor phase and followers
 	 */
 	public static void init(){
 		gyro.reset();
@@ -54,8 +54,9 @@ public class Drive {
 		System.out.println("Gyro: " + gyro.getYaw() + "  Connected: " + gyro.isConnected());
 		yStick = Math.pow(yStick,3);
 		xStick = Math.pow(xStick, 3);
-		//Dead band makes it so if the stick is off set it does not affect movement of robot near 0.
-		if(Math.abs(xStick) < Constants.driveDeadBand) //Dead band same with next if.
+		
+		// Deadband avoids movement caused by joystick error near 0
+		if(Math.abs(xStick) < Constants.driveDeadBand)
 			xStick = 0;
 		if(Math.abs(yStick) < Constants.driveDeadBand)
 			yStick = 0;
@@ -66,7 +67,7 @@ public class Drive {
 	}
 	
 	/*
-	 * Sets motors to a specific speed
+	 * Sets left and right motors to a specific speed
 	 */
 	public static void runAt(double left, double right){
 		rightMain.set(right);
@@ -74,7 +75,7 @@ public class Drive {
 	}
 	
 	/*
-	 * Kills robot if gyro or encoder are not working
+	 * Returns true if gyro or either left or right encoder are not working
 	 */
 	public static boolean checkSensors(){
 		
@@ -116,7 +117,7 @@ public class Drive {
 	}
 	
 	/*
-	 * Changes sensor phase of encoder
+	 * Changes sensor phase of encoders
 	 */
 	public static void changeSensorPhase(boolean left, boolean right) {
 		
@@ -126,7 +127,7 @@ public class Drive {
 	}
 	
 	/*
-	 * Inverts motors backwards or does not 
+	 * Inverts motors backwards
 	 */
 	public static void invertMotorsBackwards() {
 		
@@ -140,7 +141,7 @@ public class Drive {
 	}
 	
 	/*
-	 * Inverts motors forward
+	 * Inverts motors forwards
 	 */
 	public static void invertMotorsForwards() {
 		

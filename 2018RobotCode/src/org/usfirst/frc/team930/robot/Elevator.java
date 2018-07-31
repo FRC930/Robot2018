@@ -26,7 +26,7 @@ public class Elevator {
 	private static double counter;
 	
 	/*
-	 *  True is open-loop, false is closed-loop
+	 * True is open-loop, false is closed-loop
 	 */
 	public static boolean loopState;
 	
@@ -38,7 +38,7 @@ public class Elevator {
 		// Sets the 2nd Talon to follow the main
 		lift2.follow(lift1);
 		
-		// Setup the sensor
+		// Sets up the sensor
 		lift1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 		
 		// Competition robot
