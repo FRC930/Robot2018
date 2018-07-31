@@ -3,7 +3,10 @@ package org.usfirst.frc.team930.robot;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 
-public class MiddleRightSwitch extends Routine {
+/*
+ * moves to the right side of the switch when you start in the middle.
+ */
+class MiddleRightSwitch extends Routine {
 	
 	private Timer time = new Timer();
 	private TimeDelay delayElev = new TimeDelay();
@@ -11,6 +14,9 @@ public class MiddleRightSwitch extends Routine {
 	private TimeDelay delayStopIntake = new TimeDelay();
 	public static Notifier n;
 	
+	/*
+	 * Initializes MP path, Notifier, variation, and individual time delays for robot functions
+	 */
 	public MiddleRightSwitch(String v, double d) {
 		
 		super(v, d);
@@ -26,16 +32,19 @@ public class MiddleRightSwitch extends Routine {
 		
 	}
 	
+	/*
+	 * strings together mp path with actions
+	 */
 	public void variation() {
 		
 		switch (this.autoStep) {
-		case 1:
+		case 1://lifts wrist and starts mp path
 			System.out.println("Running case 1");
 			actList.wristUp();
 			n.startPeriodic(0.02);
 			this.autoStep = 2;
 			break;
-		case 2:
+		case 2: // lift elevator after time delay
 			System.out.println("Running case 2");
 			if(delayElev.execute(time.get()))	{
 				this.autoStep = 3;
@@ -43,7 +52,7 @@ public class MiddleRightSwitch extends Routine {
 				System.out.println("*****Transition to Case 2");
 			}
 			break;
-		case 3:
+		case 3: //Slow outtake of cube after time delay 
 			System.out.println("Running case 2");
 			if(delayOuttake.execute(time.get()))	{
 				this.autoStep = 4;
@@ -51,7 +60,7 @@ public class MiddleRightSwitch extends Routine {
 				System.out.println("*****Transition to Case 2");
 			}
 			break;
-		case 4:
+		case 4: //Checking if motion path is done
 			System.out.println("Running case 3");
 			if(segList.segStartMSwitchR()) {
 				this.autoStep = 5;
@@ -59,7 +68,7 @@ public class MiddleRightSwitch extends Routine {
 				System.out.println("*****Transition to Case 4");
 			}
 			break;
-		case 5:
+		case 5: //Stops intake and drivetrain
 			if(delayStopIntake.execute(time.get()))
 				actList.stopIntake();
 			Drive.runAt(0, 0);

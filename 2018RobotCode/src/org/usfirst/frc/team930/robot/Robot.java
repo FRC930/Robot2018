@@ -10,8 +10,14 @@ package org.usfirst.frc.team930.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
+/*
+ * Controls autonomous, teleop, and initilizes robot settings
+ */
 public class Robot extends IterativeRobot {
 
+	/*
+	 *Sets up robot functions when robot is turned on
+	 */
 	@Override
 	public void robotInit() {
 		
@@ -27,6 +33,9 @@ public class Robot extends IterativeRobot {
 		
 	}
 
+	/*
+	 *Sets up robot settings for autonomous
+	 */
 	@Override
 	public void autonomousInit() {
 		
@@ -36,7 +45,10 @@ public class Robot extends IterativeRobot {
 		System.out.println("Init End");
 		
 	}
-
+	
+	/*
+	 * Runs the autonomous code
+	 */
 	@Override
 	public void autonomousPeriodic() {
 		//LEDHandler.autoRun();
@@ -44,6 +56,9 @@ public class Robot extends IterativeRobot {
 		
 	}
 	
+	/*
+	 * Readies robot for teleop
+	 */
 	public void teleopInit() {
 		
 		TeleopHandler.init();
@@ -52,6 +67,9 @@ public class Robot extends IterativeRobot {
 		
 	}
 
+	/*
+	 * Runs driver control functions 
+	 */
 	@Override
 	public void teleopPeriodic() {
 		
@@ -59,17 +77,22 @@ public class Robot extends IterativeRobot {
 		
 	}
 	
+	/*
+	 * Sets settings for when robot is disabled
+	 */
 	public void disabledInit() {
 		AutoHandler.mpStartRScaleR.disabled();
 	}
-	
+	/*
+	 * Continuously sets disabled settings
+	 */
 	@Override
 	public void disabledPeriodic() {
 		
 		AutoHandler.disabled();
 		
 	}
-
+	
 	@Override
 	public void testPeriodic() {
 		
