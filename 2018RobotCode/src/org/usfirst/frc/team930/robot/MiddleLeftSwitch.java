@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 
 /*
- * moves to the left side of the switch when you start in the middle start spot.
+ * moves to the left side of the switch when you start in the middle.
  */
 public class MiddleLeftSwitch extends Routine {
 	
@@ -33,12 +33,12 @@ public class MiddleLeftSwitch extends Routine {
 	}
 	
 	/*
-	 * strings mp path and actions with it
+	 * strings together mp path with actions
 	 */
 	public void variation() {
 		
 		switch (this.autoStep) {
-		case 1: //lifts wrist
+		case 1: //lifts wrist and starts mp path
 			System.out.println("Running case 1");
 			actList.wristUp();
 			n.startPeriodic(0.02);
@@ -52,7 +52,7 @@ public class MiddleLeftSwitch extends Routine {
 				System.out.println("*****Transition to Case 2");
 			}
 			break;// break
-		case 3:// 
+		case 3: //Slow outtake of cube after time delay 
 			System.out.println("Running case 2");
 			if(delayOuttake.execute(time.get()))	{
 				this.autoStep = 4;
@@ -60,7 +60,7 @@ public class MiddleLeftSwitch extends Routine {
 				System.out.println("*****Transition to Case 2");
 			}
 			break;
-		case 4:
+		case 4: //Checking if motion path is done
 			System.out.println("Running case 3");
 			if(segList.segStartMSwitchL()) {
 				this.autoStep = 5;
@@ -68,7 +68,7 @@ public class MiddleLeftSwitch extends Routine {
 				System.out.println("*****Transition to Case 4");
 			}
 			break;
-		case 5:
+		case 5: //Stops intake and drivetrain
 			if(delayStopIntake.execute(time.get()))
 				actList.stopIntake();
 			Drive.runAt(0, 0);
