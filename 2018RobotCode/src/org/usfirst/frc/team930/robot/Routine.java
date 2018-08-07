@@ -2,6 +2,9 @@ package org.usfirst.frc.team930.robot;
 
 import edu.wpi.first.wpilibj.Timer;
 
+/*
+ * Sets up structure for subroutine in auto 
+ */
 public abstract class Routine {
 	
 	protected static String variation;
@@ -11,6 +14,9 @@ public abstract class Routine {
 	protected Timer time = new Timer();
 	protected TimeDelay initDelay;
 	
+	/*
+	 * Initializes variation, and Initial time delays
+	 */
 	public Routine(String v, double delay) {
 		
 		initDelay = new TimeDelay(delay);
@@ -21,6 +27,9 @@ public abstract class Routine {
 		
 	}
 	
+	/*
+	 * Waits for initial time delay to pass then runs chosen variation method
+	 */
 	public void run() {
 		
 		if(initDelay.execute(time.get())) {
@@ -29,8 +38,13 @@ public abstract class Routine {
 		
 	}
 	
+	/*
+	 * Runs specific variation method within the subroutine chosen for auto 
+	 */
 	public abstract void variation();
-	
+	/*
+	 * Rests the control variable for the routine switch case
+	 */
 	public void reset() {
 		
 		this.autoStep = 1;

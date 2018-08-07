@@ -60,7 +60,7 @@ public class MiddleLeftSwitch extends Routine {
 				System.out.println("*****Transition to Case 2");
 			}
 			break;
-		case 4: //Checking if motion path is done
+		case 4: //Checking if mp path is done
 			System.out.println("Running case 3");
 			if(segList.segStartMSwitchL()) {
 				this.autoStep = 5;

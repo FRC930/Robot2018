@@ -3,6 +3,9 @@ package org.usfirst.frc.team930.robot;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 
+/*
+ * moves to the right side of the scale when you start on the right.
+ */
 public class StartRDoubleScaleR extends Routine {
 	
 	private Timer time = new Timer();
@@ -11,6 +14,9 @@ public class StartRDoubleScaleR extends Routine {
 	private TimeDelay delayStopIntake = new TimeDelay();
 	public static Notifier n;
 	
+	/*
+	 * Initializes MP path, Notifier, variation, and individual time delays for robot functions
+	 */
 	public StartRDoubleScaleR(String v, double d) {
 		
 		super(v, d);
@@ -26,17 +32,20 @@ public class StartRDoubleScaleR extends Routine {
 		
 	}
 	
+	/*
+	 * strings together mp path with actions
+	 */
 	public void variation() {
 		
 		switch (this.autoStep) {
-		case 1:
+		case 1://lifts wrist, starts intaking and starts mp path
 			System.out.println("Running case 1");
 			actList.wristUp();
 			actList.intake();
 			n.startPeriodic(0.02);
 			this.autoStep = 2;
 			break;
-		case 2:
+		case 2:// lift elevator after time delay
 			System.out.println("Running case 2");
 			if(delayElev.execute(time.get()))	{
 				this.autoStep = 3;
@@ -44,7 +53,7 @@ public class StartRDoubleScaleR extends Routine {
 				System.out.println("*****Transition to Case 2");
 			}
 			break;
-		case 3:
+		case 3://Slow outtake of cube after time delay 
 			System.out.println("Running case 2");
 			if(delayOuttake.execute(time.get()))	{
 				this.autoStep = 4;
@@ -52,7 +61,7 @@ public class StartRDoubleScaleR extends Routine {
 				System.out.println("*****Transition to Case 2");
 			}
 			break;
-		case 4:
+		case 4://Checking if mp path is done
 			System.out.println("Running case 3");
 			if(segList.segStartRScaleR()) {
 				this.autoStep = 5;
@@ -60,7 +69,7 @@ public class StartRDoubleScaleR extends Routine {
 				System.out.println("*****Transition to Case 4");
 			}
 			break;
-		case 5:
+		case 5://Stops intake and drivetrain
 			if(delayStopIntake.execute(time.get()))
 				actList.stopIntake();
 			Drive.runAt(0, 0);
