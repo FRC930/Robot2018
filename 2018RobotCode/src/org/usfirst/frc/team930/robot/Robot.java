@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends IterativeRobot {
 
 	/*
-	 *Sets up robot functions when robot is turned on
+	 * Sets up robot functions when robot is turned on
 	 */
 	@Override
 	public void robotInit() {
@@ -34,7 +34,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	/*
-	 *Sets up robot settings for autonomous
+	 * Sets up initial robot settings for autonomous
 	 */
 	@Override
 	public void autonomousInit() {
@@ -57,7 +57,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	/*
-	 * Readies robot for teleop
+	 * Sets up initial robot settings for teleop
 	 */
 	public void teleopInit() {
 		
@@ -78,13 +78,14 @@ public class Robot extends IterativeRobot {
 	}
 	
 	/*
-	 * Sets settings for when robot is disabled
+	 * Sets initial settings for when robot is disabled
 	 */
 	public void disabledInit() {
 		AutoHandler.mpStartRScaleR.disabled();
 	}
+	
 	/*
-	 * Continuously sets disabled settings
+	 * Continuously runs disabled code
 	 */
 	@Override
 	public void disabledPeriodic() {

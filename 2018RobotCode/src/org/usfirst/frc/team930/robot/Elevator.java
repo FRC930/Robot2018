@@ -10,7 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
- * Initializing elevator motors and controls elevator.
+ * Initializing elevator motors and controlling elevator
  */
 public class Elevator {
 	
@@ -66,7 +66,6 @@ public class Elevator {
 		lift1.config_kP(0, 2.0, Constants.kTimeoutMs);
 		lift1.config_kI(0, 0.004, Constants.kTimeoutMs);
 		lift1.config_kD(0, 7.0, Constants.kTimeoutMs);
-
 		
 		// Set acceleration and cruise velocity
 		lift1.configMotionCruiseVelocity(1200, Constants.kTimeoutMs);
@@ -84,14 +83,14 @@ public class Elevator {
 	}
 	
 	/*
-	 *  Set motor's position to double value that is passed through using motion magic
+	 *  Sets elevator position to a specific value
 	 */
 	public static void goToPosition(double height) {
 		lift1.set(ControlMode.MotionMagic, height);
 	}
 
 	/*
-	 *  Set motor's target position based on enum passed through
+	 *  Sets elevator target position based on chosen state
 	 */
 	public static void setTargetPos(Enum pos1) {
 		stateEnum = (ElevatorStates) pos1;
@@ -133,12 +132,12 @@ public class Elevator {
 	}
 
 	/*
-	 *  Set motor's target position based on joystick value
+	 *  Sets elevator target position based on joystick value, manual control
 	 */
 	public static void run(double axisValue) {
 		// If joystick moves, change target position based on the joystick's value
 		
-		//getSelectedSensorPosition should return a value from 0 - 8000.
+		// getSelectedSensorPosition should return a value from 0 - 8000.
 		//LEDHandler.updateElevator(lift1.getSelectedSensorPosition(0));
 		
 		axisValue = Math.pow(axisValue, 3);
@@ -159,7 +158,7 @@ public class Elevator {
 	}
 	
 	/*
-	 *  Check to confirm the elevator has reached its target position
+	 *  Check to confirm the elevator has reached its target position, returns true if at target position
 	 */
 	public static boolean atPosition() {
 		if ((lift1.getSelectedSensorPosition(0) > (targetPosition - 10) && lift1.getSelectedSensorPosition(0) < (targetPosition + 10)) && positionBool) {
@@ -177,7 +176,7 @@ public class Elevator {
 	}
 	
 	/*
-	 * Check if encoder is returning information
+	 * Returns true if encoder is returning information
 	 */
 	public static boolean checkSensor() {
 		if(lift1.getMotorOutputPercent() != 0 && lift1.getSelectedSensorVelocity(0) == 0) {
@@ -194,7 +193,7 @@ public class Elevator {
 	}
 	
 	/*
-	 *  Set the elevator motor to manual percent output mode
+	 *  Sets the elevator motor to manual percent output mode
 	 */
 	public static void runManualControl(double axisValue) {
 		if(Math.abs(axisValue) > Constants.elevatorDeadBand){
@@ -204,7 +203,7 @@ public class Elevator {
 	}
 	
 	/*
-	 * Test if state enum equals intake position and lift1 sensor position is 0 and is less than the last thing it will return true.
+	 * Returns true if elevator is at intake position
 	 */
 	public static boolean atIntakePosition() {
 		if((stateEnum == TeleopHandler.ElevatorStates.INTAKE_POSITION) && (lift1.getSelectedSensorPosition(0) < (Constants.intakePosition + 25)))
@@ -214,7 +213,7 @@ public class Elevator {
 	}
 	
 	/*
-	 * If the right stick is moved out of deadband, run manual control.
+	 * If the right joystick is moved out of deadband, run manual control
 	 */
 	public static void switchToPercentOutput(double axisValue) {
 		if(Math.abs(axisValue) > Constants.elevatorDeadBand)
@@ -224,7 +223,7 @@ public class Elevator {
 	}
 	
 	/*
-	 * Resets the elevator encoders to 0.
+	 * Resets the elevator encoders to 0
 	 */
 	public static void resetElevatorSensor(){
 		lift1.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);

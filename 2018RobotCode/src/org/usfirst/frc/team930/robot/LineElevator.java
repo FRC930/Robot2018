@@ -3,13 +3,13 @@ package org.usfirst.frc.team930.robot;
 import edu.wpi.first.wpilibj.Timer;
 
 /*
- * Timed auto routine to lifts the elevator to the switch position also crosses the auto line.
+ * Timed auto routine to lift the elevator to the switch position and cross the auto line
  */
 public class LineElevator extends Routine{
 	
 	Timer time = new Timer();
 	
-	//// Initializes variation and time delay for auto routine.
+	// Initializes variation and time delay for auto routine
 	public LineElevator(String v, double d) {
 		
 		super(v, d);
@@ -17,7 +17,8 @@ public class LineElevator extends Routine{
 		time.start();
 		
 	}
-	// Lifts elevator then drives forward at 1/4 speed for 5 secands.
+	
+	// Lifts elevator then drives forward at 1/4 speed for 5 sec
 	public void variation() {
 		
 		System.out.println("Line");

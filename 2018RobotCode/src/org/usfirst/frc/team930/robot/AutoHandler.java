@@ -17,16 +17,20 @@ import motionProfile.MPStartRSwitchR;
  */
 public class AutoHandler {
 	
+	// Variable declarations
 	private static String variation;
 	private static double delay;
 	private static StartPositions posEnum;
 	private static Goal goalEnum;
 	
+	// Auto routine chooser
 	public static SendableChooser<StartPositions> posChooser = new SendableChooser<StartPositions>();
 	public static SendableChooser<Goal> goalChooser = new SendableChooser<Goal>();
 	
+	// Abstract auto routine
 	public static Routine auto;
 	
+	// Objects for individual motion profile routines
 	public static MPStartLSwitchL mpStartLSwitchL;
 	public static MPStartMSwitchL mpStartMSwitchL;
 	public static MPStartMSwitchR mpStartMSwitchR;
@@ -38,7 +42,9 @@ public class AutoHandler {
 	
 	public static GyroTurn myAutoGT;
 	
-	// Start position choices
+	/*
+	 *  Start position choices
+	 */
 	enum StartPositions {
 		
 		 RIGHT,
@@ -48,7 +54,9 @@ public class AutoHandler {
 		 
 	}
 	
-	// Auto goal choices
+	/*
+	 *  Auto goal choices
+	 */
 	enum Goal {
 		
 		LINE,
@@ -63,10 +71,11 @@ public class AutoHandler {
 	}
 	
 	/*
-	 * Sending auto chooser data to shuffleboard and initializing auto routines
+	 * Sending auto chooser data to Shuffleboard and initializing auto routines
 	 */
 	public static void robotInit() {
 		
+		// Auto chooser information
 		posChooser.addObject("Left", StartPositions.LEFT);
 		posChooser.addObject("Middle", StartPositions.MIDDLE);
         posChooser.addObject("Right", StartPositions.RIGHT);
@@ -83,8 +92,10 @@ public class AutoHandler {
         goalChooser.addObject("Timed Scale", Goal.TIMED_SCALE);
         SmartDashboard.putData("Goals", goalChooser);
         
+        // Initial time delay information
         SmartDashboard.putNumber("Time Delay", 0);
         
+        // MP routines
         mpStartLSwitchL = new MPStartLSwitchL();
         mpStartMSwitchL = new MPStartMSwitchL();
         mpStartMSwitchR = new MPStartMSwitchR();
@@ -102,6 +113,7 @@ public class AutoHandler {
 	 */
 	public static void autoInit() {
 		
+		// Initial settings for start of auto
 		Drive.resetSensorCheck();
 		
 		Utilities.setCompressor(false);
@@ -115,7 +127,7 @@ public class AutoHandler {
 		posEnum = (StartPositions) startPositions;
 		goalEnum = (Goal) goal;
 	
-		// Setting time delay before auto routine
+		// Setting initial time delay before auto routine
 		delay = SmartDashboard.getNumber("Time Delay", 0);
 		
 		/*
@@ -123,10 +135,12 @@ public class AutoHandler {
 		 */
 		switch (posEnum) {
 
+		// Chosen when running no auto routine
 		case NOTHING:
 			auto = new NothingAuto(variation, delay);
 			break;
 			
+		// Starting on the left
 		case LEFT:
 			switch (goalEnum) {
 
@@ -226,6 +240,7 @@ public class AutoHandler {
 			}
 			break;
 			
+		// Starting in the middle
 		case MIDDLE:
 			switch (goalEnum) {
 
@@ -269,6 +284,8 @@ public class AutoHandler {
 			}
 			
 			break;
+			
+		// Starting on the right
 		case RIGHT:
 			switch (goalEnum) {
 
@@ -370,15 +387,25 @@ public class AutoHandler {
 		
 	}
 	
+	/*
+	 * Main loop called in autonomousPeriodic to run chosen auto routine
+	 */
 	public static void run() {
 		////////LEDHandler.autoRun();
+		
+		// Running a timed auto routine
 		if((goalEnum == Goal.LINE) || (goalEnum == Goal.LINE_SCORE) || (goalEnum == Goal.TIMED_SCALE) || (goalEnum == Goal.TIMED_SWITCH)) {	
 			auto.run();
 		}
+		
+		// Running motion profile auto routines
 		else {
+			// If all drive sensors are working correctly, run autonomous
 			if(!Drive.checkSensors()) {
 				auto.run();
 			}
+			
+			// If encoders or gyro are not working, immediately stop running autonomous notifier
 			else {
 				if(StartLScaleLSwitchL.n != null)
 					StartLScaleLSwitchL.n.stop();
@@ -422,6 +449,7 @@ public class AutoHandler {
 				else if(StartRDoubleScaleL.n != null)
 					StartRDoubleScaleL.n.stop();
 			
+				// Instead run timed drive forward auto
 				auto = new Line(variation, delay);
 				auto.run();
 			}
@@ -429,6 +457,9 @@ public class AutoHandler {
 		
 	}
 	
+	/*
+	 * Called in disabledPeriodic to stop running motion profile while disabled
+	 */
 	public static void disabled() {
 		
 		if(StartLScaleLSwitchL.n != null)
@@ -473,6 +504,7 @@ public class AutoHandler {
 		else if(StartRDoubleScaleL.n != null)
 			StartRDoubleScaleL.n.stop();
 		
+		// Running disabled code in individual MP classes
 		mpStartLScaleL.disabled();
 		mpStartLSwitchL.disabled();
 		mpStartRSwitchR.disabled();

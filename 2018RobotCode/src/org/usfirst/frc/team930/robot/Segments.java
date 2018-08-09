@@ -1,12 +1,12 @@
 package org.usfirst.frc.team930.robot;
 
 /*
- *  Subclass for methods that check to make sure motion profile is done
+ *  Methods that check to make sure motion profile path is done
  */
 public class Segments {
 	
 	/*
-	 * returns true if startLScaleL motion profile is finished
+	 * Returns true if StartLScaleL motion profile is finished
 	 */
 	public boolean segStartLScaleL() {
 		
@@ -21,7 +21,7 @@ public class Segments {
 	}
 	
 	/*
-	 * returns true if StartLScaleR motion profile is finished
+	 * Returns true if StartLScaleR motion profile is finished
 	 */
 	public boolean segStartLScaleR() {
 		
@@ -36,7 +36,7 @@ public class Segments {
 	}
 	
 	/*
-	 * returns true if StartLSwitchL motion profile is finished
+	 * Returns true if StartLSwitchL motion profile is finished
 	 */
 	public boolean segStartLSwitchL() {
 		
@@ -51,7 +51,7 @@ public class Segments {
 	}
 	
 	/*
-	 * returns true if StartMSwitchL motion profile is finished
+	 * Returns true if StartMSwitchL motion profile is finished
 	 */
 	public boolean segStartMSwitchL() {
 		
@@ -66,7 +66,7 @@ public class Segments {
 	}
 	
 	/*
-	 * returns true if StartMSwitchR motion profile is finished
+	 * Returns true if StartMSwitchR motion profile is finished
 	 */
 	public boolean segStartMSwitchR() {
 		
@@ -81,7 +81,7 @@ public class Segments {
 	}
 	
 	/*
-	 * returns true if StartRScaleL motion profile is finished
+	 * Returns true if StartRScaleL motion profile is finished
 	 */
 	public boolean segStartRScaleL() {
 		
@@ -96,7 +96,7 @@ public class Segments {
 	}
 	
 	/*
-	 * returns true if StartRScaleR motion profile is finished
+	 * Returns true if StartRScaleR motion profile is finished
 	 */
 	public boolean segStartRScaleR() {
 		
@@ -111,7 +111,7 @@ public class Segments {
 	}
 	
 	/*
-	 * returns true if StartRSwitchR motion profile is finished
+	 * Returns true if StartRSwitchR motion profile is finished
 	 */
 	public boolean segStartRSwitchR() {
 		
@@ -126,7 +126,7 @@ public class Segments {
 	}
 	
 	/*
-	 * returns true if GyroTurn motion profile is finished
+	 * Returns true if GyroTurn motion profile is finished
 	 */
 	public boolean segGyroTurn() {
 		

@@ -1,5 +1,4 @@
 
-//-- Preprocessor Directives --\\
 package org.usfirst.frc.team930.robot;
 
 import org.usfirst.frc.team930.robot.TeleopHandler.RobotStates;
@@ -7,7 +6,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 
 /*
- *  Initializing and controlling LED
+ *  Initializing and controlling LEDs
  */
 public class LEDHandler {
 	

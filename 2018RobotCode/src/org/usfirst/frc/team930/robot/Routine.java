@@ -3,7 +3,7 @@ package org.usfirst.frc.team930.robot;
 import edu.wpi.first.wpilibj.Timer;
 
 /*
- * Sets up structure for subroutine in auto 
+ * Sets up structure for subroutines in auto 
  */
 public abstract class Routine {
 	
@@ -15,7 +15,7 @@ public abstract class Routine {
 	protected TimeDelay initDelay;
 	
 	/*
-	 * Initializes variation, and Initial time delays
+	 * Initializes variation, and initial time delays
 	 */
 	public Routine(String v, double delay) {
 		
@@ -42,8 +42,9 @@ public abstract class Routine {
 	 * Runs specific variation method within the subroutine chosen for auto 
 	 */
 	public abstract void variation();
+	
 	/*
-	 * Rests the control variable for the routine switch case
+	 * Resets the control variable for the subroutine switch case
 	 */
 	public void reset() {
 		

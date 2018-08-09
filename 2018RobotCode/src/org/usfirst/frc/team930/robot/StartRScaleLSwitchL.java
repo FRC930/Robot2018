@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 
 /*
- * moves to the left side of the scale when you start on the right.
+ * Moves to the left side of the scale when you start on the right
  */
 public class StartRScaleLSwitchL extends Routine {
 	
@@ -33,19 +33,19 @@ public class StartRScaleLSwitchL extends Routine {
 	}
 	
 	/*
-	 * strings together mp path with actions
+	 * Strings together MP path with actions
 	 */
 	public void variation() {
 		
 		switch (this.autoStep) {
-			case 1://lifts wrist, starts intaking and starts mp path
+			case 1: // Lifts wrist, starts intaking and starts MP path
 				System.out.println("Running case 1");
 				actList.wristUp();
 				actList.intake();
 				n.startPeriodic(0.02);
 				this.autoStep = 2;
 				break;
-			case 2:// lift elevator after time delay
+			case 2: // Lift elevator after time delay
 				System.out.println("Running case 2");
 				if(delayElev.execute(time.get()))	{
 					this.autoStep = 3;
@@ -53,7 +53,7 @@ public class StartRScaleLSwitchL extends Routine {
 					System.out.println("*****Transition to Case 2");
 				}
 				break;
-			case 3://Slow outtake of cube after time delay and Checking if mp path is done
+			case 3: // Slow outtake of cube after time delay and checking if MP path is done
 				System.out.println("Running case 3");
 				if(segList.segStartRScaleL()) {
 					this.autoStep = 6;
@@ -62,18 +62,18 @@ public class StartRScaleLSwitchL extends Routine {
 					System.out.println("*****Transition to Case 4");
 				}
 				break;
-			case 4://Starts the gyro turn path
+			case 4: // Starts the gyro turn path
 				n.startPeriodic(0.02);
 				this.autoStep = 5;
 				System.out.println("DONE");
 				break;
-			case 5://Checks if gyro turn is done
+			case 5: // Checks if gyro turn is done
 				if(segList.segGyroTurn()) {
 					this.autoStep = 6;
 					n.stop();
 				}
 				break;
-			case 6://Stops intake and drivetrain
+			case 6: // Stops intake and drivetrain
 				if(delayStopIntake.execute(time.get()))
 					actList.stopIntake();
 				Drive.runAt(0, 0);

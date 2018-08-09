@@ -9,7 +9,7 @@ public class TimeDelay {
 	private boolean timerStarted = false;
 	private double start = 0;
 	
-	// Sets delay to 0 
+	// Sets delay to 0 on initialization
 	public TimeDelay(){
 		delay = 0;
 	}

@@ -2,10 +2,14 @@ package org.usfirst.frc.team930.robot;
 
 import edu.wpi.first.wpilibj.Timer;
 
+/*
+ * Timed auto routine to score in right scale starting in the right position
+ */
 public class TimedStartRScaleR extends Routine{
 	
 	Timer time = new Timer();
 	
+	// Initializes variation and initial time delay for auto routine
 	public TimedStartRScaleR(String v, double d) {
 		
 		super(v, d);
@@ -13,6 +17,7 @@ public class TimedStartRScaleR extends Routine{
 		
 	}
 
+	// Lifts elevator, drives forward, and outtakes cube
 	public void variation() {
 		
 		Elevator.setTargetPos(TeleopHandler.ElevatorStates.SCALE_POSITION_H);

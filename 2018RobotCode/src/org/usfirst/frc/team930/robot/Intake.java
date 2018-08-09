@@ -18,14 +18,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Intake {
 	
 	// Object Declarations
-	public static VictorSPX rightIntakeWheel = new VictorSPX(Constants.rightIntakeWheelVictorID);	//Victor of right in take wheel
-	public static VictorSPX leftIntakeWheel = new VictorSPX(Constants.leftIntakeWheelVictorID);	//Victor of left in take wheel
+	public static VictorSPX rightIntakeWheel = new VictorSPX(Constants.rightIntakeWheelVictorID);	// Victor of right intake wheel
+	public static VictorSPX leftIntakeWheel = new VictorSPX(Constants.leftIntakeWheelVictorID);	// Victor of left intake wheel
 	private static Solenoid lifter = new Solenoid(Constants.lifterForwardSolenoidID);
 	private static Solenoid gripper = new Solenoid(Constants.gripperSolenoidID);
 
 	// Variable Declarations
 	private static int PDPcounter;		//Integer used to count up loops
-	private static IntakeStates stateEnum;	//States for saving states of in take
+	private static IntakeStates stateEnum;	//States for saving states of intake
 	
 	// Function Declarations and Implementations
 	private static void updatePDPcounter() {	//updates the pdp counter
@@ -52,7 +52,7 @@ public class Intake {
 	//------------------------------------------------------------------------------------------- 
 
 	/*
-	 * Method used for when the wheels intake.
+	 * Method used for when the wheels intake
 	 */
 	private static void inTaking() {
 		
@@ -65,7 +65,7 @@ public class Intake {
 	//------------------------------------------------------------------------------------------- 
 	
 	/*
-	 * Method runs when done intaking.
+	 * Method runs when done intaking
 	 */
 	private static void inTakeDone() {		
 		setIntakeLifter(true);
@@ -79,7 +79,7 @@ public class Intake {
 	//------------------------------------------------------------------------------------------- 
 	
 	/*
-	 * //method runs when outtaking cube.
+	 * Method runs when outtaking cube
 	 */
 	private static void outTaking() {		
 		rightIntakeWheel.set(ControlMode.PercentOutput, Constants.intakeMotorSpeed); // Turn right motor // Positive
@@ -89,7 +89,7 @@ public class Intake {
 	}
 	
 	/*
-	 * Method runs when outtaking cube
+	 * Method runs when slow outtaking cube
 	 */
 	private static void slowOutTaking() {		
 		setIntakeGrip(false);
@@ -101,7 +101,7 @@ public class Intake {
 	//------------------------------------------------------------------------------------------- 
 	
 	/*
-	 * Method to set the compressors.
+	 * Method to set the intake solenoid for compression
 	 */
 	public static void setIntakeGrip(boolean grip) {	
 		gripper.set(grip);
@@ -122,7 +122,7 @@ public class Intake {
 	}
 	
 	/*
-	 * Stop motors
+	 * Stops motors
 	 */
 	public static void stopMotors() {
 		rightIntakeWheel.set(ControlMode.PercentOutput, 0);	
@@ -154,13 +154,13 @@ public class Intake {
 		
 		// State Checking
 		switch (stateEnum) {
-			case INTAKING:		//If the right trigger is down
+			case INTAKING:
 				inTaking();
 				break;
-			case INTAKE_DONE:	//If no trigger buttons are down
+			case INTAKE_DONE:
 				inTakeDone();
 				break;
-			case OUTTAKING:		//If the left trigger is down
+			case OUTTAKING:
 				outTaking() ;
 				break;
 			case SLOW_OUTTAKING:

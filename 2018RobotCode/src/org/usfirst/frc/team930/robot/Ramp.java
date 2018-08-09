@@ -16,7 +16,7 @@ public class Ramp {
 	private static Solenoid raiseL = new Solenoid(Constants.raiseLSolenoidID);
 	private static Solenoid raiseR = new Solenoid(Constants.raiseRSolenoidID);
 	
-	//setting solenoid values
+	// Setting solenoid values
 	public static void init(){
 		rampL.set(false);
 		rampR.set(false);
@@ -25,7 +25,7 @@ public class Ramp {
 	}
 	
 	/*
-	 *  controls the state of the ramps
+	 *  Main method in Robot.java that controls the state of the ramps
 	 */
 	public static void run(Enum s){
 		
@@ -47,40 +47,49 @@ public class Ramp {
 				break;
 				
 		}
-		}
-	//lifts left ramp
+		
+	}
+	
+	// Lifts left ramp
 	public static void leftRampUP() {
 		raiseL.set(true);
 		
 	}
-	//lifts right ramp
+	
+	// Lifts right ramp
 	public static void rightRampUp() {
 		raiseR.set(true);
 		
 	}
-	//releases left ramp
+	
+	// Releases left ramp
 	public static void leftRampDown() {
 		rampL.set(true);
 		
 	}
-	//releases right ramp
+	
+	// Releases right ramp
 	public static void rightRampDown() {
 		rampR.set(true);
 		
 	}
-	//resets left release solenoids
+	
+	// Resets left release solenoids
 	public static void resetLeftRelease() {
 		rampL.set(false);
 	}
-	//resets right release solenoids
+	
+	// Resets right release solenoids
 	public static void resetRightRelease() {
 		rampR.set(false);
 	}
-	//resets left lift solenoids
+	
+	// Resets left lift solenoids
 	public static void resetLeftLift() {
 		raiseL.set(false);
 	}
-	//resets right lift solenoids
+	
+	// Resets right lift solenoids
 	public static void resetRightLift() {
 		raiseR.set(false);
 	}

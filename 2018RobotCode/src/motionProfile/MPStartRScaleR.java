@@ -17,7 +17,7 @@ import jaci.pathfinder.modifiers.TankModifier;
 
 /* 
  * Starting in right position going to right scale
- * */
+ */
 public class MPStartRScaleR implements Runnable {
 	
 	private static EncoderFollower rightFollower;
@@ -30,7 +30,7 @@ public class MPStartRScaleR implements Runnable {
 
 	/* 
 	 * Defining points, generating the path, and setting PID 
-	 * */
+	 */
 	public MPStartRScaleR() {
 		
 		Waypoint[] rightLeftScale = new Waypoint[] {
@@ -80,7 +80,7 @@ public class MPStartRScaleR implements Runnable {
 	
 	/* 
 	 * Sending the points to the drivetrain 
-	 * */
+	 */
 	public void run() {
 		
 		// Getting the heading and making adjustments with the gyro
@@ -115,7 +115,7 @@ public class MPStartRScaleR implements Runnable {
 	
 	/* 
 	 * Returns true if path is done, false if there are still points left
-	 * */
+	 */
 	public boolean isLastPoint(){
 		
 		return (rightFollower.isFinished()&&leftFollower.isFinished());

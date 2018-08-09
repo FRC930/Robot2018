@@ -47,7 +47,7 @@ public class Drive {
 	}
 	
 	/*
-	 * Gets the joystick values and sends it to the motors
+	 * Gets the joystick values, calculates throttle and turn, and sends it to the motors
 	 */
 	public static void run(double xStick, double yStick){
 		

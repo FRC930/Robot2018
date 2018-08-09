@@ -3,7 +3,7 @@ package org.usfirst.frc.team930.robot;
 import edu.wpi.first.wpilibj.Timer;
 
 /*
- * Timed auto routine to cross the auto line.
+ * Timed auto routine to cross the auto line
  */
 public class Line extends Routine{
 	
@@ -18,7 +18,7 @@ public class Line extends Routine{
 		
 	}
 
-	// Driving forward at 1/4 speed for 5 secands.
+	// Driving forward at 1/4 speed for 5 sec
 	public void variation() {
 		
 		System.out.println("Just Line");

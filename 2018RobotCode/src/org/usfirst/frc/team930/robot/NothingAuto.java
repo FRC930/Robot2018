@@ -10,7 +10,7 @@ public class NothingAuto extends Routine{
 	Timer time = new Timer();
 	
 	/*
-	 * Initializes the variation and delay
+	 * Initializes the variation and initial time delay
 	 */
 	public NothingAuto(String v, double d) {
 		

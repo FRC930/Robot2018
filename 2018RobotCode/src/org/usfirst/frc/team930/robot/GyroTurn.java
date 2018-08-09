@@ -2,6 +2,9 @@ package org.usfirst.frc.team930.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+/* 
+ * Turning in place using gyro in motion profiling 
+ */
 public class GyroTurn implements Runnable {
 	
 	private static int encPos;
@@ -10,10 +13,16 @@ public class GyroTurn implements Runnable {
 	private static double yaw;
 	private static double turn;
 
+	/* 
+	 * No waypoints or path generation needed
+	 */
 	public GyroTurn() {
 		
 	}
 	
+	/* 
+	 * Determining error between target heading and actual gyro input to calculate amount of turn needed
+	 */
 	public void run() {
 			
 		if(heading >180)
@@ -37,6 +46,9 @@ public class GyroTurn implements Runnable {
 			
 	}
 	
+	/* 
+	 * Returns true if path is done, false if actual gyro input is not equal to target heading
+	 */
 	public boolean isFinished() {
 		
 		System.out.printf("Heading: %d  Gyro: %.2f  Turn:  %.2f \n", heading, -yaw, turn);
@@ -53,6 +65,9 @@ public class GyroTurn implements Runnable {
 		
 	}
 	
+	/*
+	 * Gets called at the beginning of auto routine to configure encoders and set target heading
+	 */
 	public void startPath() {
 		
 		heading = 345;
