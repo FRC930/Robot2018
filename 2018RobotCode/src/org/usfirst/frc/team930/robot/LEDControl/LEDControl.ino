@@ -24,7 +24,7 @@
 
 //-- Type and Constant Definitions --\\
 
-#define TOP_STRIP_NUMPIXELS 72
+#define TOP_STRIP_NUMPIXELS 119    //72
 #define TOP_STRIP_CLOCKPIN 7
 #define TOP_STRIP_DATAPIN 6
 
@@ -32,7 +32,7 @@
 #define RIGHT_STRIP_CLOCKPIN 9  
 #define RIGHT_STRIP_DATAPIN 8
 
-#define LEFT_STRIP_NUMPIXELS 49
+#define LEFT_STRIP_NUMPIXELS 47
 #define LEFT_STRIP_CLOCKPIN 5
 #define LEFT_STRIP_DATAPIN 4
  
@@ -79,6 +79,7 @@ void setup() {
 //-- Main Loop --\\
 
 void loop() {  
+  Serial.println(Wire.available());
   if (1 < Wire.available()) {
     if (patternID < 1) {
       elevatorPattern(-patternID, RIGHT_STRIP_NUMPIXELS, LEFT_STRIP_NUMPIXELS);
@@ -100,7 +101,8 @@ void loop() {
       rampUpPattern(5, 15);
     }
   } else {
-    defaultPattern();
+   defaultPattern();
+   //autonomousPattern();
   } 
 }
 
@@ -283,7 +285,7 @@ void elevatorPattern(int elevatorPos, int stripRightPixels, int stripLeftPixels)
 //-- Pattern for Default Mode (Kyle S.) --\\
 
 void defaultPattern() {
-  //topStrip.setBrightness(BRIGHTNESS);
+  topStrip.setBrightness(BRIGHTNESS);
   
   for (int i = 0; i < maxMount; i++) {
     v3Lerp(green, red, blue, 0, 255, 0, smoothness);

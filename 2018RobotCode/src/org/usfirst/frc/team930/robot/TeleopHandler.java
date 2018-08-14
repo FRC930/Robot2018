@@ -100,7 +100,7 @@ public class TeleopHandler {
 		
 		// LEDs
 		if((stick2.getRawAxis(Constants.rightTriggerAxis) <= 0.7) && (stick2.getRawAxis(Constants.leftTriggerAxis) <= 0.7)) {
-			//LEDHandler.run(RobotStates.ENABLED);
+			LEDHandler.run(RobotStates.ENABLED);
 		}
 		
 		// Drive
@@ -109,11 +109,11 @@ public class TeleopHandler {
 		// Intake
 		if(stick2.getRawAxis(Constants.rightTriggerAxis) > 0.7)	{
 			Intake.run(IntakeStates.INTAKING);
-			//LEDHandler.run(RobotStates.INTAKING);
+			LEDHandler.run(RobotStates.INTAKING);
 		} 
 		else if(stick2.getRawAxis(Constants.leftTriggerAxis) > 0.7) {															
 			Intake.run(IntakeStates.OUTTAKING);
-			//LEDHandler.run(RobotStates.OUTTAKING);
+			LEDHandler.run(RobotStates.OUTTAKING);
 		} 
 		else if(stick2.getRawButton(Constants.LB)) {
 			Intake.run(IntakeStates.SLOW_OUTTAKING);
@@ -221,7 +221,7 @@ public class TeleopHandler {
 		// Release ramps
 		if(stick3.getRawButton(Constants.btnRightRampDown)) {
 			Ramp.rightRampDown();
-			//LEDHandler.run(RobotStates.RAMPS_DOWN);
+			LEDHandler.run(RobotStates.RAMPS_DOWN);
 		}
 		else {
 			Ramp.resetRightRelease();
@@ -229,7 +229,7 @@ public class TeleopHandler {
 		
 		if(stick3.getRawButton(Constants.btnLeftRampDown)) {
 			Ramp.leftRampDown();
-			//LEDHandler.run(RobotStates.RAMPS_DOWN);
+			LEDHandler.run(RobotStates.RAMPS_DOWN);
 		}
 		else {
 			Ramp.resetLeftRelease();
@@ -238,7 +238,7 @@ public class TeleopHandler {
 		// Lift ramps
 		if(stick3.getRawButton(Constants.btnRightRampUp)) {
 			Ramp.rightRampUp();
-			//LEDHandler.run(RobotStates.RAMPS_UP);
+			LEDHandler.run(RobotStates.RAMPS_UP);
 		}
 		else {
 			Ramp.resetRightLift();
@@ -246,7 +246,7 @@ public class TeleopHandler {
 		
 		if(stick3.getRawButton(Constants.btnLeftRampUp)) {
 			Ramp.leftRampUP();
-			//LEDHandler.run(RobotStates.RAMPS_UP);
+			LEDHandler.run(RobotStates.RAMPS_UP);
 		}
 		else {
 			Ramp.resetLeftLift();
